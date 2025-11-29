@@ -1,5 +1,5 @@
 <template>
-  <div class="kanban-card">
+  <div class="kanban-card" @click="openEditModal">
     <div class="kanban-card__content">
       <div
         v-if="editMode"
@@ -14,13 +14,13 @@
         <div class="kanban-card__wrapper kanban-card__wrapper--icons">
           <button
             class="kanban-card__icon kanban-card__icon--check"
-            @click="saveTaskHeading"
+            @click.stop="saveTaskHeading"
           >
             <q-icon name="check" />
           </button>
           <button
             class="kanban-card__icon kanban-card__icon--cancel"
-            @click="handleRemoveCard"
+            @click.stop="handleRemoveCard"
           >
             <q-icon name="cancel" />
           </button>
@@ -33,12 +33,18 @@
           name="priority_high"
         />
       </div>
+      <KanbanModal
+        v-if="showModal"
+        :headline="localHeading"
+        @close="showModal = false"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
+  import KanbanModal from 'components/kanban/KanbanModal.vue';
 
   const props = defineProps<{
     headline?: string;
@@ -50,8 +56,16 @@
   }>();
 
   const editMode = ref(true);
+  const showModal = ref(false);
 
   const localHeading = ref('');
+
+  const openEditModal = () => {
+    if (!editMode.value) {
+      console.log('Card clicked');
+      showModal.value = true;
+    }
+  };
 
   const saveTaskHeading = () => {
     if (localHeading.value !== '') {
