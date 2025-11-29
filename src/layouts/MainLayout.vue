@@ -2,9 +2,8 @@
   <q-layout view="lHh Lpr lFf">
     <SideBar />
 
-    <!-- Page Container für den Hauptcontent -->
     <q-page-container>
-      <q-page class="q-pa-md">
+      <q-page>
         <router-view />
       </q-page>
     </q-page-container>
