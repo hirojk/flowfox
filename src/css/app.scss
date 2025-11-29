@@ -1,6 +1,22 @@
 $terinary: #78bff2;
 $white: #ffffff;
 
+h1,
+h2 {
+  all: unset;
+  display: block;
+}
+
 .page {
   background-color: $terinary;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  line-height: 2.5rem;
+}
+
+h2 {
+  font-size: 1rem;
 }
