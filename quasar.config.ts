@@ -44,14 +44,14 @@ export default defineConfig((ctx) => {
         // extendTsConfig (tsConfig) {}
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
+      publicPath: '/',
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -86,7 +86,8 @@ export default defineConfig((ctx) => {
           {
             vueTsc: true,
             eslint: {
-              lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
+              lintCommand:
+                'eslint -c ./eslint.config.js "./src*/**/*.{ts,js,mjs,cjs,vue}"',
               useFlatConfig: true,
             },
           },
