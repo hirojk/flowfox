@@ -2,12 +2,6 @@ $terinary: #78bff2;
 $quaternary: #f6f6f6;
 $white: #ffffff;
 
-button {
-  all: unset;
-  pointer-events: all;
-  cursor: pointer;
-}
-
 @mixin fontMixin($size, $line-height) {
   all: unset;
   display: block;
@@ -29,6 +23,12 @@ h3 {
 
 p {
   @include fontMixin(1rem, 1.2rem);
+}
+
+button {
+  all: unset;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 .page {

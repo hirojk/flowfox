@@ -1,28 +1,35 @@
 <template>
   <div class="kanban-card">
     <div class="kanban-card__content">
-      <div v-if="editMode" class="kanban-card__edit">
+      <div
+        v-if="editMode"
+        class="kanban-card__wrapper kanban-card__wrapper--edit"
+      >
         <q-input
           v-model="localHeading"
           dense
           autofocus
           placeholder="New Task"
         />
-        <div class="kanban-card__wrapper">
+        <div class="kanban-card__wrapper kanban-card__wrapper--icons">
           <q-icon
             name="check"
             class="kanban-card__icon kanban-card__icon--check"
+            @click="saveTaskHeading"
           />
           <q-icon
             name="cancel"
             class="kanban-card__icon kanban-card__icon--cancel"
-            @click="handleRemove"
+            @click="handleRemoveCard"
           />
         </div>
       </div>
-      <div v-else>
-        <h3>Hallo</h3>
-        <q-icon name="more_vert" />
+      <div v-else class="kanban-card__wrapper kanban-card__wrapper--display">
+        <h3 class="kanban-card__heading">{{ localHeading }}</h3>
+        <q-icon
+          class="kanban-card__icon kanban-card__icon--priority"
+          name="more_vert"
+        />
       </div>
     </div>
   </div>
@@ -32,6 +39,8 @@
   import { ref, onMounted } from 'vue';
 
   const props = defineProps<{
+    headline?: string;
+    priority?: number;
     id: number;
   }>();
   const emit = defineEmits<{
@@ -42,7 +51,15 @@
 
   const localHeading = ref('');
 
-  const handleRemove = () => {
+  const saveTaskHeading = () => {
+    if (localHeading.value !== '') {
+      editMode.value = false;
+    } else {
+      handleRemoveCard();
+    }
+  };
+
+  const handleRemoveCard = () => {
     emit('remove', props.id);
   };
 
@@ -61,20 +78,19 @@
     padding: 1em;
     background-color: $white;
 
-    &__edit {
+    &__wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 0.5em;
     }
 
-    &__wrapper {
-      display: flex;
-      gap: 0.5em;
-    }
-
     &__icon {
       cursor: pointer;
+    }
+
+    &__heading {
+      width: 100%;
     }
   }
 </style>
