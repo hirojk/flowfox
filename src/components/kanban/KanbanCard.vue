@@ -12,23 +12,25 @@
           placeholder="New Task"
         />
         <div class="kanban-card__wrapper kanban-card__wrapper--icons">
-          <q-icon
-            name="check"
+          <button
             class="kanban-card__icon kanban-card__icon--check"
             @click="saveTaskHeading"
-          />
-          <q-icon
-            name="cancel"
+          >
+            <q-icon name="check" />
+          </button>
+          <button
             class="kanban-card__icon kanban-card__icon--cancel"
             @click="handleRemoveCard"
-          />
+          >
+            <q-icon name="cancel" />
+          </button>
         </div>
       </div>
       <div v-else class="kanban-card__wrapper kanban-card__wrapper--display">
         <h3 class="kanban-card__heading">{{ localHeading }}</h3>
         <q-icon
           class="kanban-card__icon kanban-card__icon--priority"
-          name="more_vert"
+          name="priority_high"
         />
       </div>
     </div>
@@ -83,10 +85,6 @@
       justify-content: space-between;
       align-items: center;
       gap: 0.5em;
-    }
-
-    &__icon {
-      cursor: pointer;
     }
 
     &__heading {
