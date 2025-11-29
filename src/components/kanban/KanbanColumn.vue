@@ -3,9 +3,10 @@
     <h2>Kanban Column</h2>
     <div class="kanban-column__cards">
       <KanbanCard
-        v-for="(Card, index) in kanbanCards"
-        :key="index"
-        :is="Card"
+        v-for="card in kanbanCards"
+        :key="card.id"
+        :id="card.id"
+        @remove="removeCardEvent"
       />
     </div>
     <button class="kanban-column__button" @click="addCardEvent()">
@@ -17,13 +18,21 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import type { Component } from 'vue';
   import KanbanCard from 'components/kanban/KanbanCard.vue';
 
-  const kanbanCards = ref<Component[]>([]);
+  interface Card {
+    id: number;
+  }
+
+  const kanbanCards = ref<Card[]>([]);
 
   const addCardEvent = () => {
-    kanbanCards.value.push(KanbanCard);
+    const newId = Date.now() + Math.random();
+    kanbanCards.value.push({ id: newId });
+  };
+
+  const removeCardEvent = (id: number) => {
+    kanbanCards.value = kanbanCards.value.filter((card) => card.id !== id);
   };
 </script>
 
