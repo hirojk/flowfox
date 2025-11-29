@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="page">
-    <h1>Board Page</h1>
+    <h1 class="headline">Projekt</h1>
     <div class="kanban">
       <KanbanColumn />
     </div>

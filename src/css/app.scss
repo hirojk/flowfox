@@ -1,22 +1,35 @@
 $terinary: #78bff2;
+$quaternary: #f6f6f6;
 $white: #ffffff;
 
-h1,
-h2 {
+@mixin fontMixin($size, $line-height) {
   all: unset;
   display: block;
+  font-size: $size;
+  line-height: $line-height;
+}
+
+h1 {
+  @include fontMixin(2rem, 3rem);
+}
+
+h2 {
+  @include fontMixin(1.4rem, 2rem);
+}
+
+h3 {
+  @include fontMixin(1.2rem, 1.4rem);
+}
+
+p {
+  @include fontMixin(1rem, 1.2rem);
 }
 
 .page {
   background-color: $terinary;
 }
 
-h1 {
-  margin-bottom: 1rem;
-  font-size: 2rem;
-  line-height: 2.5rem;
-}
-
-h2 {
-  font-size: 1rem;
+.headline {
+  margin-bottom: 0.5em;
+  color: $white;
 }
