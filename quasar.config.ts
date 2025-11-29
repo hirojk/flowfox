@@ -15,7 +15,7 @@ export default defineConfig((ctx) => {
     boot: ['i18n', 'axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
-    css: ['app.scss'],
+    // css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -60,7 +60,14 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf) {
+        viteConf.css = viteConf.css || {};
+        viteConf.css.preprocessorOptions =
+          viteConf.css.preprocessorOptions || {};
+        viteConf.css.preprocessorOptions.scss = {
+          additionalData: `@import "src/css/app.scss";`,
+        };
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [

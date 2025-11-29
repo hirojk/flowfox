@@ -73,6 +73,6 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 1em 0;
-    background-color: var(--white);
+    background-color: $white;
   }
 </style>
