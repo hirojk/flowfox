@@ -1,13 +1,31 @@
 <template>
-  <q-drawer show-if-above v-model="drawerIsOpen" :width="250" class="sideBar">
-    <q-list>
+  <q-drawer
+    v-model="drawer"
+    show-if-above
+    :mini="miniState"
+    mini-to-overlay
+    :width="200"
+    :breakpoint="500"
+    class="sideBar"
+  >
+    <q-list
+      v-for="(list, index) in [navItems, settingsItems]"
+      :key="index"
+      class="sideBar-list"
+    >
       <q-item
         clickable
-        v-for="item in navItems"
+        v-ripple
+        v-for="item in list"
         :key="item.label"
         @click="handleNavItemClick(item)"
       >
-        <q-item-section>{{ item.label }}</q-item-section>
+        <q-item-section avatar>
+          <q-icon :name="item.icon" />
+        </q-item-section>
+        <q-item-section>
+          {{ item.label }}
+        </q-item-section>
       </q-item>
     </q-list>
   </q-drawer>
@@ -16,19 +34,28 @@
 <script setup lang="ts">
   import { ref } from 'vue';
 
-  const drawerIsOpen = ref(true);
+  const drawer = ref(true);
+  const miniState = ref(true);
 
   interface NavItem {
     label: string;
+    icon: string;
     route?: string;
     action?: () => void;
   }
 
   const navItems: NavItem[] = [
-    { label: 'Board', route: '/' },
-    { label: 'Account', route: '/' },
-    { label: 'Settings', route: '/settings' },
-    { label: 'Close', action: () => (drawerIsOpen.value = false) },
+    { label: 'Board', icon: 'view_kanban', route: '/' },
+  ];
+
+  const settingsItems: NavItem[] = [
+    { label: 'Account', icon: 'person', route: '/' },
+    { label: 'Settings', icon: 'settings', route: '/settings' },
+    {
+      label: 'Close',
+      icon: 'last_page',
+      action: () => (miniState.value = !miniState.value),
+    },
   ];
 
   function handleNavItemClick(item: NavItem) {
@@ -42,6 +69,10 @@
 
 <style lang="scss">
   .sideBar {
-    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1em 0;
+    background-color: var(--white);
   }
 </style>
