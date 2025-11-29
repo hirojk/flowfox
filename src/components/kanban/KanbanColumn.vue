@@ -1,14 +1,14 @@
 <template>
   <div class="kanban-column">
     <h2>Kanban Column</h2>
-    <div class="kanban-column-cards">
+    <div class="kanban-column__cards">
       <KanbanCard
         v-for="(Card, index) in kanbanCards"
         :key="index"
         :is="Card"
       />
     </div>
-    <button class="kanban-column-button" @click="addCardEvent()">
+    <button class="kanban-column__button" @click="addCardEvent()">
       <q-icon name="add" />
       Add Card
     </button>
@@ -37,13 +37,13 @@
     padding: 1em;
     background-color: $quaternary;
 
-    &-cards {
+    &__cards {
       display: flex;
       flex-direction: column;
       gap: 1em;
     }
 
-    &-button {
+    &__button {
       display: flex;
       align-items: center;
       gap: 0.5em;

@@ -1,10 +1,10 @@
 <template>
   <div class="kanban-card">
-    <div class="kanban-card-wrapper">
-      <h3 class="kanban-card-heading">Card</h3>
+    <div class="kanban-card__wrapper">
+      <h3 class="kanban-card__heading">Card</h3>
       <q-icon name="more_vert" />
     </div>
-    <div class="kanban-card-content">
+    <div class="kanban-card__content">
       <p>Description</p>
     </div>
   </div>
@@ -22,13 +22,13 @@
     padding: 1em;
     background-color: $white;
 
-    &-wrapper {
+    &__wrapper {
       display: flex;
       justify-content: space-between;
       gap: 0.5em;
     }
 
-    &-heading {
+    &__heading {
       width: 100%;
     }
   }

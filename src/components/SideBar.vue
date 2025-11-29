@@ -11,7 +11,7 @@
     <q-list
       v-for="(list, index) in [navItems, settingsItems]"
       :key="index"
-      class="sideBar-list"
+      class="sideBar__list"
     >
       <q-item
         clickable
