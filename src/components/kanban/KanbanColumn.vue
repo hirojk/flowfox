@@ -9,6 +9,7 @@
       />
     </div>
     <button class="kanban-column-button" @click="addCardEvent()">
+      <q-icon name="add" />
       Add Card
     </button>
   </div>
@@ -19,7 +20,7 @@
   import type { Component } from 'vue';
   import KanbanCard from 'components/kanban/KanbanCard.vue';
 
-  const kanbanCards = ref<Component[]>([KanbanCard]);
+  const kanbanCards = ref<Component[]>([]);
 
   const addCardEvent = () => {
     kanbanCards.value.push(KanbanCard);
@@ -40,6 +41,13 @@
       display: flex;
       flex-direction: column;
       gap: 1em;
+    }
+
+    &-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0 1em;
     }
   }
 </style>
