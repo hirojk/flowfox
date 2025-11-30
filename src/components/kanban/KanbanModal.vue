@@ -3,7 +3,7 @@
     <div class="kanban-modal__content">
       <h2 class="kanban-modal__headline">{{ headline }}</h2>
       <p class="kanban-modal__priority">Priority</p>
-      <button class="kanban-modal__close-button" @click="$emit('close')">
+      <button class="kanban-modal__close-button" @click.stop="$emit('close')">
         Close
       </button>
     </div>
