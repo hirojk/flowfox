@@ -26,7 +26,7 @@
           class="kanban-modal__details-content kanban-modal__details-content--description"
         >
           <strong>Description</strong>
-          <div class="content">
+          <div class="kanban-modal__details-description">
             <slot name="description">No description provided.</slot>
           </div>
         </div>
@@ -34,16 +34,20 @@
           class="kanban-modal__details-content kanban-modal__details-content--checklist"
         >
           <strong>Checklist</strong>
-          <ul></ul>
+          <ul class="kanban-modal__detials-checklist"></ul>
         </div>
         <div
           class="kanban-modal__details-content kanban-modal__details-content--date"
         >
-          <div class="startDate">
+          <div
+            class="kanban-modal__details-date kanban-modal__details-date--start"
+          >
             <strong>Start Date</strong>
             <q-input filled v-model="startDate" label="Start Date" />
           </div>
-          <div class="deadline">
+          <div
+            class="kanban-modal__details-date kanban-modal__details-date--deadline"
+          >
             <strong>Deadline</strong>
             <q-input filled v-model="deadline" label="Deadline" />
           </div>
@@ -139,21 +143,19 @@
         flex-direction: column;
         gap: 0.25em;
 
-        &--description {
-          .content {
-            min-height: 4lh;
-          }
-        }
-
         &--date {
           flex-direction: row;
           justify-content: space-between;
           gap: 1em;
-
-          & > * {
-            width: 100%;
-          }
         }
+      }
+
+      &-description {
+        min-height: 4lh;
+      }
+
+      &-date {
+        width: 100%;
       }
     }
 
