@@ -1,0 +1,36 @@
+{
+  "id": 143,
+  "projectName": "Project",
+  "columns": [
+    {
+      "id": 143,
+      "columnName": "Kanban Column",
+      "cards": [
+        {
+          "id": 1,
+          "taskName": "New Task",
+          "priority": "Middle",
+          "description": "This is a new task description.",
+          "checklist": [
+            {
+              "item": "Subtask 1",
+              "completed": false
+            },
+            {
+              "item": "Subtask 2",
+              "completed": true
+            }
+          ],
+          "startDate": "2024-12-01",
+          "deadline": "2024-12-31",
+          "tags": [
+            {
+              "name": "Urgent",
+              "color": "#FF0000"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

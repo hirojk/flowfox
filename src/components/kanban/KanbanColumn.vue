@@ -13,16 +13,12 @@
       <q-icon name="add" />
       Add Card
     </button>
-    <div @click="counter.increment">{{ counter.count }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue';
   import KanbanCard from 'components/kanban/KanbanCard.vue';
-  import { useCounterStore } from 'src/stores/counter';
-
-  const counter = useCounterStore();
 
   interface Card {
     id: number;
