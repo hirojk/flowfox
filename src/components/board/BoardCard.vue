@@ -33,19 +33,19 @@
           name="priority_high"
         />
       </div>
-      <BoardModal
-        v-if="showModal"
-        :headline="localHeading"
-        @close="showModal = false"
-      />
+      <Modal>
+        <BoardModal />
+      </Modal>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import BoardModal from 'components/board/BoardModal.vue';
   import type { BoardCardType } from 'src/types/boardType';
+  import Modal from 'components/ModalWindow.vue';
+  import BoardModal from 'components/board/BoardModal.vue';
+  import { useModalStore } from 'src/stores/appStore';
 
   const props = defineProps<{
     cardContent: BoardCardType;
@@ -53,16 +53,14 @@
   const emit = defineEmits<{
     (e: 'remove', id: number): void;
   }>();
+  const modalStore = useModalStore();
 
   const editMode = ref(false);
-  const showModal = ref(false);
-
   const localHeading = ref(props.cardContent.taskName);
 
   const openEditModal = () => {
     if (!editMode.value) {
-      console.log('Card clicked');
-      showModal.value = true;
+      modalStore.openModal();
     }
   };
 
@@ -88,6 +86,7 @@
     border-radius: 1em;
     padding: 1em;
     background-color: $white;
+    cursor: pointer;
 
     &__wrapper {
       display: flex;
