@@ -1,13 +1,13 @@
 <template>
   <q-page padding class="page">
     <h1 class="headline">{{ boardStore.projectName }}</h1>
-    <ul class="kanban">
+    <ul class="board">
       <li
-        class="kanban__column"
+        class="board__column"
         v-for="column in boardStore.columns"
         :key="column.id"
       >
-        <KanbanColumn :content="column" />
+        <BoardColumn :columnContent="column" />
       </li>
     </ul>
   </q-page>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
-  import KanbanColumn from 'components/kanban/KanbanColumn.vue';
+  import BoardColumn from 'components/board/BoardColumn.vue';
 
   const boardStore = useBoardStore();
 
@@ -26,7 +26,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .kanban {
+  .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;

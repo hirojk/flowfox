@@ -1,10 +1,10 @@
-export interface KanbanColumnType {
+export interface BoardColumnType {
   id: number;
   columnName: string;
-  cards: KanbanCardType[];
+  cards: BoardCardType[];
 }
 
-export interface KanbanCardType {
+export interface BoardCardType {
   id: number;
   taskName: string;
   description?: string;

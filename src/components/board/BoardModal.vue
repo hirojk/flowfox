@@ -1,18 +1,18 @@
 <template>
-  <div class="kanban-modal">
-    <div class="kanban-modal__content">
-      <div class="kanban-modal__interactives">
+  <div class="board-modal">
+    <div class="board-modal__content">
+      <div class="board-modal__interactives">
         <button
-          class="kanban-modal__button kanban-modal__button--close"
+          class="board-modal__button board-modal__button--close"
           @click.stop="$emit('close')"
         >
           <q-icon name="close" />
           Close
         </button>
       </div>
-      <div class="kanban-modal__header">
-        <strong class="kanban-modal__header-headline">{{ headline }}</strong>
-        <div class="kanban-modal__header-priority">
+      <div class="board-modal__header">
+        <strong class="board-modal__header-headline">{{ headline }}</strong>
+        <div class="board-modal__header-priority">
           <q-select
             v-model="priorityModal"
             :options="priorityOptions"
@@ -21,46 +21,46 @@
           />
         </div>
       </div>
-      <div class="kanban-modal__details">
+      <div class="board-modal__details">
         <div
-          class="kanban-modal__details-content kanban-modal__details-content--description"
+          class="board-modal__details-content board-modal__details-content--description"
         >
           <strong>Description</strong>
-          <div class="kanban-modal__details-description">
+          <div class="board-modal__details-description">
             <slot name="description">No description provided.</slot>
           </div>
         </div>
         <div
-          class="kanban-modal__details-content kanban-modal__details-content--checklist"
+          class="board-modal__details-content board-modal__details-content--checklist"
         >
           <strong>Checklist</strong>
-          <ul class="kanban-modal__detials-checklist"></ul>
+          <ul class="board-modal__detials-checklist"></ul>
         </div>
         <div
-          class="kanban-modal__details-content kanban-modal__details-content--date"
+          class="board-modal__details-content board-modal__details-content--date"
         >
           <div
-            class="kanban-modal__details-date kanban-modal__details-date--start"
+            class="board-modal__details-date board-modal__details-date--start"
           >
             <strong>Start Date</strong>
             <q-input filled v-model="startDate" label="Start Date" />
           </div>
           <div
-            class="kanban-modal__details-date kanban-modal__details-date--deadline"
+            class="board-modal__details-date board-modal__details-date--deadline"
           >
             <strong>Deadline</strong>
             <q-input filled v-model="deadline" label="Deadline" />
           </div>
         </div>
         <div
-          class="kanban-modal__details-content kanban-modal__details-content--tag"
+          class="board-modal__details-content board-modal__details-content--tag"
         >
           <strong>Tags</strong>
           <q-input filled v-model="startDate" label="Tag" />
         </div>
       </div>
-      <div class="kanban-modal__footer">
-        <button class="kanban-modal__button kanban-modal__button--copy">
+      <div class="board-modal__footer">
+        <button class="board-modal__button board-modal__button--copy">
           <q-icon name="content_copy" />
           Copy Card
         </button>
@@ -89,7 +89,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .kanban-modal {
+  .board-modal {
     position: fixed;
     top: 0;
     left: 0;

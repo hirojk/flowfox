@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import type { KanbanColumnType } from 'src/types/boardType';
+import type { BoardColumnType } from 'src/types/boardType';
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
     projectName: '' as string,
-    columns: [] as Array<KanbanColumnType>,
+    columns: [] as Array<BoardColumnType>,
   }),
 
   actions: {
@@ -16,7 +16,7 @@ export const useBoardStore = defineStore('board', {
         this.projectName = data.projectName;
 
         if (Array.isArray(data.columns)) {
-          this.columns = data.columns as KanbanColumnType[];
+          this.columns = data.columns as BoardColumnType[];
         }
       } catch (error) {
         console.error('Error fetching:', error);
