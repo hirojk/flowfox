@@ -9,6 +9,10 @@ $white: #ffffff;
   line-height: $line-height;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 h1 {
   @include fontMixin(2rem, 3rem);
 }

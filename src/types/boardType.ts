@@ -6,6 +6,6 @@ export interface KanbanColumnType {
 
 export interface KanbanCardType {
   id: number;
-  taskName?: string;
+  taskName: string;
   description?: string;
 }

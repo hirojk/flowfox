@@ -43,19 +43,21 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref } from 'vue';
   import KanbanModal from 'components/kanban/KanbanModal.vue';
   import type { KanbanCardType } from 'src/types/boardType';
 
-  const props = defineProps<KanbanCardType>();
+  const props = defineProps<{
+    content: KanbanCardType;
+  }>();
   const emit = defineEmits<{
     (e: 'remove', id: number): void;
   }>();
 
-  const editMode = ref(true);
+  const editMode = ref(false);
   const showModal = ref(false);
 
-  const localHeading = ref('');
+  const localHeading = ref(props.content.taskName);
 
   const openEditModal = () => {
     if (!editMode.value) {
@@ -73,12 +75,8 @@
   };
 
   const handleRemoveCard = () => {
-    emit('remove', props.id);
+    emit('remove', props.content.id);
   };
-
-  onMounted(() => {
-    editMode.value = true;
-  });
 </script>
 
 <style lang="scss" scoped>

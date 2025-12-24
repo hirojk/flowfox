@@ -1,14 +1,11 @@
 <template>
   <div class="kanban-column">
     <h2>{{ props.content.columnName }}</h2>
-    <div class="kanban-column__cards">
-      <KanbanCard
-        v-for="card in kanbanCards"
-        :key="card.id"
-        :id="card.id"
-        @remove="removeCardEvent"
-      />
-    </div>
+    <ul class="kanban-column__cards">
+      <li v-for="card in kanbanCards" :key="card.id">
+        <KanbanCard :id="card.id" :content="card" @remove="removeCardEvent" />
+      </li>
+    </ul>
     <button class="kanban-column__button" @click="addCardEvent()">
       <q-icon name="add" />
       Add Card
@@ -24,11 +21,11 @@
   const props = defineProps<{
     content: KanbanColumnType;
   }>();
-  const kanbanCards = ref<KanbanCardType[]>([]);
+  const kanbanCards = ref<KanbanCardType[]>(props.content.cards);
 
   const addCardEvent = () => {
     const newId = Date.now() + Math.random();
-    kanbanCards.value.push({ id: newId });
+    kanbanCards.value.push({ id: newId, taskName: 'New Task' });
   };
 
   const removeCardEvent = (id: number) => {
