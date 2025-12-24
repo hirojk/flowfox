@@ -25,6 +25,12 @@ p {
   @include fontMixin(1rem, 1.2rem);
 }
 
+ul,
+ol,
+li {
+  all: unset;
+}
+
 button {
   all: unset;
   pointer-events: all;

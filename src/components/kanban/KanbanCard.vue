@@ -45,12 +45,9 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
   import KanbanModal from 'components/kanban/KanbanModal.vue';
+  import type { KanbanCardType } from 'src/types/boardType';
 
-  const props = defineProps<{
-    headline?: string;
-    priority?: number;
-    id: number;
-  }>();
+  const props = defineProps<KanbanCardType>();
   const emit = defineEmits<{
     (e: 'remove', id: number): void;
   }>();

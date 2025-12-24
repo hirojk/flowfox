@@ -1,6 +1,6 @@
 <template>
   <div class="kanban-column">
-    <h2>Kanban Column</h2>
+    <h2>{{ props.content.columnName }}</h2>
     <div class="kanban-column__cards">
       <KanbanCard
         v-for="card in kanbanCards"
@@ -19,12 +19,12 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import KanbanCard from 'components/kanban/KanbanCard.vue';
+  import type { KanbanColumnType, KanbanCardType } from 'src/types/boardType';
 
-  interface Card {
-    id: number;
-  }
-
-  const kanbanCards = ref<Card[]>([]);
+  const props = defineProps<{
+    content: KanbanColumnType;
+  }>();
+  const kanbanCards = ref<KanbanCardType[]>([]);
 
   const addCardEvent = () => {
     const newId = Date.now() + Math.random();
