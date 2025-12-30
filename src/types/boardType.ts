@@ -1,4 +1,4 @@
-import type { colorsRgba } from 'quasar';
+import type { NamedColor } from 'quasar';
 
 export interface BoardColumnType {
   id: number;
@@ -12,13 +12,13 @@ export interface BoardCardType {
   priority: 'Low' | 'Middle' | 'High';
   description: string;
   checklist: Array<{
-    item: string;
+    label: string;
     completed: boolean;
   }>;
   startDate: Date;
   deadline: Date;
   tags: Array<{
     label: string;
-    color: colorsRgba;
+    color: NamedColor;
   }>;
 }

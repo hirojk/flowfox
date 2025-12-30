@@ -27,11 +27,11 @@
           <li
             class="board-modal__checklist-item"
             v-for="subtask in activeCard?.checklist"
-            :key="subtask.item"
+            :key="subtask.label"
           >
             <q-checkbox
               v-model="subtask.completed"
-              :label="subtask.item"
+              :label="subtask.label"
               dense
             />
           </li>
@@ -49,16 +49,24 @@
       </div>
       <div class="board-modal__content board-modal__content--tag">
         <strong>Tags</strong>
-        <!-- <q-input filled v-model="startDate" label="Tag" /> -->
+        <ul class="board-modal__tags">
+          <li
+            class="board-modal__tags-item"
+            v-for="tag in activeCard?.tags"
+            :key="tag.label"
+          >
+            <q-chip :label="tag.label" :color="tag.color" />
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="board-modal__settings">
+  <!-- <div class="board-modal__settings">
     <button class="board-modal__button board-modal__button--copy">
       <q-icon name="content_copy" />
       Copy Card
     </button>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">

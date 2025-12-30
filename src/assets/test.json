@@ -13,11 +13,11 @@
           "description": "Buy some fresh tomato sauce for the pizza.",
           "checklist": [
             {
-              "item": "Fresh Tomatoes",
+              "label": "Fresh Tomatoes",
               "completed": true
             },
             {
-              "item": "Red Tomatoes",
+              "label": "Red Tomatoes",
               "completed": false
             }
           ],
@@ -37,7 +37,7 @@
           "description": "Buy flour for the pizza dough.",
           "checklist": [
             {
-              "item": "Flour Type 00",
+              "label": "Flour Type 00",
               "completed": false
             }
           ],
