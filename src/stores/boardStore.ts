@@ -24,7 +24,6 @@ export const useBoardStore = defineStore('board', {
       }
     },
     setActiveCardId(columnId: number, cardId: number): void {
-      console.log('Setting active card ID to:', columnId, cardId);
       this.activeCardId = [columnId, cardId];
     },
   },

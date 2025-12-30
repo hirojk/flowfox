@@ -1,7 +1,9 @@
 <template>
   <div class="board-modal__scrollContent">
     <div class="board-modal__header">
-      <strong class="board-modal__header-headline">Hallo</strong>
+      <strong class="board-modal__header-headline">
+        {{ activeCard?.taskName }}
+      </strong>
       <div class="board-modal__header-priority">
         <q-select
           v-model="priorityModal"
@@ -17,7 +19,7 @@
       >
         <strong>Description</strong>
         <div class="board-modal__details-description">
-          <slot name="description">No description provided.</slot>
+          <slot name="description">{{ activeCard?.description }}</slot>
         </div>
       </div>
       <div
@@ -59,8 +61,11 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
+  import type { BoardCardType } from 'src/types/boardType';
 
   const boardStore = useBoardStore();
+
+  const activeCard = ref<BoardCardType | null>(null);
 
   const priorityOptions = [
     { label: 'High', value: 'high' },
@@ -68,12 +73,21 @@
     { label: 'Low', value: 'low' },
   ];
 
-  const priorityModal = ref(null);
+  const priorityModal = ref(activeCard.value?.priority || 'medium');
   const startDate = ref('');
   const deadline = ref('');
 
   onMounted(() => {
-    console.log(boardStore.activeCardId);
+    boardStore.columns.forEach((column) => {
+      if (column.id !== boardStore.activeCardId[0]) return;
+
+      column.cards.forEach((card) => {
+        if (card.id === boardStore.activeCardId[1]) {
+          console.log('Found active card:', card);
+          activeCard.value = card;
+        }
+      });
+    });
   });
 </script>
 

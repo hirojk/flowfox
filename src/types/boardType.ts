@@ -7,5 +7,6 @@ export interface BoardColumnType {
 export interface BoardCardType {
   id: number;
   taskName: string;
+  priority: 'low' | 'middle' | 'high';
   description?: string;
 }

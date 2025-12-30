@@ -22,6 +22,7 @@
   import { ref } from 'vue';
   import BoardCard from 'components/board/BoardCard.vue';
   import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
+  import { createNewCard } from 'src/composable/useBoardCard';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
@@ -33,8 +34,7 @@
   };
 
   const addCardEvent = () => {
-    const newId = Math.floor(Date.now() + Math.random() * 1000) % 100_000_000;
-    boardCards.value.push({ id: newId, taskName: 'New Task' });
+    boardCards.value.push(createNewCard());
   };
 </script>
 

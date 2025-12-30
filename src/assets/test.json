@@ -1,24 +1,24 @@
 {
-  "id": 143,
-  "projectName": "Project",
+  "id": 251,
+  "projectName": "Project Pizza",
   "columns": [
     {
       "id": 143,
-      "columnName": "Kanban Column",
+      "columnName": "Shopping",
       "cards": [
         {
           "id": 1,
-          "taskName": "New Task in Card",
+          "taskName": "Tomato Sauce",
           "priority": "Middle",
-          "description": "This is a new task description.",
+          "description": "Buy some fresh tomato sauce for the pizza.",
           "checklist": [
             {
-              "item": "Subtask 1",
-              "completed": false
+              "item": "Fresh Tomatoes",
+              "completed": true
             },
             {
-              "item": "Subtask 2",
-              "completed": true
+              "item": "Red Tomatoes",
+              "completed": false
             }
           ],
           "startDate": "2024-12-01",
@@ -32,17 +32,13 @@
         },
         {
           "id": 2,
-          "taskName": "New Task in Card",
-          "priority": "Middle",
-          "description": "This is a new task description.",
+          "taskName": "Flour",
+          "priority": "High",
+          "description": "Buy flour for the pizza dough.",
           "checklist": [
             {
-              "item": "Subtask 1",
+              "item": "Flour Type 00",
               "completed": false
-            },
-            {
-              "item": "Subtask 2",
-              "completed": true
             }
           ],
           "startDate": "2024-12-01",
