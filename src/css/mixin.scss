@@ -1,4 +1,9 @@
-@mixin fontMixin($size, $line-height) {
+@mixin fontMixin($size, $line-height: 1rem) {
+  @if type-of($size) == 'list' {
+    $line-height: nth($size, 2);
+    $size: nth($size, 1);
+  }
+
   all: unset;
   display: block;
   font-size: $size;

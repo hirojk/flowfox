@@ -6,19 +6,19 @@
 }
 
 h1 {
-  @include fontMixin(map-get($font-size, 2xl), 3rem);
+  @include fontMixin(map-get($font-size, 2xl));
 }
 
 h2 {
-  @include fontMixin(map-get($font-size, xl), 2rem);
+  @include fontMixin(map-get($font-size, xl));
 }
 
 h3 {
-  @include fontMixin(map-get($font-size, lg), 1.4rem);
+  @include fontMixin(map-get($font-size, lg));
 }
 
 p {
-  @include fontMixin(map-get($font-size, md), 1.2rem);
+  @include fontMixin(map-get($font-size, md));
 }
 
 ul,
@@ -47,5 +47,5 @@ button {
   padding: 0.2em 0.6em;
   background-color: $quaternary;
   border-radius: 0.4em;
-  font-size: map-get($font-size, sm);
+  font-size: nth(map-get($font-size, sm), 1);
 }
