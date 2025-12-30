@@ -1,32 +1,24 @@
-$terinary: #78bff2;
-$quaternary: #f6f6f6;
-$white: #ffffff;
-
-@mixin fontMixin($size, $line-height) {
-  all: unset;
-  display: block;
-  font-size: $size;
-  line-height: $line-height;
-}
+@import './variables.scss';
+@import './mixin.scss';
 
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 h1 {
-  @include fontMixin(2rem, 3rem);
+  @include fontMixin(map-get($font-size, 2xl), 3rem);
 }
 
 h2 {
-  @include fontMixin(1.4rem, 2rem);
+  @include fontMixin(map-get($font-size, xl), 2rem);
 }
 
 h3 {
-  @include fontMixin(1.2rem, 1.4rem);
+  @include fontMixin(map-get($font-size, lg), 1.4rem);
 }
 
 p {
-  @include fontMixin(1rem, 1.2rem);
+  @include fontMixin(map-get($font-size, md), 1.2rem);
 }
 
 ul,
@@ -55,5 +47,5 @@ button {
   padding: 0.2em 0.6em;
   background-color: $quaternary;
   border-radius: 0.4em;
-  font-size: 0.9rem;
+  font-size: map-get($font-size, sm);
 }

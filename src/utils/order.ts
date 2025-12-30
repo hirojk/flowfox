@@ -1,4 +1,5 @@
 import type { BoardCardType } from 'src/types/boardType';
+
 export const PRIORITY_ORDER = ['High', 'Medium', 'Low'] as const;
 
 export const sortedCardsByPriority = (

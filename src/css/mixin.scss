@@ -1,0 +1,6 @@
+@mixin fontMixin($size, $line-height) {
+  all: unset;
+  display: block;
+  font-size: $size;
+  line-height: $line-height;
+}

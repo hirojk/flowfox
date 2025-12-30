@@ -9,6 +9,12 @@
       >
         <BoardColumn :columnContent="column" />
       </li>
+      <li class="board__column">
+        <button class="board__button board__button--add-column">
+          <q-icon name="add" />
+          Add Column
+        </button>
+      </li>
     </ul>
     <ModalWindow>
       <BoardModal />
@@ -33,7 +39,21 @@
 <style lang="scss" scoped>
   .board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2em;
     width: 100%;
+
+    &__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5em;
+      border-radius: 1em;
+      padding: 1em;
+      width: 100%;
+      font-size: map-get($font-size, md);
+      color: $white;
+      background-color: $quinterany;
+    }
   }
 </style>
