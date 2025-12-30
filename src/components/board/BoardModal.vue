@@ -5,48 +5,51 @@
         {{ activeCard?.taskName }}
       </strong>
       <div class="board-modal__header-priority">
-        <q-select
+        <!-- <q-select
           v-model="priorityModal"
           :options="priorityOptions"
           label="Priority"
           style="width: 200px"
-        />
+        /> -->
+        {{ activeCard?.priority }}
       </div>
     </div>
     <div class="board-modal__details">
-      <div
-        class="board-modal__details-content board-modal__details-content--description"
-      >
+      <div class="board-modal__content board-modal__content--description">
         <strong>Description</strong>
-        <div class="board-modal__details-description">
+        <div class="board-modal__description">
           <slot name="description">{{ activeCard?.description }}</slot>
         </div>
       </div>
-      <div
-        class="board-modal__details-content board-modal__details-content--checklist"
-      >
+      <div class="board-modal__content board-modal__content--checklist">
         <strong>Checklist</strong>
-        <ul class="board-modal__detials-checklist"></ul>
+        <ul class="board-modal__checklist">
+          <li
+            class="board-modal__checklist-item"
+            v-for="subtask in activeCard?.checklist"
+            :key="subtask.item"
+          >
+            <q-checkbox
+              v-model="subtask.completed"
+              :label="subtask.item"
+              dense
+            />
+          </li>
+        </ul>
       </div>
-      <div
-        class="board-modal__details-content board-modal__details-content--date"
-      >
-        <div class="board-modal__details-date board-modal__details-date--start">
+      <div class="board-modal__content board-modal__content--date">
+        <div class="board-modal__date board-modal__date--start">
           <strong>Start Date</strong>
-          <q-input filled v-model="startDate" label="Start Date" />
+          {{ startDate.toDateString() }}
         </div>
-        <div
-          class="board-modal__details-date board-modal__details-date--deadline"
-        >
+        <div class="board-modal__date board-modal__date--deadline">
           <strong>Deadline</strong>
-          <q-input filled v-model="deadline" label="Deadline" />
+          {{ deadline.toDateString() }}
         </div>
       </div>
-      <div
-        class="board-modal__details-content board-modal__details-content--tag"
-      >
+      <div class="board-modal__content board-modal__content--tag">
         <strong>Tags</strong>
-        <q-input filled v-model="startDate" label="Tag" />
+        <!-- <q-input filled v-model="startDate" label="Tag" /> -->
       </div>
     </div>
   </div>
@@ -67,15 +70,15 @@
 
   const activeCard = ref<BoardCardType | null>(null);
 
-  const priorityOptions = [
-    { label: 'High', value: 'high' },
-    { label: 'Medium', value: 'medium' },
-    { label: 'Low', value: 'low' },
-  ];
+  // const priorityOptions = [
+  //   { label: 'High', value: 'high' },
+  //   { label: 'Medium', value: 'medium' },
+  //   { label: 'Low', value: 'low' },
+  // ];
 
-  const priorityModal = ref(activeCard.value?.priority || 'medium');
-  const startDate = ref('');
-  const deadline = ref('');
+  // const priorityModal = ref(activeCard.value?.priority);
+  const startDate = ref<Date>(new Date());
+  const deadline = ref<Date>(new Date());
 
   onMounted(() => {
     boardStore.columns.forEach((column) => {
@@ -85,6 +88,9 @@
         if (card.id === boardStore.activeCardId[1]) {
           console.log('Found active card:', card);
           activeCard.value = card;
+
+          startDate.value = card.startDate;
+          deadline.value = card.deadline;
         }
       });
     });
@@ -115,27 +121,41 @@
     &__details {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 2em;
+    }
 
-      &-content {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25em;
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
 
-        &--date {
-          flex-direction: row;
-          justify-content: space-between;
-          gap: 1em;
-        }
+      &--date {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1em;
       }
+    }
 
-      &-description {
-        min-height: 4lh;
-      }
+    &__description {
+      min-height: 4lh;
+    }
 
-      &-date {
+    &__checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      &-item {
         width: 100%;
+        padding: 0.5em 0;
       }
+    }
+
+    &__date {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      width: 100%;
     }
 
     &__settings {

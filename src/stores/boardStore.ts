@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { BoardColumnType } from 'src/types/boardType';
+import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
@@ -17,7 +17,15 @@ export const useBoardStore = defineStore('board', {
         this.projectName = data.projectName;
 
         if (Array.isArray(data.columns)) {
-          this.columns = data.columns as BoardColumnType[];
+          this.columns = data.columns.map((col: BoardColumnType) => ({
+            ...col,
+
+            cards: col.cards.map((card: BoardCardType) => ({
+              ...card,
+              startDate: new Date(card.startDate),
+              deadline: new Date(card.deadline),
+            })),
+          })) as BoardColumnType[];
         }
       } catch (error) {
         console.error('Error fetching:', error);
