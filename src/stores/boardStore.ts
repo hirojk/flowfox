@@ -5,6 +5,7 @@ export const useBoardStore = defineStore('board', {
   state: () => ({
     projectName: '' as string,
     columns: [] as Array<BoardColumnType>,
+    activeCardId: [] as Array<number>,
   }),
 
   actions: {
@@ -21,6 +22,10 @@ export const useBoardStore = defineStore('board', {
       } catch (error) {
         console.error('Error fetching:', error);
       }
+    },
+    setActiveCardId(columnId: number, cardId: number): void {
+      console.log('Setting active card ID to:', columnId, cardId);
+      this.activeCardId = [columnId, cardId];
     },
   },
 });

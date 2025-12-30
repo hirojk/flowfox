@@ -57,7 +57,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
+  import { useBoardStore } from 'src/stores/boardStore';
+
+  const boardStore = useBoardStore();
 
   const priorityOptions = [
     { label: 'High', value: 'high' },
@@ -68,6 +71,10 @@
   const priorityModal = ref(null);
   const startDate = ref('');
   const deadline = ref('');
+
+  onMounted(() => {
+    console.log(boardStore.activeCardId);
+  });
 </script>
 
 <style lang="scss" scoped>

@@ -33,9 +33,6 @@
           name="priority_high"
         />
       </div>
-      <Modal>
-        <BoardModal />
-      </Modal>
     </div>
   </div>
 </template>
@@ -43,24 +40,26 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
-  import Modal from 'components/ModalWindow.vue';
-  import BoardModal from 'components/board/BoardModal.vue';
+  import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
 
   const props = defineProps<{
+    columnId: number;
     cardContent: BoardCardType;
   }>();
   const emit = defineEmits<{
     (e: 'remove', id: number): void;
   }>();
   const modalStore = useModalStore();
+  const boardStore = useBoardStore();
 
-  const editMode = ref(false);
+  const editMode = ref(modalStore.isOpen);
   const localHeading = ref(props.cardContent.taskName);
 
   const openEditModal = () => {
     if (!editMode.value) {
       modalStore.openModal();
+      boardStore.setActiveCardId(props.columnId, props.cardContent.id);
     }
   };
 

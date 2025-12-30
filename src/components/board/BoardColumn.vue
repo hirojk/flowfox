@@ -5,12 +5,13 @@
       <li v-for="card in boardCards" :key="card.id">
         <BoardCard
           :id="card.id"
+          :columnId="props.columnContent.id"
           :cardContent="card"
           @remove="removeCardEvent"
         />
       </li>
     </ul>
-    <button class="board-column__button" @click="addCardEvent()">
+    <button class="board-column__button" @click="addCardEvent">
       <q-icon name="add" />
       Add Card
     </button>
@@ -27,13 +28,13 @@
   }>();
   const boardCards = ref<BoardCardType[]>(props.columnContent.cards);
 
-  const addCardEvent = () => {
-    const newId = Date.now() + Math.random();
-    boardCards.value.push({ id: newId, taskName: 'New Task' });
-  };
-
   const removeCardEvent = (id: number) => {
     boardCards.value = boardCards.value.filter((card) => card.id !== id);
+  };
+
+  const addCardEvent = () => {
+    const newId = Math.floor(Date.now() + Math.random() * 1000) % 100_000_000;
+    boardCards.value.push({ id: newId, taskName: 'New Task' });
   };
 </script>
 

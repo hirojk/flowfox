@@ -29,6 +29,30 @@
               "color": "#FF0000"
             }
           ]
+        },
+        {
+          "id": 2,
+          "taskName": "New Task in Card",
+          "priority": "Middle",
+          "description": "This is a new task description.",
+          "checklist": [
+            {
+              "item": "Subtask 1",
+              "completed": false
+            },
+            {
+              "item": "Subtask 2",
+              "completed": true
+            }
+          ],
+          "startDate": "2024-12-01",
+          "deadline": "2024-12-31",
+          "tags": [
+            {
+              "name": "Urgent",
+              "color": "#FF0000"
+            }
+          ]
         }
       ]
     }

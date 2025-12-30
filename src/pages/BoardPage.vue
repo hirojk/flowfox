@@ -10,6 +10,9 @@
         <BoardColumn :columnContent="column" />
       </li>
     </ul>
+    <ModalWindow>
+      <BoardModal />
+    </ModalWindow>
   </q-page>
 </template>
 
@@ -17,6 +20,8 @@
   import { onMounted } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
   import BoardColumn from 'components/board/BoardColumn.vue';
+  import ModalWindow from 'components/ModalWindow.vue';
+  import BoardModal from 'components/board/BoardModal.vue';
 
   const boardStore = useBoardStore();
 
