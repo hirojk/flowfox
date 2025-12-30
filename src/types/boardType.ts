@@ -1,5 +1,3 @@
-import type { NamedColor } from 'quasar';
-
 export interface BoardColumnType {
   id: number;
   columnName: string;
@@ -9,7 +7,7 @@ export interface BoardColumnType {
 export interface BoardCardType {
   id: number;
   taskName: string;
-  priority: 'Low' | 'Middle' | 'High';
+  priority: 'Low' | 'Medium' | 'High';
   description: string;
   checklist: Array<{
     label: string;
@@ -19,6 +17,6 @@ export interface BoardCardType {
   deadline: Date;
   tags: Array<{
     label: string;
-    color: NamedColor;
+    color: string;
   }>;
 }

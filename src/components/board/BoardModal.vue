@@ -55,7 +55,9 @@
             v-for="tag in activeCard?.tags"
             :key="tag.label"
           >
-            <q-chip :label="tag.label" :color="tag.color" />
+            <span class="tag" :style="{ backgroundColor: tag.color }">
+              {{ tag.label }}
+            </span>
           </li>
         </ul>
       </div>
@@ -164,6 +166,12 @@
       flex-direction: column;
       gap: 0.5em;
       width: 100%;
+    }
+
+    &__tags {
+      display: flex;
+      gap: 0.5em;
+      flex-wrap: wrap;
     }
 
     &__settings {

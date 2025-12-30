@@ -49,3 +49,11 @@ button {
   margin-bottom: 0.5em;
   color: $white;
 }
+
+.tag {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  background-color: $quaternary;
+  border-radius: 0.4em;
+  font-size: 0.9rem;
+}

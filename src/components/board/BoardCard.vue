@@ -1,5 +1,5 @@
 <template>
-  <div class="board-card" @click="openEditModal">
+  <article class="board-card" @click="openEditModal">
     <div class="board-card__content">
       <div
         v-if="editMode"
@@ -34,7 +34,7 @@
         />
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup lang="ts">
