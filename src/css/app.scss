@@ -44,8 +44,8 @@ button {
 
 .tag {
   display: inline-block;
-  padding: 0.2em 0.6em;
-  background-color: $quaternary;
   border-radius: 0.4em;
+  padding: 0.2em 0.6em;
   font-size: nth(map-get($font-size, sm), 1);
+  background-color: $quaternary;
 }

@@ -11,7 +11,7 @@
       </li>
       <li class="board__column">
         <button class="board__button board__button--add-column">
-          <q-icon name="add" />
+          <IconSvg id="icon-check" />
           Add Column
         </button>
       </li>
@@ -51,7 +51,7 @@
       border-radius: 1em;
       padding: 1em;
       width: 100%;
-      font-size: map-get($font-size, md);
+      font-size: nth(map-get($font-size, md), 1);
       color: $white;
       background-color: $quinterany;
     }

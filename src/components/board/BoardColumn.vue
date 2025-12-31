@@ -12,7 +12,7 @@
       </li>
     </ul>
     <button class="board-column__button" @click="addCardEvent">
-      <q-icon name="add" />
+      <IconSvg id="icon-check" />
       Add Card
     </button>
   </div>

@@ -9,11 +9,12 @@
     class="sideBar"
   >
     <q-list
+      class="sideBar__list"
       v-for="(list, index) in [navItems, settingsItems]"
       :key="index"
-      class="sideBar__list"
     >
       <q-item
+        class="sideBar__item"
         clickable
         v-ripple
         v-for="item in list"
@@ -74,5 +75,9 @@
     justify-content: space-between;
     padding: 1em 0;
     background-color: $white;
+
+    &__item {
+      font-size: nth(map-get($font-size, md), 1);
+    }
   }
 </style>
