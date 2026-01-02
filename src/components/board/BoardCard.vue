@@ -28,7 +28,7 @@
       </div>
       <div v-else class="board-card__wrapper board-card__wrapper--display">
         <h3 class="board-card__heading">{{ localHeading }}</h3>
-        <IconSvg id="icon-medium" />
+        <IconSvg :id="localPriority" />
       </div>
     </div>
   </article>
@@ -37,8 +37,10 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
+  import { selectIcon } from 'src/composables/useGlobal';
   import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
+  import { PRIORITY_LIST } from 'src/utils/priority';
 
   const props = defineProps<{
     columnId: number;
@@ -52,6 +54,9 @@
 
   const editMode = ref(modalStore.isOpen);
   const localHeading = ref(props.cardContent.taskName);
+  const localPriority = ref(
+    selectIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'),
+  );
 
   const openEditModal = () => {
     if (!editMode.value) {

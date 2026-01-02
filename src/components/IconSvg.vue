@@ -1,6 +1,6 @@
 <template>
   <svg :width="size" :height="size" aria-hidden="true">
-    <use :href="`src/assets/icon.svg#${id}`"></use>
+    <use class="iconSvg" :href="`src/assets/icon.svg#${id}`"></use>
   </svg>
 </template>
 
@@ -10,3 +10,13 @@
     size?: number;
   }>();
 </script>
+
+<style lang="scss" scoped>
+  .iconSvg {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2px;
+  }
+</style>

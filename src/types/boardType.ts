@@ -1,3 +1,5 @@
+import type { PRIORITY_LIST } from 'src/utils/priority';
+
 export interface BoardColumnType {
   id: number;
   columnName: string;
@@ -7,7 +9,7 @@ export interface BoardColumnType {
 export interface BoardCardType {
   id: number;
   taskName: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: (typeof PRIORITY_LIST)[number]['name'];
   description: string;
   checklist: Array<{
     label: string;
