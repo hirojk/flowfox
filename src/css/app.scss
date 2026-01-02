@@ -42,6 +42,13 @@ button {
   color: $white;
 }
 
+.iconStyle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2px;
+}
+
 .tag {
   display: inline-block;
   border-radius: 0.4em;

@@ -28,10 +28,7 @@
       </div>
       <div v-else class="board-card__wrapper board-card__wrapper--display">
         <h3 class="board-card__heading">{{ localHeading }}</h3>
-        <q-icon
-          class="board-card__icon board-card__icon--priority"
-          name="priority_high"
-        />
+        <IconSvg id="icon-medium" />
       </div>
     </div>
   </article>

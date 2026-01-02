@@ -11,7 +11,7 @@
       </li>
       <li class="board__column">
         <button class="board__button board__button--add-column">
-          <IconSvg id="icon-check" />
+          <IconSvg id="icon-plus" />
           Add Column
         </button>
       </li>

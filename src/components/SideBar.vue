@@ -46,12 +46,24 @@
   }
 
   const navItems: NavItem[] = [
-    { label: 'Board', icon: 'view_kanban', route: '/' },
+    {
+      label: 'Board',
+      icon: 'view_kanban',
+      route: '/',
+    },
   ];
 
   const settingsItems: NavItem[] = [
-    { label: 'Account', icon: 'person', route: '/' },
-    { label: 'Settings', icon: 'settings', route: '/settings' },
+    {
+      label: 'Account',
+      icon: 'person',
+      route: '/',
+    },
+    {
+      label: 'Settings',
+      icon: 'settings',
+      route: '/settings',
+    },
     {
       label: 'Close',
       icon: 'last_page',

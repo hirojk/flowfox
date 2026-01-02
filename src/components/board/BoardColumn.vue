@@ -12,7 +12,7 @@
       </li>
     </ul>
     <button class="board-column__button" @click="addCardEvent">
-      <IconSvg id="icon-check" />
+      <IconSvg id="icon-plus" />
       Add Card
     </button>
   </div>
@@ -22,7 +22,7 @@
   import { ref } from 'vue';
   import BoardCard from 'components/board/BoardCard.vue';
   import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
-  import { createNewCard } from 'src/composable/useBoardCard';
+  import { createNewCard } from 'src/composables/useBoardCard';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
