@@ -7,13 +7,13 @@
   </symbol>
 
   <!-- Critical Icon -->
-  <symbol id="icon-critical" viewBox="0 0 24 24">
+  <symbol id="icon-critical" viewBox="0 0 24 24" stroke="#ff0000">
     <polyline points="18.5 18.64 12 12.5 5.5 18.64"/>
     <polyline points="18.5 11.5 12 5.36 5.5 11.5"/>
   </symbol>
 
   <!-- High Icon -->
-  <symbol id="icon-high" viewBox="0 0 24 24" stroke="#ff0000">
+  <symbol id="icon-high" viewBox="0 0 24 24" stroke="#5f0000">
     <polyline points="18.5 15.07 12 8.93 5.5 15.07"/>
   </symbol>
 
@@ -23,7 +23,7 @@
   </symbol>
 
   <!-- Low Icon -->
-  <symbol id="icon-low" viewBox="0 0 24 24">
+  <symbol id="icon-low" viewBox="0 0 24 24" stroke="#4400ff">
     <polyline points="5.5 8.93 12 15.07 18.5 8.93"/>
   </symbol>
 </svg>
