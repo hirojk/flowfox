@@ -17,3 +17,11 @@ export const addColumnEvent = () => {
 export const removeColumnEvent = (columnId: number) => {
   useBoardStore().columns = useBoardStore().columns.filter((column) => column.id !== columnId);
 };
+
+export const renameColumnEvent = (columnId: number, newName: string) => {
+  const column = useBoardStore().columns.find((column) => column.id === columnId);
+
+  if (column) {
+    column.columnName = newName;
+  }
+};

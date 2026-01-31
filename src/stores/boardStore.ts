@@ -35,7 +35,7 @@ export const useBoardStore = defineStore('board', {
         console.error('Error fetching:', error);
       }
     },
-    setActiveCardId(columnId: number, cardId: number): void {
+    setModalActiveCardId(columnId: number, cardId: number): void {
       this.activeCardId = [columnId, cardId];
     },
   },
