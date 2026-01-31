@@ -1,27 +1,13 @@
 <template>
   <article class="board-card" @click="openEditModal">
     <div class="board-card__content">
-      <div
-        v-if="editMode"
-        class="board-card__wrapper board-card__wrapper--edit"
-      >
-        <q-input
-          v-model="localHeading"
-          dense
-          autofocus
-          placeholder="New Task"
-        />
+      <div v-if="editMode" class="board-card__wrapper board-card__wrapper--edit">
+        <q-input v-model="localHeading" dense autofocus placeholder="New Task" />
         <div class="board-card__wrapper board-card__wrapper--icons">
-          <button
-            class="board-card__icon board-card__icon--check"
-            @click.stop="saveTaskHeading"
-          >
+          <button class="board-card__icon board-card__icon--check" @click.stop="saveTaskHeading">
             <q-icon name="check" />
           </button>
-          <button
-            class="board-card__icon board-card__icon--cancel"
-            @click.stop="handleRemoveCard"
-          >
+          <button class="board-card__icon board-card__icon--cancel" @click.stop="handleRemoveCard">
             <q-icon name="cancel" />
           </button>
         </div>
@@ -37,9 +23,12 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
+
   import { selectIcon } from 'src/composables/useGlobal';
+
   import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
+
   import { PRIORITY_LIST } from 'src/utils/priority';
 
   const props = defineProps<{
@@ -54,9 +43,7 @@
 
   const editMode = ref(modalStore.isOpen);
   const localHeading = ref(props.cardContent.taskName);
-  const localPriority = ref(
-    selectIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'),
-  );
+  const localPriority = ref(selectIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'));
 
   const openEditModal = () => {
     if (!editMode.value) {

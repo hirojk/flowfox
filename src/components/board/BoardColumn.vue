@@ -7,11 +7,11 @@
           :id="card.id"
           :columnId="props.columnContent.id"
           :cardContent="card"
-          @remove="removeCardEvent"
+          @remove="removeCardEvent(boardCards, card.id)"
         />
       </li>
     </ul>
-    <button class="board-column__button" @click="addCardEvent">
+    <button class="board-column__button" @click="addCardEvent(boardCards)">
       <IconSvg id="icon-plus" />
       Add Card
     </button>
@@ -20,22 +20,15 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import BoardCard from 'components/board/BoardCard.vue';
   import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
-  import { createNewCard } from 'src/composables/useBoardCard';
+
+  import BoardCard from 'components/board/BoardCard.vue';
+  import { addCardEvent, removeCardEvent } from 'src/composables/useBoardCard';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
   }>();
   const boardCards = ref<BoardCardType[]>(props.columnContent.cards);
-
-  const removeCardEvent = (id: number) => {
-    boardCards.value = boardCards.value.filter((card) => card.id !== id);
-  };
-
-  const addCardEvent = () => {
-    boardCards.value.push(createNewCard());
-  };
 </script>
 
 <style lang="scss" scoped>

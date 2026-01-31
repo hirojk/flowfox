@@ -2,6 +2,7 @@
   <ModalWindow>
     <BoardModal />
   </ModalWindow>
+
   <q-page padding class="page">
     <h1 class="headline">{{ boardStore.projectName }}</h1>
     <ul class="board">

@@ -24,16 +24,8 @@
       <div class="board-modal__content board-modal__content--checklist">
         <strong>Checklist</strong>
         <ul class="board-modal__checklist">
-          <li
-            class="board-modal__checklist-item"
-            v-for="subtask in activeCard?.checklist"
-            :key="subtask.label"
-          >
-            <q-checkbox
-              v-model="subtask.completed"
-              :label="subtask.label"
-              dense
-            />
+          <li class="board-modal__checklist-item" v-for="subtask in activeCard?.checklist" :key="subtask.label">
+            <q-checkbox v-model="subtask.completed" :label="subtask.label" dense />
           </li>
         </ul>
       </div>
@@ -50,11 +42,7 @@
       <div class="board-modal__content board-modal__content--tag">
         <strong>Tags</strong>
         <ul class="board-modal__tags">
-          <li
-            class="board-modal__tags-item"
-            v-for="tag in activeCard?.tags"
-            :key="tag.label"
-          >
+          <li class="board-modal__tags-item" v-for="tag in activeCard?.tags" :key="tag.label">
             <span class="tag" :style="{ backgroundColor: tag.color }">
               {{ tag.label }}
             </span>
@@ -73,6 +61,7 @@
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
+
   import { useBoardStore } from 'src/stores/boardStore';
   import type { BoardCardType } from 'src/types/boardType';
 
