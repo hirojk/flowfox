@@ -1,14 +1,17 @@
 <template>
   <section class="board-column">
-    <h2>{{ props.columnContent.columnName }}</h2>
+    <div class="board-column__header">
+      <h2>{{ props.columnContent.columnName }}</h2>
+      <ContextMenu
+        :events="[
+          { name: 'Rename', action: () => {} },
+          { name: 'Remove', action: () => removeColumnEvent(props.columnContent.id) },
+        ]"
+      />
+    </div>
     <ul class="board-column__cards">
       <li v-for="card in boardCards" :key="card.id">
-        <BoardCard
-          :id="card.id"
-          :columnId="props.columnContent.id"
-          :cardContent="card"
-          @remove="removeCardEvent(boardCards, card.id)"
-        />
+        <BoardCard :id="card.id" :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
     <button class="board-column__button" @click="addCardEvent(boardCards)">
@@ -20,10 +23,10 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
-
   import BoardCard from 'components/board/BoardCard.vue';
-  import { addCardEvent, removeCardEvent } from 'src/composables/useBoardCard';
+  import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
+  import { removeColumnEvent } from 'src/composables/useBoardColumn';
+  import { addCardEvent } from 'src/composables/useBoardCard';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
@@ -40,6 +43,12 @@
     border-radius: 1em;
     padding: 1em;
     background-color: $quaternary;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     &__cards {
       display: flex;

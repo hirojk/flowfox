@@ -26,4 +26,11 @@
   <symbol id="icon-low" viewBox="0 0 24 24" stroke="#4400ff">
     <polyline points="5.5 8.93 12 15.07 18.5 8.93"/>
   </symbol>
+
+  <!-- Menu Icon -->
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <circle cx="12" cy="6.37" r=".61"/>
+    <circle cx="12" cy="12" r=".61"/>
+    <circle cx="12" cy="17.63" r=".61"/>
+  </symbol>
 </svg>

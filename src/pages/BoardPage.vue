@@ -10,7 +10,7 @@
         <BoardColumn :columnContent="column" />
       </li>
       <li class="board__column">
-        <button class="board__button board__button--add-column" @click="addColumnEvent(boardStore.columns)">
+        <button class="board__button board__button--add-column" @click="addColumnEvent()">
           <IconSvg id="icon-plus" />
           Add Column
         </button>
@@ -22,10 +22,7 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
-
-  import ModalWindow from 'components/ModalWindow.vue';
   import BoardModal from 'components/board/BoardModal.vue';
-
   import BoardColumn from 'components/board/BoardColumn.vue';
   import { addColumnEvent } from 'src/composables/useBoardColumn';
 

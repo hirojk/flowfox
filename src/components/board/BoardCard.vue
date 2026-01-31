@@ -23,12 +23,9 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
-
   import { selectIcon } from 'src/composables/useGlobal';
-
   import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
-
   import { PRIORITY_LIST } from 'src/utils/priority';
 
   const props = defineProps<{

@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
-
   import { useBoardStore } from 'src/stores/boardStore';
   import type { BoardCardType } from 'src/types/boardType';
 

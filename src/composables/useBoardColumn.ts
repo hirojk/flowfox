@@ -1,4 +1,5 @@
 import type { BoardColumnType } from 'src/types/boardType';
+import { useBoardStore } from 'src/stores/boardStore';
 
 export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): BoardColumnType => {
   return {
@@ -9,10 +10,10 @@ export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): Board
   };
 };
 
-export const addColumnEvent = (currentColumns: BoardColumnType[]) => {
-  return currentColumns.push(createNewColumn());
+export const addColumnEvent = () => {
+  useBoardStore().columns.push(createNewColumn());
 };
 
-export const removeColumnEvent = (currentColumns: BoardColumnType[], ColumnId: number) => {
-  return currentColumns.filter((column) => column.id !== ColumnId);
+export const removeColumnEvent = (columnId: number) => {
+  useBoardStore().columns = useBoardStore().columns.filter((column) => column.id !== columnId);
 };
