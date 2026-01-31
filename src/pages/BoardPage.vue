@@ -1,33 +1,32 @@
 <template>
+  <ModalWindow>
+    <BoardModal />
+  </ModalWindow>
   <q-page padding class="page">
     <h1 class="headline">{{ boardStore.projectName }}</h1>
     <ul class="board">
-      <li
-        class="board__column"
-        v-for="column in boardStore.columns"
-        :key="column.id"
-      >
+      <li class="board__column" v-for="column in boardStore.columns" :key="column.id">
         <BoardColumn :columnContent="column" />
       </li>
       <li class="board__column">
-        <button class="board__button board__button--add-column">
+        <button class="board__button board__button--add-column" @click="addColumnEvent(boardStore.columns)">
           <IconSvg id="icon-plus" />
           Add Column
         </button>
       </li>
     </ul>
-    <ModalWindow>
-      <BoardModal />
-    </ModalWindow>
   </q-page>
 </template>
 
 <script setup lang="ts">
   import { onMounted } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
-  import BoardColumn from 'components/board/BoardColumn.vue';
+
   import ModalWindow from 'components/ModalWindow.vue';
   import BoardModal from 'components/board/BoardModal.vue';
+
+  import BoardColumn from 'components/board/BoardColumn.vue';
+  import { addColumnEvent } from 'src/composables/useBoardColumn';
 
   const boardStore = useBoardStore();
 

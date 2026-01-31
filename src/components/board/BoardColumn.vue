@@ -1,5 +1,5 @@
 <template>
-  <div class="board-column">
+  <section class="board-column">
     <h2>{{ props.columnContent.columnName }}</h2>
     <ul class="board-column__cards">
       <li v-for="card in boardCards" :key="card.id">
@@ -15,7 +15,7 @@
       <IconSvg id="icon-plus" />
       Add Card
     </button>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">

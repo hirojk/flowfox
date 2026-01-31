@@ -1,6 +1,6 @@
 <template>
   <svg :width="size" :height="size" aria-hidden="true">
-    <use class="iconSvg" :href="`src/assets/icon.svg#${id}`"></use>
+    <use class="iconSvg" :href="`src/assets/iconSet.svg#${id}`"></use>
   </svg>
 </template>
 
