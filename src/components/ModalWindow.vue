@@ -1,18 +1,7 @@
 <template>
   <div class="modal" v-if="modalStore.isOpen">
-    <div class="modal__wrapper">
-      <div class="modal__interactives">
-        <button
-          class="modal__button modal__button--close"
-          @click.stop="modalStore.closeModal()"
-        >
-          <q-icon name="close" />
-          Close
-        </button>
-      </div>
-      <div class="modal__content">
-        <slot></slot>
-      </div>
+    <div class="modal__content">
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -38,7 +27,7 @@
     z-index: 3001;
     cursor: default;
 
-    &__wrapper {
+    &__content {
       width: 100%;
       height: 100%;
       max-width: 56.25em;
@@ -48,33 +37,6 @@
       border-radius: 1em;
       padding: 2em;
       background-color: $white;
-    }
-
-    &__interactives {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2em;
-    }
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-
-      &--copy,
-      &--delete {
-        width: 100%;
-        justify-content: center;
-        border-radius: 1em;
-        padding: 1em 2em;
-        background-color: rgb(199, 199, 199);
-      }
     }
   }
 </style>

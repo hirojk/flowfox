@@ -10,7 +10,7 @@
       />
     </div>
     <ul class="board-column__cards">
-      <li v-for="card in boardCards" :key="card.id">
+      <li v-for="card in boardCards" :key="Array.isArray(card.id) ? card.id[1] : card.id">
         <BoardCard :id="card.id" :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
@@ -22,16 +22,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { computed } from 'vue';
   import BoardCard from 'components/board/BoardCard.vue';
-  import type { BoardColumnType, BoardCardType } from 'src/types/boardType';
+  import type { BoardColumnType } from 'src/types/boardType';
   import { removeColumnEvent } from 'src/composables/useBoardColumn';
   import { addCardEvent } from 'src/composables/useBoardCard';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
   }>();
-  const boardCards = ref<BoardCardType[]>(props.columnContent.cards);
+  const boardCards = computed(() => props.columnContent.cards);
 </script>
 
 <style lang="scss" scoped>

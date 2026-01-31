@@ -1,4 +1,6 @@
 import type { BoardCardType } from 'src/types/boardType';
+import { useModalStore } from 'src/stores/appStore';
+import { useBoardStore } from 'src/stores/boardStore';
 
 export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCardType => {
   return {
@@ -18,6 +20,18 @@ export const addCardEvent = (currentCards: BoardCardType[]) => {
   return currentCards.push(createNewCard());
 };
 
-export const removeCardEvent = (currentCards: BoardCardType[], CardId: number) => {
-  return currentCards.filter((card) => card.id !== CardId);
+export const removeCardEvent = (cardId: [number, number]) => {
+  if (useModalStore().isOpen) {
+    useModalStore().closeModal();
+  }
+
+  useBoardStore().columns = useBoardStore().columns.map((column) => {
+    if (column.id === cardId[0]) {
+      return {
+        ...column,
+        cards: column.cards.filter((card) => card.id !== cardId[1]),
+      };
+    }
+    return column;
+  });
 };

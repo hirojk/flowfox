@@ -1,16 +1,30 @@
 <template>
+  <div class="board-modal__interactives">
+    <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
+      <iconSvg id="icon-close" />
+      Close
+    </button>
+    <ContextMenu
+      :events="[
+        {
+          name: 'Rename',
+          action: () => {},
+        },
+        {
+          name: 'Remove',
+          action: () => {
+            removeCardEvent(boardStore.activeCardId as [number, number]);
+          },
+        },
+      ]"
+    />
+  </div>
   <div class="board-modal__scrollContent">
     <div class="board-modal__header">
       <strong class="board-modal__header-headline">
         {{ activeCard?.taskName }}
       </strong>
       <div class="board-modal__header-priority">
-        <!-- <q-select
-          v-model="priorityModal"
-          :options="priorityOptions"
-          label="Priority"
-          style="width: 200px"
-        /> -->
         {{ activeCard?.priority }}
       </div>
     </div>
@@ -63,18 +77,13 @@
   import { onMounted, ref } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
   import type { BoardCardType } from 'src/types/boardType';
+  import { useModalStore } from 'src/stores/appStore';
+  import { removeCardEvent } from 'src/composables/useBoardCard';
 
   const boardStore = useBoardStore();
 
   const activeCard = ref<BoardCardType | null>(null);
 
-  // const priorityOptions = [
-  //   { label: 'High', value: 'high' },
-  //   { label: 'Medium', value: 'medium' },
-  //   { label: 'Low', value: 'low' },
-  // ];
-
-  // const priorityModal = ref(activeCard.value?.priority);
   const startDate = ref<Date>(new Date());
   const deadline = ref<Date>(new Date());
 
@@ -97,6 +106,12 @@
 
 <style lang="scss" scoped>
   .board-modal {
+    &__interactives {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2em;
+    }
+
     &__scrollContent {
       display: flex;
       flex-direction: column;
