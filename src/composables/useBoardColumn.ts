@@ -1,6 +1,10 @@
 import type { BoardColumnType } from 'src/types/boardType';
 import { useBoardStore } from 'src/stores/boardStore';
 
+const getStores = () => ({
+  board: useBoardStore(),
+});
+
 export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): BoardColumnType => {
   return {
     id: Math.floor(Date.now() + Math.random() * 1000) % 100_000_000,
@@ -11,15 +15,20 @@ export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): Board
 };
 
 export const addColumnEvent = () => {
-  useBoardStore().columns.push(createNewColumn());
+  const { board } = getStores();
+
+  board.columns.push(createNewColumn());
 };
 
 export const removeColumnEvent = (columnId: number) => {
-  useBoardStore().columns = useBoardStore().columns.filter((column) => column.id !== columnId);
+  const { board } = getStores();
+
+  board.columns = board.columns.filter((column) => column.id !== columnId);
 };
 
 export const renameColumnEvent = (columnId: number, newName: string) => {
-  const column = useBoardStore().columns.find((column) => column.id === columnId);
+  const { board } = getStores();
+  const column = board.columns.find((column) => column.id === columnId);
 
   if (column) {
     column.columnName = newName;

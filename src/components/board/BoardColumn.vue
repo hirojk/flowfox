@@ -8,7 +8,7 @@
       <ContextMenu
         :events="[
           {
-            name: 'Remove',
+            name: 'Remove Column',
             action: () => removeColumnEvent(props.columnContent.id),
           },
         ]"

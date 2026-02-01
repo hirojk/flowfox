@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { computed } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
   import { getIcon } from 'src/composables/useGlobal';
   import { useModalStore } from 'src/stores/appStore';
@@ -22,12 +22,12 @@
     cardContent: BoardCardType;
   }>();
 
-  const localHeading = ref(props.cardContent.taskName);
-  const localPriority = ref(getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'));
+  const localHeading = computed(() => props.cardContent.taskName);
+  const localPriority = computed(() => getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'));
 
   const openCardModal = () => {
     useModalStore().openModal();
-    useBoardStore().setModalActiveCardId(props.columnId, props.cardContent.id);
+    useBoardStore().setActiveCardId(props.columnId, props.cardContent.id);
   };
 </script>
 

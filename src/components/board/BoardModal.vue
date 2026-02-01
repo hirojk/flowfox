@@ -1,107 +1,106 @@
 <template>
-  <div class="board-modal__interactives">
-    <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
-      <iconSvg id="icon-close" />
-      Close
-    </button>
-    <ContextMenu
-      :events="[
-        {
-          name: 'Rename',
-          action: () => {},
-        },
-        {
-          name: 'Remove',
-          action: () => {
-            removeCardEvent(boardStore.activeCardId as [number, number]);
+  <div v-if="!activeCard" class="board-modal__error">
+    <div class="board-modal__interactives">
+      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
+        <iconSvg id="icon-close" />
+        Close
+      </button>
+    </div>
+    <div class="board-modal__scrollContent">
+      <p>Card not found</p>
+    </div>
+  </div>
+  <template v-else>
+    <div class="board-modal__interactives">
+      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
+        <iconSvg id="icon-close" />
+        Close
+      </button>
+      <ContextMenu
+        :events="[
+          {
+            name: 'Remove Card',
+            action: () => {
+              removeCardEvent(boardStore.activeCardId as [number, number]);
+            },
           },
-        },
-      ]"
-    />
-  </div>
-  <div class="board-modal__scrollContent">
-    <div class="board-modal__header">
-      <strong class="board-modal__header-headline">
-        {{ activeCard?.taskName }}
-      </strong>
-      <div class="board-modal__header-priority">
-        {{ activeCard?.priority }}
+        ]"
+      />
+    </div>
+    <div class="board-modal__scrollContent">
+      <div class="board-modal__header">
+        <EditableText
+          class="board-modal__header-headline"
+          :text="activeCard.taskName"
+          :saveEvent="(newTaskName) => updateCardEvent(boardStore.activeCardId, { taskName: newTaskName })"
+        />
+        <div class="board-modal__header-priority">
+          {{ activeCard.priority }}
+        </div>
+      </div>
+      <div class="board-modal__details">
+        <div class="board-modal__content board-modal__content--description">
+          <strong>Description</strong>
+          <div class="board-modal__description">
+            <slot name="description">{{ activeCard.description }}</slot>
+          </div>
+        </div>
+        <div class="board-modal__content board-modal__content--checklist">
+          <strong>Checklist</strong>
+          <ul class="board-modal__checklist">
+            <li class="board-modal__checklist-item" v-for="subtask in activeCard.checklist" :key="subtask.label">
+              <q-checkbox v-model="subtask.completed" :label="subtask.label" dense />
+            </li>
+          </ul>
+        </div>
+        <div class="board-modal__content board-modal__content--date">
+          <div class="board-modal__date board-modal__date--start">
+            <strong>Start Date</strong>
+            {{ startDate.toDateString() }}
+          </div>
+          <div class="board-modal__date board-modal__date--deadline">
+            <strong>Deadline</strong>
+            {{ deadline.toDateString() }}
+          </div>
+        </div>
+        <div class="board-modal__content board-modal__content--tag">
+          <strong>Tags</strong>
+          <ul class="board-modal__tags">
+            <li class="board-modal__tags-item" v-for="tag in activeCard.tags" :key="tag.label">
+              <span class="tag" :style="{ backgroundColor: tag.color }">
+                {{ tag.label }}
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="board-modal__details">
-      <div class="board-modal__content board-modal__content--description">
-        <strong>Description</strong>
-        <div class="board-modal__description">
-          <slot name="description">{{ activeCard?.description }}</slot>
-        </div>
-      </div>
-      <div class="board-modal__content board-modal__content--checklist">
-        <strong>Checklist</strong>
-        <ul class="board-modal__checklist">
-          <li class="board-modal__checklist-item" v-for="subtask in activeCard?.checklist" :key="subtask.label">
-            <q-checkbox v-model="subtask.completed" :label="subtask.label" dense />
-          </li>
-        </ul>
-      </div>
-      <div class="board-modal__content board-modal__content--date">
-        <div class="board-modal__date board-modal__date--start">
-          <strong>Start Date</strong>
-          {{ startDate.toDateString() }}
-        </div>
-        <div class="board-modal__date board-modal__date--deadline">
-          <strong>Deadline</strong>
-          {{ deadline.toDateString() }}
-        </div>
-      </div>
-      <div class="board-modal__content board-modal__content--tag">
-        <strong>Tags</strong>
-        <ul class="board-modal__tags">
-          <li class="board-modal__tags-item" v-for="tag in activeCard?.tags" :key="tag.label">
-            <span class="tag" :style="{ backgroundColor: tag.color }">
-              {{ tag.label }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- <div class="board-modal__settings">
+    <!-- <div class="board-modal__settings">
     <button class="board-modal__button board-modal__button--copy">
       <q-icon name="content_copy" />
       Copy Card
     </button>
   </div> -->
+  </template>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue';
+  import { computed } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
-  import type { BoardCardType } from 'src/types/boardType';
   import { useModalStore } from 'src/stores/appStore';
-  import { removeCardEvent } from 'src/composables/useBoardCard';
+  import { removeCardEvent, updateCardEvent } from 'src/composables/useBoardCard';
+
+  import EditableText from '../utils/EditableText.vue';
 
   const boardStore = useBoardStore();
 
-  const activeCard = ref<BoardCardType | null>(null);
-
-  const startDate = ref<Date>(new Date());
-  const deadline = ref<Date>(new Date());
-
-  onMounted(() => {
-    boardStore.columns.forEach((column) => {
-      if (column.id !== boardStore.activeCardId[0]) return;
-
-      column.cards.forEach((card) => {
-        if (card.id === boardStore.activeCardId[1]) {
-          console.log('Found active card:', card);
-          activeCard.value = card;
-
-          startDate.value = card.startDate;
-          deadline.value = card.deadline;
-        }
-      });
-    });
+  const activeCard = computed(() => {
+    const column = boardStore.columns.find((column) => column.id === boardStore.activeCardId[0]);
+    return column?.cards.find((card) => card.id === boardStore.activeCardId[1]);
   });
+
+  const startDate = computed(() => activeCard.value?.startDate ?? new Date());
+  const deadline = computed(() => activeCard.value?.deadline ?? new Date());
 </script>
 
 <style lang="scss" scoped>
