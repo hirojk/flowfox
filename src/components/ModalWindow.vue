@@ -1,6 +1,6 @@
 <template>
-  <div class="modal" v-if="modalStore.isOpen">
-    <div class="modal__content">
+  <div class="modal" v-if="modalStore.isOpen" @click="modalStore.closeModal()">
+    <div class="modal__content" @click.stop>
       <slot></slot>
     </div>
   </div>

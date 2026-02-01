@@ -15,6 +15,7 @@
     {{ props.text }}
   </component>
 </template>
+
 <script setup lang="ts">
   import { ref } from 'vue';
 
@@ -56,6 +57,7 @@
     isEditing.value = false;
   };
 </script>
+
 <style lang="scss" scoped>
   .editabletext-text {
     white-space: pre-wrap;
