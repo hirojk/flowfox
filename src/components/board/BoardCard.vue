@@ -12,10 +12,10 @@
 <script setup lang="ts">
   import { computed } from 'vue';
   import type { BoardCardType } from 'src/types/boardType';
-  import { getIcon } from 'src/composables/useGlobal';
+  import { getIcon } from 'src/services/helpers';
   import { useModalStore } from 'src/stores/appStore';
   import { useBoardStore } from 'src/stores/boardStore';
-  import { PRIORITY_LIST } from 'src/utils/priority';
+  import { PRIORITY_LIST } from 'src/constants/priority';
 
   const props = defineProps<{
     columnId: number;

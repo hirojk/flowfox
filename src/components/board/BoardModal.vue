@@ -21,7 +21,7 @@
           {
             name: 'Remove Card',
             action: () => {
-              removeCardEvent(boardStore.activeCardId as [number, number]);
+              removeCard(boardStore.activeCardId as [number, number]);
             },
           },
         ]"
@@ -32,7 +32,7 @@
         <EditableText
           class="board-modal__header-headline"
           :text="activeCard.taskName"
-          :saveEvent="(newTaskName) => updateCardEvent(boardStore.activeCardId, { taskName: newTaskName })"
+          :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
         <div class="board-modal__header-priority">
           {{ activeCard.priority }}
@@ -88,9 +88,9 @@
   import { computed } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
-  import { removeCardEvent, updateCardEvent } from 'src/composables/useBoardCard';
+  import { removeCard, updateCard } from 'src/services/boardCardService';
 
-  import EditableText from '../utils/EditableText.vue';
+  import EditableText from 'components/EditableText.vue';
 
   const boardStore = useBoardStore();
 

@@ -14,19 +14,19 @@ export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): Board
   };
 };
 
-export const addColumnEvent = () => {
+export const addColumn = () => {
   const { board } = getStores();
 
   board.columns.push(createNewColumn());
 };
 
-export const removeColumnEvent = (columnId: number) => {
+export const removeColumn = (columnId: number) => {
   const { board } = getStores();
 
   board.columns = board.columns.filter((column) => column.id !== columnId);
 };
 
-export const renameColumnEvent = (columnId: number, newName: string) => {
+export const renameColumn = (columnId: number, newName: string) => {
   const { board } = getStores();
   const column = board.columns.find((column) => column.id === columnId);
 

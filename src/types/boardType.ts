@@ -1,4 +1,4 @@
-import type { PRIORITY_LIST } from 'src/utils/priority';
+import type { PRIORITY_LIST } from 'src/constants/priority';
 
 export interface BoardColumnType {
   id: number;

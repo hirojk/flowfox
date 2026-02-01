@@ -21,11 +21,11 @@ export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCard
   };
 };
 
-export const addCardEvent = (currentCards: BoardCardType[]) => {
+export const addCard = (currentCards: BoardCardType[]) => {
   return currentCards.push(createNewCard());
 };
 
-export const removeCardEvent = (cardId: [number, number]) => {
+export const removeCard = (cardId: [number, number]) => {
   const { board, modal } = getStores();
 
   if (modal.isOpen) {
@@ -43,7 +43,7 @@ export const removeCardEvent = (cardId: [number, number]) => {
   });
 };
 
-export const updateCardEvent = (cardId: [number, number], updates: Partial<BoardCardType>) => {
+export const updateCard = (cardId: [number, number], updates: Partial<BoardCardType>) => {
   const { board } = getStores();
 
   board.columns = board.columns.map((column) => {

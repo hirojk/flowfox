@@ -3,13 +3,13 @@
     <div class="board-column__header">
       <EditableText
         :text="props.columnContent.columnName"
-        :saveEvent="(newColumnName) => renameColumnEvent(props.columnContent.id, newColumnName)"
+        :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
       <ContextMenu
         :events="[
           {
             name: 'Remove Column',
-            action: () => removeColumnEvent(props.columnContent.id),
+            action: () => removeColumn(props.columnContent.id),
           },
         ]"
       />
@@ -19,7 +19,7 @@
         <BoardCard :id="card.id" :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
-    <button class="board-column__button" @click="addCardEvent(boardCards)">
+    <button class="board-column__button" @click="addCard(boardCards)">
       <IconSvg id="icon-plus" />
       Add Card
     </button>
@@ -30,10 +30,10 @@
   import { computed } from 'vue';
   import BoardCard from 'components/board/BoardCard.vue';
   import type { BoardColumnType } from 'src/types/boardType';
-  import { removeColumnEvent, renameColumnEvent } from 'src/composables/useBoardColumn';
-  import { addCardEvent } from 'src/composables/useBoardCard';
+  import { removeColumn, renameColumn } from 'src/services/boardColumnService';
+  import { addCard } from 'src/services/boardCardService';
 
-  import EditableText from '../utils/EditableText.vue';
+  import EditableText from 'components/EditableText.vue';
 
   const props = defineProps<{
     columnContent: BoardColumnType;
