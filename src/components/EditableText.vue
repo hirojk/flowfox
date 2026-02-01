@@ -2,21 +2,25 @@
   <q-input
     v-if="isEditing"
     v-model="inputText"
+    :type="props.multiline ? 'textarea' : 'text'"
+    :autogrow="props.multiline"
     dense
     autofocus
     borderless
     @blur="saveEdit"
-    @keyup.enter="saveEdit"
+    @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
   />
-  <h2 v-else @click="startEdit" class="column-title">
+  <component v-else :is="props.htmlTag || 'p'" class="editabletext-text" @click="startEdit">
     {{ props.text }}
-  </h2>
+  </component>
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
 
   const props = defineProps<{
+    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'div';
+    multiline?: boolean;
     text: string;
     saveEvent: (newName: string) => void;
   }>();
@@ -27,6 +31,18 @@
   const startEdit = () => {
     inputText.value = props.text;
     isEditing.value = true;
+  };
+
+  const handleEnter = (event: KeyboardEvent) => {
+    if (props.multiline) {
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        saveEdit();
+      }
+    } else {
+      event.preventDefault();
+      saveEdit();
+    }
   };
 
   const saveEdit = () => {
@@ -40,3 +56,8 @@
     isEditing.value = false;
   };
 </script>
+<style lang="scss" scoped>
+  .editabletext-text {
+    white-space: pre-wrap;
+  }
+</style>

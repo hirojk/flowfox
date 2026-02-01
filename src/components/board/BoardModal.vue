@@ -31,6 +31,7 @@
       <div class="board-modal__header">
         <EditableText
           class="board-modal__header-headline"
+          htmlTag="strong"
           :text="activeCard.taskName"
           :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
@@ -41,9 +42,13 @@
       <div class="board-modal__details">
         <div class="board-modal__content board-modal__content--description">
           <strong>Description</strong>
-          <div class="board-modal__description">
-            <slot name="description">{{ activeCard.description }}</slot>
-          </div>
+          <EditableText
+            class="board-modal__description"
+            htmlTag="p"
+            multiline
+            :text="activeCard.description"
+            :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
+          />
         </div>
         <div class="board-modal__content board-modal__content--checklist">
           <strong>Checklist</strong>

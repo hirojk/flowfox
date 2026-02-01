@@ -2,6 +2,7 @@
   <section class="board-column">
     <div class="board-column__header">
       <EditableText
+        htmlTag="h2"
         :text="props.columnContent.columnName"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
