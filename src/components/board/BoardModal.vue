@@ -35,9 +35,13 @@
           :text="activeCard.taskName"
           :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
-        <div class="board-modal__header-priority">
-          {{ activeCard.priority }}
-        </div>
+        <SelectableDropdown 
+          class="board-modal__header-priority"
+          :options="PRIORITY_LIST.map(priority => priority.name)"
+          :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
+          :selected="activeCard.priority"
+          :onChange="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })"
+        />
       </div>
       <div class="board-modal__details">
         <div class="board-modal__content board-modal__content--description">
@@ -94,8 +98,11 @@
   import { useBoardStore } from 'src/stores/boardStore';
   import { useModalStore } from 'src/stores/appStore';
   import { removeCard, updateCard } from 'src/services/boardCardService';
+  import { PRIORITY_LIST } from 'src/constants/priority';
+  import { getIcon } from 'src/services/helpers';
 
   import EditableText from 'components/EditableText.vue';
+  import SelectableDropdown from 'components/SelectableDropdown.vue';
 
   const boardStore = useBoardStore();
 
