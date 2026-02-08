@@ -13,12 +13,12 @@
           "description": "Buy some fresh tomato sauce for the pizza.",
           "checklist": [
             {
-              "label": "Fresh Tomatoes",
-              "completed": true
+              "isChecked": true,
+              "label": "Fresh Tomatoes"
             },
             {
-              "label": "Red Tomatoes",
-              "completed": false
+              "isChecked": false,
+              "label": "Red Tomatoes"
             }
           ],
           "startDate": "2024-12-01",
@@ -37,8 +37,8 @@
           "description": "Buy flour for the pizza dough.",
           "checklist": [
             {
-              "label": "Flour Type 00",
-              "completed": false
+              "isChecked": false,
+              "label": "Flour Type 00"
             }
           ],
           "startDate": "2025-01-12",

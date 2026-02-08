@@ -29,24 +29,24 @@
     </div>
     <div class="board-modal__scrollContent">
       <div class="board-modal__header">
-        <EditableText
+        <TextEditor
           class="board-modal__header-headline"
           htmlTag="strong"
           :text="activeCard.taskName"
           :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
-        <SelectableDropdown 
+        <SelectEditor
           class="board-modal__header-priority"
-          :options="PRIORITY_LIST.map(priority => priority.name)"
+          :options="PRIORITY_LIST.map((priority) => priority.name)"
           :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
           :selected="activeCard.priority"
-          :onChange="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })"
+          :saveEvent="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })"
         />
       </div>
       <div class="board-modal__details">
         <div class="board-modal__content board-modal__content--description">
           <strong>Description</strong>
-          <EditableText
+          <TextEditor
             class="board-modal__description"
             htmlTag="p"
             multiline
@@ -56,11 +56,11 @@
         </div>
         <div class="board-modal__content board-modal__content--checklist">
           <strong>Checklist</strong>
-          <ul class="board-modal__checklist">
-            <li class="board-modal__checklist-item" v-for="subtask in activeCard.checklist" :key="subtask.label">
-              <q-checkbox v-model="subtask.completed" :label="subtask.label" dense />
-            </li>
-          </ul>
+          <CheckboxEditor
+            class="board-modal__checklist"
+            :checkboxes="activeCard.checklist"
+            :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
+          />
         </div>
         <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
@@ -101,8 +101,9 @@
   import { PRIORITY_LIST } from 'src/constants/priority';
   import { getIcon } from 'src/services/helpers';
 
-  import EditableText from 'components/EditableText.vue';
-  import SelectableDropdown from 'components/SelectableDropdown.vue';
+  import TextEditor from 'src/components/fields/TextEditor.vue';
+  import SelectEditor from 'src/components/fields/SelectEditor.vue';
+  import CheckboxEditor from 'src/components/fields/CheckboxEditor.vue';
 
   const boardStore = useBoardStore();
 
@@ -127,6 +128,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.5em;
+      overflow-y: auto;
     }
 
     &__header {
@@ -162,17 +164,6 @@
 
     &__description {
       min-height: 4lh;
-    }
-
-    &__checklist {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-
-      &-item {
-        width: 100%;
-        padding: 0.5em 0;
-      }
     }
 
     &__date {

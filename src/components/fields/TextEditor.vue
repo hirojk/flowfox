@@ -11,7 +11,7 @@
     @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
   />
-  <component v-else :is="props.htmlTag || 'p'" class="editabletext-text" @click="startEdit">
+  <component v-else :is="props.htmlTag || 'p'" class="textEditor" @click="startEdit">
     {{ props.text }}
   </component>
 </template>
@@ -59,7 +59,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .editabletext-text {
+  .textEditor {
     white-space: pre-wrap;
   }
 </style>

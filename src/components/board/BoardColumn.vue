@@ -29,12 +29,12 @@
 
 <script setup lang="ts">
   import { computed } from 'vue';
-  import BoardCard from 'components/board/BoardCard.vue';
+  import BoardCard from 'src/components/board/BoardCard.vue';
   import type { BoardColumnType } from 'src/types/boardType';
   import { removeColumn, renameColumn } from 'src/services/boardColumnService';
   import { addCard } from 'src/services/boardCardService';
 
-  import EditableText from 'components/EditableText.vue';
+  import EditableText from 'src/components/fields/TextEditor.vue';
 
   const props = defineProps<{
     columnContent: BoardColumnType;

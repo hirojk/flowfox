@@ -1,4 +1,5 @@
 import type { PRIORITY_LIST } from 'src/constants/priority';
+import type { CheckboxItemType, BoardTagItemType } from 'src/types/global';
 
 export interface BoardColumnType {
   id: number;
@@ -11,14 +12,8 @@ export interface BoardCardType {
   taskName: string;
   priority: (typeof PRIORITY_LIST)[number]['name'];
   description: string;
-  checklist: Array<{
-    label: string;
-    completed: boolean;
-  }>;
+  checklist: Array<CheckboxItemType>;
   startDate: Date;
   deadline: Date;
-  tags: Array<{
-    label: string;
-    color: string;
-  }>;
+  tags: Array<BoardTagItemType>;
 }
