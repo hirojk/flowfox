@@ -22,8 +22,8 @@
 <script setup lang="ts">
   import { onMounted } from 'vue';
   import { useBoardStore } from 'src/stores/boardStore';
-  import BoardModal from 'components/board/BoardModal.vue';
-  import BoardColumn from 'components/board/BoardColumn.vue';
+  import BoardModal from 'src/components/board/BoardModal.vue';
+  import BoardColumn from 'src/components/board/BoardColumn.vue';
   import { addColumn } from 'src/services/boardColumnService';
 
   const boardStore = useBoardStore();

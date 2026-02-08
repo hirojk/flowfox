@@ -65,11 +65,18 @@
         <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
             <strong>Start Date</strong>
-            {{ startDate.toDateString() }}
+            <DatePicker
+              :dateInput="activeCard.startDate"
+              :saveEvent="(newDate) => updateCard(boardStore.activeCardId, { startDate: newDate })"
+            />
           </div>
           <div class="board-modal__date board-modal__date--deadline">
             <strong>Deadline</strong>
-            {{ deadline.toDateString() }}
+            <DatePicker
+              :dateInput="activeCard.deadline"
+              :options="{ disableTo: activeCard.startDate }"
+              :saveEvent="(newDate) => updateCard(boardStore.activeCardId, { deadline: newDate })"
+            />
           </div>
         </div>
         <div class="board-modal__content board-modal__content--tag">
@@ -104,6 +111,7 @@
   import TextEditor from 'src/components/fields/TextEditor.vue';
   import SelectEditor from 'src/components/fields/SelectEditor.vue';
   import CheckboxEditor from 'src/components/fields/CheckboxEditor.vue';
+  import DatePicker from 'src/components/fields/DatePicker.vue';
 
   const boardStore = useBoardStore();
 
@@ -111,9 +119,6 @@
     const column = boardStore.columns.find((column) => column.id === boardStore.activeCardId[0]);
     return column?.cards.find((card) => card.id === boardStore.activeCardId[1]);
   });
-
-  const startDate = computed(() => activeCard.value?.startDate ?? new Date());
-  const deadline = computed(() => activeCard.value?.deadline ?? new Date());
 </script>
 
 <style lang="scss" scoped>
