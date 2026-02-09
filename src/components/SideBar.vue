@@ -9,11 +9,12 @@
     class="sideBar"
   >
     <q-list
+      class="sideBar__list"
       v-for="(list, index) in [navItems, settingsItems]"
       :key="index"
-      class="sideBar-list"
     >
       <q-item
+        class="sideBar__item"
         clickable
         v-ripple
         v-for="item in list"
@@ -45,12 +46,24 @@
   }
 
   const navItems: NavItem[] = [
-    { label: 'Board', icon: 'view_kanban', route: '/' },
+    {
+      label: 'Board',
+      icon: 'view_kanban',
+      route: '/',
+    },
   ];
 
   const settingsItems: NavItem[] = [
-    { label: 'Account', icon: 'person', route: '/' },
-    { label: 'Settings', icon: 'settings', route: '/settings' },
+    {
+      label: 'Account',
+      icon: 'person',
+      route: '/',
+    },
+    {
+      label: 'Settings',
+      icon: 'settings',
+      route: '/settings',
+    },
     {
       label: 'Close',
       icon: 'last_page',
@@ -73,6 +86,10 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 1em 0;
-    background-color: var(--white);
+    background-color: $white;
+
+    &__item {
+      font-size: nth(map-get($font-size, md), 1);
+    }
   }
 </style>

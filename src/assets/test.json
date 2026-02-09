@@ -1,0 +1,60 @@
+{
+  "id": 251,
+  "projectName": "Project Pizza",
+  "columns": [
+    {
+      "id": 143,
+      "columnName": "Shopping",
+      "cards": [
+        {
+          "id": 1,
+          "taskName": "Tomato Sauce",
+          "priority": "Medium",
+          "description": "Buy some fresh tomato sauce for the pizza.",
+          "checklist": [
+            {
+              "isChecked": true,
+              "label": "Fresh Tomatoes"
+            },
+            {
+              "isChecked": false,
+              "label": "Red Tomatoes"
+            }
+          ],
+          "startDate": "2024-12-01",
+          "deadline": "2024-12-31",
+          "tags": [
+            {
+              "label": "Food",
+              "color": "#ffcccc"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "taskName": "Flour",
+          "priority": "High",
+          "description": "Buy flour for the pizza dough.",
+          "checklist": [
+            {
+              "isChecked": false,
+              "label": "Flour Type 00"
+            }
+          ],
+          "startDate": "2025-01-12",
+          "deadline": "2025-01-31",
+          "tags": [
+            {
+              "label": "Food",
+              "color": "#ffcccc"
+            },
+            {
+              "label": "Elementary",
+              "color": "#ccccff"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

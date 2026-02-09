@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Plus Icon -->
+  <symbol id="icon-plus" viewBox="0 0 24 24">
+    <line x1="12" y1="5.5" x2="12" y2="18.5"/>
+    <line x1="5.5" y1="12" x2="18.5" y2="12"/>
+  </symbol>
+
+  <!-- Minus Icon -->
+  <symbol id="icon-minus" viewBox="0 0 24 24">
+    <line x1="5.5" y1="12" x2="18.5" y2="12"/>
+  </symbol>
+
+  <!-- Cancel Icon -->
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <line x1="7.4" y1="7.4" x2="16.6" y2="16.6"/>
+    <line x1="7.4" y1="16.6" x2="16.6" y2="7.4"/>
+  </symbol>
+
+  <!-- Critical Icon -->
+  <symbol id="icon-critical" viewBox="0 0 24 24" stroke="#ff0000">
+    <polyline points="18.5 18.64 12 12.5 5.5 18.64"/>
+    <polyline points="18.5 11.5 12 5.36 5.5 11.5"/>
+  </symbol>
+
+  <!-- High Icon -->
+  <symbol id="icon-high" viewBox="0 0 24 24" stroke="#5f0000">
+    <polyline points="18.5 15.07 12 8.93 5.5 15.07"/>
+  </symbol>
+
+  <!-- Medium Icon -->
+  <symbol id="icon-medium" viewBox="0 0 24 24">
+    <line x1="7" y1="12" x2="17" y2="12"/>
+  </symbol>
+
+  <!-- Low Icon -->
+  <symbol id="icon-low" viewBox="0 0 24 24" stroke="#4400ff">
+    <polyline points="5.5 8.93 12 15.07 18.5 8.93"/>
+  </symbol>
+
+  <!-- Menu Icon -->
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <circle cx="12" cy="6.37" r=".61"/>
+    <circle cx="12" cy="12" r=".61"/>
+    <circle cx="12" cy="17.63" r=".61"/>
+  </symbol>
+</svg>

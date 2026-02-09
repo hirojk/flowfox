@@ -1,8 +1,50 @@
-:root {
-  --terinary: #78bff2;
-  --white: #ffffff;
+@import './variables.scss';
+@import './mixin.scss';
+
+* {
+  box-sizing: border-box !important;
+}
+
+h1 {
+  @include fontMixin(map-get($font-size, 2xl));
+}
+
+h2 {
+  @include fontMixin(map-get($font-size, xl));
+}
+
+h3 {
+  @include fontMixin(map-get($font-size, lg));
+}
+
+p {
+  @include fontMixin(map-get($font-size, md));
+}
+
+ul,
+ol,
+li {
+  all: unset;
+}
+
+button {
+  all: unset;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 .page {
-  background-color: var(--terinary);
+  background-color: $terinary;
+}
+
+.headline {
+  color: $white;
+}
+
+.tag {
+  display: inline-block;
+  border-radius: 0.4em;
+  padding: 0.2em 0.6em;
+  font-size: nth(map-get($font-size, sm), 1);
+  background-color: $quaternary;
 }
