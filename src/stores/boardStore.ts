@@ -35,6 +35,9 @@ export const useBoardStore = defineStore('board', {
         console.error('Error fetching:', error);
       }
     },
+    updateProjektName(name: string): void {
+      this.projectName = name;
+    },
     setActiveCardId(columnId: number, cardId: number): void {
       this.activeCardId = [columnId, cardId];
     },

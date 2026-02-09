@@ -5,7 +5,7 @@
   }
 
   all: unset;
-  display: block;
+  display: inline-block;
   font-size: $size;
   line-height: $line-height;
 }

@@ -4,7 +4,17 @@
   </ModalWindow>
 
   <q-page class="page page--board">
-    <h1 class="headline">{{ boardStore.projectName }}</h1>
+    <div class="page__headerWrapper">
+      <div class="page__header">
+        <TextEditor
+          class="headline"
+          htmlTag="h1"
+          :text="boardStore.projectName"
+          :saveEvent="(newProjectName) => boardStore.updateProjektName(newProjectName)"
+        />
+        <button>Placeholder Button</button>
+      </div>
+    </div>
     <ul class="board">
       <li class="board__columnWrapper" v-for="column in boardStore.columns" :key="column.id">
         <BoardColumn :columnContent="column" />
@@ -25,10 +35,12 @@
   import { useDragScroll } from 'src/composables/useDragScroll';
 
   import BoardModal from 'src/components/board/BoardModal.vue';
+  import TextEditor from 'src/components/fields/TextEditor.vue';
   import BoardColumn from 'src/components/board/BoardColumn.vue';
   import { addColumn } from 'src/services/boardColumnService';
 
   const boardStore = useBoardStore();
+
   useDragScroll('main');
 
   onMounted(() => {
@@ -41,8 +53,18 @@
     padding: 2em 0;
     overflow-x: auto;
 
-    .headline {
-      padding: 0 1em;
+    .page {
+      &__headerWrapper {
+        position: sticky;
+        left: 0;
+        margin-bottom: 2em;
+      }
+
+      &__header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 2em;
+      }
     }
 
     .board {
@@ -53,6 +75,7 @@
 
       &__columnWrapper {
         width: 20em;
+        flex-shrink: 0;
       }
 
       &__button {
