@@ -1,9 +1,4 @@
 {
-  "name": "flowfox",
-  "description": "A Kanban Board App",
-  "author": "Jan Kolar",
-  "version": "0.1.0",
-  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
