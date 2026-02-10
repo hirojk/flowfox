@@ -12,7 +12,7 @@ export const useBoardStore = defineStore('board', {
   actions: {
     async initData(): Promise<void> {
       try {
-        const response = await fetch('src/assets/test.json')
+        const response = await fetch('/assets/test.json')
         const data = await response.json()
 
         this.projectName = data.projectName
