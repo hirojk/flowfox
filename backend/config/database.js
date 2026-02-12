@@ -7,9 +7,9 @@ let database = null;
 async function connectToDatabase() {
   try {
     await mongoose.connect(CONNECTION_URL);
-    console.log("Connected to flowfox database");
 
     database = mongoose.connection.useDb("flowfoxdb");
+    console.log("Connected to flowfox database");
 
     return database;
   } catch (error) {
