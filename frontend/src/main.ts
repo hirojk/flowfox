@@ -7,7 +7,7 @@ import App from './App.vue'
 import router from './router'
 import '@/styles/app.scss'
 
-import { registerGlobalComponents } from './global.components'
+import { registerGlobalComponents } from './global.components.ts'
 
 const app = createApp(App)
 

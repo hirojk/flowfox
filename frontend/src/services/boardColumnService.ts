@@ -1,5 +1,5 @@
-import type { BoardColumnType } from '@typeDefs/boardType'
-import { useBoardStore } from '@stores/boardStore'
+import type { BoardColumnType } from '@typeDefs/boardType.ts'
+import { useBoardStore } from '@stores/boardStore.ts'
 
 const getStores = () => ({
   board: useBoardStore(),
@@ -23,12 +23,12 @@ export const addColumn = () => {
 export const removeColumn = (columnId: number) => {
   const { board } = getStores()
 
-  board.columns = board.columns.filter((column) => column.id !== columnId)
+  board.columns = board.columns.filter((column: BoardColumnType) => column.id !== columnId)
 }
 
 export const renameColumn = (columnId: number, newName: string) => {
   const { board } = getStores()
-  const column = board.columns.find((column) => column.id === columnId)
+  const column = board.columns.find((column: BoardColumnType) => column.id === columnId)
 
   if (column) {
     column.columnName = newName

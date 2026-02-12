@@ -1,5 +1,5 @@
-import type { BoardCardType } from '@typeDefs/boardType'
-import type { IconType } from '@typeDefs/global'
+import type { BoardCardType } from '@typeDefs/boardType.ts'
+import type { IconType } from '@typeDefs/global.ts'
 
 export const PRIORITY_LIST: IconType[] = [
   { name: 'Critical', icon: 'icon-critical' },

@@ -1,5 +1,5 @@
-import type { PRIORITY_LIST } from '@constants/priority'
-import type { CheckboxItemType, BoardTagItemType } from '@typeDefs/global'
+import type { PRIORITY_LIST } from '@constants/priority.ts'
+import type { CheckboxItemType, BoardTagItemType } from '@typeDefs/global.ts'
 
 export interface BoardColumnType {
   id: number

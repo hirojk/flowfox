@@ -1,6 +1,6 @@
-import type { BoardCardType } from '@typeDefs/boardType'
-import { useModalStore } from '@stores/appStore'
-import { useBoardStore } from '@stores/boardStore'
+import type { BoardColumnType, BoardCardType } from '@typeDefs/boardType.ts'
+import { useModalStore } from '@stores/appStore.ts'
+import { useBoardStore } from '@stores/boardStore.ts'
 
 const getStores = () => ({
   board: useBoardStore(),
@@ -32,11 +32,11 @@ export const removeCard = (cardId: [number, number]) => {
     modal.closeModal()
   }
 
-  board.columns = board.columns.map((column) => {
+  board.columns = board.columns.map((column: BoardColumnType) => {
     if (column.id === cardId[0]) {
       return {
         ...column,
-        cards: column.cards.filter((card) => card.id !== cardId[1]),
+        cards: column.cards.filter((card: BoardCardType) => card.id !== cardId[1]),
       }
     }
     return column
@@ -46,11 +46,11 @@ export const removeCard = (cardId: [number, number]) => {
 export const updateCard = (cardId: [number, number], updates: Partial<BoardCardType>) => {
   const { board } = getStores()
 
-  board.columns = board.columns.map((column) => {
+  board.columns = board.columns.map((column: BoardColumnType) => {
     if (column.id === cardId[0]) {
       return {
         ...column,
-        cards: column.cards.map((card) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
+        cards: column.cards.map((card: BoardCardType) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
       }
     }
     return column

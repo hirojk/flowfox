@@ -1,10 +1,7 @@
 <template>
   <div v-if="!activeCard" class="board-modal__error">
     <div class="board-modal__interactives">
-      <button
-        class="board-modal__button board-modal__button--close"
-        @click.stop="useModalStore().closeModal()"
-      >
+      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
         <iconSvg id="icon-close" />
         Close
       </button>
@@ -15,10 +12,7 @@
   </div>
   <template v-else>
     <div class="board-modal__interactives">
-      <button
-        class="board-modal__button board-modal__button--close"
-        @click.stop="useModalStore().closeModal()"
-      >
+      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
         <iconSvg id="icon-close" />
         Close
       </button>
@@ -39,18 +33,14 @@
           class="board-modal__header-headline"
           htmlTag="strong"
           :text="activeCard.taskName"
-          :saveEvent="
-            (newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })
-          "
+          :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
         <SelectEditor
           class="board-modal__header-priority"
           :options="PRIORITY_LIST.map((priority) => priority.name)"
           :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
           :selected="activeCard.priority"
-          :saveEvent="
-            (newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })
-          "
+          :saveEvent="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })"
         />
       </div>
       <div class="board-modal__details">
@@ -61,10 +51,7 @@
             htmlTag="p"
             multiline
             :text="activeCard.description"
-            :saveEvent="
-              (newDescription) =>
-                updateCard(boardStore.activeCardId, { description: newDescription })
-            "
+            :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
           />
         </div>
         <div class="board-modal__content board-modal__content--checklist">
@@ -72,9 +59,7 @@
           <CheckboxEditor
             class="board-modal__checklist"
             :checkboxes="activeCard.checklist"
-            :saveEvent="
-              (newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })
-            "
+            :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
           />
         </div>
         <div class="board-modal__content board-modal__content--date">
@@ -116,108 +101,109 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useBoardStore } from '@stores/boardStore'
-import { useModalStore } from '@stores/appStore'
-import { removeCard, updateCard } from '@services/boardCardService'
-import { PRIORITY_LIST } from '@constants/priority'
-import { getIcon } from '@services/helpers'
+  import { computed } from 'vue'
+  import { useBoardStore } from '@stores/boardStore.ts'
+  import { useModalStore } from '@stores/appStore.ts'
+  import { removeCard, updateCard } from '@services/boardCardService.ts'
+  import { PRIORITY_LIST } from '@constants/priority.ts'
+  import { getIcon } from '@services/helpers.ts'
+  import type { BoardCardType, BoardColumnType } from '@typeDefs/boardType.ts'
 
-import TextEditor from '@components/fields/TextEditor.vue'
-import SelectEditor from '@components/fields/SelectEditor.vue'
-import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
-import DatePicker from '@components/fields/DatePicker.vue'
+  import TextEditor from '@components/fields/TextEditor.vue'
+  import SelectEditor from '@components/fields/SelectEditor.vue'
+  import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
+  import DatePicker from '@components/fields/DatePicker.vue'
 
-const boardStore = useBoardStore()
+  const boardStore = useBoardStore()
 
-const activeCard = computed(() => {
-  const column = boardStore.columns.find((column) => column.id === boardStore.activeCardId[0])
-  return column?.cards.find((card) => card.id === boardStore.activeCardId[1])
-})
+  const activeCard = computed(() => {
+    const column = boardStore.columns.find((column: BoardColumnType) => column.id === boardStore.activeCardId[0])
+    return column?.cards.find((card: BoardCardType) => card.id === boardStore.activeCardId[1])
+  })
 </script>
 
 <style lang="scss" scoped>
-.board-modal {
-  &__interactives {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2em;
-  }
+  .board-modal {
+    &__interactives {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2em;
+    }
 
-  &__scrollContent {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5em;
-    overflow-y: auto;
-  }
+    &__scrollContent {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+      overflow-y: auto;
+    }
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5em;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5em;
 
-    &-headline {
-      @include fontMixin(1.6rem, 2rem);
+      &-headline {
+        @include fontMixin(1.6rem, 2rem);
 
+        width: 100%;
+      }
+    }
+
+    &__details {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      &--date {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1em;
+      }
+    }
+
+    &__description {
+      min-height: 4lh;
+    }
+
+    &__date {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
       width: 100%;
     }
-  }
 
-  &__details {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
-  }
+    &__tags {
+      display: flex;
+      gap: 0.5em;
+      flex-wrap: wrap;
+    }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-
-    &--date {
-      flex-direction: row;
+    &__settings {
+      display: flex;
       justify-content: space-between;
       gap: 1em;
     }
-  }
 
-  &__description {
-    min-height: 4lh;
-  }
+    &__button {
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
 
-  &__date {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    width: 100%;
-  }
-
-  &__tags {
-    display: flex;
-    gap: 0.5em;
-    flex-wrap: wrap;
-  }
-
-  &__settings {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-  }
-
-  &__button {
-    display: flex;
-    align-items: center;
-    gap: 0.25em;
-
-    &--copy,
-    &--delete {
-      width: 100%;
-      justify-content: center;
-      border-radius: 1em;
-      padding: 1em 2em;
-      background-color: rgb(199, 199, 199);
+      &--copy,
+      &--delete {
+        width: 100%;
+        justify-content: center;
+        border-radius: 1em;
+        padding: 1em 2em;
+        background-color: rgb(199, 199, 199);
+      }
     }
   }
-}
 </style>
