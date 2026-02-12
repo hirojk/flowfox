@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const database = mongoose.connection.useDb('flowfoxdb')
+
 const checklistItemSchema = new mongoose.Schema({
   isChecked: { type: Boolean, default: false },
   label: { type: String, required: true },
@@ -48,7 +49,8 @@ const projectSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 )
 
-module.exports = database.model('Project', projectSchema)
+const ProjectModel = database.model('Project', projectSchema) as mongoose.Model<any>
+export default ProjectModel

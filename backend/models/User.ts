@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const database = mongoose.connection.useDb('flowfoxdb')
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -13,7 +14,8 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 )
 
-module.exports = database.model('User', userSchema)
+const UserModel = database.model('User', userSchema) as mongoose.Model<any>
+export default UserModel
