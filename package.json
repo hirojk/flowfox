@@ -8,7 +8,10 @@
     "dev": "run-p dev:*",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "setup": "run-p setup:*",
+    "setup:root": "npm install",
+    "setup:frontend": "cd frontend && npm install",
+    "setup:backend": "cd backend && npm install",
     "build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down"

@@ -3,7 +3,7 @@ import { createProject, getAllProjectsByUser, getProjectById } from '../controll
 
 const router = express.Router()
 
-router.post('/', createProject)
+router.post('/register', createProject)
 router.get('/user/:userId', getAllProjectsByUser)
 router.get('/:projectId', getProjectById)
 

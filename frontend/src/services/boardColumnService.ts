@@ -1,4 +1,4 @@
-import type { BoardColumnType } from '@shared/schemas/board'
+import type { BoardColumnType } from '@shared/schemas/boardSchema'
 import { useBoardStore } from '@stores/boardStore.ts'
 
 const getStores = () => ({

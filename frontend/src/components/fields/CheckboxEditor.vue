@@ -12,14 +12,14 @@
 </template>
 
 <script setup lang="ts">
-  import type { CheckboxItemType } from '@shared/schemas/board'
+  import type { CheckboxItemType } from '@shared/schemas/boardSchema'
 
   import TextEditor from '@components/fields/TextEditor.vue'
 
   const props = defineProps<{
+    class?: string
     checkboxes: CheckboxItemType[]
     saveEvent: (newChecklist: CheckboxItemType[]) => void
-    class?: string
   }>()
 
   const saveEdit = (item: CheckboxItemType, newLabel?: string) => {

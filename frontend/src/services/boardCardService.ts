@@ -1,4 +1,4 @@
-import type { BoardColumnType, BoardCardType } from '@shared/schemas/board'
+import type { BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
 import { useModalStore } from '@stores/appStore.ts'
 import { useBoardStore } from '@stores/boardStore.ts'
 

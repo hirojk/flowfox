@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority'
 
 export const CheckboxItemSchema = z.object({
   isChecked: z.boolean().default(false),
@@ -13,7 +14,7 @@ export const BoardTagSchema = z.object({
 export const BoardCardSchema = z.object({
   id: z.number(),
   taskName: z.string(),
-  priority: z.enum(['Low', 'Medium', 'High']).default('Medium'),
+  priority: z.enum(PRIORITY_VALUES).default(DEFAULT_PRIORITY),
   description: z.string().default(''),
   checklist: z.array(CheckboxItemSchema).default([]),
   startDate: z.coerce.date(),

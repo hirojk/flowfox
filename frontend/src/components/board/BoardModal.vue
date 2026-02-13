@@ -40,7 +40,7 @@
           :options="PRIORITY_LIST.map((priority) => priority.name)"
           :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
           :selected="activeCard.priority"
-          :saveEvent="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority })"
+          :saveEvent="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority as PriorityName })"
         />
       </div>
       <div class="board-modal__details">
@@ -107,7 +107,8 @@
   import { removeCard, updateCard } from '@services/boardCardService.ts'
   import { PRIORITY_LIST } from '@constants/priority.ts'
   import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType } from '@shared/schemas/board'
+  import type { BoardCardType, BoardColumnType } from '@shared/schemas/boardSchema'
+  import type { PriorityName } from '@/constants/priority'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import SelectEditor from '@components/fields/SelectEditor.vue'

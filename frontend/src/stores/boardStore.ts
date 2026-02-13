@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { BoardColumnType, BoardCardType } from '@shared/schemas/board'
+import type { BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
 import { sortedCardsByPriority } from '@constants/priority.ts'
 
 export const useBoardStore = defineStore('board', {

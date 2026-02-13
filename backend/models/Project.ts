@@ -6,7 +6,7 @@ import {
   BoardCardSchema,
   BoardColumnSchema,
   type ProjectType,
-} from '../../shared/schemas/board.js'
+} from '@shared/schemas/boardSchema'
 
 const database = mongoose.connection.useDb('flowfoxdb')
 
@@ -17,11 +17,21 @@ const columnSchema = new Schema(zodToMongooseSchema(BoardColumnSchema))
 
 const projectSchema = new Schema(
   {
-    projectName: { type: String, required: true, trim: true },
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    projectName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     columns: [columnSchema],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 )
 
 export interface ProjectDocument extends ProjectType {
