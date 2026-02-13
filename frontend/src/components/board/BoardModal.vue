@@ -107,7 +107,7 @@
   import { removeCard, updateCard } from '@services/boardCardService.ts'
   import { PRIORITY_LIST } from '@constants/priority.ts'
   import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType } from '@typeDefs/boardType.ts'
+  import type { BoardCardType, BoardColumnType } from '@shared/schemas/board'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import SelectEditor from '@components/fields/SelectEditor.vue'

@@ -37,6 +37,7 @@ export default defineConfig({
       '@stores': path.resolve(__dirname, 'src/stores'),
       '@typeDefs': path.resolve(__dirname, 'src/types'),
       '@views': path.resolve(__dirname, 'src/views'),
+      '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
     },
   },
 })

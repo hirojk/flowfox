@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import type { BoardCardType } from '@typeDefs/boardType.ts'
+  import type { BoardCardType } from '@shared/schemas/board'
   import { getIcon } from '@services/helpers.ts'
   import { useModalStore } from '@stores/appStore.ts'
   import { useBoardStore } from '@stores/boardStore.ts'

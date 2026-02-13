@@ -30,7 +30,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
-  import type { BoardColumnType } from '@typeDefs/boardType.ts'
+  import type { BoardColumnType } from '@shared/schemas/board'
   import { removeColumn, renameColumn } from '@services/boardColumnService.ts'
   import { addCard } from '@services/boardCardService.ts'
 

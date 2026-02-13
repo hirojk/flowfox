@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { QDate } from 'quasar'
+  import { date } from 'quasar'
 
   const props = defineProps<{
     dateInput: Date
@@ -23,18 +23,18 @@
   const dateString = ref('')
 
   const saveEdit = (newDateString: string) => {
-    props.saveEvent(QDate.extractDate(newDateString, 'YYYY/MM/DD'))
+    props.saveEvent(date.extractDate(newDateString, 'YYYY/MM/DD'))
     isEditing.value = false
   }
 
   const optionsEvent = (currentDate: string) => {
     if (!props.options?.disableTo) return true
-    return QDate.extractDate(currentDate, 'YYYY/MM/DD') >= props.options.disableTo
+    return date.extractDate(currentDate, 'YYYY/MM/DD') >= props.options.disableTo
   }
 
   watch(isEditing, (open) => {
     if (open) {
-      dateString.value = QDate.formatDate(props.dateInput, 'YYYY/MM/DD')
+      dateString.value = date.formatDate(props.dateInput, 'YYYY/MM/DD')
     }
   })
 </script>

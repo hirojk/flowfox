@@ -1,56 +1,34 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import { zodToMongooseSchema } from '../utils/zodToMongoose.js'
+import {
+  CheckboxItemSchema,
+  BoardTagSchema,
+  BoardCardSchema,
+  BoardColumnSchema,
+  type ProjectType,
+} from '../../shared/schemas/board.js'
 
 const database = mongoose.connection.useDb('flowfoxdb')
 
-const checklistItemSchema = new mongoose.Schema({
-  isChecked: { type: Boolean, default: false },
-  label: { type: String, required: true },
-})
+const checklistItemSchema = new Schema(zodToMongooseSchema(CheckboxItemSchema))
+const tagSchema = new Schema(zodToMongooseSchema(BoardTagSchema))
+const cardSchema = new Schema(zodToMongooseSchema(BoardCardSchema))
+const columnSchema = new Schema(zodToMongooseSchema(BoardColumnSchema))
 
-const tagSchema = new mongoose.Schema({
-  label: { type: String, required: true },
-  color: { type: String, required: true },
-})
-
-const cardSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
-  taskName: { type: String, required: true },
-  priority: {
-    type: String,
-    enum: ['Low', 'Medium', 'High'],
-    default: 'Medium',
-  },
-  description: String,
-  checklist: [checklistItemSchema],
-  startDate: Date,
-  deadline: Date,
-  tags: [tagSchema],
-})
-
-const columnSchema = new mongoose.Schema({
-  id: { type: Number, required: true },
-  columnName: { type: String, required: true },
-  cards: [cardSchema],
-})
-
-const projectSchema = new mongoose.Schema(
+const projectSchema = new Schema(
   {
-    projectName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    projectName: { type: String, required: true, trim: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     columns: [columnSchema],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 )
 
-const ProjectModel = database.model('Project', projectSchema) as mongoose.Model<any>
+export interface ProjectDocument extends ProjectType {
+  _id: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export const ProjectModel = database.model<ProjectDocument>('Project', projectSchema)
 export default ProjectModel
