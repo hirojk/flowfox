@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import UserModel from '../models/User'
+import UserModel from '@models/User'
 
 // Create new user (POST)
 export async function createUser(req: Request, res: Response): Promise<void> {

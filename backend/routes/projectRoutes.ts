@@ -1,9 +1,9 @@
 import express from 'express'
-import { createProject, getAllProjectsByUser, getProjectById } from '../controllers/projectController'
+import { createProject, getAllProjectsByUser, getProjectById } from '@controllers/projectController'
 
 const router = express.Router()
 
-router.post('/register', createProject)
+router.post('/', createProject)
 router.get('/user/:userId', getAllProjectsByUser)
 router.get('/:projectId', getProjectById)
 

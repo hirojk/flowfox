@@ -12,6 +12,11 @@
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "paths": {
+      "@config/*": ["./config/*"],
+      "@controllers/*": ["./controllers/*"],
+      "@models/*": ["./models/*"],
+      "@routes/*": ["./routes/*"],
+      "@utils/*": ["./utils/*"],
       "@shared/*": ["../shared/*"]
     }
   },

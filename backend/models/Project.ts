@@ -1,44 +1,22 @@
 import mongoose, { Schema } from 'mongoose'
-import { zodToMongooseSchema } from '../utils/zodToMongoose.js'
+import { zodToMongooseSchema } from '@utils/zodToMongoose'
 import {
   CheckboxItemSchema,
   BoardTagSchema,
   BoardCardSchema,
   BoardColumnSchema,
-  type ProjectType,
+  BoardSchema,
 } from '@shared/schemas/boardSchema'
+import { ProjectSchema } from '@shared/schemas/projectSchema'
 
 const database = mongoose.connection.useDb('flowfoxdb')
 
-const checklistItemSchema = new Schema(zodToMongooseSchema(CheckboxItemSchema))
-const tagSchema = new Schema(zodToMongooseSchema(BoardTagSchema))
+const checklistItemSchema = new Schema(zodToMongooseSchema(CheckboxItemSchema), { _id: false })
+const tagSchema = new Schema(zodToMongooseSchema(BoardTagSchema), { _id: false })
 const cardSchema = new Schema(zodToMongooseSchema(BoardCardSchema))
 const columnSchema = new Schema(zodToMongooseSchema(BoardColumnSchema))
+const boardSchema = new Schema(zodToMongooseSchema(BoardSchema), { timestamps: true })
+const projectSchema = new Schema(zodToMongooseSchema(ProjectSchema), { timestamps: true })
 
-const projectSchema = new Schema(
-  {
-    projectName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    columns: [columnSchema],
-  },
-  {
-    timestamps: true,
-  }
-)
-
-export interface ProjectDocument extends ProjectType {
-  _id: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-export const ProjectModel = database.model<ProjectDocument>('Project', projectSchema)
+export const ProjectModel = database.model('Project', projectSchema)
 export default ProjectModel

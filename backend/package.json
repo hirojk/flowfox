@@ -2,9 +2,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon --watch backend -e ts --exec \"tsx ./server.ts\"",
-    "build": "tsc -p ./tsconfig.json",
-    "generate:types": "npx mongoose-tsgen -o src/types/mongoose.generated.ts"
+    "dev": "nodemon"
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -16,7 +14,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.2.3",
-    "mongoose-tsgen": "^9.5.6",
+    "kill-port": "^2.0.1",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",

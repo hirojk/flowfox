@@ -28,8 +28,9 @@ export const BoardColumnSchema = z.object({
   cards: z.array(BoardCardSchema).default([]),
 })
 
-export const ProjectSchema = z.object({
-  projectName: z.string(),
+export const BoardSchema = z.object({
+  id: z.number(),
+  boardName: z.string(),
   userId: z.string(),
   columns: z.array(BoardColumnSchema).default([]),
 })
@@ -38,4 +39,4 @@ export type CheckboxItemType = z.infer<typeof CheckboxItemSchema>
 export type BoardTagType = z.infer<typeof BoardTagSchema>
 export type BoardCardType = z.infer<typeof BoardCardSchema>
 export type BoardColumnType = z.infer<typeof BoardColumnSchema>
-export type ProjectType = z.infer<typeof ProjectSchema>
+export type BoardType = z.infer<typeof BoardSchema>

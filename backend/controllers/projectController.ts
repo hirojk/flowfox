@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import ProjectModel from '../models/Project'
-import UserModel from '../models/User'
+import ProjectModel from '@models/Project'
+import UserModel from '@models/User'
 
 // Create new project
 export async function createProject(req: Request, res: Response): Promise<void> {
@@ -13,10 +13,13 @@ export async function createProject(req: Request, res: Response): Promise<void> 
     }
 
     const project = new ProjectModel({
+      id: Date.now(),
       projectName,
       userId,
-      columns: [],
+      components: [],
     })
+
+    console.log('Saving project:', project)
 
     await project.save()
 

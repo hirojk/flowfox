@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import { connectToDatabase } from './config/database'
-import userRoutes from './routes/userRoutes'
-import projectRoutes from './routes/projectRoutes'
+import { connectToDatabase } from '@config/database'
+import userRoutes from '@routes/userRoutes'
+import projectRoutes from '@routes/projectRoutes'
 
 const app = express()
 const PORT = 5000
