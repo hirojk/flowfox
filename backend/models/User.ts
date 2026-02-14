@@ -1,21 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import { zodToMongooseSchema } from '@utils/zodToMongoose'
+import { UserSchema } from '@shared/schemas/userSchema'
 
 const database = mongoose.connection.useDb('flowfoxdb')
+const userSchema = new Schema(zodToMongooseSchema(UserSchema), { timestamps: true })
 
-const userSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 3,
-    },
-  },
-  {
-    timestamps: true,
-  }
-)
-
-const UserModel = database.model('User', userSchema) as mongoose.Model<any>
+export const UserModel = database.model('User', userSchema)
 export default UserModel

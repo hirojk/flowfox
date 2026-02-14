@@ -1,10 +1,9 @@
 import express from 'express'
-import { createProject, getAllProjectsByUser, getProjectById } from '@controllers/projectController'
+import { createProject, getAllProjectsByUser } from '@controllers/projectController'
 
 const router = express.Router()
 
-router.post('/', createProject)
-router.get('/user/:userId', getAllProjectsByUser)
-router.get('/:projectId', getProjectById)
+router.post('/register', createProject)
+router.get('/:userId', getAllProjectsByUser)
 
 export default router

@@ -4,7 +4,7 @@ import { BoardColumnSchema } from './boardSchema'
 export const ProjectSchema = z.object({
   id: z.number(),
   projectName: z.string(),
-  userId: z.string(),
+  creatorId: z.string(),
   components: z.array(BoardColumnSchema).default([]),
 })
 

@@ -1,6 +1,7 @@
 import type { BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
 import { useModalStore } from '@stores/appStore.ts'
 import { useBoardStore } from '@stores/boardStore.ts'
+import { generateId } from '@shared/utils/idGenerator'
 
 const getStores = () => ({
   board: useBoardStore(),
@@ -9,7 +10,7 @@ const getStores = () => ({
 
 export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCardType => {
   return {
-    id: Math.floor(Date.now() + Math.random() * 1000) % 100_000_000,
+    id: generateId(),
     taskName: 'New Task',
     priority: 'Medium',
     description: 'No Description',
