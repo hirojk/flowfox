@@ -9,7 +9,10 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     const { username } = req.body
 
     const existingUser = await UserModel.findOne({ $or: [{ username }] })
-    badRequestResponse(existingUser, res, 'User already exists')
+    if (existingUser) {
+      badRequestResponse(res, 'User already exists')
+      return
+    }
 
     const user = new UserModel({
       id: generateId(),
@@ -42,7 +45,10 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
   try {
     const user = await UserModel.findOne({ id: req.params.id }).select('-password')
 
-    notFoundResponse(user, res, 'User not found')
+    if (!user) {
+      notFoundResponse(res, 'User not found')
+      return
+    }
 
     successResponse(res, undefined, user)
   } catch (error: any) {
@@ -55,7 +61,10 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
   try {
     const user = await UserModel.findOneAndDelete({ id: req.params.id })
 
-    notFoundResponse(user, res, 'User not found')
+    if (!user) {
+      notFoundResponse(res, 'User not found')
+      return
+    }
 
     successResponse(res, 'User deleted successfully')
   } catch (error: any) {
