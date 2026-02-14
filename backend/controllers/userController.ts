@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import UserModel from '@models/User'
 import { generateId } from '@shared/utils/idGenerator'
+import { successResponse, createdResponse, notFoundResponse, badRequestResponse, errorResponse } from '@utils/responses'
 
 // POST: create new user
 export async function createUser(req: Request, res: Response): Promise<void> {
@@ -8,12 +9,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     const { username } = req.body
 
     const existingUser = await UserModel.findOne({ $or: [{ username }] })
-    if (existingUser) {
-      res.status(400).json({
-        error: 'User already exists',
-      })
-      return
-    }
+    badRequestResponse(existingUser, res, 'User already exists')
 
     const user = new UserModel({
       id: generateId(),
@@ -21,14 +17,9 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     })
     await user.save()
 
-    res.status(201).json({
-      message: 'User created successfully',
-      user,
-    })
+    createdResponse(res, 'User created successfully', user)
   } catch (error: any) {
-    res.status(500).json({
-      error: error.message,
-    })
+    errorResponse(res, error.message)
   }
 }
 
@@ -37,35 +28,37 @@ export async function getUsers(req: Request, res: Response): Promise<void> {
   try {
     const users = await UserModel.find().select('-password')
 
-    res.json({
+    successResponse(res, undefined, {
       userCount: users.length,
       users,
     })
   } catch (error: any) {
-    res.status(500).json({
-      error: error.message,
-    })
+    errorResponse(res, error.message)
   }
 }
 
-// GET: get single user by ID
+// GET: search single user by ID
 export async function getUserById(req: Request, res: Response): Promise<void> {
   try {
     const user = await UserModel.findOne({ id: req.params.id }).select('-password')
 
-    if (!user) {
-      res.status(404).json({
-        error: 'User not found',
-      })
-      return
-    }
+    notFoundResponse(user, res, 'User not found')
 
-    res.json({
-      user,
-    })
+    successResponse(res, undefined, user)
   } catch (error: any) {
-    res.status(500).json({
-      error: error.message,
-    })
+    errorResponse(res, error.message)
+  }
+}
+
+// DELETE: delete user by ID
+export async function deleteUserById(req: Request, res: Response): Promise<void> {
+  try {
+    const user = await UserModel.findOneAndDelete({ id: req.params.id })
+
+    notFoundResponse(user, res, 'User not found')
+
+    successResponse(res, 'User deleted successfully')
+  } catch (error: any) {
+    errorResponse(res, error.message)
   }
 }
