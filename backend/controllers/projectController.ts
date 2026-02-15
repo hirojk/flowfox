@@ -71,3 +71,29 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
     errorResponse(res, error.message)
   }
 }
+
+// PUT: update project by ID
+export async function updateProjectById(req: Request, res: Response): Promise<void> {
+  try {
+    const { userId, components } = req.body
+    const project = await ProjectModel.findOneAndUpdate(
+      { id: req.params.projectId },
+      { creatorId: userId, components: components },
+      { returnDocument: 'after' },
+    )
+
+    if (!userId) {
+      badRequestResponse(res, 'projectName and userId are required')
+      return
+    }
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    successResponse(res, 'Project updated successfully', project)
+  } catch (error: any) {
+    errorResponse(res, error.message)
+  }
+}

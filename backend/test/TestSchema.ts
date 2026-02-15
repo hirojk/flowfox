@@ -3,7 +3,7 @@ import ProjectModel from '@models/Project'
 async function testSchema() {
   const testProject = new ProjectModel({
     projectName: 'Test Project',
-    userId: '698d2b2c14ce099f119bb56e',
+    creatorId: '698d2b2c14ce099f119bb56e',
     components: [
       {
         id: 1,

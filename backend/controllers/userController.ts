@@ -7,8 +7,8 @@ import { successResponse, createdResponse, notFoundResponse, badRequestResponse,
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const { username } = req.body
-
     const existingUser = await UserModel.findOne({ $or: [{ username }] })
+
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
@@ -67,6 +67,27 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, 'User deleted successfully')
+  } catch (error: any) {
+    errorResponse(res, error.message)
+  }
+}
+
+// PUT: update user by ID
+export async function updateUserById(req: Request, res: Response): Promise<void> {
+  try {
+    const { username } = req.body
+    const user = await UserModel.findOneAndUpdate(
+      { id: req.params.id },
+      { username },
+      { returnDocument: 'after' },
+    ).select('-password')
+
+    if (!user) {
+      notFoundResponse(res, 'User not found')
+      return
+    }
+
+    successResponse(res, 'User updated successfully', user)
   } catch (error: any) {
     errorResponse(res, error.message)
   }
