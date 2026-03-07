@@ -1,10 +1,10 @@
 import express from 'express'
-import { createUser, getUsers, getUserById, deleteUserById, updateUserById } from '@controllers/userController'
+import { createUser, getAllUsers, getUserById, deleteUserById, updateUserById } from '@controllers/userController'
 
 const router = express.Router()
 
-router.post('/register', createUser)
-router.get('/', getUsers)
+router.post('/newUser', createUser)
+router.get('/', getAllUsers)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteUserById)
 router.put('/:id', updateUserById)

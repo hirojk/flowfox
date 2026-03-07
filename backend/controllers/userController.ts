@@ -27,7 +27,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
 }
 
 // GET: get all users
-export async function getUsers(req: Request, res: Response): Promise<void> {
+export async function getAllUsers(req: Request, res: Response): Promise<void> {
   try {
     const users = await UserModel.find().select('-password')
 

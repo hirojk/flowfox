@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import ProjectModel from '@models/Project'
+import { ProjectSchema } from '@shared/schemas/projectSchema'
 import UserModel from '@models/User'
 import { generateId } from '@shared/utils/idGenerator'
 import { successResponse, createdResponse, notFoundResponse, badRequestResponse, errorResponse } from '@utils/responses'
@@ -14,12 +15,13 @@ export async function createProject(req: Request, res: Response): Promise<void> 
       return
     }
 
-    const project = new ProjectModel({
+    const projectData = ProjectSchema.parse({
       id: generateId(),
       projectName,
       creatorId: userId,
-      components: [],
     })
+
+    const project = new ProjectModel(projectData)
     await project.save()
 
     createdResponse(res, 'Project created successfully', project)

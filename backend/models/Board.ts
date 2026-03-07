@@ -13,7 +13,7 @@ const checklistItemSchema = new Schema(zodToMongooseSchema(CheckboxItemSchema), 
 const tagSchema = new Schema(zodToMongooseSchema(BoardTagSchema), { _id: false })
 const cardSchema = new Schema(zodToMongooseSchema(BoardCardSchema))
 const columnSchema = new Schema(zodToMongooseSchema(BoardColumnSchema))
-const boardSchema = new Schema(zodToMongooseSchema(BoardSchema), { timestamps: true })
+const boardSchema = new Schema(zodToMongooseSchema(BoardSchema))
 
 export const BoardModel = database.model('Board', boardSchema)
 export default BoardModel

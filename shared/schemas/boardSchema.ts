@@ -30,8 +30,9 @@ export const BoardColumnSchema = z.object({
 
 export const BoardSchema = z.object({
   id: z.number(),
+  type: z.literal('board').default('board'),
   boardName: z.string(),
-  userId: z.string(),
+  creatorId: z.string(),
   columns: z.array(BoardColumnSchema).default([]),
 })
 
