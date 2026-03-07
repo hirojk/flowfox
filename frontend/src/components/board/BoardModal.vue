@@ -118,7 +118,9 @@
   const boardStore = useBoardStore()
 
   const activeCard = computed(() => {
-    const column = boardStore.columns.find((column: BoardColumnType) => column.id === boardStore.activeCardId[0])
+    const column = boardStore.activeBoard?.columns.find(
+      (column: BoardColumnType) => column.id === boardStore.activeCardId[0],
+    )
     return column?.cards.find((card: BoardCardType) => card.id === boardStore.activeCardId[1])
   })
 </script>

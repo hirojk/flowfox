@@ -9,14 +9,14 @@
         <TextEditor
           class="headline"
           htmlTag="h1"
-          :text="boardStore.projectName"
-          :saveEvent="(newProjectName) => boardStore.updateProjektName(newProjectName)"
+          :text="boardStore.activeBoard?.boardName || ''"
+          :saveEvent="(newProjectName) => {}"
         />
         <button>Placeholder Button</button>
       </div>
     </div>
     <ul class="board">
-      <li class="board__columnWrapper" v-for="column in boardStore.columns" :key="column.id">
+      <li class="board__columnWrapper" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
         <BoardColumn :columnContent="column" />
       </li>
       <li class="board__columnWrapper">
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
   import { useBoardStore } from '@stores/boardStore.ts'
   import { useDragScroll } from '@composables/useDragScroll.ts'
 
@@ -39,12 +40,20 @@
   import BoardColumn from '@components/board/BoardColumn.vue'
   import { addColumn } from '@services/boardColumnService.ts'
 
+  const route = useRoute()
   const boardStore = useBoardStore()
 
   useDragScroll('main')
 
-  onMounted(() => {
-    void boardStore.initData()
+  onMounted(async () => {
+    const projectId = Number(route.params.projectId)
+    if (!projectId) return
+
+    try {
+      await boardStore.loadBoard(projectId)
+    } catch (error) {
+      console.error('Error loading board:', error)
+    }
   })
 </script>
 

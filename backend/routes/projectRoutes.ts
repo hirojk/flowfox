@@ -1,6 +1,7 @@
 import express from 'express'
 import {
   createProject,
+  getProjectById,
   getAllProjectsByUser,
   deleteProjectById,
   updateProjectById,
@@ -11,7 +12,8 @@ import { createBoardComponent } from '@controllers/boardController'
 const router = express.Router()
 
 router.post('/newProject', createProject)
-router.get('/:userId', getAllProjectsByUser)
+router.get('/:projectId', getProjectById)
+router.get('/user/:userId', getAllProjectsByUser)
 router.delete('/:projectId', deleteProjectById)
 router.put('/:projectId', updateProjectById)
 

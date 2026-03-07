@@ -30,6 +30,29 @@ export async function createProject(req: Request, res: Response): Promise<void> 
   }
 }
 
+// GET: get single project by ID
+export async function getProjectById(req: Request, res: Response): Promise<void> {
+  try {
+    const projectId = req.params.projectId
+
+    if (!projectId) {
+      badRequestResponse(res, 'Invalid project ID')
+      return
+    }
+
+    const project = await ProjectModel.findOne({ id: projectId })
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    successResponse(res, undefined, project)
+  } catch (error: any) {
+    errorResponse(res, error.message)
+  }
+}
+
 // GET: get all projects by user ID
 export async function getAllProjectsByUser(req: Request, res: Response): Promise<void> {
   try {

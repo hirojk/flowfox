@@ -33,27 +33,31 @@ export const removeCard = (cardId: [number, number]) => {
     modal.closeModal()
   }
 
-  board.columns = board.columns.map((column: BoardColumnType) => {
-    if (column.id === cardId[0]) {
-      return {
-        ...column,
-        cards: column.cards.filter((card: BoardCardType) => card.id !== cardId[1]),
+  if (board.activeBoard) {
+    board.activeBoard.columns = board.activeBoard.columns.map((column: BoardColumnType) => {
+      if (column.id === cardId[0]) {
+        return {
+          ...column,
+          cards: column.cards.filter((card: BoardCardType) => card.id !== cardId[1]),
+        }
       }
-    }
-    return column
-  })
+      return column
+    })
+  }
 }
 
 export const updateCard = (cardId: [number, number], updates: Partial<BoardCardType>) => {
   const { board } = getStores()
 
-  board.columns = board.columns.map((column: BoardColumnType) => {
-    if (column.id === cardId[0]) {
-      return {
-        ...column,
-        cards: column.cards.map((card: BoardCardType) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
+  if (board.activeBoard) {
+    board.activeBoard.columns = board.activeBoard.columns.map((column: BoardColumnType) => {
+      if (column.id === cardId[0]) {
+        return {
+          ...column,
+          cards: column.cards.map((card: BoardCardType) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
+        }
       }
-    }
-    return column
-  })
+      return column
+    })
+  }
 }
