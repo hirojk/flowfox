@@ -10,7 +10,7 @@
           class="headline"
           htmlTag="h1"
           :text="boardStore.activeBoard?.boardName || ''"
-          :saveEvent="(newProjectName) => {}"
+          :saveEvent="(newProjectName) => boardStore.updateProjektName(newProjectName)"
         />
         <button>Placeholder Button</button>
       </div>

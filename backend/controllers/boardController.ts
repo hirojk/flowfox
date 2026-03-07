@@ -36,3 +36,26 @@ export async function createBoardComponent(req: Request, res: Response): Promise
     errorResponse(res, error.message)
   }
 }
+
+// PUT: update board component
+export async function updateBoardComponent(req: Request, res: Response): Promise<void> {
+  try {
+    const projectId = Number(req.params.projectId)
+    const boardId = Number(req.params.boardId)
+    const { boardName } = req.body
+
+    const result = await ProjectModel.updateOne(
+      { id: projectId, 'components.id': boardId },
+      { $set: { 'components.$.boardName': boardName } },
+    )
+
+    if (result.matchedCount === 0) {
+      notFoundResponse(res, 'Board not found')
+      return
+    }
+
+    successResponse(res, 'Board updated', result)
+  } catch (error: any) {
+    errorResponse(res, error.message)
+  }
+}

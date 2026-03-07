@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
+    activeProjectId: null as number | null,
     activeBoard: null as BoardType | null,
     activeCardId: [0, 0] as [number, number],
   }),
@@ -18,6 +19,8 @@ export const useBoardStore = defineStore('board', {
         if (!response.ok) {
           throw new Error(`Failed to load project: ${response.status}`)
         }
+
+        this.activeProjectId = projectId
 
         const result = await response.json()
         const project = result.data
@@ -49,9 +52,18 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
-    // updateProjektName(name: string): void {
-    //   this.projectName = name
-    // },
+    async updateProjektName(name: string): Promise<void> {
+      if (this.activeBoard) {
+        this.activeBoard.boardName = name
+        await fetch(`${API_URL}/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ boardName: name }),
+        })
+      }
+    },
     setActiveCardId(columnId: number, cardId: number): void {
       this.activeCardId = [columnId, cardId]
     },
