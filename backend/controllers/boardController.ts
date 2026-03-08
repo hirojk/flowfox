@@ -1,8 +1,14 @@
 import { Request, Response } from 'express'
-import { ProjectModel } from '@models/Project'
-import { BoardSchema } from '@shared/schemas/boardSchema'
-import { generateId } from '@shared/utils/idGenerator'
-import { successResponse, createdResponse, notFoundResponse, badRequestResponse, errorResponse } from '@utils/responses'
+import { ProjectModel } from '../models/Project'
+import { BoardSchema } from '../shared/schemas/boardSchema'
+import { generateId } from '../shared/utils/idGenerator'
+import {
+  successResponse,
+  createdResponse,
+  notFoundResponse,
+  badRequestResponse,
+  errorResponse,
+} from '../utils/responses'
 
 // POST: create new board component
 export async function createBoardComponent(req: Request, res: Response): Promise<void> {

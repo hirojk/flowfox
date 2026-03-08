@@ -5,9 +5,9 @@ import {
   getAllProjectsByUser,
   // deleteProjectById,
   // updateProjectById,
-} from '@controllers/projectController'
+} from '../controllers/projectController'
 
-import { createBoardComponent, updateBoard } from '@controllers/boardController'
+import { createBoardComponent, updateBoard } from '../controllers/boardController'
 
 const router = express.Router()
 

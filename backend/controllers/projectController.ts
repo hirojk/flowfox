@@ -1,9 +1,15 @@
 import { Request, Response } from 'express'
-import ProjectModel from '@models/Project'
-import { ProjectSchema } from '@shared/schemas/projectSchema'
-import UserModel from '@models/User'
-import { generateId } from '@shared/utils/idGenerator'
-import { successResponse, createdResponse, notFoundResponse, badRequestResponse, errorResponse } from '@utils/responses'
+import ProjectModel from '../models/Project'
+import { ProjectSchema } from '../shared/schemas/projectSchema'
+import UserModel from '../models/User'
+import { generateId } from '../shared/utils/idGenerator'
+import {
+  successResponse,
+  createdResponse,
+  notFoundResponse,
+  badRequestResponse,
+  errorResponse,
+} from '../utils/responses'
 
 // POST: create new project
 export async function createProject(req: Request, res: Response): Promise<void> {

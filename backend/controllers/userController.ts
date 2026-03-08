@@ -1,7 +1,13 @@
 import { Request, Response } from 'express'
-import UserModel from '@models/User'
-import { generateId } from '@shared/utils/idGenerator'
-import { successResponse, createdResponse, notFoundResponse, badRequestResponse, errorResponse } from '@utils/responses'
+import UserModel from '../models/User'
+import { generateId } from '../shared/utils/idGenerator'
+import {
+  successResponse,
+  createdResponse,
+  notFoundResponse,
+  badRequestResponse,
+  errorResponse,
+} from '../utils/responses'
 
 // POST: create new user
 export async function createUser(req: Request, res: Response): Promise<void> {
