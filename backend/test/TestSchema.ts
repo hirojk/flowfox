@@ -1,4 +1,4 @@
-import ProjectModel from '@models/Project'
+import ProjectModel from '../models/Project'
 
 async function testSchema() {
   const testProject = new ProjectModel({

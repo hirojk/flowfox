@@ -1,12 +1,12 @@
 import mongoose, { Schema } from 'mongoose'
-import { zodToMongooseSchema } from '@utils/zodToMongoose'
+import { zodToMongooseSchema } from '../utils/zodToMongoose'
 import {
   CheckboxItemSchema,
   BoardTagSchema,
   BoardCardSchema,
   BoardColumnSchema,
   BoardSchema,
-} from '@shared/schemas/boardSchema'
+} from '../shared/schemas/boardSchema'
 
 const database = mongoose.connection.useDb('flowfoxdb')
 const checklistItemSchema = new Schema(zodToMongooseSchema(CheckboxItemSchema), { _id: false })

@@ -3,9 +3,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
-import { connectToDatabase } from '@config/database'
-import userRoutes from '@routes/userRoutes'
-import projectRoutes from '@routes/projectRoutes'
+import { connectToDatabase } from './config/database'
+import userRoutes from './routes/userRoutes'
+import projectRoutes from './routes/projectRoutes'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

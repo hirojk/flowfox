@@ -10,15 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "paths": {
-      "@config/*": ["./config/*"],
-      "@controllers/*": ["./controllers/*"],
-      "@models/*": ["./models/*"],
-      "@routes/*": ["./routes/*"],
-      "@utils/*": ["./utils/*"],
-      "@shared/*": ["./shared/*"]
-    }
+    "skipDefaultLibCheck": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
