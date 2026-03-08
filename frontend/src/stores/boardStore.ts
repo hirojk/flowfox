@@ -45,7 +45,7 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
-    async updateProjektName(name: string): Promise<void> {
+    async updateBoardName(name: string): Promise<void> {
       if (!this.activeBoard) return
 
       try {
@@ -54,6 +54,18 @@ export const useBoardStore = defineStore('board', {
         this.activeBoard.boardName = name
       } catch (error) {
         console.error('Error updating project name:', error)
+        throw error
+      }
+    },
+    async updateBoard(): Promise<void> {
+      if (!this.activeBoard || !this.activeProjectId) return
+
+      try {
+        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
+          boardData: this.activeBoard,
+        })
+      } catch (error) {
+        console.error('Error updating board:', error)
         throw error
       }
     },

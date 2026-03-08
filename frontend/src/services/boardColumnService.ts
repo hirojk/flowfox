@@ -1,3 +1,4 @@
+import { generateId } from '@shared/utils/idGenerator'
 import type { BoardColumnType } from '@shared/schemas/boardSchema'
 import { useBoardStore } from '@stores/boardStore.ts'
 
@@ -7,7 +8,7 @@ const getStores = () => ({
 
 export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): BoardColumnType => {
   return {
-    id: Math.floor(Date.now() + Math.random() * 1000) % 100_000_000,
+    id: generateId(),
     columnName: 'New Column',
     cards: [],
     ...overrides,
@@ -19,6 +20,7 @@ export const addColumn = () => {
 
   if (board.activeBoard) {
     board.activeBoard.columns.push(createNewColumn())
+    board.updateBoard()
   }
 }
 
@@ -27,14 +29,16 @@ export const removeColumn = (columnId: number) => {
 
   if (board.activeBoard) {
     board.activeBoard.columns = board.activeBoard.columns.filter((column: BoardColumnType) => column.id !== columnId)
+    board.updateBoard()
   }
 }
 
 export const renameColumn = (columnId: number, newName: string) => {
   const { board } = getStores()
-  const column = board.activeBoard?.columns.find((column: BoardColumnType) => column.id === columnId)
+  const selectedColumn = board.activeBoard?.columns.find((column: BoardColumnType) => column.id === columnId)
 
-  if (column) {
-    column.columnName = newName
+  if (selectedColumn) {
+    selectedColumn.columnName = newName
+    board.updateBoard()
   }
 }

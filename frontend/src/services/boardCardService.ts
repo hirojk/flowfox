@@ -23,7 +23,10 @@ export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCard
 }
 
 export const addCard = (currentCards: BoardCardType[]) => {
-  return currentCards.push(createNewCard())
+  const { board } = getStores()
+
+  currentCards.push(createNewCard())
+  board.updateBoard()
 }
 
 export const removeCard = (cardId: [number, number]) => {
@@ -43,6 +46,8 @@ export const removeCard = (cardId: [number, number]) => {
       }
       return column
     })
+
+    board.updateBoard()
   }
 }
 
@@ -59,5 +64,7 @@ export const updateCard = (cardId: [number, number], updates: Partial<BoardCardT
       }
       return column
     })
+
+    board.updateBoard()
   }
 }

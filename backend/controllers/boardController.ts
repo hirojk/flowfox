@@ -37,24 +37,60 @@ export async function createBoardComponent(req: Request, res: Response): Promise
   }
 }
 
-// PUT: update board component
-export async function updateBoardComponent(req: Request, res: Response): Promise<void> {
+// PUT: update board name and data
+export async function updateBoard(req: Request, res: Response): Promise<void> {
   try {
     const projectId = Number(req.params.projectId)
     const boardId = Number(req.params.boardId)
-    const { boardName } = req.body
+    const { boardName, boardData } = req.body
 
-    const result = await ProjectModel.updateOne(
-      { id: projectId, 'components.id': boardId },
-      { $set: { 'components.$.boardName': boardName } },
-    )
+    if (boardName) {
+      const result = await ProjectModel.updateOne(
+        { id: projectId, 'components.id': boardId },
+        {
+          $set: {
+            'components.$.boardName': boardName,
+          },
+        },
+      )
 
-    if (result.matchedCount === 0) {
-      notFoundResponse(res, 'Board not found')
+      if (result.matchedCount === 0) {
+        notFoundResponse(res, 'Board not found')
+        return
+      }
+
+      successResponse(res, 'Board name updated', { boardName })
       return
     }
 
-    successResponse(res, 'Board updated', result)
+    if (boardData) {
+      const project = await ProjectModel.findOne({ id: projectId })
+
+      if (!project) {
+        notFoundResponse(res, 'Project not found')
+        return
+      }
+
+      const boardIndex = project.components.findIndex((c: any) => c.type === 'board' && c.id === boardId)
+
+      if (boardIndex === -1) {
+        notFoundResponse(res, 'Board not found')
+        return
+      }
+
+      project.components[boardIndex] = {
+        ...boardData,
+        id: boardId,
+        type: 'board',
+      }
+
+      await project.save()
+
+      successResponse(res, 'Board updated successfully', project.components[boardIndex])
+      return
+    }
+
+    badRequestResponse(res, 'Either boardName or boardData is required')
   } catch (error: any) {
     errorResponse(res, error.message)
   }
