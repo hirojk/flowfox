@@ -30,7 +30,7 @@
       "@stores/*": ["./src/stores/*"],
       "@typeDefs/*": ["./src/types/*"],
       "@views/*": ["./src/views/*"],
-      "@shared/*": ["../shared/*"]
+      "@shared/*": ["../backend/shared/*"]
     },
 
     "types": ["node", "jsdom"]
