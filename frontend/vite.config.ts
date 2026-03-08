@@ -18,6 +18,10 @@ export default defineConfig(({ mode }) => {
       vueDevTools(),
       quasar(),
     ],
+    build: {
+      outDir: '../dist/frontend',
+      emptyOutDir: true,
+    },
     define: {
       'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
     },
