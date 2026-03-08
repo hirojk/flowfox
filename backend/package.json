@@ -1,5 +1,5 @@
 {
-  "type": "commonjs",
+  "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon",

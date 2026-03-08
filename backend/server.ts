@@ -35,11 +35,9 @@ app.use(async (req, res, next) => {
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
 
-module.exports = app
+export default app
 
 if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000
-
   connectToDatabase()
     .then(() => {
       isDbConnected = true
