@@ -1,10 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import path from 'path'
+import { fileURLToPath } from 'url'
+import path, { dirname } from 'path'
 import { connectToDatabase } from '@config/database'
 import userRoutes from '@routes/userRoutes'
 import projectRoutes from '@routes/projectRoutes'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),

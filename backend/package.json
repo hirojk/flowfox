@@ -1,5 +1,6 @@
 {
   "main": "server.ts",
+  "type": "module",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon",
