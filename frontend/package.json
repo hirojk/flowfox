@@ -14,6 +14,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "axios": "^1.13.6",
     "pinia": "^3.0.4",
     "quasar": "^2.18.6",
     "vue": "^3.5.27",

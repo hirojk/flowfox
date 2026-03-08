@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
+import api from '@services/api'
 import type { BoardType, BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
 import { sortedCardsByPriority } from '@constants/priority.ts'
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
@@ -14,21 +13,15 @@ export const useBoardStore = defineStore('board', {
   actions: {
     async loadBoard(projectId: number): Promise<void> {
       try {
-        const response = await fetch(`${API_URL}/api/projects/${projectId}`)
-
-        if (!response.ok) {
-          throw new Error(`Failed to load project: ${response.status}`)
-        }
+        const { data } = await api.get(`/api/projects/${projectId}`)
 
         this.activeProjectId = projectId
-
-        const result = await response.json()
-        const project = result.data
+        const project = data
 
         const selectedBoard = project.components.find((component: { type: string }) => component.type === 'board')
 
         if (!selectedBoard) {
-          console.warn('No board found in project')
+          console.warn('No board component found in project')
           return
         }
 
@@ -53,15 +46,15 @@ export const useBoardStore = defineStore('board', {
       }
     },
     async updateProjektName(name: string): Promise<void> {
-      if (this.activeBoard) {
+      if (!this.activeBoard) return
+
+      try {
+        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, { boardName: name })
+
         this.activeBoard.boardName = name
-        await fetch(`${API_URL}/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ boardName: name }),
-        })
+      } catch (error) {
+        console.error('Error updating project name:', error)
+        throw error
       }
     },
     setActiveCardId(columnId: number, cardId: number): void {
