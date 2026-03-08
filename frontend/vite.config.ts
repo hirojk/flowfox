@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       quasar(),
     ],
     build: {
-      outDir: '../dist/frontend',
+      outDir: '../dist',
       emptyOutDir: true,
     },
     define: {
