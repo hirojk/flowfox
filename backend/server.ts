@@ -7,12 +7,11 @@ import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 
 dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
+  path: path.resolve(__dirname, '../../.env'),
   quiet: true,
 })
 
 const app = express()
-const PORT = process.env.PORT || 5000
 
 app.use(cors())
 app.use(express.json())
@@ -37,12 +36,12 @@ app.use('/api/projects', projectRoutes)
 
 export default app
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'staging') {
   connectToDatabase()
     .then(() => {
       isDbConnected = true
-      app.listen(PORT, () => {
-        console.log(`\nServer running on port ${PORT}\n`)
+      app.listen(5000, () => {
+        console.log(`\nServer running on port 5000\n`)
         console.log('------------------------------------------------\n')
       })
     })
