@@ -31,7 +31,7 @@ app.use(async (req, res, next) => {
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
 
-export default app
+module.exports = app
 
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000
