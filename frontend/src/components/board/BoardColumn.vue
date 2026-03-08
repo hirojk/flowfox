@@ -28,47 +28,47 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import BoardCard from '@components/board/BoardCard.vue'
-import type { BoardColumnType } from '@typeDefs/boardType'
-import { removeColumn, renameColumn } from '@services/boardColumnService'
-import { addCard } from '@services/boardCardService'
+  import { computed } from 'vue'
+  import BoardCard from '@components/board/BoardCard.vue'
+  import type { BoardColumnType } from '@shared/schemas/boardSchema'
+  import { removeColumn, renameColumn } from '@services/boardColumnService.ts'
+  import { addCard } from '@services/boardCardService.ts'
 
-import EditableText from '@components/fields/TextEditor.vue'
+  import EditableText from '@components/fields/TextEditor.vue'
 
-const props = defineProps<{
-  columnContent: BoardColumnType
-}>()
-const boardCards = computed(() => props.columnContent.cards)
+  const props = defineProps<{
+    columnContent: BoardColumnType
+  }>()
+  const boardCards = computed(() => props.columnContent.cards)
 </script>
 
 <style lang="scss" scoped>
-.board-column {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  width: 100%;
-  border-radius: 1em;
-  padding: 1em;
-  background-color: $quaternary;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__cards {
+  .board-column {
     display: flex;
     flex-direction: column;
     gap: 1em;
-  }
+    width: 100%;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: $quaternary;
 
-  &__button {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    padding: 0 1em;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+
+    &__button {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0 1em;
+    }
   }
-}
 </style>

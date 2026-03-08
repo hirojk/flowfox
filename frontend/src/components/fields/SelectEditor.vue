@@ -13,18 +13,18 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  options: string[]
-  icon?: string
-  selected: string
-  saveEvent: (newOption: string) => void
-}>()
+  const props = defineProps<{
+    options: string[]
+    icon?: string
+    selected: string
+    saveEvent: (newOption: string) => void
+  }>()
 </script>
 
 <style lang="scss" scoped>
-.selectEditor {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.5em;
-}
+  .selectEditor {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5em;
+  }
 </style>

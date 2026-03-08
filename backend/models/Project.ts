@@ -1,0 +1,9 @@
+import mongoose, { Schema } from 'mongoose'
+import { zodToMongooseSchema } from '@utils/zodToMongoose'
+import { ProjectSchema } from '@shared/schemas/projectSchema'
+
+const database = mongoose.connection.useDb('flowfoxdb')
+const projectSchema = new Schema(zodToMongooseSchema(ProjectSchema), { timestamps: true })
+
+export const ProjectModel = database.model('Project', projectSchema)
+export default ProjectModel

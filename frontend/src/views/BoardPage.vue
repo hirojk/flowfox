@@ -9,14 +9,14 @@
         <TextEditor
           class="headline"
           htmlTag="h1"
-          :text="boardStore.projectName"
-          :saveEvent="(newProjectName) => boardStore.updateProjektName(newProjectName)"
+          :text="boardStore.activeBoard?.boardName || ''"
+          :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
         />
         <button>Placeholder Button</button>
       </div>
     </div>
     <ul class="board">
-      <li class="board__columnWrapper" v-for="column in boardStore.columns" :key="column.id">
+      <li class="board__columnWrapper" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
         <BoardColumn :columnContent="column" />
       </li>
       <li class="board__columnWrapper">
@@ -30,66 +30,75 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useBoardStore } from '@stores/boardStore'
-import { useDragScroll } from '@composables/useDragScroll'
+  import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+  import { useBoardStore } from '@stores/boardStore.ts'
+  import { useDragScroll } from '@composables/useDragScroll.ts'
 
-import BoardModal from '@components/board/BoardModal.vue'
-import TextEditor from '@components/fields/TextEditor.vue'
-import BoardColumn from '@components/board/BoardColumn.vue'
-import { addColumn } from '@services/boardColumnService'
+  import BoardModal from '@components/board/BoardModal.vue'
+  import TextEditor from '@components/fields/TextEditor.vue'
+  import BoardColumn from '@components/board/BoardColumn.vue'
+  import { addColumn } from '@services/boardColumnService.ts'
 
-const boardStore = useBoardStore()
+  const route = useRoute()
+  const boardStore = useBoardStore()
 
-useDragScroll('main')
+  useDragScroll('main')
 
-onMounted(() => {
-  void boardStore.initData()
-})
+  onMounted(async () => {
+    const projectId = Number(route.params.projectId)
+    if (!projectId) return
+
+    try {
+      await boardStore.loadBoard(projectId)
+    } catch (error) {
+      console.error('Error loading board:', error)
+    }
+  })
 </script>
 
 <style lang="scss" scoped>
-.page--board {
-  padding: 2em 0;
-  overflow-x: auto;
+  .page--board {
+    padding: 2em 0;
+    overflow-x: auto;
 
-  .page {
-    &__headerWrapper {
-      position: sticky;
-      left: 0;
-      margin-bottom: 2em;
+    .page {
+      &__headerWrapper {
+        position: sticky;
+        left: 0;
+        margin-bottom: 2em;
+      }
+
+      &__header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 2em;
+      }
     }
 
-    &__header {
+    .board {
       display: flex;
-      justify-content: space-between;
-      padding: 0 2em;
+      gap: 2em;
+      min-width: min-content;
+      margin: 0 2em;
+
+      &__columnWrapper {
+        width: 20em;
+        flex-shrink: 0;
+      }
+
+      &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5em;
+        border-radius: 1em;
+        padding: 1em;
+        width: 100%;
+        font-size: nth(map-get($font-size, md), 1);
+        color: $white;
+        background-color: $quinterany;
+      }
     }
   }
-
-  .board {
-    display: flex;
-    gap: 2em;
-    min-width: min-content;
-    margin: 0 2em;
-
-    &__columnWrapper {
-      width: 20em;
-      flex-shrink: 0;
-    }
-
-    &__button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5em;
-      border-radius: 1em;
-      padding: 1em;
-      width: 100%;
-      font-size: nth(map-get($font-size, md), 1);
-      color: $white;
-      background-color: $quinterany;
-    }
-  }
-}
 </style>

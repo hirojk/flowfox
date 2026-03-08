@@ -29,63 +29,63 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const drawer = ref(true)
-const miniState = ref(true)
+  const drawer = ref(true)
+  const miniState = ref(true)
 
-interface NavItem {
-  label: string
-  icon: string
-  route?: string
-  action?: () => void
-}
-
-const navItems: NavItem[] = [
-  {
-    label: 'Board',
-    icon: 'view_kanban',
-    route: '/',
-  },
-]
-
-const settingsItems: NavItem[] = [
-  {
-    label: 'Account',
-    icon: 'person',
-    route: '/',
-  },
-  {
-    label: 'Settings',
-    icon: 'settings',
-    route: '/settings',
-  },
-  {
-    label: 'Close',
-    icon: 'last_page',
-    action: () => (miniState.value = !miniState.value),
-  },
-]
-
-function handleNavItemClick(item: NavItem) {
-  if (item.action) {
-    item.action()
-  } else {
-    console.log('Navigate to', item.route)
+  interface NavItem {
+    label: string
+    icon: string
+    route?: string
+    action?: () => void
   }
-}
+
+  const navItems: NavItem[] = [
+    {
+      label: 'Board',
+      icon: 'view_kanban',
+      route: '/',
+    },
+  ]
+
+  const settingsItems: NavItem[] = [
+    {
+      label: 'Account',
+      icon: 'person',
+      route: '/',
+    },
+    {
+      label: 'Settings',
+      icon: 'settings',
+      route: '/settings',
+    },
+    {
+      label: 'Close',
+      icon: 'last_page',
+      action: () => (miniState.value = !miniState.value),
+    },
+  ]
+
+  function handleNavItemClick(item: NavItem) {
+    if (item.action) {
+      item.action()
+    } else {
+      console.log('Navigate to', item.route)
+    }
+  }
 </script>
 
 <style lang="scss">
-.sideBar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1em 0;
-  background-color: $white;
+  .sideBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1em 0;
+    background-color: $white;
 
-  &__item {
-    font-size: nth(map-get($font-size, md), 1);
+    &__item {
+      font-size: nth(map-get($font-size, md), 1);
+    }
   }
-}
 </style>

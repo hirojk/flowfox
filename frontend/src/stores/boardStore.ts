@@ -1,42 +1,73 @@
 import { defineStore } from 'pinia'
-import type { BoardColumnType, BoardCardType } from '@typeDefs/boardType'
-import { sortedCardsByPriority } from '@constants/priority'
+import api from '@services/api'
+import type { BoardType, BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
+import { sortedCardsByPriority } from '@constants/priority.ts'
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
-    projectName: '' as string,
-    columns: [] as Array<BoardColumnType>,
+    activeProjectId: null as number | null,
+    activeBoard: null as BoardType | null,
     activeCardId: [0, 0] as [number, number],
   }),
 
   actions: {
-    async initData(): Promise<void> {
+    async loadBoard(projectId: number): Promise<void> {
       try {
-        const response = await fetch('/assets/test.json')
-        const data = await response.json()
+        const { data } = await api.get(`/api/projects/${projectId}`)
 
-        this.projectName = data.projectName
+        this.activeProjectId = projectId
+        const project = data
 
-        if (Array.isArray(data.columns)) {
-          this.columns = data.columns.map((colum: BoardColumnType) => {
-            const convertedCards = colum.cards.map((card: BoardCardType) => ({
+        const selectedBoard = project.components.find((component: { type: string }) => component.type === 'board')
+
+        if (!selectedBoard) {
+          console.warn('No board component found in project')
+          return
+        }
+
+        const sortedColumns = selectedBoard.columns.map((column: BoardColumnType) => ({
+          ...column,
+          cards: sortedCardsByPriority(
+            column.cards.map((card: BoardCardType) => ({
               ...card,
               startDate: new Date(card.startDate),
               deadline: new Date(card.deadline),
-            }))
+            })),
+          ),
+        }))
 
-            return {
-              ...colum,
-              cards: sortedCardsByPriority(convertedCards),
-            }
-          })
+        this.activeBoard = {
+          ...selectedBoard,
+          columns: sortedColumns,
         }
       } catch (error) {
-        console.error('Error fetching:', error)
+        console.error('Error loading board:', error)
+        throw error
       }
     },
-    updateProjektName(name: string): void {
-      this.projectName = name
+    async updateBoardName(name: string): Promise<void> {
+      if (!this.activeBoard) return
+
+      try {
+        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, { boardName: name })
+
+        this.activeBoard.boardName = name
+      } catch (error) {
+        console.error('Error updating project name:', error)
+        throw error
+      }
+    },
+    async updateBoard(): Promise<void> {
+      if (!this.activeBoard || !this.activeProjectId) return
+
+      try {
+        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
+          boardData: this.activeBoard,
+        })
+      } catch (error) {
+        console.error('Error updating board:', error)
+        throw error
+      }
     },
     setActiveCardId(columnId: number, cardId: number): void {
       this.activeCardId = [columnId, cardId]

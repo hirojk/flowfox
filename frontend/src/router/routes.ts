@@ -6,12 +6,13 @@ import Board from '@views/BoardPage.vue'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/board',
+    redirect: '/board/97649491',
     component: MainLayout,
 
     children: [
       {
-        path: 'board',
+        path: 'board/:projectId',
+        name: 'board',
         component: Board,
       },
     ],

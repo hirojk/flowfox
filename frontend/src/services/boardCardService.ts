@@ -1,6 +1,7 @@
-import type { BoardCardType } from '@typeDefs/boardType'
-import { useModalStore } from '@stores/appStore'
-import { useBoardStore } from '@stores/boardStore'
+import type { BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
+import { useModalStore } from '@stores/appStore.ts'
+import { useBoardStore } from '@stores/boardStore.ts'
+import { generateId } from '@shared/utils/idGenerator'
 
 const getStores = () => ({
   board: useBoardStore(),
@@ -9,7 +10,7 @@ const getStores = () => ({
 
 export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCardType => {
   return {
-    id: Math.floor(Date.now() + Math.random() * 1000) % 100_000_000,
+    id: generateId(),
     taskName: 'New Task',
     priority: 'Medium',
     description: 'No Description',
@@ -22,7 +23,10 @@ export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCard
 }
 
 export const addCard = (currentCards: BoardCardType[]) => {
-  return currentCards.push(createNewCard())
+  const { board } = getStores()
+
+  currentCards.push(createNewCard())
+  board.updateBoard()
 }
 
 export const removeCard = (cardId: [number, number]) => {
@@ -32,27 +36,35 @@ export const removeCard = (cardId: [number, number]) => {
     modal.closeModal()
   }
 
-  board.columns = board.columns.map((column) => {
-    if (column.id === cardId[0]) {
-      return {
-        ...column,
-        cards: column.cards.filter((card) => card.id !== cardId[1]),
+  if (board.activeBoard) {
+    board.activeBoard.columns = board.activeBoard.columns.map((column: BoardColumnType) => {
+      if (column.id === cardId[0]) {
+        return {
+          ...column,
+          cards: column.cards.filter((card: BoardCardType) => card.id !== cardId[1]),
+        }
       }
-    }
-    return column
-  })
+      return column
+    })
+
+    board.updateBoard()
+  }
 }
 
 export const updateCard = (cardId: [number, number], updates: Partial<BoardCardType>) => {
   const { board } = getStores()
 
-  board.columns = board.columns.map((column) => {
-    if (column.id === cardId[0]) {
-      return {
-        ...column,
-        cards: column.cards.map((card) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
+  if (board.activeBoard) {
+    board.activeBoard.columns = board.activeBoard.columns.map((column: BoardColumnType) => {
+      if (column.id === cardId[0]) {
+        return {
+          ...column,
+          cards: column.cards.map((card: BoardCardType) => (card.id === cardId[1] ? { ...card, ...updates } : card)),
+        }
       }
-    }
-    return column
-  })
+      return column
+    })
+
+    board.updateBoard()
+  }
 }

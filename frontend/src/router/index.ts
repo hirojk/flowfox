@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import routes from './routes'
+import routes from './routes.js'
 
 const history =
   import.meta.env.VITE_ROUTER_MODE === 'history'

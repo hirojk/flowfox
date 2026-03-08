@@ -12,18 +12,18 @@
 </template>
 
 <script setup lang="ts">
-interface eventsType {
-  name: string
-  action: () => void
-}
+  interface eventsType {
+    name: string
+    action: () => void
+  }
 
-const props = defineProps<{
-  events: eventsType[]
-}>()
+  const props = defineProps<{
+    events: eventsType[]
+  }>()
 </script>
 
 <style lang="scss" scoped>
-.context-menu {
-  color: black;
-}
+  .context-menu {
+    color: black;
+  }
 </style>

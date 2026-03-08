@@ -12,63 +12,63 @@
 </template>
 
 <script setup lang="ts">
-import type { CheckboxItemType } from '@typeDefs/global'
+  import type { CheckboxItemType } from '@shared/schemas/boardSchema'
 
-import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/fields/TextEditor.vue'
 
-const props = defineProps<{
-  checkboxes: CheckboxItemType[]
-  saveEvent: (newChecklist: CheckboxItemType[]) => void
-  class?: string
-}>()
+  const props = defineProps<{
+    class?: string
+    checkboxes: CheckboxItemType[]
+    saveEvent: (newChecklist: CheckboxItemType[]) => void
+  }>()
 
-const saveEdit = (item: CheckboxItemType, newLabel?: string) => {
-  props.saveEvent(
-    props.checkboxes.map((checkbox) => {
-      if (checkbox === item) {
-        return {
-          ...checkbox,
-          label: newLabel ?? checkbox.label,
+  const saveEdit = (item: CheckboxItemType, newLabel?: string) => {
+    props.saveEvent(
+      props.checkboxes.map((checkbox) => {
+        if (checkbox === item) {
+          return {
+            ...checkbox,
+            label: newLabel ?? checkbox.label,
+          }
         }
-      }
-      return checkbox
-    }),
-  )
-}
+        return checkbox
+      }),
+    )
+  }
 
-const addCheckbox = () => {
-  props.saveEvent([
-    ...props.checkboxes,
-    {
-      label: 'New Subtask',
-      isChecked: false,
-    },
-  ])
-}
+  const addCheckbox = () => {
+    props.saveEvent([
+      ...props.checkboxes,
+      {
+        label: 'New Subtask',
+        isChecked: false,
+      },
+    ])
+  }
 </script>
 
 <style lang="scss" scoped>
-.checkboxEditor {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  margin-bottom: 1em;
-
-  &__item {
+  .checkboxEditor {
     display: flex;
-    gap: 1em;
-    width: 100%;
-    padding: 0.5em 0;
-  }
+    flex-direction: column;
+    gap: 0.5em;
+    margin-bottom: 1em;
 
-  &__button {
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    width: fit-content;
-    padding: 0.5em 2em 0.5em 1em;
-    color: $white;
-    background-color: $grey;
+    &__item {
+      display: flex;
+      gap: 1em;
+      width: 100%;
+      padding: 0.5em 0;
+    }
+
+    &__button {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      width: fit-content;
+      padding: 0.5em 2em 0.5em 1em;
+      color: $white;
+      background-color: $grey;
+    }
   }
-}
 </style>

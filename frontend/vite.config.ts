@@ -7,15 +7,14 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue({
-      template: { transformAssetUrls }
+      template: { transformAssetUrls },
     }),
     vueDevTools(),
-    quasar()
+    quasar(),
   ],
   css: {
     preprocessorOptions: {
@@ -23,9 +22,9 @@ export default defineConfig({
         additionalData: `
           @use "@/styles/variables.scss" as *;
           @use "@/styles/mixin.scss" as *;
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   resolve: {
     alias: {
@@ -38,6 +37,7 @@ export default defineConfig({
       '@stores': path.resolve(__dirname, 'src/stores'),
       '@typeDefs': path.resolve(__dirname, 'src/types'),
       '@views': path.resolve(__dirname, 'src/views'),
+      '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
     },
   },
 })
