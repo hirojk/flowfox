@@ -15,20 +15,18 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
     await mongoose.connect(CONNECTION_URL)
 
     database = mongoose.connection.useDb('flowfoxdb')
-    console.log('Connected to flowfox database.\n')
-    console.log('------------------------------------------------\n')
+    console.log('\nConnected to flowfox database.')
 
     return database
   } catch (error) {
-    console.error('Database connection error:', error)
-    console.log('\n------------------------------------------------\n')
+    console.error('\nDatabase connection error:', error)
     process.exit(1)
   }
 }
 
 export function getDatabase(): mongoose.Connection {
   if (!database) {
-    throw new Error('Database not initialized. Call connectToDatabase first.\n')
+    throw new Error('\nDatabase not initialized. Call connectToDatabase first.')
   }
   return database
 }

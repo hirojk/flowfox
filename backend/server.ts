@@ -12,17 +12,41 @@ dotenv.config({
 })
 
 const app = express()
-const PORT = process.env.PORT || 5000
 
-app.use(cors())
-app.use(express.json())
+let isDbConnected = false
 
-// Use routes
+app.use(async (req, res, next) => {
+  if (!isDbConnected) {
+    try {
+      await connectToDatabase()
+      isDbConnected = true
+    } catch (error) {
+      return res.status(503).json({ error: 'Database connection failed' })
+    }
+  }
+  next()
+})
+
+// Routes
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
 
-app.listen(PORT, async () => {
-  console.log(`\nServer running on port ${PORT}`)
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}\n`)
-  await connectToDatabase()
-})
+export default app
+
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000
+
+  connectToDatabase()
+    .then(() => {
+      isDbConnected = true
+      app.listen(PORT, () => {
+        console.log(`\nServer running on port ${PORT}\n`)
+        console.log('------------------------------------------------\n')
+      })
+    })
+    .catch((error) => {
+      console.error('Failed to start server:', error)
+      console.log('------------------------------------------------\n')
+      process.exit(1)
+    })
+}
