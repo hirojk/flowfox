@@ -1,16 +1,24 @@
+import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
-import path from 'path'
-import dotenv from 'dotenv'
 
-dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
-  quiet: true,
-})
-
-const CONNECTION_URL = process.env.MONGODB_URI || ''
 let database: mongoose.Connection | null = null
+export const dbState = { isDbConnected: false }
+
+export async function dbMiddleware(req: Request, res: Response, next: NextFunction) {
+  if (!dbState.isDbConnected) {
+    try {
+      await connectToDatabase()
+      dbState.isDbConnected = true
+    } catch (error) {
+      return res.status(503).json({ error: 'Database connection failed' })
+    }
+  }
+  next()
+}
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
+  const CONNECTION_URL = process.env.MONGODB_URI || ''
+
   try {
     await mongoose.connect(CONNECTION_URL)
 
