@@ -1,20 +1,30 @@
+import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
-import path from 'path'
-import dotenv from 'dotenv'
+import { serviceUnavailableResponse } from '../utils/responses'
 
-dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
-  quiet: true,
-})
-
-const CONNECTION_URL = process.env.MONGODB_URI || ''
 let database: mongoose.Connection | null = null
+export const dbState = { isDbConnected: false }
+
+export async function databaseMiddleware(req: Request, res: Response, next: NextFunction) {
+  if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') && !dbState.isDbConnected) {
+    try {
+      await connectToDatabase()
+    } catch (error) {
+      serviceUnavailableResponse(res, 'Database connection failed')
+    }
+  }
+  next()
+}
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
+  const CONNECTION_URL = process.env.MONGODB_URI || ''
+
   try {
     await mongoose.connect(CONNECTION_URL)
 
     database = mongoose.connection.useDb('flowfoxdb')
+    dbState.isDbConnected = true
+
     console.log('\nConnected to flowfox database.')
 
     return database

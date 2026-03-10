@@ -13,7 +13,7 @@ export const useBoardStore = defineStore('board', {
   actions: {
     async loadBoard(projectId: number): Promise<void> {
       try {
-        const { data } = await api.get(`/api/projects/${projectId}`)
+        const { data } = await api.get(`/api/v1/projects/${projectId}`)
 
         this.activeProjectId = projectId
         const project = data
@@ -49,7 +49,7 @@ export const useBoardStore = defineStore('board', {
       if (!this.activeBoard) return
 
       try {
-        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, { boardName: name })
+        await api.put(`/api/v1/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, { boardName: name })
 
         this.activeBoard.boardName = name
       } catch (error) {
@@ -61,7 +61,7 @@ export const useBoardStore = defineStore('board', {
       if (!this.activeBoard || !this.activeProjectId) return
 
       try {
-        await api.put(`/api/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
+        await api.put(`/api/v1/projects/${this.activeProjectId}/boards/${this.activeBoard.id}`, {
           boardData: this.activeBoard,
         })
       } catch (error) {

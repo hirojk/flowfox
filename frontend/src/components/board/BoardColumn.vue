@@ -50,7 +50,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1em;
-    background-color: $quaternary;
+    background-color: $ff-quaternary;
 
     &__header {
       display: flex;

@@ -1,54 +1,25 @@
+import './config/env'
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
-import path from 'path'
-import { connectToDatabase } from './config/database'
+import { databaseMiddleware } from './config/database'
+import { authMiddleware } from './middleware/authMiddleware'
+import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
 
-dotenv.config({
-  path: path.resolve(__dirname, '../.env'),
-  quiet: true,
-})
+import { startLocalServer } from './config/localServer'
 
-const app = express()
-const PORT = 5000
+const app: express.Application = express()
 
 app.use(cors())
 app.use(express.json())
 
-let isDbConnected = false
-
-app.use(async (req, res, next) => {
-  if (!isDbConnected) {
-    try {
-      await connectToDatabase()
-      isDbConnected = true
-    } catch (error) {
-      return res.status(503).json({ error: 'Database connection failed' })
-    }
-  }
-  next()
-})
+app.use(databaseMiddleware)
 
 // Routes
-app.use('/api/users', userRoutes)
-app.use('/api/projects', projectRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/v1/users', authMiddleware, userRoutes)
+app.use('/api/v1/projects', authMiddleware, projectRoutes)
 
 export default app
-
-if (process.env.NODE_ENV !== 'production') {
-  connectToDatabase()
-    .then(() => {
-      isDbConnected = true
-      app.listen(PORT, () => {
-        console.log(`\nServer running on port ${PORT}\n`)
-        console.log('------------------------------------------------\n')
-      })
-    })
-    .catch((error) => {
-      console.error('Failed to start server:', error)
-      console.log('------------------------------------------------\n')
-      process.exit(1)
-    })
-}
+startLocalServer(app)

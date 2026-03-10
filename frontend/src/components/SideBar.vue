@@ -82,7 +82,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 1em 0;
-    background-color: $white;
+    background-color: $ff-white;
 
     &__item {
       font-size: nth(map-get($font-size, md), 1);
