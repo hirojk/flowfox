@@ -39,7 +39,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1em;
-    background-color: $white;
+    background-color: $ff-white;
     cursor: pointer;
 
     &__wrapper {

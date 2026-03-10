@@ -9,10 +9,22 @@ export const api = axios.create({
   },
 })
 
+api.interceptors.request.use((config) => {
+  const accessToken = sessionStorage.getItem('token')
+
+  if (accessToken) {
+    config.headers['Authorization'] = `Bearer ${accessToken}`
+  }
+
+  return config
+})
+
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    console.error('API Error:', error.response?.data || error.message)
+    if (import.meta.env.DEV) {
+      console.error('API Error:', error.response?.data || error.message)
+    }
     return Promise.reject(error)
   },
 )
