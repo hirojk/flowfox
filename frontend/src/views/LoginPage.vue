@@ -2,6 +2,7 @@
   <div class="page page--login">
     <div class="login-form">
       <h1 class="login-form__title">Flowfox</h1>
+      <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
       <form class="login-form__form" @submit.prevent="handleLogin">
         <div class="login-form__form-group">
           <label class="login-form__form-label" for="login-username">Username</label>
@@ -26,12 +27,14 @@
   const router = useRouter()
   const username = ref('')
   const password = ref('')
+  const errorMessage = ref('')
 
   const handleLogin = async () => {
     try {
       await authStore.login(username.value, password.value)
       router.push('/')
     } catch (error) {
+      errorMessage.value = 'Invalid username or password'
       console.error('Login failed:', error)
     }
   }
@@ -55,8 +58,12 @@
       padding: 2em;
       background-color: $ff-white;
 
-      &_title {
+      &__title {
         text-align: center;
+      }
+
+      &__error {
+        color: $ff-error;
       }
 
       &__form {
