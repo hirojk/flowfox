@@ -2,6 +2,7 @@ import { Response } from 'express'
 
 export function successResponse(res: Response, message?: string, data?: any): void {
   res.status(200).json({
+    success: true,
     message: message,
     data,
   })
@@ -9,6 +10,7 @@ export function successResponse(res: Response, message?: string, data?: any): vo
 
 export function createdResponse(res: Response, message?: string, data?: any): void {
   res.status(201).json({
+    success: true,
     message: message,
     data,
   })
@@ -16,18 +18,42 @@ export function createdResponse(res: Response, message?: string, data?: any): vo
 
 export function badRequestResponse(res: Response, message: string): void {
   res.status(400).json({
+    success: false,
+    error: message,
+  })
+}
+
+export function notAuthenticatedResponse(res: Response, message: string): void {
+  res.status(401).json({
+    success: false,
+    error: message,
+  })
+}
+
+export function forbiddenResponse(res: Response, message: string): void {
+  res.status(403).json({
+    success: false,
     error: message,
   })
 }
 
 export function notFoundResponse(res: Response, message: string): void {
   res.status(404).json({
+    success: false,
     error: message,
   })
 }
 
-export function errorResponse(res: Response, message: string): void {
+export function serverFailureResponse(res: Response, message: string): void {
   res.status(500).json({
+    success: false,
+    error: message,
+  })
+}
+
+export function serviceUnavailableResponse(res: Response, message: string): void {
+  res.status(503).json({
+    success: false,
     error: message,
   })
 }

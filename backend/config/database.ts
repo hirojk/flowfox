@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
+import { serviceUnavailableResponse } from '../utils/responses'
 
 let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }
 
-export async function dbMiddleware(req: Request, res: Response, next: NextFunction) {
+export async function databaseMiddleware(req: Request, res: Response, next: NextFunction) {
   if (!dbState.isDbConnected) {
     try {
       await connectToDatabase()
-      dbState.isDbConnected = true
     } catch (error) {
-      return res.status(503).json({ error: 'Database connection failed' })
+      serviceUnavailableResponse(res, 'Database connection failed')
     }
   }
   next()
@@ -23,6 +23,8 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
     await mongoose.connect(CONNECTION_URL)
 
     database = mongoose.connection.useDb('flowfoxdb')
+    dbState.isDbConnected = true
+
     console.log('\nConnected to flowfox database.')
 
     return database

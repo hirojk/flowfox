@@ -6,7 +6,7 @@ import {
   createdResponse,
   notFoundResponse,
   badRequestResponse,
-  errorResponse,
+  serverFailureResponse,
 } from '../utils/responses'
 
 // POST: create new user
@@ -28,7 +28,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
 
     createdResponse(res, 'User created successfully', user)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -42,7 +42,7 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
       users,
     })
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -58,7 +58,7 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
 
     successResponse(res, undefined, user)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -74,7 +74,7 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
 
     successResponse(res, 'User deleted successfully')
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -95,6 +95,6 @@ export async function updateUserById(req: Request, res: Response): Promise<void>
 
     successResponse(res, 'User updated successfully', user)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }

@@ -7,7 +7,7 @@ import {
   createdResponse,
   notFoundResponse,
   badRequestResponse,
-  errorResponse,
+  serverFailureResponse,
 } from '../utils/responses'
 
 // POST: create new board component
@@ -39,7 +39,7 @@ export async function createBoardComponent(req: Request, res: Response): Promise
 
     createdResponse(res, 'New Board created successfully', newBoard)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -98,6 +98,6 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
 
     badRequestResponse(res, 'Either boardName or boardData is required')
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }

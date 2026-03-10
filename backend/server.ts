@@ -1,23 +1,25 @@
 import './config/env'
 import express from 'express'
 import cors from 'cors'
-import { dbMiddleware } from './config/database'
+import { databaseMiddleware } from './config/database'
+import { authMiddleware } from './middleware/authMiddleware'
+import authRoutes from './routes/authRoutes'
 import userRoutes from './routes/userRoutes'
 import projectRoutes from './routes/projectRoutes'
-// import { authMiddleware } from './middleware/authMiddleware'
+
 import { startlocalServer } from './config/localServer'
 
-const app = express()
-const PORT: string | number = process.env.PORT || 5000
+const app: express.Application = express()
 
 app.use(cors())
 app.use(express.json())
 
-app.use(dbMiddleware)
+app.use(databaseMiddleware)
 
-// Routes
-app.use('/api/v1/users', userRoutes)
-app.use('/api/v1/projects', projectRoutes)
+// Database connection & Routes
+app.use('/api/auth', authRoutes)
+app.use('/api/v1/users', authMiddleware, userRoutes)
+app.use('/api/v1/projects', authMiddleware, projectRoutes)
 
 export default app
-startlocalServer(app, PORT)
+startlocalServer(app)

@@ -8,7 +8,7 @@ import {
   createdResponse,
   notFoundResponse,
   badRequestResponse,
-  errorResponse,
+  serverFailureResponse,
 } from '../utils/responses'
 
 // POST: create new project
@@ -32,7 +32,7 @@ export async function createProject(req: Request, res: Response): Promise<void> 
 
     createdResponse(res, 'Project created successfully', project)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -55,7 +55,7 @@ export async function getProjectById(req: Request, res: Response): Promise<void>
 
     successResponse(res, undefined, project)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -77,7 +77,7 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
       projects,
     })
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -99,7 +99,7 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
 
     successResponse(res, 'Project deleted successfully')
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
 
@@ -125,6 +125,6 @@ export async function updateProjectById(req: Request, res: Response): Promise<vo
 
     successResponse(res, 'Project updated successfully', project)
   } catch (error: any) {
-    errorResponse(res, error.message)
+    serverFailureResponse(res, error.message)
   }
 }
