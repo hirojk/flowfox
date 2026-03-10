@@ -33,9 +33,8 @@
     try {
       await authStore.login(username.value, password.value)
       router.push('/')
-    } catch (error) {
+    } catch {
       errorMessage.value = 'Invalid username or password'
-      console.error('Login failed:', error)
     }
   }
 </script>

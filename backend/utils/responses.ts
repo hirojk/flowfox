@@ -47,13 +47,13 @@ export function notFoundResponse(res: Response, message: string): void {
 export function serverFailureResponse(res: Response, message: string): void {
   res.status(500).json({
     success: false,
-    error: message,
+    error: process.env.NODE_ENV === 'development' ? message : undefined,
   })
 }
 
 export function serviceUnavailableResponse(res: Response, message: string): void {
   res.status(503).json({
     success: false,
-    error: message,
+    error: process.env.NODE_ENV === 'development' ? message : undefined,
   })
 }

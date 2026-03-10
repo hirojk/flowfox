@@ -4,7 +4,7 @@ import { Application } from 'express'
 const PORT: string | number = process.env.PORT || 5000
 
 export async function startLocalServer(app: Application) {
-  if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'staging') {
+  if (process.env.NODE_ENV === 'development') {
     connectToDatabase()
       .then(() => {
         app.listen(PORT, () => {
