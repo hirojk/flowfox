@@ -67,8 +67,8 @@
       gap: 1em;
       width: fit-content;
       padding: 0.5em 2em 0.5em 1em;
-      color: $white;
-      background-color: $grey;
+      color: $ff-white;
+      background-color: $ff-grey;
     }
   }
 </style>

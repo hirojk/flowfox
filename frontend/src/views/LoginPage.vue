@@ -1,17 +1,19 @@
 <template>
-  <div class="login-form">
-    <h2>Login</h2>
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="login-username">Username:</label>
-        <input type="text" id="login-username" v-model="username" required />
-      </div>
-      <div class="form-group">
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" v-model="password" required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+  <div class="page page--login">
+    <div class="login-form">
+      <h1 class="login-form__title">Flowfox</h1>
+      <form class="login-form__form" @submit.prevent="handleLogin">
+        <div class="login-form__form-group">
+          <label class="login-form__form-label" for="login-username">Username</label>
+          <input class="login-form__form-input" type="text" id="login-username" v-model="username" required />
+        </div>
+        <div class="login-form__form-group">
+          <label class="login-form__form-label" for="login-password">Password</label>
+          <input class="login-form__form-input" type="password" id="login-password" v-model="password" required />
+        </div>
+        <button class="login-form__form-button" type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -30,50 +32,63 @@
       await authStore.login(username.value, password.value)
       router.push('/')
     } catch (error) {
-      console.log('Login failed:', error)
+      console.error('Login failed:', error)
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .login-form {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: $white;
+  .page--login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-
-      label {
-        display: block;
-        margin-bottom: 5px;
-      }
-
-      input {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-      }
-    }
-
-    button {
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5em;
       width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      max-width: 25em;
+      border-radius: 1em;
+      padding: 2em;
+      background-color: $ff-white;
 
-      &:hover {
-        background-color: #0056b3;
+      &_title {
+        text-align: center;
+      }
+
+      &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        width: 100%;
+
+        &-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+        }
+
+        &-input {
+          padding: 0.5em;
+          border: 1px solid $ff-grey;
+          border-radius: 0.5em;
+        }
+
+        &-button {
+          margin-top: 2em;
+          border-radius: 0.5em;
+          padding: 0.75em;
+          text-align: center;
+          color: $ff-white;
+          background-color: $ff-primary;
+
+          &:hover {
+            background-color: $ff-grey;
+          }
+        }
       }
     }
   }

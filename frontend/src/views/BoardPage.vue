@@ -96,8 +96,8 @@
         padding: 1em;
         width: 100%;
         font-size: nth(map-get($font-size, md), 1);
-        color: $white;
-        background-color: $quinterany;
+        color: $ff-white;
+        background-color: $ff-quinary;
       }
     }
   }

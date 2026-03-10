@@ -36,7 +36,7 @@
       gap: 1em;
       border-radius: 1em;
       padding: 2em;
-      background-color: $white;
+      background-color: $ff-white;
     }
   }
 </style>
