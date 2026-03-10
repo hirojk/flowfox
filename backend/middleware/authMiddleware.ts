@@ -1,24 +1,20 @@
+import jwt from 'jsonwebtoken'
+
 import { Request, Response, NextFunction } from 'express'
 import { notAuthenticatedResponse } from '../utils/responses'
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
-  const VALID_USER = process.env.ADMIN_USER
-  const VALID_PASS = process.env.ADMIN_PASS
-
   const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.replace('Bearer ', '')
 
-  if (!authHeader) {
-    return notAuthenticatedResponse(res, 'No credentials provided')
+  if (token == null) {
+    return notAuthenticatedResponse(res, 'No token provided')
   }
 
-  // Erwartet: 'Basic base64(username:password)'
-  const base64 = authHeader.replace('Basic ', '')
-  const decoded = Buffer.from(base64, 'base64').toString('utf-8')
-  const [username, password] = decoded.split(':')
-
-  if (username === VALID_USER && password === VALID_PASS) {
-    return next()
-  }
-
-  return notAuthenticatedResponse(res, 'Invalid credentials')
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (error) => {
+    if (error) {
+      return notAuthenticatedResponse(res, 'Invalid token')
+    }
+    next()
+  })
 }
