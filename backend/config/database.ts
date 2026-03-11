@@ -6,7 +6,7 @@ let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }
 
 export async function databaseMiddleware(req: Request, res: Response, next: NextFunction) {
-  if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') && !dbState.isDbConnected) {
+  if (!dbState.isDbConnected) {
     try {
       await connectToDatabase()
     } catch (error) {
