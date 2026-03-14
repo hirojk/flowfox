@@ -5,5 +5,12 @@ import { UserSchema } from '@flowfox/shared'
 
 const userSchema = new Schema(zodToMongooseSchema(UserSchema), { timestamps: true })
 
+userSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    delete ret.password
+    return ret
+  },
+})
+
 export const UserModel = () => getDatabase().model('User', userSchema)
 export default UserModel

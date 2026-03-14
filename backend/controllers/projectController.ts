@@ -63,7 +63,7 @@ export async function getProjectById(req: Request, res: Response): Promise<void>
 // GET: get all projects by user ID
 export async function getAllProjectsByUser(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.params
+    const userId = req.user!.id
 
     const user = await UserModel().findOne({ id: userId })
     const projects = await ProjectModel().find({ creatorId: userId })

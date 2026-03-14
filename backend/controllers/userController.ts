@@ -1,3 +1,6 @@
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
 import { Request, Response } from 'express'
 import UserModel from '../models/User.js'
 import { UserSchema } from '@flowfox/shared'
@@ -14,23 +17,65 @@ import {
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const userModel = UserModel()
-    const { username, name } = req.body
-    const existingUser = await userModel.findOne({ $or: [{ username }] })
+    const { username, name, password } = req.body
 
+    const existingUser = await userModel.findOne({ $or: [{ username }] })
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
     }
 
+    const hashedPassword = await bcrypt.hash(password, 12)
+
     const userData = UserSchema.parse({
       id: generateId(),
       username,
       name,
+      password: hashedPassword,
     })
     const user = new userModel(userData)
     await user.save()
 
     createdResponse(res, 'User created successfully', user)
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
+// POST: login user
+function createToken(payload: object): string {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7d' })
+}
+
+export async function loginUser(req: Request, res: Response): Promise<void> {
+  try {
+    const userModel = UserModel()
+    const { username, password } = req.body
+
+    const admin = {
+      username: process.env.ADMIN_USER,
+      password: process.env.ADMIN_PASS,
+    }
+    if (username === admin.username && password === admin.password) {
+      return successResponse(res, 'Login successful', { token: createToken({ username, role: 'admin' }) })
+    }
+
+    const user = await userModel.findOne({ username }).select('+password')
+
+    if (!user) {
+      badRequestResponse(res, 'Invalid credentials')
+      return
+    }
+
+    const isValid = await bcrypt.compare(password, user.password)
+    if (!isValid) {
+      badRequestResponse(res, 'Password is incorrect')
+      return
+    }
+
+    const token = createToken({ id: user.id, username, role: user.role })
+
+    successResponse(res, 'Login successful', { token })
   } catch (error: any) {
     serverFailureResponse(res, error.message)
   }

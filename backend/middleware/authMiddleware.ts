@@ -11,10 +11,18 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     return notAuthenticatedResponse(res, 'No token provided')
   }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (error) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (error, decoded) => {
     if (error) {
       return notAuthenticatedResponse(res, 'Invalid token')
     }
+    req.user = decoded as typeof req.user
     next()
   })
+}
+
+export function adminMiddleware(req: Request, res: Response, next: NextFunction) {
+  if (req.user?.role !== 'admin') {
+    return notAuthenticatedResponse(res, 'Admin access required')
+  }
+  next()
 }
