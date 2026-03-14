@@ -18,11 +18,12 @@ export async function databaseMiddleware(req: Request, res: Response, next: Next
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
   const CONNECTION_URL = process.env.MONGODB_URI || ''
+  const dbName = process.env.NODE_ENV === 'production' ? 'productiondb' : 'testdb'
 
   try {
     await mongoose.connect(CONNECTION_URL)
 
-    database = mongoose.connection.useDb('flowfoxdb')
+    database = mongoose.connection.useDb(dbName)
     dbState.isDbConnected = true
 
     console.log('\nConnected to flowfox database.')

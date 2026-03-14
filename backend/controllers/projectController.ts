@@ -14,6 +14,7 @@ import {
 // POST: create new project
 export async function createProject(req: Request, res: Response): Promise<void> {
   try {
+    const projectModel = ProjectModel()
     const { projectName, userId } = req.body
 
     if (!projectName || !userId) {
@@ -27,7 +28,7 @@ export async function createProject(req: Request, res: Response): Promise<void> 
       creatorId: userId,
     })
 
-    const project = new ProjectModel(projectData)
+    const project = new projectModel(projectData)
     await project.save()
 
     createdResponse(res, 'Project created successfully', project)
@@ -46,7 +47,7 @@ export async function getProjectById(req: Request, res: Response): Promise<void>
       return
     }
 
-    const project = await ProjectModel.findOne({ id: projectId })
+    const project = await ProjectModel().findOne({ id: projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -64,8 +65,8 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
   try {
     const { userId } = req.params
 
-    const user = await UserModel.findOne({ id: userId })
-    const projects = await ProjectModel.find({ creatorId: userId })
+    const user = await UserModel().findOne({ id: userId })
+    const projects = await ProjectModel().find({ creatorId: userId })
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -85,7 +86,7 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
 export async function deleteProjectById(req: Request, res: Response): Promise<void> {
   try {
     const { userId } = req.body
-    const project = await ProjectModel.findOneAndDelete({ id: req.params.projectId, creatorId: userId })
+    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId, creatorId: userId })
 
     if (!userId) {
       badRequestResponse(res, 'userId is required')
@@ -107,7 +108,7 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
 export async function updateProjectById(req: Request, res: Response): Promise<void> {
   try {
     const { userId, components } = req.body
-    const project = await ProjectModel.findOneAndUpdate(
+    const project = await ProjectModel().findOneAndUpdate(
       { id: req.params.projectId },
       { creatorId: userId, components: components },
       { returnDocument: 'after' },

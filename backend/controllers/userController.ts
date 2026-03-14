@@ -12,17 +12,19 @@ import {
 // POST: create new user
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
-    const { username } = req.body
-    const existingUser = await UserModel.findOne({ $or: [{ username }] })
+    const userModel = UserModel()
+    const { username, fullName } = req.body
+    const existingUser = await userModel.findOne({ $or: [{ username }] })
 
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
     }
 
-    const user = new UserModel({
+    const user = new userModel({
       id: generateId(),
       username,
+      fullName,
     })
     await user.save()
 
@@ -35,7 +37,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
 // GET: get all users
 export async function getAllUsers(req: Request, res: Response): Promise<void> {
   try {
-    const users = await UserModel.find().select('-password')
+    const users = await UserModel().find().select('-password')
 
     successResponse(res, undefined, {
       userCount: users.length,
@@ -49,7 +51,7 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
 // GET: search single user by ID
 export async function getUserById(req: Request, res: Response): Promise<void> {
   try {
-    const user = await UserModel.findOne({ id: req.params.id }).select('-password')
+    const user = await UserModel().findOne({ id: req.params.id }).select('-password')
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -65,7 +67,7 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
 // DELETE: delete user by ID
 export async function deleteUserById(req: Request, res: Response): Promise<void> {
   try {
-    const user = await UserModel.findOneAndDelete({ id: req.params.id })
+    const user = await UserModel().findOneAndDelete({ id: req.params.id })
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -82,11 +84,9 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
 export async function updateUserById(req: Request, res: Response): Promise<void> {
   try {
     const { username } = req.body
-    const user = await UserModel.findOneAndUpdate(
-      { id: req.params.id },
-      { username },
-      { returnDocument: 'after' },
-    ).select('-password')
+    const user = await UserModel()
+      .findOneAndUpdate({ id: req.params.id }, { username }, { returnDocument: 'after' })
+      .select('-password')
 
     if (!user) {
       notFoundResponse(res, 'User not found')

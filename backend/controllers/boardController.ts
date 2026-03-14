@@ -13,6 +13,7 @@ import {
 // POST: create new board component
 export async function createBoardComponent(req: Request, res: Response): Promise<void> {
   try {
+    const projectModel = ProjectModel()
     const { projectId } = req.params
     const { userId, boardName } = req.body
 
@@ -21,7 +22,7 @@ export async function createBoardComponent(req: Request, res: Response): Promise
       return
     }
 
-    const project = await ProjectModel.findOne({ id: projectId })
+    const project = await projectModel.findOne({ id: projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -51,7 +52,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
     const { boardName, boardData } = req.body
 
     if (boardName) {
-      const result = await ProjectModel.updateOne(
+      const result = await ProjectModel().updateOne(
         { id: projectId, 'components.id': boardId },
         {
           $set: {
@@ -70,7 +71,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
     }
 
     if (boardData) {
-      const project = await ProjectModel.findOne({ id: projectId })
+      const project = await ProjectModel().findOne({ id: projectId })
 
       if (!project) {
         notFoundResponse(res, 'Project not found')
