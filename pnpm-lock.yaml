@@ -20,6 +20,9 @@ importers:
 
   backend:
     dependencies:
+      '@flowfox/shared':
+        specifier: workspace:*
+        version: link:../shared
       cors:
         specifier: ^2.8.6
         version: 2.8.6
