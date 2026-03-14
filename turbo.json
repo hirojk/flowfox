@@ -4,11 +4,25 @@
   "tasks": {
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "MONGODB_URI",
+        "NODE_ENV",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "ACCESS_TOKEN_SECRET"
+      ]
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "env": [
+        "MONGODB_URI",
+        "NODE_ENV",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "ACCESS_TOKEN_SECRET"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
