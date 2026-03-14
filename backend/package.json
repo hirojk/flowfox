@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@flowfox/shared": "workspace:*",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
