@@ -15,10 +15,11 @@ export async function createBoardComponent(req: Request, res: Response): Promise
   try {
     const projectModel = ProjectModel()
     const { projectId } = req.params
-    const { userId, boardName } = req.body
+    const userId = req.user!.id
+    const { boardName } = req.body
 
-    if (!userId || !boardName) {
-      badRequestResponse(res, 'userId and boardName are required')
+    if (!boardName) {
+      badRequestResponse(res, 'boardName is required')
       return
     }
 
