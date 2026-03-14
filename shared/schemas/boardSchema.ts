@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority'
+import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority.js'
 
 export const CheckboxItemSchema = z.object({
   isChecked: z.boolean().default(false),

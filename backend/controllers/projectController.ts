@@ -1,15 +1,15 @@
 import { Request, Response } from 'express'
-import ProjectModel from '../models/Project'
-import { ProjectSchema } from '../shared/schemas/projectSchema'
-import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import ProjectModel from '../models/Project.js'
+import { ProjectSchema } from '@flowfox/shared'
+import UserModel from '../models/User.js'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
   notFoundResponse,
   badRequestResponse,
   serverFailureResponse,
-} from '../utils/responses'
+} from '../utils/responses.js'
 
 // POST: create new project
 export async function createProject(req: Request, res: Response): Promise<void> {

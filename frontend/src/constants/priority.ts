@@ -1,6 +1,6 @@
-import type { BoardCardType } from '@shared/schemas/boardSchema'
+import type { BoardCardType } from '@flowfox/shared'
 import type { IconType } from '@typeDefs/global.ts'
-import { PRIORITY_VALUES, type PriorityName } from '@shared/constants/priority'
+import { PRIORITY_VALUES, type PriorityName } from '@flowfox/shared'
 
 export interface PriorityIconType extends IconType {
   name: PriorityName
@@ -13,7 +13,7 @@ export const PRIORITY_LIST: IconType[] = [
   { name: 'Low', icon: 'icon-low' },
 ] as const
 
-export { PRIORITY_VALUES, type PriorityName } from '@shared/constants/priority'
+export { PRIORITY_VALUES, type PriorityName } from '@flowfox/shared'
 
 export const sortedCardsByPriority = (cards: BoardCardType[]): BoardCardType[] => {
   return [...cards].sort((a, b) => {

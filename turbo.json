@@ -1,0 +1,36 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "VITE_API_URL",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "ACCESS_TOKEN_SECRET",
+        "MONGODB_URI",
+        "NODE_ENV"
+      ]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "env": [
+        "VITE_API_URL",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "ACCESS_TOKEN_SECRET",
+        "MONGODB_URI",
+        "NODE_ENV"
+      ]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    }
+  }
+}

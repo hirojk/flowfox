@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
-import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import UserModel from '../models/User.js'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
   notFoundResponse,
   badRequestResponse,
   serverFailureResponse,
-} from '../utils/responses'
+} from '../utils/responses.js'
 
 // POST: create new user
 export async function createUser(req: Request, res: Response): Promise<void> {

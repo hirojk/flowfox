@@ -1,7 +1,7 @@
-import type { BoardColumnType, BoardCardType } from '@shared/schemas/boardSchema'
+import type { BoardColumnType, BoardCardType } from '@flowfox/shared'
 import { useModalStore } from '@stores/appStore.ts'
 import { useBoardStore } from '@stores/boardStore.ts'
-import { generateId } from '@shared/utils/idGenerator'
+import { generateId } from '@flowfox/shared'
 
 const getStores = () => ({
   board: useBoardStore(),

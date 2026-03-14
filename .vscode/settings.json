@@ -1,0 +1,17 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lockb, .npmrc, .nvmrc, nodemon.json",
+    "tsconfig.json": "tsconfig.*.json, env.d.ts",
+    ".env": ".env.*",
+    ".gitignore": ".gitattributes, .gitmodules",
+    ".eslintrc*": ".eslintignore",
+    ".prettierrc*": ".prettierignore",
+    "vite.config.*": "vitest.config.*, cypress.config.*, playwright.config.*"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

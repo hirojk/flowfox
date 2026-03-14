@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
-import { ProjectModel } from '../models/Project'
-import { BoardSchema } from '../shared/schemas/boardSchema'
-import { generateId } from '../shared/utils/idGenerator'
+import { ProjectModel } from '../models/Project.js'
+import { BoardSchema } from '@flowfox/shared'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
   notFoundResponse,
   badRequestResponse,
   serverFailureResponse,
-} from '../utils/responses'
+} from '../utils/responses.js'
 
 // POST: create new board component
 export async function createBoardComponent(req: Request, res: Response): Promise<void> {

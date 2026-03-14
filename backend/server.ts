@@ -1,13 +1,13 @@
-import './config/env'
+import './config/env.js'
 import express from 'express'
 import cors from 'cors'
-import { databaseMiddleware } from './config/database'
-import { authMiddleware } from './middleware/authMiddleware'
-import authRoutes from './routes/authRoutes'
-import userRoutes from './routes/userRoutes'
-import projectRoutes from './routes/projectRoutes'
+import { databaseMiddleware } from './config/database.js'
+import { authMiddleware } from './middleware/authMiddleware.js'
+import authRoutes from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import projectRoutes from './routes/projectRoutes.js'
 
-import { startLocalServer } from './config/localServer'
+import { startLocalServer } from './config/localServer.js'
 
 const app: express.Application = express()
 

@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { CheckboxItemType } from '@shared/schemas/boardSchema'
+  import type { CheckboxItemType } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
 
