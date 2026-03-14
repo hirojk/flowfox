@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project'
-import { BoardSchema } from '../shared/schemas/boardSchema'
-import { generateId } from '../shared/utils/idGenerator'
+import { BoardSchema } from '@flowfox/shared'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,

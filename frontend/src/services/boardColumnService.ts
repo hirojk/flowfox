@@ -1,5 +1,5 @@
-import { generateId } from '@shared/utils/idGenerator'
-import type { BoardColumnType } from '@shared/schemas/boardSchema'
+import { generateId } from '@flowfox/shared'
+import type { BoardColumnType } from '@flowfox/shared'
 import { useBoardStore } from '@stores/boardStore.ts'
 
 const getStores = () => ({

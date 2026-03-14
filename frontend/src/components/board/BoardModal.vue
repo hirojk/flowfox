@@ -107,7 +107,7 @@
   import { removeCard, updateCard } from '@services/boardCardService.ts'
   import { PRIORITY_LIST } from '@constants/priority.ts'
   import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType } from '@shared/schemas/boardSchema'
+  import type { BoardCardType, BoardColumnType } from '@flowfox/shared'
   import type { PriorityName } from '@/constants/priority'
 
   import TextEditor from '@components/fields/TextEditor.vue'

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,

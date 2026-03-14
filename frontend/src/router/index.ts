@@ -13,15 +13,15 @@ const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    next({ name: 'login' })
+    return { name: 'login' }
   } else if (to.name === 'login' && authStore.isLoggedIn) {
-    next({ name: 'board', params: { projectId: '97649491' } })
+    return { name: 'board', params: { projectId: '97649491' } }
   } else {
-    next()
+    return true
   }
 })
 

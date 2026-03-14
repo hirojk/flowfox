@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { zodToMongooseSchema } from '../utils/zodToMongoose'
-import { ProjectSchema } from '../shared/schemas/projectSchema'
+import { ProjectSchema } from '@flowfox/shared'
 
 const database = mongoose.connection.useDb('flowfoxdb')
 const projectSchema = new Schema(zodToMongooseSchema(ProjectSchema), { timestamps: true })

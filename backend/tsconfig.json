@@ -10,7 +10,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@flowfox/shared": ["../shared/index.ts"]
+    }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import ProjectModel from '../models/Project'
-import { ProjectSchema } from '../shared/schemas/projectSchema'
+import { ProjectSchema } from '@flowfox/shared'
 import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
