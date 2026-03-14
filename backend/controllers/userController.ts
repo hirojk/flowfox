@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import UserModel from '../models/User.js'
+import { UserSchema } from '@flowfox/shared'
 import { generateId } from '@flowfox/shared'
 import {
   successResponse,
@@ -13,7 +14,7 @@ import {
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const userModel = UserModel()
-    const { username, fullName } = req.body
+    const { username, name } = req.body
     const existingUser = await userModel.findOne({ $or: [{ username }] })
 
     if (existingUser) {
@@ -21,11 +22,12 @@ export async function createUser(req: Request, res: Response): Promise<void> {
       return
     }
 
-    const user = new userModel({
+    const userData = UserSchema.parse({
       id: generateId(),
       username,
-      fullName,
+      name,
     })
+    const user = new userModel(userData)
     await user.save()
 
     createdResponse(res, 'User created successfully', user)
