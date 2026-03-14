@@ -6,22 +6,24 @@
       "cache": false,
       "persistent": true,
       "env": [
-        "MONGODB_URI",
-        "NODE_ENV",
+        "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",
-        "ACCESS_TOKEN_SECRET"
+        "ACCESS_TOKEN_SECRET",
+        "MONGODB_URI",
+        "NODE_ENV"
       ]
     },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
       "env": [
-        "MONGODB_URI",
-        "NODE_ENV",
+        "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",
-        "ACCESS_TOKEN_SECRET"
+        "ACCESS_TOKEN_SECRET",
+        "MONGODB_URI",
+        "NODE_ENV"
       ]
     },
     "lint": {
