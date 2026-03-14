@@ -15,10 +15,11 @@ import {
 export async function createProject(req: Request, res: Response): Promise<void> {
   try {
     const projectModel = ProjectModel()
-    const { projectName, userId } = req.body
+    const { projectName } = req.body
+    const userId = req.user!.id
 
-    if (!projectName || !userId) {
-      badRequestResponse(res, 'projectName and userId are required')
+    if (!projectName) {
+      badRequestResponse(res, 'projectName is required')
       return
     }
 
