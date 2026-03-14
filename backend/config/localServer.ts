@@ -1,4 +1,4 @@
-import { connectToDatabase } from './database'
+import { connectToDatabase } from './database.js'
 import { Application } from 'express'
 
 const PORT: string | number = process.env.PORT || 5000

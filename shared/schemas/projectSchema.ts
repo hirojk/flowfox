@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BoardSchema } from './boardSchema'
+import { BoardSchema } from './boardSchema.js'
 
 export const ComponentSchema = z.discriminatedUnion('type', [BoardSchema])
 

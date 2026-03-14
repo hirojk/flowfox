@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
-import { serviceUnavailableResponse } from '../utils/responses'
+import { serviceUnavailableResponse } from '../utils/responses.js'
 
 let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }

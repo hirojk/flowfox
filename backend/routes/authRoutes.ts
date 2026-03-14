@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 import { Router, Request, Response } from 'express'
-import { successResponse, notAuthenticatedResponse } from '../utils/responses'
+import { successResponse, notAuthenticatedResponse } from '../utils/responses.js'
 
 const router = Router()
 

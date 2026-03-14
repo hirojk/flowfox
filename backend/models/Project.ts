@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-import { zodToMongooseSchema } from '../utils/zodToMongoose'
+import { zodToMongooseSchema } from '../utils/zodToMongoose.js'
 import { ProjectSchema } from '@flowfox/shared'
 
 const database = mongoose.connection.useDb('flowfoxdb')
