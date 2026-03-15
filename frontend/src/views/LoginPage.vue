@@ -1,6 +1,6 @@
 <template>
-  <div class="page page--login">
-    <div class="login-form">
+  <main class="page page--login">
+    <section class="login-form">
       <h1 class="login-form__title">Flowfox</h1>
       <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
       <form class="login-form__form" @submit.prevent="handleLogin">
@@ -14,8 +14,8 @@
         </div>
         <button class="login-form__form-button" type="submit">Login</button>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +51,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.5em;
+      gap: 2em;
       width: 100%;
       max-width: 25em;
       border-radius: 1em;
@@ -59,6 +59,7 @@
       background-color: $ff-white;
 
       &__title {
+        color: $ff-primary;
         text-align: center;
       }
 

@@ -2,7 +2,7 @@
   <q-page>
     <section class="page__header">
       <h1 class="page__headline">Hello {{ activeUser?.name }}</h1>
-      <button class="page__logout button button--secondary">Logout</button>
+      <button class="page__logout button button--secondary" @click="handleLogout">Logout</button>
     </section>
     <section class="page__content">
       <div class="projects">
@@ -34,10 +34,18 @@
   import { computed, onMounted } from 'vue'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/homeStore.ts'
+  import { useRouter } from 'vue-router'
   import { useInitials } from '@/composables/useInitials'
 
   const activeUser = computed(() => useAuthStore().activeUser)
   const projectStore = useProjectStore()
+
+  const router = useRouter()
+
+  const handleLogout = () => {
+    useAuthStore().logout()
+    router.push('/login')
+  }
 
   onMounted(async () => {
     if (!activeUser) return
