@@ -12,7 +12,7 @@ import { createBoardComponent, updateBoard } from '../controllers/boardControlle
 const router = express.Router()
 
 router.post('/', createProject)
-router.get('/user/:userId', getAllProjectsByUser)
+router.get('/user', getAllProjectsByUser)
 
 router.post('/:projectId/boards', createBoardComponent)
 router.put('/:projectId/boards/:boardId', updateBoard)

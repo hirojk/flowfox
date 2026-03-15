@@ -37,8 +37,16 @@ button {
   background-color: $ff-tertiary;
 }
 
-.headline {
-  color: $ff-white;
+.button {
+  display: inline-block;
+  border-radius: 0.4em;
+  padding: 1em 1.5em;
+  font-size: nth(map-get($font-size, md), 1);
+
+  &--secondary {
+    background-color: $ff-grey;
+    color: $ff-white;
+  }
 }
 
 .tag {
@@ -46,5 +54,4 @@ button {
   border-radius: 0.4em;
   padding: 0.2em 0.6em;
   font-size: nth(map-get($font-size, sm), 1);
-  background-color: $ff-quaternary;
 }

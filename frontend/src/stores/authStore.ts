@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
+import { jwtDecode } from 'jwt-decode'
+import type { UserType } from '@flowfox/shared'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -7,6 +9,10 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
+    activeUser: (state) => {
+      if (!state.token) return null
+      return jwtDecode<Omit<UserType, 'password'>>(state.token)
+    },
     isLoggedIn: (state) => !!state.token,
   },
 
@@ -14,8 +20,8 @@ export const useAuthStore = defineStore('auth', {
     async login(username: string, password: string): Promise<void> {
       const response = await api.post('/api/auth/login', { username, password })
 
-      this.token = response.data.accessToken
-      sessionStorage.setItem('token', response.data.accessToken)
+      this.token = response.data.token
+      sessionStorage.setItem('token', response.data.token)
     },
 
     logout(): void {

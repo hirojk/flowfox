@@ -73,7 +73,8 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       return
     }
 
-    const token = createToken({ id: user.id, username, role: user.role })
+    const { password: _password, ...userPayload } = user.toObject()
+    const token = createToken(userPayload)
 
     successResponse(res, 'Login successful', { token })
   } catch (error: any) {

@@ -1,13 +1,14 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <SideBar />
-
+  <q-layout view="hHh lpR fFf">
     <q-page-container>
-      <router-view />
+      <router-view class="page page--main" />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup lang="ts">
-  import SideBar from '@components/SideBar.vue'
-</script>
+<style lang="scss" scoped>
+  .page--main {
+    padding: 2.5em 3.75em;
+    background-color: $ff-white;
+  }
+</style>

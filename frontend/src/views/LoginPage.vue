@@ -45,6 +45,7 @@
     justify-content: center;
     align-items: center;
     height: 100dvh;
+    background-color: $ff-secondary;
 
     .login-form {
       display: flex;

@@ -1,8 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 import MainLayout from '@layouts/MainLayout.vue'
-import Board from '@views/BoardPage.vue'
+import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@views/LoginPage.vue'
+import Project from '@views/HomePage.vue'
+import Board from '@views/BoardPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -12,13 +14,23 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    redirect: '/board/97649491',
     component: MainLayout,
     meta: { requiresAuth: true },
-
     children: [
       {
-        path: 'board/:projectId',
+        path: '',
+        name: 'projects',
+        component: Project,
+      },
+    ],
+  },
+  {
+    path: '/project/:projectId',
+    component: ComponentLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'board/:boardId',
         name: 'board',
         component: Board,
       },
