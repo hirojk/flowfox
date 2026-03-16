@@ -44,8 +44,8 @@
 
   const navItems: NavItem[] = [
     {
-      label: 'Board',
-      icon: 'board',
+      label: 'Home',
+      icon: 'home',
       route: { name: 'home' },
     },
   ]

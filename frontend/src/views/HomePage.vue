@@ -37,8 +37,8 @@
   import { RouterLink } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/homeStore.ts'
-  import { useAuth, useNavigation } from '@/composables/useNavigation'
-  import { useInitials } from '@/composables/useInitials'
+  import { useAuth, useNavigation } from '@composables/useNavigation'
+  import { useInitials } from '@composables/useInitials'
 
   const activeUser = computed(() => useAuthStore().activeUser)
   const projectStore = useProjectStore()

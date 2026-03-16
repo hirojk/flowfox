@@ -20,7 +20,7 @@ export const useNavigation = () => {
     if (!projectName || !component) return null
 
     return {
-      name: component.type,
+      name: 'component',
       params: { projectSlug: slugify(projectName), componentSlug: slugify(component.boardName) },
     }
   }
