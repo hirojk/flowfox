@@ -18,10 +18,6 @@ router.beforeEach((to, from) => {
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return { name: 'login' }
-  } else if (to.name === 'login' && authStore.isLoggedIn) {
-    return { name: 'board', params: { projectId: '97649491' } }
-  } else {
-    return true
   }
 })
 

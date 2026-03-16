@@ -1,17 +1,23 @@
 <template>
-  <svg :width="size" :height="size" aria-hidden="true">
-    <use class="iconSvg" :href="`/assets/iconSet.svg#${id}`"></use>
-  </svg>
+  <i class="icon">
+    <svg :width="size" :height="size">
+      <use class="iconSvg" :href="`/assets/iconSet.svg#${id}`"></use>
+    </svg>
+  </i>
 </template>
 
 <script setup lang="ts">
   const { id, size = 24 } = defineProps<{
     id: string
-    size?: number
+    size?: string | number
   }>()
 </script>
 
 <style lang="scss" scoped>
+  .icon {
+    line-height: 0;
+  }
+
   .iconSvg {
     fill: none;
     stroke: currentColor;

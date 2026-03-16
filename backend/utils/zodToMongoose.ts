@@ -111,6 +111,7 @@ export function zodToMongooseField(zodType: any): any {
     const field = zodToMongooseField(def.innerType)
     const defaultValue = typeof def.defaultValue === 'function' ? def.defaultValue() : def.defaultValue
     field.default = defaultValue
+    field.required = false
     return field
   }
 

@@ -7,15 +7,16 @@ import {
   // updateProjectById,
 } from '../controllers/projectController.js'
 
-import { createBoardComponent, updateBoard } from '../controllers/boardController.js'
+import { createBoardComponent, getBoardById, updateBoard } from '../controllers/boardController.js'
 
 const router = express.Router()
 
 router.post('/', createProject)
-router.get('/user/:userId', getAllProjectsByUser)
+router.get('/user', getAllProjectsByUser)
 
-router.post('/:projectId/boards', createBoardComponent)
-router.put('/:projectId/boards/:boardId', updateBoard)
+router.post('/:projectId/board', createBoardComponent)
+router.get('/:projectId/board/:boardId', getBoardById)
+router.put('/:projectId/board/:boardId', updateBoard)
 
 router.get('/:projectId', getProjectById)
 // router.delete('/:projectId', deleteProjectById)

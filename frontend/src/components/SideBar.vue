@@ -15,7 +15,8 @@
         v-ripple
         v-for="item in list"
         :key="item.label"
-        @click="handleNavItemClick(item)"
+        :to="item.route"
+        @click="item.action"
       >
         <q-item-section avatar>
           <iconSvg id="icon-plus" />
@@ -37,15 +38,15 @@
   interface NavItem {
     label: string
     icon: string
-    route?: string
+    route?: { name: string }
     action?: () => void
   }
 
   const navItems: NavItem[] = [
     {
-      label: 'Board',
-      icon: 'view_kanban',
-      route: '/',
+      label: 'Home',
+      icon: 'home',
+      route: { name: 'home' },
     },
   ]
 
@@ -53,12 +54,12 @@
     {
       label: 'Account',
       icon: 'person',
-      route: '/',
+      route: { name: 'home' },
     },
     {
       label: 'Settings',
       icon: 'settings',
-      route: '/settings',
+      route: { name: 'home' },
     },
     {
       label: 'Close',
@@ -66,14 +67,6 @@
       action: () => (miniState.value = !miniState.value),
     },
   ]
-
-  function handleNavItemClick(item: NavItem) {
-    if (item.action) {
-      item.action()
-    } else {
-      console.log('Navigate to', item.route)
-    }
-  }
 </script>
 
 <style lang="scss">

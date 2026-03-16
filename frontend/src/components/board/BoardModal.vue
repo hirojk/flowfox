@@ -108,7 +108,7 @@
   import { PRIORITY_LIST } from '@constants/priority.ts'
   import { getIcon } from '@services/helpers.ts'
   import type { BoardCardType, BoardColumnType } from '@flowfox/shared'
-  import type { PriorityName } from '@/constants/priority'
+  import type { PriorityName } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import SelectEditor from '@components/fields/SelectEditor.vue'

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project.js'
 import { BoardSchema } from '@flowfox/shared'
+import type { BoardType } from '@flowfox/shared'
 import { generateId } from '@flowfox/shared'
 import {
   successResponse,
@@ -13,15 +14,17 @@ import {
 // POST: create new board component
 export async function createBoardComponent(req: Request, res: Response): Promise<void> {
   try {
+    const projectModel = ProjectModel()
     const { projectId } = req.params
-    const { userId, boardName } = req.body
+    const userId = req.user!.id
+    const { boardName } = req.body
 
-    if (!userId || !boardName) {
-      badRequestResponse(res, 'userId and boardName are required')
+    if (!boardName) {
+      badRequestResponse(res, 'boardName is required')
       return
     }
 
-    const project = await ProjectModel.findOne({ id: projectId })
+    const project = await projectModel.findOne({ id: projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -43,6 +46,33 @@ export async function createBoardComponent(req: Request, res: Response): Promise
   }
 }
 
+// GET: get board by id
+export async function getBoardById(req: Request, res: Response): Promise<void> {
+  try {
+    const { projectId, boardId } = req.params
+
+    const project = await ProjectModel().findOne({ id: Number(projectId) })
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    const board = project.components.find(
+      (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
+    )
+
+    if (!board) {
+      notFoundResponse(res, 'Board not found')
+      return
+    }
+
+    successResponse(res, undefined, board)
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
 // PUT: update board name and data
 export async function updateBoard(req: Request, res: Response): Promise<void> {
   try {
@@ -51,7 +81,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
     const { boardName, boardData } = req.body
 
     if (boardName) {
-      const result = await ProjectModel.updateOne(
+      const result = await ProjectModel().updateOne(
         { id: projectId, 'components.id': boardId },
         {
           $set: {
@@ -70,7 +100,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
     }
 
     if (boardData) {
-      const project = await ProjectModel.findOne({ id: projectId })
+      const project = await ProjectModel().findOne({ id: projectId })
 
       if (!project) {
         notFoundResponse(res, 'Project not found')
