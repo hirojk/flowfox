@@ -15,6 +15,7 @@
         v-ripple
         v-for="item in list"
         :key="item.label"
+        :to="item.route"
         @click="handleNavItemClick(item)"
       >
         <q-item-section avatar>
@@ -30,25 +31,22 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useNavigation } from '@/composables/useNavigation'
 
   const drawer = ref(true)
   const miniState = ref(true)
 
-  const { goToHome } = useNavigation()
-
   interface NavItem {
     label: string
     icon: string
-    route?: string
+    route?: { name: string }
     action?: () => void
   }
 
   const navItems: NavItem[] = [
     {
       label: 'Board',
-      icon: 'view_kanban',
-      action: () => goToHome(),
+      icon: 'board',
+      route: { name: 'home' },
     },
   ]
 
@@ -56,12 +54,12 @@
     {
       label: 'Account',
       icon: 'person',
-      route: '/',
+      route: { name: 'home' },
     },
     {
       label: 'Settings',
       icon: 'settings',
-      route: '/settings',
+      route: { name: 'home' },
     },
     {
       label: 'Close',

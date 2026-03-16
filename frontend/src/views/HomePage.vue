@@ -2,19 +2,21 @@
   <q-page>
     <section class="page__header">
       <h1 class="page__headline">Hello {{ activeUser?.name }}</h1>
-      <button class="page__logout button button--secondary" @click="handleLogout">Logout</button>
+      <RouterLink class="page__logout button button--secondary" :to="{ name: 'login' }" @click="handleLogout">
+        Logout
+      </RouterLink>
     </section>
     <section class="page__content">
       <div class="projects">
         <h2 class="projects__title">Projects</h2>
         <ul class="projects__list">
-          <li v-for="project in projectStore.userProjects" :key="project.id" class="projects__item">
-            <button class="projects__button" @click="handleGoTo(project.id)">
+          <li v-for="{ project, link } in projects" :key="project.id" class="projects__item">
+            <component :is="link ? RouterLink : 'button'" :to="link" class="projects__button">
               <div class="projects__icon">
                 <strong class="projects__initials">{{ useInitials(project.projectName) }}</strong>
               </div>
               <span class="projects__name">{{ project.projectName }}</span>
-            </button>
+            </component>
           </li>
           <li class="projects__item">
             <button class="projects__button projects__button--new">
@@ -32,6 +34,7 @@
 
 <script setup lang="ts">
   import { computed, onMounted } from 'vue'
+  import { RouterLink } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/homeStore.ts'
   import { useAuth, useNavigation } from '@/composables/useNavigation'
@@ -41,17 +44,20 @@
   const projectStore = useProjectStore()
 
   const { handleLogout } = useAuth()
-  const { goToComponent } = useNavigation()
+  const { componentRoute } = useNavigation()
 
-  const handleGoTo = (projectId: number) => {
-    const firstComponent = projectStore.getFirstComponent(projectId)
-    if (!firstComponent) return
-
-    goToComponent(firstComponent.type, projectId, firstComponent.id)
-  }
+  const projects = computed(() =>
+    projectStore.userProjects.map((project) => {
+      const first = projectStore.getFirstComponent(project.id)
+      return {
+        project: project,
+        link: first ? componentRoute(first.type, project.id, first.id) : null,
+      }
+    }),
+  )
 
   onMounted(async () => {
-    if (!activeUser) return
+    if (!activeUser.value) return
     try {
       await projectStore.loadProjects()
     } catch (error) {
