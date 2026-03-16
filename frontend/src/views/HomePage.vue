@@ -9,7 +9,7 @@
         <h2 class="projects__title">Projects</h2>
         <ul class="projects__list">
           <li v-for="project in projectStore.userProjects" :key="project.id" class="projects__item">
-            <button class="projects__button">
+            <button class="projects__button" @click="handleGoTo(project.id)">
               <div class="projects__icon">
                 <strong class="projects__initials">{{ useInitials(project.projectName) }}</strong>
               </div>
@@ -34,17 +34,20 @@
   import { computed, onMounted } from 'vue'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/homeStore.ts'
-  import { useRouter } from 'vue-router'
+  import { useAuth, useNavigation } from '@/composables/useNavigation'
   import { useInitials } from '@/composables/useInitials'
 
   const activeUser = computed(() => useAuthStore().activeUser)
   const projectStore = useProjectStore()
 
-  const router = useRouter()
+  const { handleLogout } = useAuth()
+  const { goToComponent } = useNavigation()
 
-  const handleLogout = () => {
-    useAuthStore().logout()
-    router.push('/login')
+  const handleGoTo = (projectId: number) => {
+    const firstComponent = projectStore.getFirstComponent(projectId)
+    if (!firstComponent) return
+
+    goToComponent(firstComponent.type, projectId, firstComponent.id)
   }
 
   onMounted(async () => {

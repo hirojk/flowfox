@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import MainLayout from '@layouts/MainLayout.vue'
 import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@views/LoginPage.vue'
-import Project from '@views/HomePage.vue'
+import Home from '@views/HomePage.vue'
 import Board from '@views/BoardPage.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -19,8 +19,8 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        name: 'projects',
-        component: Project,
+        name: 'home',
+        component: Home,
       },
     ],
   },
@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'board/:boardId',
+        path: 'board/:componentId',
         name: 'board',
         component: Board,
       },

@@ -30,9 +30,12 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useNavigation } from '@/composables/useNavigation'
 
   const drawer = ref(true)
   const miniState = ref(true)
+
+  const { goToHome } = useNavigation()
 
   interface NavItem {
     label: string
@@ -45,7 +48,7 @@
     {
       label: 'Board',
       icon: 'view_kanban',
-      route: '/',
+      action: () => goToHome(),
     },
   ]
 

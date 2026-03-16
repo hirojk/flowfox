@@ -14,8 +14,8 @@ const router = express.Router()
 router.post('/', createProject)
 router.get('/user', getAllProjectsByUser)
 
-router.post('/:projectId/boards', createBoardComponent)
-router.put('/:projectId/boards/:boardId', updateBoard)
+router.post('/:projectId/board', createBoardComponent)
+router.put('/:projectId/board/:boardId', updateBoard)
 
 router.get('/:projectId', getProjectById)
 // router.delete('/:projectId', deleteProjectById)
