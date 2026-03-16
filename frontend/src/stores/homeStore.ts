@@ -21,6 +21,7 @@ export const useProjectStore = defineStore('projects', {
     },
     getFirstComponent(projectId: number): BoardType | null {
       const project = this.userProjects.find((project) => project.id === projectId)
+
       return project?.components[0] ?? null
     },
   },

@@ -25,12 +25,12 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/project/:projectId',
+    path: '/:projectSlug',
     component: ComponentLayout,
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'board/:componentId',
+        path: '/:projectSlug/:componentSlug',
         name: 'board',
         component: Board,
       },

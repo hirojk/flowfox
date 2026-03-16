@@ -11,17 +11,15 @@ export const useBoardStore = defineStore('board', {
   }),
 
   actions: {
-    async loadBoard(projectId: number): Promise<void> {
+    async loadBoard(projectId: number, boardId: number): Promise<void> {
       try {
-        const { data } = await api.get(`/api/v1/projects/${projectId}`)
+        const { data } = await api.get(`/api/v1/projects/${projectId}/board/${boardId}`)
 
         this.activeProjectId = projectId
-        const project = data
-
-        const selectedBoard = project.components.find((component: { type: string }) => component.type === 'board')
+        const selectedBoard = data
 
         if (!selectedBoard) {
-          console.warn('No board component found in project')
+          console.warn('No board component found')
           return
         }
 

@@ -30,31 +30,42 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { watch, onMounted } from 'vue'
+  import { useProjectStore } from '@stores/homeStore.ts'
   import { useBoardStore } from '@stores/boardStore.ts'
   import { useDragScroll } from '@composables/useDragScroll.ts'
+  import { useComponentResolver } from '@composables/useNavigation.ts'
 
   import BoardModal from '@components/board/BoardModal.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
   import BoardColumn from '@components/board/BoardColumn.vue'
   import { addColumn } from '@services/boardColumnService.ts'
 
-  const route = useRoute()
   const boardStore = useBoardStore()
+  const projectStore = useProjectStore()
+
+  const { activeProject, activeComponent } = useComponentResolver()
 
   useDragScroll('main')
 
   onMounted(async () => {
-    const projectId = Number(route.params.projectId)
-    if (!projectId) return
-
-    try {
-      await boardStore.loadBoard(projectId)
-    } catch (error) {
-      console.error('Error loading board:', error)
+    if (!projectStore.userProjects.length) {
+      await projectStore.loadProjects()
     }
   })
+
+  watch(
+    () => [activeProject.value?.id, activeComponent.value?.id],
+    async ([projectId, boardId]) => {
+      if (!projectId || !boardId) return
+      try {
+        await boardStore.loadBoard(projectId, boardId)
+      } catch (error) {
+        console.error('Error loading board:', error)
+      }
+    },
+    { immediate: true },
+  )
 </script>
 
 <style lang="scss" scoped>

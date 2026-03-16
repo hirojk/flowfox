@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project.js'
 import { BoardSchema } from '@flowfox/shared'
+import type { BoardType } from '@flowfox/shared'
 import { generateId } from '@flowfox/shared'
 import {
   successResponse,
@@ -40,6 +41,33 @@ export async function createBoardComponent(req: Request, res: Response): Promise
     await project.save()
 
     createdResponse(res, 'New Board created successfully', newBoard)
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
+// GET: get board by id
+export async function getBoardById(req: Request, res: Response): Promise<void> {
+  try {
+    const { projectId, boardId } = req.params
+
+    const project = await ProjectModel().findOne({ id: Number(projectId) })
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    const board = project.components.find(
+      (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
+    )
+
+    if (!board) {
+      notFoundResponse(res, 'Board not found')
+      return
+    }
+
+    successResponse(res, undefined, board)
   } catch (error: any) {
     serverFailureResponse(res, error.message)
   }

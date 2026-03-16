@@ -16,7 +16,7 @@
         v-for="item in list"
         :key="item.label"
         :to="item.route"
-        @click="handleNavItemClick(item)"
+        @click="item.action"
       >
         <q-item-section avatar>
           <iconSvg id="icon-plus" />
@@ -67,14 +67,6 @@
       action: () => (miniState.value = !miniState.value),
     },
   ]
-
-  function handleNavItemClick(item: NavItem) {
-    if (item.action) {
-      item.action()
-    } else {
-      console.log('Navigate to', item.route)
-    }
-  }
 </script>
 
 <style lang="scss">
