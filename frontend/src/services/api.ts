@@ -10,7 +10,7 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-  const accessToken = sessionStorage.getItem('token')
+  const accessToken = sessionStorage.getItem('userToken')
 
   if (accessToken) {
     config.headers['Authorization'] = `Bearer ${accessToken}`

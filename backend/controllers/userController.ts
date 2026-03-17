@@ -57,7 +57,7 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
       password: process.env.ADMIN_PASS,
     }
     if (username === admin.username && password === admin.password) {
-      return successResponse(res, 'Login successful', { token: createToken({ username, role: 'admin' }) })
+      return successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
     }
 
     const user = await userModel.findOne({ username }).select('+password')
@@ -74,9 +74,9 @@ export async function loginUser(req: Request, res: Response): Promise<void> {
     }
 
     const { password: _password, ...userPayload } = user.toObject()
-    const token = createToken(userPayload)
+    const userToken = createToken(userPayload)
 
-    successResponse(res, 'Login successful', { token })
+    successResponse(res, 'Login successful', { userToken })
   } catch (error: any) {
     serverFailureResponse(res, error.message)
   }

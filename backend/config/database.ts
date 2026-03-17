@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
 import { serviceUnavailableResponse } from '../utils/responses.js'
+import { APP_ENV } from '@flowfox/shared'
 
 let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }
@@ -18,7 +19,7 @@ export async function databaseMiddleware(req: Request, res: Response, next: Next
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
   const CONNECTION_URL = process.env.MONGODB_URI || ''
-  const dbName = process.env.NODE_ENV === 'production' ? 'productiondb' : 'testdb'
+  const dbName = process.env.APP_ENV === APP_ENV.PRODUCTION ? 'productiondb' : 'testdb'
 
   try {
     await mongoose.connect(CONNECTION_URL)

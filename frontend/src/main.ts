@@ -1,3 +1,4 @@
+import { checkTestAuth } from '@services/authService.ts'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
@@ -9,8 +10,10 @@ import '@/styles/app.scss'
 
 import { registerGlobalComponents } from './global.components.ts'
 
-const app = createApp(App)
+checkTestAuth().then((authenticated) => {
+  if (!authenticated) return
 
-registerGlobalComponents(app)
-
-app.use(createPinia()).use(Quasar).use(router).mount('#app')
+  const app = createApp(App)
+  registerGlobalComponents(app)
+  app.use(createPinia()).use(Quasar).use(router).mount('#app')
+})
