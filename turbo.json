@@ -6,31 +6,41 @@
       "cache": false,
       "persistent": true,
       "env": [
+        "DEV_PASS",
         "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",
         "ACCESS_TOKEN_SECRET",
         "MONGODB_URI",
-        "NODE_ENV"
+        "APP_ENV"
       ]
     },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
       "env": [
+        "DEV_PASS",
         "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",
         "ACCESS_TOKEN_SECRET",
         "MONGODB_URI",
-        "NODE_ENV"
+        "APP_ENV"
       ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     }
   }
 }

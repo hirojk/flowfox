@@ -1,3 +1,4 @@
+import { checkTestAuth } from '@services/authService.ts'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
@@ -9,25 +10,10 @@ import '@/styles/app.scss'
 
 import { registerGlobalComponents } from './global.components.ts'
 
-const checkTestAuth = () => {
-  if (import.meta.env.NODE_ENV !== 'development') return
+checkTestAuth().then((authenticated) => {
+  if (!authenticated) return
 
-  if (sessionStorage.getItem('testAuth') === 'true') return
-
-  const password = window.prompt('Development Environment\n\nPassword:')
-
-  if (password === import.meta.env.DEV_PASS) {
-    sessionStorage.setItem('testAuth', 'true')
-    return
-  }
-
-  window.alert('Invalid password!')
-  checkTestAuth()
-}
-checkTestAuth()
-
-const app = createApp(App)
-
-registerGlobalComponents(app)
-
-app.use(createPinia()).use(Quasar).use(router).mount('#app')
+  const app = createApp(App)
+  registerGlobalComponents(app)
+  app.use(createPinia()).use(Quasar).use(router).mount('#app')
+})

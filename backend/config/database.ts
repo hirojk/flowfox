@@ -18,7 +18,7 @@ export async function databaseMiddleware(req: Request, res: Response, next: Next
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
   const CONNECTION_URL = process.env.MONGODB_URI || ''
-  const dbName = process.env.NODE_ENV === 'production' ? 'productiondb' : 'testdb'
+  const dbName = process.env.APP_ENV === 'production' ? 'productiondb' : 'testdb'
 
   try {
     await mongoose.connect(CONNECTION_URL)
