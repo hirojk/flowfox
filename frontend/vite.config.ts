@@ -8,7 +8,7 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, '../.env'), '')
+  const env = loadEnv(mode, path.resolve(__dirname, '..'), '')
 
   return {
     plugins: [
@@ -24,6 +24,8 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
+      'import.meta.env.DEV_PASS': JSON.stringify(env.DEV_PASS),
+      'import.meta.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
     },
     css: {
       preprocessorOptions: {
