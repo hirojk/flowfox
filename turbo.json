@@ -6,7 +6,7 @@
       "cache": false,
       "persistent": true,
       "env": [
-        "DEV_PASS",
+        "STAGE_PASS",
         "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",
@@ -23,7 +23,7 @@
         "dist/**"
       ],
       "env": [
-        "DEV_PASS",
+        "STAGE_PASS",
         "VITE_API_URL",
         "ADMIN_USER",
         "ADMIN_PASS",

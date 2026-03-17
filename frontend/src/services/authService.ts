@@ -1,3 +1,5 @@
+import { APP_ENV } from '@flowfox/shared'
+
 const hashPassword = async (password: string): Promise<string> => {
   const data = new TextEncoder().encode(password)
   const hashBuffer = await crypto.subtle.digest('SHA-256', data)
@@ -8,11 +10,11 @@ const hashPassword = async (password: string): Promise<string> => {
 }
 
 export const checkTestAuth = async (): Promise<boolean> => {
-  if (import.meta.env.APP_ENV !== 'development') {
+  if (import.meta.env.APP_ENV !== APP_ENV.STAGING) {
     return true
   }
 
-  const expectedHash = await hashPassword(import.meta.env.DEV_PASS)
+  const expectedHash = await hashPassword(import.meta.env.STAGE_PASS)
 
   if (sessionStorage.getItem('testAuth') === expectedHash) {
     return true

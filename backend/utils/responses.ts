@@ -1,4 +1,5 @@
 import { Response } from 'express'
+import { APP_ENV } from '@flowfox/shared'
 
 export function successResponse(res: Response, message?: string, data?: any): void {
   res.status(200).json({
@@ -47,13 +48,13 @@ export function notFoundResponse(res: Response, message: string): void {
 export function serverFailureResponse(res: Response, message: string): void {
   res.status(500).json({
     success: false,
-    error: process.env.APP_ENV === 'development' ? message : undefined,
+    error: process.env.APP_ENV === APP_ENV.DEVELOPMENT ? message : undefined,
   })
 }
 
 export function serviceUnavailableResponse(res: Response, message: string): void {
   res.status(503).json({
     success: false,
-    error: process.env.APP_ENV === 'development' ? message : undefined,
+    error: process.env.APP_ENV === APP_ENV.DEVELOPMENT ? message : undefined,
   })
 }
