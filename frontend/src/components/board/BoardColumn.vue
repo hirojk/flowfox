@@ -46,11 +46,11 @@
   .board-column {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1.5em;
     width: 100%;
     border-radius: 1em;
-    padding: 1em;
-    background-color: $ff-quaternary;
+    padding: 1.5em;
+    background-color: $ff-quinary;
 
     &__header {
       display: flex;
@@ -61,7 +61,7 @@
     &__cards {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 0.5em;
     }
 
     &__button {

@@ -8,18 +8,18 @@ import Component from '@views/ComponentPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/login',
-    name: 'login',
-    component: Login,
-  },
-  {
     path: '/',
     component: MainLayout,
-    meta: { requiresAuth: true },
     children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: Login,
+      },
       {
         path: '',
         name: 'home',
+        meta: { requiresAuth: true },
         component: Home,
       },
     ],

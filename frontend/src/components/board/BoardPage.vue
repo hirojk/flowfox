@@ -3,16 +3,16 @@
     <BoardModal />
   </ModalWindow>
 
-  <q-page class="page page--board">
+  <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
       <div class="page__header">
         <TextEditor
-          class="headline"
+          class="page__headline"
           htmlTag="h1"
           :text="boardStore.activeBoard?.boardName || ''"
           :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
         />
-        <button>Placeholder Button</button>
+        <button class="button button--primary">Customize</button>
       </div>
     </div>
     <ul class="board">
@@ -46,6 +46,7 @@
 
   const { activeProject, activeComponent } = useComponentResolver()
 
+  defineOptions({ inheritAttrs: false })
   useDragScroll('main')
 
   onMounted(async () => {
@@ -70,7 +71,7 @@
 
 <style lang="scss" scoped>
   .page--board {
-    padding: 2em 0;
+    padding: $page-padding-y 0;
     overflow-x: auto;
 
     .page {
@@ -81,9 +82,11 @@
       }
 
       &__header {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 2em;
+        padding: 0 $page-padding-x;
+      }
+
+      &__headline {
+        color: $ff-primary;
       }
     }
 
@@ -91,7 +94,7 @@
       display: flex;
       gap: 2em;
       min-width: min-content;
-      margin: 0 2em;
+      margin: 0 $page-padding-x;
 
       &__columnWrapper {
         width: 20em;
@@ -106,8 +109,8 @@
         border-radius: 1em;
         padding: 1em;
         width: 100%;
-        font-size: nth(map-get($font-size, md), 1);
-        color: $ff-white;
+        font-size: nth(map-get($font-size, sm), 1);
+        color: $ff-black;
         background-color: $ff-quinary;
       }
     }

@@ -69,19 +69,8 @@
 
 <style lang="scss" scoped>
   .page {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4em;
-    }
-
     &__headline {
       color: $ff-primary;
-    }
-
-    &__logout {
-      padding: 1em 4em;
     }
   }
 
