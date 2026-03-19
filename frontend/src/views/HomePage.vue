@@ -11,7 +11,12 @@
         <h2 class="projects__title">Projects</h2>
         <ul class="projects__list">
           <li v-for="{ project, link } in projects" :key="project.id" class="projects__item">
-            <component :is="link ? RouterLink : 'button'" :to="link" class="projects__button">
+            <component
+              :is="link ? RouterLink : 'button'"
+              :to="link"
+              class="projects__button"
+              @click="handleProjectClick(project.id)"
+            >
               <div class="projects__icon">
                 <strong class="projects__initials">{{ useInitials(project.projectName) }}</strong>
               </div>
@@ -56,6 +61,10 @@
       }
     }),
   )
+
+  function handleProjectClick(projectId: number) {
+    // projectStore.updateActiveProject(projectId)
+  }
 
   onMounted(async () => {
     if (!activeUser.value) return

@@ -6,6 +6,8 @@ import type { BoardType } from '@flowfox/shared'
 export const useProjectStore = defineStore('projects', {
   state: () => ({
     userProjects: [] as ProjectType[],
+    activeProjectId: null as number | null,
+    activeProject: null as ProjectType | null,
   }),
 
   actions: {
@@ -19,6 +21,18 @@ export const useProjectStore = defineStore('projects', {
         throw error
       }
     },
+    // async updateActiveProject(name: String): Promise<void> {
+    //   if (!this.activeProject) return
+
+    //       try {
+    //         await api.put(`/api/v1/projects/${this.activeProjectId}/board/${this.activeBoard.id}`, { boardName: name })
+
+    //         this.activeProject.projectName = name
+    //       } catch (error) {
+    //         console.error('Error updating project name:', error)
+    //         throw error
+    //       }
+    // },
     getFirstComponent(projectId: number): BoardType | null {
       const project = this.userProjects.find((project) => project.id === projectId)
 
