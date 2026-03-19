@@ -30,8 +30,7 @@
 </template>
 
 <script setup lang="ts">
-  import { watch, onMounted } from 'vue'
-  import { useProjectStore } from '@stores/homeStore.ts'
+  import { watch } from 'vue'
   import { useBoardStore } from '@stores/boardStore.ts'
   import { useDragScroll } from '@composables/useDragScroll.ts'
   import { useComponentResolver } from '@composables/useNavigation.ts'
@@ -42,18 +41,11 @@
   import { addColumn } from '@services/boardColumnService.ts'
 
   const boardStore = useBoardStore()
-  const projectStore = useProjectStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
 
   defineOptions({ inheritAttrs: false })
   useDragScroll('main')
-
-  onMounted(async () => {
-    if (!projectStore.userProjects.length) {
-      await projectStore.loadProjects()
-    }
-  })
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],

@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
+import { useProjectStore } from '@stores/homeStore'
 import type { BoardType, BoardColumnType, BoardCardType } from '@flowfox/shared'
 import { sortedCardsByPriority } from '@constants/priority.ts'
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
-    activeProjectId: null as number | null,
     activeBoard: null as BoardType | null,
     activeCardId: [0, 0] as [number, number],
   }),
@@ -15,7 +15,6 @@ export const useBoardStore = defineStore('board', {
       try {
         const { data } = await api.get(`/api/v1/projects/${projectId}/board/${boardId}`)
 
-        this.activeProjectId = projectId
         const selectedBoard = data
 
         if (!selectedBoard) {
@@ -43,33 +42,30 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
-    async updateProjectName(name: string): Promise<void> {
-      if (!this.activeProjectId) return
-
-      try {
-        await api.put(`/api/v1/projects/${this.activeProjectId}`, { projectName: name })
-      } catch (error) {
-        console.error('Error updating project name:', error)
-        throw error
-      }
-    },
     async updateBoardName(name: string): Promise<void> {
-      if (!this.activeBoard) return
+      const projectStore = useProjectStore()
+      if (!this.activeBoard || !projectStore.activeProjectId) return
 
       try {
-        await api.put(`/api/v1/projects/${this.activeProjectId}/board/${this.activeBoard.id}`, { boardName: name })
+        await api.put(`/api/v1/projects/${projectStore.activeProjectId}/board/${this.activeBoard.id}`, {
+          boardName: name,
+        })
 
         this.activeBoard.boardName = name
+
+        const component = projectStore.activeProject?.components.find((c) => c.id === this.activeBoard?.id)
+        if (component) component.boardName = name
       } catch (error) {
         console.error('Error updating project name:', error)
         throw error
       }
     },
     async updateBoard(): Promise<void> {
-      if (!this.activeBoard || !this.activeProjectId) return
+      const projectStore = useProjectStore()
+      if (!this.activeBoard || !projectStore.activeProjectId) return
 
       try {
-        await api.put(`/api/v1/projects/${this.activeProjectId}/board/${this.activeBoard.id}`, {
+        await api.put(`/api/v1/projects/${projectStore.activeProjectId}/board/${this.activeBoard.id}`, {
           boardData: this.activeBoard,
         })
       } catch (error) {

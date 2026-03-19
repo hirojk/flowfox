@@ -33,7 +33,7 @@ export const useComponentResolver = () => {
   const projectStore = useProjectStore()
 
   const activeProject = computed(() =>
-    projectStore.userProjects.find((p) => slugify(p.projectName) === route.params.projectSlug),
+    projectStore.allProjects.find((p) => slugify(p.projectName) === route.params.projectSlug),
   )
 
   const activeComponent = computed(() =>

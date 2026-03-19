@@ -17,7 +17,7 @@
   const currentComponent = computed(() => (activeComponent.value ? componentMap[activeComponent.value.type] : null))
 
   onMounted(async () => {
-    if (!projectStore.userProjects.length) {
+    if (!projectStore.allProjects.length) {
       await projectStore.loadProjects()
     }
   })

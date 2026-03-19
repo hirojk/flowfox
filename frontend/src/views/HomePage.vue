@@ -52,7 +52,7 @@
   const { componentRoute } = useNavigation()
 
   const projects = computed(() =>
-    projectStore.userProjects.map((project) => {
+    projectStore.allProjects.map((project) => {
       const firstComponent = projectStore.getFirstComponent(project.id)
 
       return {

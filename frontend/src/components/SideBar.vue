@@ -10,9 +10,16 @@
     class="sideBar"
   >
     <q-list class="sideBar__list sideBar__list--project">
-      <SidebarItem buttonStyle="project" icon="icon-home" label="Test Project" />
+      <SidebarItem buttonStyle="project" :label="projectStore.activeProject?.projectName || ''" />
       <hr class="sideBar__divider" />
-      <SidebarItem v-for="item in componentItems" :key="item.label" v-bind="item" />
+      <SidebarItem
+        v-for="item in projectStore.activeProject?.components"
+        :key="item.boardName"
+        buttonStyle="component"
+        :icon="`icon-${item.type}`"
+        :label="item.boardName"
+      />
+      <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" />
     </q-list>
 
     <q-list class="sideBar__list sideBar__list--nav">
@@ -22,19 +29,17 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import SidebarItem from '@components/sidebar/sidebarItem.vue'
+
+  import { useComponentResolver } from '@composables/useNavigation.ts'
+  import { useProjectStore } from '@/stores/homeStore'
 
   const drawer = ref(true)
   const miniState = ref(true)
+  const projectStore = useProjectStore()
 
-  const componentItems = [
-    {
-      buttonStyle: 'component' as const,
-      icon: 'icon-plus',
-      label: 'Pizza',
-    },
-  ]
+  const { activeProject } = useComponentResolver()
 
   const navItems = [
     {
@@ -50,6 +55,15 @@
       action: () => (miniState.value = !miniState.value),
     },
   ]
+
+  watch(
+    () => activeProject.value?.id,
+    async (projectId) => {
+      if (!projectId) return
+      await projectStore.updateActiveProject(projectId)
+    },
+    { immediate: true },
+  )
 </script>
 
 <style lang="scss">
@@ -57,7 +71,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: calc($page-padding-y - 1em) 0;
+    padding: $page-padding-y 0;
     background-color: $ff-white;
 
     &__divider {

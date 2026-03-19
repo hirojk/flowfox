@@ -2,7 +2,10 @@
   <q-item class="sideBar-item" clickable :to="props.route" @click="props.action">
     <div class="sideBar-item__icon">
       <div class="sideBar-item__box" :class="`sideBar-item__box--${props.buttonStyle}`">
-        <iconSvg v-if="props.icon" :id="props.icon" />
+        <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project">
+          {{ useInitials(props.label) }}
+        </span>
+        <iconSvg v-if="props.icon && props.buttonStyle !== 'project'" :id="props.icon" />
       </div>
     </div>
     <span class="sideBar-item__label">{{ props.label }}</span>
@@ -10,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useInitials } from '@composables/useInitials'
+
   const props = defineProps<{
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
     icon?: string
@@ -32,8 +37,7 @@
       align-items: center;
       flex-shrink: 0;
       width: 5em;
-      height: auto;
-      aspect-ratio: 1;
+      height: 4em;
     }
 
     &__box {
@@ -46,6 +50,7 @@
       border-radius: 0.5em;
 
       &--project {
+        color: $ff-white;
         background-color: $ff-primary;
       }
 
@@ -54,7 +59,8 @@
       }
 
       &--new {
-        background-color: $ff-grey;
+        color: $ff-grey;
+        background-color: $ff-quaternary;
       }
     }
 
@@ -62,6 +68,10 @@
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
+    }
+
+    :deep(.q-focus-helper) {
+      display: none;
     }
   }
 </style>
