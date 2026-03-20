@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     padding: 4em 4em 6em;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba($ff-senary, 0.5);
     z-index: 3001;
     cursor: default;
 

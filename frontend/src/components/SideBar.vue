@@ -2,7 +2,7 @@
   <q-drawer
     v-model="drawer"
     show-if-above
-    :mini="miniState"
+    :mini="!appStore.isSidebarOpen"
     mini-to-overlay
     :width="sidebarWidth"
     :mini-width="sidebarMiniWidth"
@@ -44,16 +44,17 @@
   import { ref, computed, watch } from 'vue'
   import SidebarItem from '@components/sidebar/SideBarItem.vue'
 
+  import { useAppStore } from '@stores/appStore'
   import { useComponentResolver } from '@composables/useNavigation.ts'
   import { useProjectStore } from '@stores/homeStore'
 
   const drawer = ref(true)
-  const miniState = ref(true)
 
   const sidebarWidth = 300
   const sidebarMiniWidth = 100
   const sidebarPadding = 3
 
+  const appStore = useAppStore()
   const projectStore = useProjectStore()
   const { activeProject } = useComponentResolver()
 
@@ -66,9 +67,9 @@
     },
     {
       buttonStyle: 'nav' as const,
-      icon: miniState.value ? 'icon-expand' : 'icon-collapse',
-      label: miniState.value ? 'Expand' : 'Collapse',
-      action: () => (miniState.value = !miniState.value),
+      icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
+      label: appStore.isSidebarOpen ? 'Collapse' : 'Expand',
+      action: () => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])
 
@@ -91,7 +92,7 @@
     background-color: $ff-white;
 
     &__divider {
-      margin: 1em calc(var(--sidebar-padding) - 1em);
+      margin: 2em calc(var(--sidebar-padding) - 1em);
     }
   }
 </style>
