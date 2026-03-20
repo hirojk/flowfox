@@ -4,7 +4,7 @@ import {
   getProjectById,
   getAllProjectsByUser,
   // deleteProjectById,
-  // updateProjectById,
+  updateProjectById,
 } from '../controllers/projectController.js'
 
 import { createBoardComponent, getBoardById, updateBoard } from '../controllers/boardController.js'
@@ -20,6 +20,6 @@ router.put('/:projectId/board/:boardId', updateBoard)
 
 router.get('/:projectId', getProjectById)
 // router.delete('/:projectId', deleteProjectById)
-// router.put('/:projectId', updateProjectById)
+router.put('/:projectId', updateProjectById)
 
 export default router

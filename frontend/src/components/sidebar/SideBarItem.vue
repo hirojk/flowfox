@@ -8,12 +8,20 @@
         <iconSvg v-if="props.icon && props.buttonStyle !== 'project'" :id="props.icon" />
       </div>
     </div>
-    <span class="sideBar-item__label">{{ props.label }}</span>
+    <TextEditor
+      v-if="props.editorEvent"
+      class="sideBar-item__label"
+      htmlTag="span"
+      :text="props.label || ''"
+      :saveEvent="props.editorEvent"
+    />
+    <span v-else class="sideBar-item__label">{{ props.label }}</span>
   </q-item>
 </template>
 
 <script setup lang="ts">
   import { useInitials } from '@composables/useInitials'
+  import TextEditor from '@components/fields/TextEditor.vue'
 
   const props = defineProps<{
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
@@ -21,6 +29,7 @@
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
     action?: () => void
+    editorEvent?: (newText: string) => void
   }>()
 </script>
 

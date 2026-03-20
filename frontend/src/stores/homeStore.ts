@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
 import type { ProjectType } from '@flowfox/shared'
-import type { BoardType } from '@flowfox/shared'
 
 export const useProjectStore = defineStore('project', {
   state: () => ({
@@ -36,6 +35,20 @@ export const useProjectStore = defineStore('project', {
       const project = this.allProjects.find((p) => p.id === projectId)
 
       return (project?.components[0]?.id as number) ?? null
+    },
+    async updateProjectName(name: string): Promise<void> {
+      if (!this.activeProject || !this.activeProjectId) return
+
+      try {
+        await api.put(`/api/v1/projects/${this.activeProjectId}`, {
+          projectName: name,
+        })
+
+        this.activeProject.projectName = name
+      } catch (error) {
+        console.error('Error updating project name:', error)
+        throw error
+      }
     },
   },
 })

@@ -10,7 +10,11 @@
     class="sideBar"
   >
     <q-list class="sideBar__list sideBar__list--project">
-      <SidebarItem buttonStyle="project" :label="projectStore.activeProject?.projectName || ''" />
+      <SidebarItem
+        buttonStyle="project"
+        :label="projectStore.activeProject?.projectName || ''"
+        :editorEvent="(newProjectName) => projectStore.updateProjectName(newProjectName)"
+      />
       <hr class="sideBar__divider" />
       <SidebarItem
         v-for="item in projectStore.activeProject?.components"
