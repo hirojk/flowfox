@@ -19,7 +19,7 @@
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
     icon?: string
     label: string
-    route?: { name: string; params?: { projectSlug?: string; componentSlug?: string } }
+    route?: { name: string; params?: { projectId?: string; componentId?: string } }
     action?: () => void
   }>()
 </script>
@@ -68,6 +68,7 @@
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
+      color: $ff-black;
     }
 
     :deep(.q-focus-helper) {

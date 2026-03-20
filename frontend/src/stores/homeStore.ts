@@ -32,9 +32,10 @@ export const useProjectStore = defineStore('project', {
         this.activeProject = null
       }
     },
-    getFirstComponent(projectId: number): BoardType | null {
+    getFirstComponentId(projectId: number): number | null {
       const project = this.allProjects.find((p) => p.id === projectId)
-      return (project?.components[0] as BoardType) ?? null
+
+      return (project?.components[0]?.id as number) ?? null
     },
   },
 })

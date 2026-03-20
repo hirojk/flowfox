@@ -53,11 +53,11 @@
 
   const projects = computed(() =>
     projectStore.allProjects.map((project) => {
-      const firstComponent = projectStore.getFirstComponent(project.id)
+      const firstComponentId = projectStore.getFirstComponentId(project.id)
 
       return {
         project: project,
-        link: firstComponent ? componentRoute(project.projectName, firstComponent) : null,
+        link: firstComponentId ? componentRoute(project.id, firstComponentId) : null,
       }
     }),
   )

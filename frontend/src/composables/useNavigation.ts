@@ -2,8 +2,6 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@stores/authStore'
 import { useProjectStore } from '@stores/homeStore.ts'
-import { slugify } from '@services/helpers'
-import type { BoardType } from '@flowfox/shared'
 
 export const useAuth = () => {
   const authStore = useAuthStore()
@@ -16,12 +14,12 @@ export const useAuth = () => {
 }
 
 export const useNavigation = () => {
-  const componentRoute = (projectName: string, component: BoardType | undefined) => {
-    if (!projectName || !component) return null
+  const componentRoute = (projectId: number, componentId: number) => {
+    if (!projectId || !componentId) return null
 
     return {
       name: 'component',
-      params: { projectSlug: slugify(projectName), componentSlug: slugify(component.boardName) },
+      params: { projectId: String(projectId), componentId: String(componentId) },
     }
   }
 
@@ -33,11 +31,11 @@ export const useComponentResolver = () => {
   const projectStore = useProjectStore()
 
   const activeProject = computed(() =>
-    projectStore.allProjects.find((p) => slugify(p.projectName) === route.params.projectSlug),
+    projectStore.allProjects.find((project) => project.id === Number(route.params.projectId)),
   )
 
   const activeComponent = computed(() =>
-    activeProject.value?.components?.find((b) => slugify(b.boardName) === route.params.componentSlug),
+    activeProject.value?.components?.find((component) => component.id === Number(route.params.componentId)),
   )
 
   return { activeProject, activeComponent }

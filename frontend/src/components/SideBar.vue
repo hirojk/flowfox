@@ -21,8 +21,8 @@
         :route="{
           name: 'component',
           params: {
-            projectSlug: slugify(activeProject?.projectName || ''),
-            componentSlug: slugify(item.boardName || ''),
+            projectId: String(activeProject?.id),
+            componentId: String(item.id),
           },
         }"
       />
@@ -41,7 +41,6 @@
 
   import { useComponentResolver } from '@composables/useNavigation.ts'
   import { useProjectStore } from '@stores/homeStore'
-  import { slugify } from '@services/helpers'
 
   const drawer = ref(true)
   const miniState = ref(true)
