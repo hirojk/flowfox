@@ -19,7 +19,7 @@
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
     icon?: string
     label: string
-    route?: { name: string }
+    route?: { name: string; params?: { projectSlug?: string; componentSlug?: string } }
     action?: () => void
   }>()
 </script>

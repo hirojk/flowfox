@@ -18,6 +18,13 @@
         buttonStyle="component"
         :icon="`icon-${item.type}`"
         :label="item.boardName"
+        :route="{
+          name: 'component',
+          params: {
+            projectSlug: slugify(activeProject?.projectName || ''),
+            componentSlug: slugify(item.boardName || ''),
+          },
+        }"
       />
       <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" />
     </q-list>
@@ -30,10 +37,11 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import SidebarItem from '@components/sidebar/sidebarItem.vue'
+  import SidebarItem from '@components/sidebar/SideBarItem.vue'
 
   import { useComponentResolver } from '@composables/useNavigation.ts'
-  import { useProjectStore } from '@/stores/homeStore'
+  import { useProjectStore } from '@stores/homeStore'
+  import { slugify } from '@services/helpers'
 
   const drawer = ref(true)
   const miniState = ref(true)
