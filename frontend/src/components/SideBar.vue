@@ -4,10 +4,11 @@
     show-if-above
     :mini="miniState"
     mini-to-overlay
-    :width="300"
-    :mini-width="80"
+    :width="sidebarWidth"
+    :mini-width="sidebarMiniWidth"
     :breakpoint="750"
     class="sideBar"
+    :style="{ '--sidebar-mini-width': sidebarMiniWidth + 'px', '--sidebar-padding': sidebarPadding + 'em' }"
   >
     <q-list class="sideBar__list sideBar__list--project">
       <SidebarItem
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import SidebarItem from '@components/sidebar/SideBarItem.vue'
 
   import { useComponentResolver } from '@composables/useNavigation.ts'
@@ -48,24 +49,28 @@
 
   const drawer = ref(true)
   const miniState = ref(true)
-  const projectStore = useProjectStore()
 
+  const sidebarWidth = 300
+  const sidebarMiniWidth = 100
+  const sidebarPadding = 3
+
+  const projectStore = useProjectStore()
   const { activeProject } = useComponentResolver()
 
-  const navItems = [
+  const navItems = computed(() => [
     {
       buttonStyle: 'nav' as const,
-      icon: 'icon-close',
+      icon: 'icon-home',
       label: 'Back to all projects',
       route: { name: 'home' },
     },
     {
       buttonStyle: 'nav' as const,
-      icon: 'icon-close',
-      label: 'Close',
+      icon: miniState.value ? 'icon-expand' : 'icon-collapse',
+      label: miniState.value ? 'Expand' : 'Collapse',
       action: () => (miniState.value = !miniState.value),
     },
-  ]
+  ])
 
   watch(
     () => activeProject.value?.id,
@@ -86,7 +91,7 @@
     background-color: $ff-white;
 
     &__divider {
-      margin: 1em;
+      margin: 1em calc(var(--sidebar-padding) - 1em);
     }
   }
 </style>

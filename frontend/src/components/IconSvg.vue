@@ -23,6 +23,6 @@
     stroke: currentColor;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 2px;
+    stroke-width: 1.25px;
   }
 </style>

@@ -13,7 +13,7 @@
   <template v-else>
     <div class="board-modal__interactives">
       <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
-        <iconSvg id="icon-close" />
+        <iconSvg id="icon-cancel" />
         Close
       </button>
       <ContextMenu

@@ -5,7 +5,7 @@
         <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project">
           {{ useInitials(props.label) }}
         </span>
-        <iconSvg v-if="props.icon && props.buttonStyle !== 'project'" :id="props.icon" />
+        <iconSvg v-if="props.icon && props.buttonStyle !== 'project'" :id="props.icon" size="36" />
       </div>
     </div>
     <TextEditor
@@ -39,21 +39,23 @@
     align-items: center;
     font-size: nth(map-get($font-size, md), 1);
     padding: 0 !important;
+    color: $ff-black;
 
     &__icon {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-shrink: 0;
-      width: 5em;
-      height: 4em;
+      width: var(--sidebar-mini-width);
+      height: auto;
+      aspect-ratio: 1 / 0.7;
     }
 
     &__box {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 2.5em;
+      width: calc(var(--sidebar-mini-width) - var(--sidebar-padding));
       height: auto;
       aspect-ratio: 1;
       border-radius: 0.5em;
@@ -77,7 +79,6 @@
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
-      color: $ff-black;
     }
 
     :deep(.q-focus-helper) {

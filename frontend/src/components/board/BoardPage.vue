@@ -6,13 +6,16 @@
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
       <div class="page__header">
-        <TextEditor
-          class="page__headline"
-          htmlTag="h1"
-          :text="boardStore.activeBoard?.boardName || ''"
-          :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
-        />
-        <button class="button button--primary">Customize</button>
+        <div class="page__headerContent">
+          <iconSvg class="page__headerIcon" buttonStyle="project" id="icon-board" size="64" />
+          <TextEditor
+            class="page__headline"
+            htmlTag="h1"
+            :text="boardStore.activeBoard?.boardName || ''"
+            :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
+          />
+        </div>
+        <button class="button button--primary">Setting</button>
       </div>
     </div>
     <ul class="board">
@@ -77,6 +80,13 @@
         padding: 0 $page-padding-x;
       }
 
+      &__headerContent {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+      }
+
+      &__headerIcon,
       &__headline {
         color: $ff-primary;
       }
