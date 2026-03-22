@@ -4,6 +4,7 @@ import MainLayout from '@layouts/MainLayout.vue'
 import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@views/LoginPage.vue'
 import Home from '@views/HomePage.vue'
+import Project from '@views/ProjectPage.vue'
 import Component from '@views/ComponentPage.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -29,6 +30,11 @@ const routes: RouteRecordRaw[] = [
     component: ComponentLayout,
     meta: { requiresAuth: true },
     children: [
+      {
+        path: '',
+        name: 'project',
+        component: Project,
+      },
       {
         path: ':componentId',
         name: 'component',

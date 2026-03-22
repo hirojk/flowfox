@@ -1,11 +1,11 @@
 <template>
   <q-page>
-    <section class="page__header">
+    <header class="page__header">
       <h1 class="page__headline">Hello {{ activeUser?.name }}</h1>
       <RouterLink class="page__logout button button--secondary" :to="{ name: 'login' }" @click="handleLogout">
         Logout
       </RouterLink>
-    </section>
+    </header>
     <section class="page__content">
       <div class="projects">
         <h2 class="projects__title">Projects</h2>
@@ -13,7 +13,7 @@
           <li v-for="{ project, link } in projects" :key="project.id" class="projects__item">
             <component
               :is="link ? RouterLink : 'button'"
-              :to="link"
+              :to="{ name: 'project', params: { projectId: project.id } }"
               class="projects__button"
               @click="handleProjectClick(project.id)"
             >

@@ -14,7 +14,7 @@
       <SidebarItem
         buttonStyle="project"
         :label="projectStore.activeProject?.projectName || ''"
-        :editorEvent="(newProjectName) => projectStore.updateProjectName(newProjectName)"
+        :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
       <hr class="sideBar__divider" />
       <SidebarItem
@@ -64,12 +64,13 @@
       icon: 'icon-home',
       label: 'Back to all projects',
       route: { name: 'home' },
+      action: (): boolean => (appStore.isSidebarOpen = false),
     },
     {
       buttonStyle: 'nav' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
       label: appStore.isSidebarOpen ? 'Collapse' : 'Expand',
-      action: () => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
+      action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])
 

@@ -5,9 +5,9 @@
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
-      <div class="page__header">
+      <header class="page__header">
         <div class="page__headerContent">
-          <iconSvg class="page__headerIcon" buttonStyle="project" id="icon-board" size="64" />
+          <iconSvg class="page__headerIcon" buttonStyle="project" id="icon-board" size="56" />
           <TextEditor
             class="page__headline"
             htmlTag="h1"
@@ -16,19 +16,21 @@
           />
         </div>
         <button class="button button--primary">Setting</button>
-      </div>
+      </header>
     </div>
-    <ul class="board">
-      <li class="board__columnWrapper" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
-        <BoardColumn :columnContent="column" />
-      </li>
-      <li class="board__columnWrapper">
-        <button class="board__button board__button--add-column" @click="addColumn()">
-          <IconSvg id="icon-plus" />
-          Add Column
-        </button>
-      </li>
-    </ul>
+    <section class="page__content">
+      <ul class="board">
+        <li class="board__columnWrapper" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
+          <BoardColumn :columnContent="column" />
+        </li>
+        <li class="board__columnWrapper">
+          <button class="board__button board__button--add-column" @click="addColumn()">
+            <IconSvg id="icon-plus" />
+            Add Column
+          </button>
+        </li>
+      </ul>
+    </section>
   </q-page>
 </template>
 
@@ -78,17 +80,6 @@
 
       &__header {
         padding: 0 $page-padding-x;
-      }
-
-      &__headerContent {
-        display: flex;
-        align-items: center;
-        gap: 1em;
-      }
-
-      &__headerIcon,
-      &__headline {
-        color: $ff-primary;
       }
     }
 
