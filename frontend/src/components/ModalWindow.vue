@@ -1,7 +1,16 @@
 <template>
-  <div class="modal" v-if="modalStore.isOpen" @click="modalStore.closeModal()">
+  <div class="modal" v-if="modalStore.isOpen" @click="modalStore.isOpen = false">
     <div class="modal__content" @click.stop>
-      <slot></slot>
+      <div class="modal__header">
+        <button class="modal__close" @click="modalStore.isOpen = false">
+          <IconSvg id="icon-cancel" />
+          Close
+        </button>
+        <div id="modal-interactives"></div>
+      </div>
+      <div class="modal__scrollContent">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +46,26 @@
       border-radius: 1em;
       padding: 2em;
       background-color: $ff-white;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2em;
+    }
+
+    &__close {
+      display: flex;
+      align-items: center;
+      gap: 0.25em;
+    }
+
+    &__scrollContent {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      overflow-y: auto;
     }
   }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <ModalWindow>
-    <BoardModal />
+    <BoardModal v-if="modalStore.currentWindow === 'board-card'" />
+    <BoardSetting v-if="modalStore.currentWindow === 'board-setting'" />
   </ModalWindow>
 
   <q-page class="page--board" v-bind="$attrs">
@@ -15,7 +16,7 @@
             :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
           />
         </div>
-        <button class="button button--primary">Setting</button>
+        <button class="button button--primary" @click="openSettingsModal">Setting</button>
       </header>
     </div>
     <section class="page__content">
@@ -37,20 +38,28 @@
 <script setup lang="ts">
   import { watch } from 'vue'
   import { useBoardStore } from '@stores/boardStore.ts'
+  import { useModalStore } from '@stores/appStore'
   import { useDragScroll } from '@composables/useDragScroll.ts'
   import { useComponentResolver } from '@composables/useNavigation.ts'
 
   import BoardModal from '@components/board/BoardModal.vue'
+  import BoardSetting from '@components/board/BoardSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
   import BoardColumn from '@components/board/BoardColumn.vue'
   import { addColumn } from '@services/boardColumnService.ts'
 
   const boardStore = useBoardStore()
+  const modalStore = useModalStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
 
   defineOptions({ inheritAttrs: false })
   useDragScroll('main')
+
+  const openSettingsModal = () => {
+    modalStore.isOpen = true
+    modalStore.currentWindow = 'board-setting'
+  }
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],

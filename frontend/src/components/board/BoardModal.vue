@@ -1,21 +1,9 @@
 <template>
   <div v-if="!activeCard" class="board-modal__error">
-    <div class="board-modal__interactives">
-      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
-        <iconSvg id="icon-close" />
-        Close
-      </button>
-    </div>
-    <div class="board-modal__scrollContent">
-      <p>Card not found</p>
-    </div>
+    <span>Card not found</span>
   </div>
   <template v-else>
-    <div class="board-modal__interactives">
-      <button class="board-modal__button board-modal__button--close" @click.stop="useModalStore().closeModal()">
-        <iconSvg id="icon-cancel" />
-        Close
-      </button>
+    <Teleport defer to="#modal-interactives">
       <DropdownMenu
         mode="context"
         icon="icon-menu"
@@ -26,48 +14,47 @@
           },
         ]"
       />
-    </div>
-    <div class="board-modal__scrollContent">
-      <div class="board-modal__header">
+    </Teleport>
+    <section class="board-modal__header">
+      <TextEditor
+        class="board-modal__header-headline"
+        htmlTag="strong"
+        :text="activeCard.taskName"
+        :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
+      />
+      <DropdownMenu
+        mode="select"
+        :label="activeCard.priority"
+        :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
+        :options="
+          PRIORITY_LIST.map((p) => ({
+            name: p.name,
+            icon: p.icon,
+            action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityName }),
+          }))
+        "
+      />
+    </section>
+    <section class="board-modal__details">
+      <div class="board-modal__content board-modal__content--description">
+        <strong class="board-modal__label">Description</strong>
         <TextEditor
-          class="board-modal__header-headline"
-          htmlTag="strong"
-          :text="activeCard.taskName"
-          :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
-        />
-        <DropdownMenu
-          mode="select"
-          :label="activeCard.priority"
-          :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
-          :options="
-            PRIORITY_LIST.map((p) => ({
-              name: p.name,
-              icon: p.icon,
-              action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityName }),
-            }))
-          "
+          class="board-modal__description"
+          htmlTag="p"
+          multiline
+          :text="activeCard.description"
+          :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
         />
       </div>
-      <div class="board-modal__details">
-        <div class="board-modal__content board-modal__content--description">
-          <strong class="board-modal__label">Description</strong>
-          <TextEditor
-            class="board-modal__description"
-            htmlTag="p"
-            multiline
-            :text="activeCard.description"
-            :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
-          />
-        </div>
-        <div class="board-modal__content board-modal__content--checklist">
-          <strong class="board-modal__label">Checklist</strong>
-          <CheckboxEditor
-            class="board-modal__checklist"
-            :checkboxes="activeCard.checklist"
-            :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
-          />
-        </div>
-        <!-- <div class="board-modal__content board-modal__content--date">
+      <div class="board-modal__content board-modal__content--checklist">
+        <strong class="board-modal__label">Checklist</strong>
+        <CheckboxEditor
+          class="board-modal__checklist"
+          :checkboxes="activeCard.checklist"
+          :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
+        />
+      </div>
+      <!-- <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
             <strong>Start Date</strong>
             <DatePicker
@@ -94,8 +81,7 @@
             </li>
           </ul>
         </div> -->
-      </div>
-    </div>
+    </section>
     <!-- <div class="board-modal__settings">
     <button class="board-modal__button board-modal__button--copy">
       <q-icon name="content_copy" />
@@ -108,12 +94,10 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useBoardStore } from '@stores/boardStore.ts'
-  import { useModalStore } from '@stores/appStore.ts'
-  import { removeCard, updateCard } from '@services/boardCardService.ts'
   import { PRIORITY_LIST } from '@constants/priority.ts'
+  import { removeCard, updateCard } from '@services/boardCardService.ts'
   import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType } from '@flowfox/shared'
-  import type { PriorityName } from '@flowfox/shared'
+  import type { BoardCardType, BoardColumnType, PriorityName } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
@@ -131,28 +115,15 @@
 
 <style lang="scss" scoped>
   .board-modal {
-    &__interactives {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 2em;
-    }
-
-    &__scrollContent {
-      display: flex;
-      flex-direction: column;
-      gap: 4em;
-      overflow-y: auto;
-    }
-
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 0.5em;
+      margin-bottom: 2em;
 
       &-headline {
         @include fontMixin(map-get($font-size, xl));
-
         width: 100%;
         cursor: text;
       }

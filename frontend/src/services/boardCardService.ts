@@ -33,7 +33,7 @@ export const removeCard = (cardId: [number, number]) => {
   const { board, modal } = getStores()
 
   if (modal.isOpen) {
-    modal.closeModal()
+    modal.isOpen = false
   }
 
   if (board.activeBoard) {

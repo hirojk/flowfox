@@ -22,12 +22,16 @@
     cardContent: BoardCardType
   }>()
 
+  const modalStore = useModalStore()
+  const boardStore = useBoardStore()
+
   const localHeading = computed(() => props.cardContent.taskName)
   const localPriority = computed(() => getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'))
 
   const openCardModal = () => {
-    useModalStore().openModal()
-    useBoardStore().setActiveCardId(props.columnId, props.cardContent.id)
+    modalStore.isOpen = true
+    modalStore.currentWindow = 'board-card'
+    boardStore.setActiveCardId(props.columnId, props.cardContent.id)
   }
 </script>
 
