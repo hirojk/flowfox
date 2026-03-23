@@ -1,5 +1,5 @@
 <template>
-  <q-item class="sideBar-item" clickable :to="props.route" @click="props.action">
+  <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
       <div class="sideBar-item__box" :class="`sideBar-item__box--${props.buttonStyle}`">
         <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project">
@@ -13,7 +13,10 @@
 </template>
 
 <script setup lang="ts">
+  import { useAppStore } from '@stores/appStore'
   import { useInitials } from '@composables/useInitials'
+
+  const appStore = useAppStore()
 
   const props = defineProps<{
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
@@ -22,10 +25,33 @@
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
     action?: () => void
   }>()
+
+  const handleClick = () => {
+    props.action?.()
+    if (props.route) appStore.isSidebarOpen = false
+  }
 </script>
 
 <style lang="scss" scoped>
   .sideBar-item {
+    --box-bg: transparent;
+    --box-color: #{$ff-black};
+
+    &--project {
+      --box-bg: #{$ff-primary};
+      --box-color: #{$ff-white};
+    }
+
+    &--component {
+      --box-bg: #{$ff-tertiary};
+      --box-color: #{$ff-black};
+    }
+
+    &--new {
+      --box-bg: #{$ff-quaternary};
+      --box-color: #{$ff-grey};
+    }
+
     display: flex;
     align-items: center;
     font-size: nth(map-get($font-size, md), 1);
@@ -50,20 +76,8 @@
       height: auto;
       aspect-ratio: 1;
       border-radius: 0.5em;
-
-      &--project {
-        color: $ff-white;
-        background-color: $ff-primary;
-      }
-
-      &--component {
-        background-color: $ff-tertiary;
-      }
-
-      &--new {
-        color: $ff-grey;
-        background-color: $ff-quaternary;
-      }
+      color: var(--box-color);
+      background-color: var(--box-bg);
     }
 
     &__label {
