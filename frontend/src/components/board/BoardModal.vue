@@ -50,7 +50,7 @@
       </div>
       <div class="board-modal__details">
         <div class="board-modal__content board-modal__content--description">
-          <strong>Description</strong>
+          <strong class="board-modal__label">Description</strong>
           <TextEditor
             class="board-modal__description"
             htmlTag="p"
@@ -60,7 +60,7 @@
           />
         </div>
         <div class="board-modal__content board-modal__content--checklist">
-          <strong>Checklist</strong>
+          <strong class="board-modal__label">Checklist</strong>
           <CheckboxEditor
             class="board-modal__checklist"
             :checkboxes="activeCard.checklist"
@@ -140,7 +140,7 @@
     &__scrollContent {
       display: flex;
       flex-direction: column;
-      gap: 1.5em;
+      gap: 4em;
       overflow-y: auto;
     }
 
@@ -151,10 +151,17 @@
       gap: 0.5em;
 
       &-headline {
-        @include fontMixin(1.6rem, 2rem);
+        @include fontMixin(map-get($font-size, xl));
 
         width: 100%;
+        cursor: text;
       }
+    }
+
+    &__label {
+      @include fontMixin(map-get($font-size, md));
+      font-weight: bold;
+      margin-bottom: 0.5em;
     }
 
     &__details {

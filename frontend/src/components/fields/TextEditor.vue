@@ -33,7 +33,6 @@
     isEditing.value = true
     await nextTick()
     editorRef.value?.focus()
-    // Cursor ans Ende setzen
     const range = document.createRange()
     const sel = window.getSelection()
     range.selectNodeContents(editorRef.value!)
@@ -71,8 +70,8 @@
     white-space: pre-wrap;
     cursor: text;
 
-    &[contenteditable='true'] {
-      outline: none;
-    }
+    // &[contenteditable='true'] {
+    //   outline: none;
+    // }
   }
 </style>

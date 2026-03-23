@@ -9,7 +9,7 @@ export interface PriorityIconType extends IconType {
 export const PRIORITY_LIST: IconType[] = [
   { name: 'Critical', icon: 'icon-critical' },
   { name: 'High', icon: 'icon-high' },
-  { name: 'Medium', icon: '' },
+  { name: 'Medium', icon: 'icon-medium' },
   { name: 'Low', icon: 'icon-low' },
 ] as const
 
