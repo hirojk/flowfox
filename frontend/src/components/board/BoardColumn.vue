@@ -6,8 +6,10 @@
         :text="props.columnContent.columnName"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
-      <ContextMenu
-        :events="[
+      <DropdownMenu
+        mode="context"
+        icon="icon-menu"
+        :options="[
           {
             name: 'Remove Column',
             action: () => removeColumn(props.columnContent.id),
@@ -39,6 +41,7 @@
   const props = defineProps<{
     columnContent: BoardColumnType
   }>()
+
   const boardCards = computed(() => props.columnContent.cards)
 </script>
 

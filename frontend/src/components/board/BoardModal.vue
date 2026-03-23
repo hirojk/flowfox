@@ -16,13 +16,13 @@
         <iconSvg id="icon-cancel" />
         Close
       </button>
-      <ContextMenu
-        :events="[
+      <DropdownMenu
+        mode="context"
+        icon="icon-menu"
+        :options="[
           {
             name: 'Remove Card',
-            action: () => {
-              removeCard(boardStore.activeCardId as [number, number])
-            },
+            action: () => removeCard(boardStore.activeCardId as [number, number]),
           },
         ]"
       />
@@ -35,12 +35,17 @@
           :text="activeCard.taskName"
           :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
         />
-        <SelectEditor
-          class="board-modal__header-priority"
-          :options="PRIORITY_LIST.map((priority) => priority.name)"
+        <DropdownMenu
+          mode="select"
+          :label="activeCard.priority"
           :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
-          :selected="activeCard.priority"
-          :saveEvent="(newPriority) => updateCard(boardStore.activeCardId, { priority: newPriority as PriorityName })"
+          :options="
+            PRIORITY_LIST.map((p) => ({
+              name: p.name,
+              icon: p.icon,
+              action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityName }),
+            }))
+          "
         />
       </div>
       <div class="board-modal__details">
@@ -62,7 +67,7 @@
             :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
           />
         </div>
-        <div class="board-modal__content board-modal__content--date">
+        <!-- <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
             <strong>Start Date</strong>
             <DatePicker
@@ -88,7 +93,7 @@
               </span>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- <div class="board-modal__settings">
@@ -111,9 +116,8 @@
   import type { PriorityName } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
-  import SelectEditor from '@components/fields/SelectEditor.vue'
   import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
-  import DatePicker from '@components/fields/DatePicker.vue'
+  // import DatePicker from '@components/fields/DatePicker.vue'
 
   const boardStore = useBoardStore()
 
