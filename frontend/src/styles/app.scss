@@ -78,6 +78,11 @@ button {
     background-color: $ff-grey;
     color: $ff-white;
   }
+
+  &--tertiary {
+    background-color: $ff-white;
+    color: $ff-black;
+  }
 }
 
 .tag {

@@ -1,1 +1,1 @@
-export const MODAL_WINDOWS: String[] = ['board-card', 'board-setting'] as const
+export const MODAL_WINDOWS: String[] = ['project-setting', 'board-setting', 'board-card'] as const

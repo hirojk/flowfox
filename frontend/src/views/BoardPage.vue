@@ -16,7 +16,7 @@
             :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
           />
         </div>
-        <button class="button button--primary" @click="openSettingsModal">Setting</button>
+        <button class="button button--primary" @click="openSettingsModal('board-setting')">Setting</button>
       </header>
     </div>
     <section class="page__content">
@@ -47,6 +47,7 @@
   import TextEditor from '@components/fields/TextEditor.vue'
   import BoardColumn from '@components/board/BoardColumn.vue'
   import { addColumn } from '@services/boardColumnService.ts'
+  import { openSettingsModal } from '@composables/useModal'
 
   const boardStore = useBoardStore()
   const modalStore = useModalStore()
@@ -55,11 +56,6 @@
 
   defineOptions({ inheritAttrs: false })
   useDragScroll('main')
-
-  const openSettingsModal = () => {
-    modalStore.isOpen = true
-    modalStore.currentWindow = 'board-setting'
-  }
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],
