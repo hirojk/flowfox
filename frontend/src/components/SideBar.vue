@@ -31,7 +31,7 @@
           },
         }"
       />
-      <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" />
+      <!-- <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" /> -->
     </q-list>
 
     <q-list class="sideBar__list sideBar__list--nav">

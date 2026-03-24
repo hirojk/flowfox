@@ -75,6 +75,33 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
+    async deleteActiveBoard(): Promise<void> {
+      const { projectStore } = getStores()
+
+      if (!this.activeBoard?.id) return
+
+      try {
+        await api.delete(`/api/v1/projects/${projectStore.activeProject?.id}/board/${this.activeBoard.id}`)
+
+        const boardId = this.activeBoard.id
+
+        const project = projectStore.allProjects.find((project) => project.id === projectStore.activeProject?.id)
+        if (project) {
+          project.components = project.components.filter((component) => component.id !== boardId)
+        }
+
+        if (projectStore.activeProject) {
+          projectStore.activeProject.components = projectStore.activeProject.components.filter(
+            (component) => component.id !== boardId,
+          )
+        }
+
+        this.activeBoard = null
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        throw error
+      }
+    },
     async updateBoardName(newName: string): Promise<void> {
       const { projectStore } = getStores()
 

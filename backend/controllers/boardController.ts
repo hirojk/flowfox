@@ -66,8 +66,38 @@ export async function getBoardById(req: Request, res: Response): Promise<void> {
   }
 }
 
+// DELETE: delete board by ID
+export async function deleteBoardById(req: Request, res: Response): Promise<void> {
+  try {
+    const { projectId, boardId } = req.params
+
+    const project = await ProjectModel().findOne({ id: Number(projectId) })
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    const boardExists = project.components.find(
+      (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
+    )
+
+    if (!boardExists) {
+      notFoundResponse(res, 'Board not found')
+      return
+    }
+
+    project.components = project.components.filter((component: BoardType) => component.id !== Number(boardId))
+    await project.save()
+
+    successResponse(res, 'Board deleted successfully')
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
 // PUT: update board name and data
-export async function updateBoard(req: Request, res: Response): Promise<void> {
+export async function updateBoardById(req: Request, res: Response): Promise<void> {
   try {
     const projectId = Number(req.params.projectId)
     const boardId = Number(req.params.boardId)
@@ -112,7 +142,6 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
         id: boardId,
         type: 'board',
       }
-
       await project.save()
 
       successResponse(res, 'Board updated successfully', project.components[boardIndex])
