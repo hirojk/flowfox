@@ -1,14 +1,14 @@
 {
   "id": 251,
-  "projectName": "Project Pizza",
+  "name": "Project Pizza",
   "columns": [
     {
       "id": 143,
-      "columnName": "Shopping",
+      "name": "Shopping",
       "cards": [
         {
           "id": 1,
-          "taskName": "Tomato Sauce",
+          "name": "Tomato Sauce",
           "priority": "Medium",
           "description": "Buy some fresh tomato sauce for the pizza.",
           "checklist": [
@@ -32,7 +32,7 @@
         },
         {
           "id": 2,
-          "taskName": "Flour",
+          "name": "Flour",
           "priority": "High",
           "description": "Buy flour for the pizza dough.",
           "checklist": [

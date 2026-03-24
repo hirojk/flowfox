@@ -11,6 +11,7 @@
       <div class="modal__scrollContent">
         <slot></slot>
       </div>
+      <div class="modal__footer" id="modal-footer"></div>
     </div>
   </div>
 </template>

@@ -25,7 +25,7 @@
   const modalStore = useModalStore()
   const boardStore = useBoardStore()
 
-  const localHeading = computed(() => props.cardContent.taskName)
+  const localHeading = computed(() => props.cardContent.name)
   const localPriority = computed(() => getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'))
 
   const openCardModal = () => {

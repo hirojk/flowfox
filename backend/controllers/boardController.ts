@@ -17,12 +17,6 @@ export async function createBoardComponent(req: Request, res: Response): Promise
     const projectModel = ProjectModel()
     const { projectId } = req.params
     const userId = req.user!.id
-    const { boardName } = req.body
-
-    if (!boardName) {
-      badRequestResponse(res, 'boardName is required')
-      return
-    }
 
     const project = await projectModel.findOne({ id: projectId })
 
@@ -33,7 +27,6 @@ export async function createBoardComponent(req: Request, res: Response): Promise
 
     const newBoard = BoardSchema.parse({
       id: generateId(),
-      boardName,
       creatorId: userId,
     })
 
@@ -78,14 +71,14 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
   try {
     const projectId = Number(req.params.projectId)
     const boardId = Number(req.params.boardId)
-    const { boardName, boardData } = req.body
+    const { name, boardData } = req.body
 
-    if (boardName) {
+    if (name) {
       const result = await ProjectModel().updateOne(
         { id: projectId, 'components.id': boardId },
         {
           $set: {
-            'components.$.boardName': boardName,
+            'components.$.name': name,
           },
         },
       )
@@ -95,7 +88,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
         return
       }
 
-      successResponse(res, 'Board name updated', { boardName })
+      successResponse(res, 'Board name updated', { name })
       return
     }
 

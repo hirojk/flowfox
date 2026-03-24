@@ -13,12 +13,12 @@
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
               buttonStyle="project"
-              :label="project.projectName"
+              :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
             />
           </li>
           <li class="projects__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Project" />
+            <PageItem buttonStyle="new" icon="icon-plus" label="New Project" @click="projectStore.createNewProject()" />
           </li>
         </ul>
       </div>

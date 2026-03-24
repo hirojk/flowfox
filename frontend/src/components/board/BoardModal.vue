@@ -19,8 +19,8 @@
       <TextEditor
         class="board-modal__header-headline"
         htmlTag="strong"
-        :text="activeCard.taskName"
-        :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { taskName: newTaskName })"
+        :text="activeCard.name"
+        :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { name: newTaskName })"
       />
       <DropdownMenu
         mode="select"
@@ -129,12 +129,6 @@
       }
     }
 
-    &__label {
-      @include fontMixin(map-get($font-size, md));
-      font-weight: bold;
-      margin-bottom: 0.5em;
-    }
-
     &__details {
       display: flex;
       flex-direction: column;
@@ -151,6 +145,12 @@
         justify-content: space-between;
         gap: 1em;
       }
+    }
+
+    &__label {
+      @include fontMixin(map-get($font-size, md));
+      font-weight: bold;
+      margin-bottom: 0.5em;
     }
 
     &__description {

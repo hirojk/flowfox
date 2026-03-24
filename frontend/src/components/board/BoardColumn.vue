@@ -3,7 +3,7 @@
     <div class="board-column__header">
       <EditableText
         htmlTag="h2"
-        :text="props.columnContent.columnName"
+        :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
       <DropdownMenu

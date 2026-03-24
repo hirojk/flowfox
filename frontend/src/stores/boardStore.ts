@@ -42,19 +42,19 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
-    async updateBoardName(name: string): Promise<void> {
+    async updateBoardName(newName: string): Promise<void> {
       const projectStore = useProjectStore()
       if (!this.activeBoard || !projectStore.activeProjectId) return
 
       try {
         await api.put(`/api/v1/projects/${projectStore.activeProjectId}/board/${this.activeBoard.id}`, {
-          boardName: name,
+          name: newName,
         })
 
-        this.activeBoard.boardName = name
+        this.activeBoard.name = newName
 
         const component = projectStore.activeProject?.components.find((c) => c.id === this.activeBoard?.id)
-        if (component) component.boardName = name
+        if (component) component.name = newName
       } catch (error) {
         console.error('Error updating project name:', error)
         throw error

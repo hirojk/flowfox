@@ -5,7 +5,7 @@
         <TextEditor
           class="page__headline"
           htmlTag="h1"
-          :text="projectStore.activeProject?.projectName || ''"
+          :text="projectStore.activeProject?.name || ''"
           :saveEvent="(newProjectName) => projectStore.updateProjectName(newProjectName)"
         />
       </div>
@@ -18,7 +18,7 @@
             <PageItem
               buttonStyle="component"
               :icon="`icon-${component.type}`"
-              :label="component.boardName"
+              :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"
             />
           </li>

@@ -13,16 +13,16 @@
     <q-list class="sideBar__list sideBar__list--project">
       <SidebarItem
         buttonStyle="project"
-        :label="projectStore.activeProject?.projectName || ''"
+        :label="projectStore.activeProject?.name || ''"
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
       <hr class="sideBar__divider" />
       <SidebarItem
         v-for="item in projectStore.activeProject?.components"
-        :key="item.boardName"
+        :key="item.name"
         buttonStyle="component"
         :icon="`icon-${item.type}`"
-        :label="item.boardName"
+        :label="item.name"
         :route="{
           name: 'component',
           params: {

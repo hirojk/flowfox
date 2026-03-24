@@ -15,17 +15,10 @@ import {
 export async function createProject(req: Request, res: Response): Promise<void> {
   try {
     const projectModel = ProjectModel()
-    const { projectName } = req.body
     const userId = req.user!.id
-
-    if (!projectName) {
-      badRequestResponse(res, 'projectName is required')
-      return
-    }
 
     const projectData = ProjectSchema.parse({
       id: generateId(),
-      projectName,
       creatorId: userId,
     })
 
@@ -108,10 +101,10 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
 // PUT: update project by ID
 export async function updateProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { projectName, components } = req.body
+    const { name, components } = req.body
     const project = await ProjectModel().findOneAndUpdate(
       { id: req.params.projectId },
-      { projectName, components },
+      { name, components },
       { returnDocument: 'after' },
     )
 

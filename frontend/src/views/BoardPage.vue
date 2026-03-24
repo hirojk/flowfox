@@ -12,7 +12,7 @@
           <TextEditor
             class="page__headline"
             htmlTag="h1"
-            :text="boardStore.activeBoard?.boardName || ''"
+            :text="boardStore.activeBoard?.name || ''"
             :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
           />
         </div>
