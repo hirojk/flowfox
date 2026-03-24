@@ -28,7 +28,7 @@
             />
           </li>
           <li class="components__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Component" />
+            <PageItem buttonStyle="new" icon="icon-plus" label="New Component" @click="boardStore.createNewBoard()" />
           </li>
         </ul>
       </div>
@@ -38,8 +38,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useProjectStore } from '@stores/homeStore.ts'
   import { useModalStore } from '@stores/appStore'
+  import { useProjectStore } from '@stores/homeStore'
+  import { useBoardStore } from '@stores/boardStore'
 
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
@@ -47,8 +48,9 @@
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
 
-  const projectStore = useProjectStore()
   const modalStore = useModalStore()
+  const projectStore = useProjectStore()
+  const boardStore = useBoardStore()
 
   defineOptions({ inheritAttrs: false })
 </script>

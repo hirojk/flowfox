@@ -1,8 +1,13 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
+import router from '@/router'
 import { useProjectStore } from '@stores/homeStore'
 import type { BoardType, BoardColumnType, BoardCardType } from '@flowfox/shared'
 import { sortedCardsByPriority } from '@constants/priority.ts'
+
+const getStores = () => ({
+  projectStore: useProjectStore(),
+})
 
 export const useBoardStore = defineStore('board', {
   state: () => ({
@@ -42,12 +47,41 @@ export const useBoardStore = defineStore('board', {
         throw error
       }
     },
-    async updateBoardName(newName: string): Promise<void> {
-      const projectStore = useProjectStore()
-      if (!this.activeBoard || !projectStore.activeProjectId) return
+    async createNewBoard(): Promise<void> {
+      const { projectStore } = getStores()
 
       try {
-        await api.put(`/api/v1/projects/${projectStore.activeProjectId}/board/${this.activeBoard.id}`, {
+        const response = (await api.post(`/api/v1/projects/${projectStore.activeProject?.id}/board`)) as {
+          data: BoardType
+        }
+
+        this.activeBoard = response.data
+
+        const allprojectsStore = projectStore.allProjects.find(
+          (selectedProject) => selectedProject.id === projectStore.activeProject?.id,
+        )
+        if (allprojectsStore) {
+          allprojectsStore.components.push(response.data)
+        }
+
+        projectStore.activeProject?.components.push(response.data)
+
+        router.push({
+          name: 'component',
+          params: { projectId: String(projectStore.activeProject?.id), componentId: String(response.data.id) },
+        })
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        throw error
+      }
+    },
+    async updateBoardName(newName: string): Promise<void> {
+      const { projectStore } = getStores()
+
+      if (!this.activeBoard || !projectStore.activeProject?.id) return
+
+      try {
+        await api.put(`/api/v1/projects/${projectStore.activeProject.id}/board/${this.activeBoard.id}`, {
           name: newName,
         })
 
@@ -61,11 +95,12 @@ export const useBoardStore = defineStore('board', {
       }
     },
     async updateBoard(): Promise<void> {
-      const projectStore = useProjectStore()
-      if (!this.activeBoard || !projectStore.activeProjectId) return
+      const { projectStore } = getStores()
+
+      if (!this.activeBoard || !projectStore.activeProject?.id) return
 
       try {
-        await api.put(`/api/v1/projects/${projectStore.activeProjectId}/board/${this.activeBoard.id}`, {
+        await api.put(`/api/v1/projects/${projectStore.activeProject.id}/board/${this.activeBoard.id}`, {
           boardData: this.activeBoard,
         })
       } catch (error) {

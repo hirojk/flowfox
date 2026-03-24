@@ -6,7 +6,6 @@ import type { ProjectType } from '@flowfox/shared'
 export const useProjectStore = defineStore('project', {
   state: () => ({
     allProjects: [] as ProjectType[],
-    activeProjectId: null as number | null,
     activeProject: null as ProjectType | null,
   }),
 
@@ -26,7 +25,6 @@ export const useProjectStore = defineStore('project', {
         const response = (await api.post(`/api/v1/projects/`)) as { data: ProjectType }
 
         this.allProjects.push(response.data)
-        this.activeProjectId = response.data.id
         this.activeProject = response.data
 
         router.push({ name: 'project', params: { projectId: String(response.data.id) } })
@@ -36,13 +34,12 @@ export const useProjectStore = defineStore('project', {
       }
     },
     async deleteActiveProject(): Promise<void> {
-      if (!this.activeProjectId) return
+      if (!this.activeProject?.id) return
 
       try {
-        await api.delete(`/api/v1/projects/${this.activeProjectId}`)
+        await api.delete(`/api/v1/projects/${this.activeProject.id}`)
 
-        this.allProjects = this.allProjects.filter((project) => project.id !== this.activeProjectId)
-        this.activeProjectId = null
+        this.allProjects = this.allProjects.filter((project) => project.id !== this.activeProject?.id)
         this.activeProject = null
       } catch (error) {
         console.error('Error loading projects:', error)
@@ -50,8 +47,6 @@ export const useProjectStore = defineStore('project', {
       }
     },
     async updateActiveProject(projectId: number): Promise<void> {
-      this.activeProjectId = projectId
-
       try {
         const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
 
@@ -67,10 +62,10 @@ export const useProjectStore = defineStore('project', {
       return (project?.components[0]?.id as number) ?? null
     },
     async updateProjectName(newName: string): Promise<void> {
-      if (!this.activeProject || !this.activeProjectId) return
+      if (!this.activeProject || !this.activeProject.id) return
 
       try {
-        await api.put(`/api/v1/projects/${this.activeProjectId}`, {
+        await api.put(`/api/v1/projects/${this.activeProject.id}`, {
           name: newName,
         })
 

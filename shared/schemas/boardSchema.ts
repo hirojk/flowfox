@@ -2,16 +2,20 @@ import { z } from 'zod'
 import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority.js'
 
 export const BoardSettingSchema = z.object({
-  cards: z.object({
-    priority: z.boolean().default(true),
-    description: z.boolean().default(false),
-    checklist: z.boolean().default(false),
-  }),
-  modal: z.object({
-    priority: z.boolean().default(true),
-    description: z.boolean().default(true),
-    checklist: z.boolean().default(true),
-  }),
+  cards: z
+    .object({
+      priority: z.boolean(),
+      description: z.boolean(),
+      checklist: z.boolean(),
+    })
+    .default({ priority: true, description: false, checklist: false }),
+  modal: z
+    .object({
+      priority: z.boolean(),
+      description: z.boolean(),
+      checklist: z.boolean(),
+    })
+    .default({ priority: true, description: true, checklist: true }),
 })
 
 export const CheckboxItemSchema = z.object({
@@ -48,7 +52,7 @@ export const BoardSchema = z.object({
   creatorId: z.number(),
   members: z.array(z.number()).default([]),
   columns: z.array(BoardColumnSchema).default([]),
-  settings: BoardSettingSchema,
+  settings: BoardSettingSchema.default(() => BoardSettingSchema.parse({})),
 })
 
 export type CheckboxItemType = z.infer<typeof CheckboxItemSchema>
