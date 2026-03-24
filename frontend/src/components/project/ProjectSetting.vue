@@ -8,12 +8,14 @@
 </template>
 
 <script setup lang="ts">
+  import { useProjectStore } from '@stores/homeStore'
   import { useDeletePrompt } from '@composables/usePrompt'
 
+  const projectStore = useProjectStore()
   const { open } = useDeletePrompt()
 
   const onDeleteBoard = () => {
-    open('Are you sure?')
+    open('Are you sure?', projectStore.deleteActiveProject, { name: 'home' })
   }
 </script>
 

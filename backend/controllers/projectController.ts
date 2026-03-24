@@ -79,13 +79,7 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
 // DELETE: delete project by ID
 export async function deleteProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.body
-    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId, creatorId: userId })
-
-    if (!userId) {
-      badRequestResponse(res, 'userId is required')
-      return
-    }
+    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')

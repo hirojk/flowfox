@@ -35,8 +35,23 @@ export const useProjectStore = defineStore('project', {
         throw error
       }
     },
+    async deleteActiveProject(): Promise<void> {
+      if (!this.activeProjectId) return
+
+      try {
+        await api.delete(`/api/v1/projects/${this.activeProjectId}`)
+
+        this.allProjects = this.allProjects.filter((project) => project.id !== this.activeProjectId)
+        this.activeProjectId = null
+        this.activeProject = null
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        throw error
+      }
+    },
     async updateActiveProject(projectId: number): Promise<void> {
       this.activeProjectId = projectId
+
       try {
         const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
 
