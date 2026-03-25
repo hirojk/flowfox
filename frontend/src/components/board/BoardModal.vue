@@ -23,6 +23,7 @@
         :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { name: newTaskName })"
       />
       <DropdownMenu
+        v-if="showPriority"
         mode="select"
         :label="activeCard.priority"
         :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
@@ -36,7 +37,7 @@
       />
     </section>
     <section class="board-modal__details">
-      <div class="board-modal__content board-modal__content--description">
+      <div v-if="showDescription" class="board-modal__content board-modal__content--description">
         <strong class="board-modal__label">Description</strong>
         <TextEditor
           class="board-modal__description"
@@ -46,7 +47,7 @@
           :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
         />
       </div>
-      <div class="board-modal__content board-modal__content--checklist">
+      <div v-if="showChecklist" class="board-modal__content board-modal__content--checklist">
         <strong class="board-modal__label">Checklist</strong>
         <CheckboxEditor
           class="board-modal__checklist"
@@ -104,6 +105,10 @@
   // import DatePicker from '@components/fields/DatePicker.vue'
 
   const boardStore = useBoardStore()
+
+  const showPriority = computed(() => boardStore.activeBoard?.settings.modal.priority ?? true)
+  const showDescription = computed(() => boardStore.activeBoard?.settings.modal.description ?? false)
+  const showChecklist = computed(() => boardStore.activeBoard?.settings.modal.checklist ?? false)
 
   const activeCard = computed(() => {
     const column = boardStore.activeBoard?.columns.find(
