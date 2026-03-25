@@ -55,6 +55,7 @@ export const BoardSchema = z.object({
   settings: BoardSettingSchema.default(() => BoardSettingSchema.parse({})),
 })
 
+export type BoardSettingType = z.infer<typeof BoardSettingSchema>
 export type CheckboxItemType = z.infer<typeof CheckboxItemSchema>
 export type BoardTagType = z.infer<typeof BoardTagSchema>
 export type BoardCardType = z.infer<typeof BoardCardSchema>
