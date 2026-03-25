@@ -29,16 +29,22 @@
   const isEditing = ref(false)
   const editorRef = ref<HTMLElement | null>(null)
 
-  const startEdit = async () => {
+  const startEdit = async (event: MouseEvent) => {
+    if (isEditing.value) return
+
     isEditing.value = true
     await nextTick()
-    editorRef.value?.focus()
-    const range = document.createRange()
+
     const sel = window.getSelection()
-    range.selectNodeContents(editorRef.value!)
-    range.collapse(false)
     sel?.removeAllRanges()
-    sel?.addRange(range)
+
+    const position = document.caretPositionFromPoint(event.clientX, event.clientY)
+    if (position) {
+      const range = document.createRange()
+      range.setStart(position.offsetNode, position.offset)
+      range.collapse(true)
+      sel?.addRange(range)
+    }
   }
 
   const handleEnter = (event: KeyboardEvent) => {

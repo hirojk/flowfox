@@ -92,7 +92,7 @@
       display: flex;
       gap: 2em;
       min-width: min-content;
-      margin: 0 $page-padding-x;
+      padding: 0 $page-padding-x;
 
       &__columnWrapper {
         width: 20em;

@@ -2,14 +2,17 @@
   <article class="board-card" @click="openCardModal">
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
-        <h3 class="board-card__heading">{{ localHeading }}</h3>
-        <IconSvg class="board-card__priority" v-if="showPriority" :id="localPriority" size="22" />
+        <h3 class="board-card__heading">{{ card.heading }}</h3>
+        <IconSvg class="board-card__priority" v-if="cardSettings.priority" :id="card.priority" size="22" />
       </div>
-      <div v-if="showDescription || showChecklistItems" class="board-card__wrapper board-card__wrapper--group">
-        <span v-if="showDescription" class="board-card__description">{{ localDescription }}</span>
-        <ul v-if="showChecklistItems" class="board-card__checklist">
+      <div
+        v-if="cardSettings.description || cardSettings.checklist"
+        class="board-card__wrapper board-card__wrapper--group"
+      >
+        <span v-if="cardSettings.description" class="board-card__description">{{ card.description }}</span>
+        <ul v-if="cardSettings.checklist" class="board-card__checklist">
           <li
-            v-for="subtask in localChecklist"
+            v-for="subtask in card.checklist"
             :class="`board-card__subtask board-card__subtask${subtask.isChecked ? '--checked' : '--todo'}`"
           >
             <i class="board-card__subtask-icon">
@@ -41,15 +44,22 @@
   const modalStore = useModalStore()
   const boardStore = useBoardStore()
 
-  const localHeading = computed(() => props.cardContent.name)
-  const localPriority = computed(() => getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'))
-  const localDescription = computed(() => props.cardContent.description)
-  const localChecklist = computed(() => props.cardContent.checklist)
+  const card = computed(() => ({
+    heading: props.cardContent.name,
+    priority: getIcon(PRIORITY_LIST, props.cardContent.priority ?? 'Medium'),
+    description: props.cardContent.description,
+    checklist: props.cardContent.checklist,
+  }))
 
-  const showPriority = computed(() => boardStore.activeBoard?.settings.cards.priority ?? true)
-  const showDescription = computed(() => boardStore.activeBoard?.settings.cards.description ?? false)
-  const showChecklist = computed(() => boardStore.activeBoard?.settings.cards.checklist ?? false)
-  const showChecklistItems = computed(() => showChecklist.value && localChecklist.value.length > 0)
+  const cardSettings = computed(() => {
+    const settings = boardStore.activeBoard?.settings.cards
+
+    return {
+      priority: settings?.priority ?? true,
+      description: settings?.description ?? false,
+      checklist: (settings?.checklist ?? false) && card.value.checklist.length > 0,
+    }
+  })
 
   const openCardModal = () => {
     modalStore.isOpen = true
