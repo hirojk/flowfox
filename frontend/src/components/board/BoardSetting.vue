@@ -18,7 +18,7 @@
   const { open } = useDeletePrompt()
 
   const onDeleteBoard = () => {
-    open('Are you sure?', boardStore.deleteActiveBoard, {
+    open(`Are you sure you want to delete the board "${boardStore.activeBoard?.name}"?`, boardStore.deleteActiveBoard, {
       name: 'project',
       params: { projectId: String(projectStore.activeProject?.id) },
     })

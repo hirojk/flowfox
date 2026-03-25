@@ -1,5 +1,5 @@
 <template>
-  <i class="icon">
+  <i class="icon" aria-hidden="true">
     <svg :width="size" :height="size">
       <use class="iconSvg" :href="`/assets/iconSet.svg#${id}`"></use>
     </svg>

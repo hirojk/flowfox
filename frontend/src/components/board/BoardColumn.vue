@@ -1,5 +1,5 @@
 <template>
-  <article class="board-column">
+  <section class="board-column">
     <div class="board-column__header">
       <EditableText
         htmlTag="h2"
@@ -26,7 +26,7 @@
       <IconSvg id="icon-plus" />
       Add Card
     </button>
-  </article>
+  </section>
 </template>
 
 <script setup lang="ts">

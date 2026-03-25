@@ -1,9 +1,11 @@
 <template>
   <dialog ref="dialogRef" class="delete-prompt">
-    <p>{{ message }}</p>
-    <div class="delete-prompt__buttons">
-      <button @click="confirm" autofocus>Delete</button>
-      <button @click="close">Cancel</button>
+    <span class="delete-prompt__message">{{ message }}</span>
+    <div class="delete-prompt__button-group">
+      <button class="delete-prompt__button delete-prompt__button--delete" @click="confirm" autofocus>
+        <IconSvg id="icon-cancel" /> Delete
+      </button>
+      <button class="delete-prompt__button delete-prompt__button--cancel" @click="close">Cancel</button>
     </div>
   </dialog>
 </template>
@@ -24,9 +26,47 @@
 
 <style lang="scss" scoped>
   .delete-prompt {
-    &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+    max-width: 25em;
+    border: none;
+    border-radius: 1em;
+    padding: 2em;
+
+    &__message {
+      @include fontMixin(map-get($font-size, md));
+      max-width: 15em;
+      text-align: center;
+    }
+
+    &__button-group {
       display: flex;
-      gap: 1em;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    &__button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5em;
+      width: 10em;
+      border-radius: 1em;
+      padding: 0.8em 2em;
+      text-align: center;
+
+      &--delete {
+        border: 2px solid $ff-error;
+        color: $ff-error;
+      }
+
+      &--cancel {
+        background-color: rgba($ff-grey, 0.75);
+        color: $ff-white;
+      }
     }
   }
 </style>
