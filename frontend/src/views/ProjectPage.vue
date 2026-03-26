@@ -10,7 +10,9 @@
           class="page__headline"
           htmlTag="h1"
           :text="projectStore.activeProject?.name || ''"
-          :saveEvent="(newProjectName) => projectStore.updateProjectName(newProjectName)"
+          :saveEvent="
+            (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
+          "
         />
       </div>
       <button class="button button--tertiary" @click="openSettingsModal('project-setting')">Setting</button>

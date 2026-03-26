@@ -78,7 +78,7 @@
     () => activeProject.value?.id,
     async (projectId) => {
       if (!projectId) return
-      await projectStore.updateActiveProject(projectId)
+      await projectStore.updateProject(projectId)
     },
     { immediate: true },
   )
