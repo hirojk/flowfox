@@ -6,9 +6,9 @@
   </q-layout>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .page--main {
-    padding: 2.5em 3.75em;
+    padding: $page-padding-y $page-padding-x;
     background-color: $ff-white;
   }
 </style>

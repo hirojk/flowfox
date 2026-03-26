@@ -1,5 +1,5 @@
 <template>
-  <main class="page page--login">
+  <main class="page--login">
     <section class="login-form">
       <h1 class="login-form__title">Flowfox</h1>
       <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
@@ -12,7 +12,7 @@
           <label class="login-form__form-label" for="login-password">Password</label>
           <input class="login-form__form-input" type="password" id="login-password" v-model="password" required />
         </div>
-        <button class="login-form__form-button" type="submit">Login</button>
+        <button class="login-form__form-button button button--primary" type="submit">Login</button>
       </form>
     </section>
   </main>
@@ -87,15 +87,7 @@
 
         &-button {
           margin-top: 2em;
-          border-radius: 0.5em;
           padding: 0.75em;
-          text-align: center;
-          color: $ff-white;
-          background-color: $ff-primary;
-
-          &:hover {
-            background-color: $ff-grey;
-          }
         }
       }
     }

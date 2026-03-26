@@ -4,33 +4,39 @@ import MainLayout from '@layouts/MainLayout.vue'
 import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@views/LoginPage.vue'
 import Home from '@views/HomePage.vue'
+import Project from '@views/ProjectPage.vue'
 import Component from '@views/ComponentPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/login',
-    name: 'login',
-    component: Login,
-  },
-  {
     path: '/',
     component: MainLayout,
-    meta: { requiresAuth: true },
     children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: Login,
+      },
       {
         path: '',
         name: 'home',
+        meta: { requiresAuth: true },
         component: Home,
       },
     ],
   },
   {
-    path: '/:projectSlug',
+    path: '/:projectId',
     component: ComponentLayout,
     meta: { requiresAuth: true },
     children: [
       {
-        path: ':componentSlug',
+        path: '',
+        name: 'project',
+        component: Project,
+      },
+      {
+        path: ':componentId',
         name: 'component',
         component: Component,
       },

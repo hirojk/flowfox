@@ -17,12 +17,6 @@ export async function createBoardComponent(req: Request, res: Response): Promise
     const projectModel = ProjectModel()
     const { projectId } = req.params
     const userId = req.user!.id
-    const { boardName } = req.body
-
-    if (!boardName) {
-      badRequestResponse(res, 'boardName is required')
-      return
-    }
 
     const project = await projectModel.findOne({ id: projectId })
 
@@ -33,7 +27,6 @@ export async function createBoardComponent(req: Request, res: Response): Promise
 
     const newBoard = BoardSchema.parse({
       id: generateId(),
-      boardName,
       creatorId: userId,
     })
 
@@ -73,19 +66,49 @@ export async function getBoardById(req: Request, res: Response): Promise<void> {
   }
 }
 
+// DELETE: delete board by ID
+export async function deleteBoardById(req: Request, res: Response): Promise<void> {
+  try {
+    const { projectId, boardId } = req.params
+
+    const project = await ProjectModel().findOne({ id: Number(projectId) })
+
+    if (!project) {
+      notFoundResponse(res, 'Project not found')
+      return
+    }
+
+    const boardExists = project.components.find(
+      (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
+    )
+
+    if (!boardExists) {
+      notFoundResponse(res, 'Board not found')
+      return
+    }
+
+    project.components = project.components.filter((component: BoardType) => component.id !== Number(boardId))
+    await project.save()
+
+    successResponse(res, 'Board deleted successfully')
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
 // PUT: update board name and data
-export async function updateBoard(req: Request, res: Response): Promise<void> {
+export async function updateBoardById(req: Request, res: Response): Promise<void> {
   try {
     const projectId = Number(req.params.projectId)
     const boardId = Number(req.params.boardId)
-    const { boardName, boardData } = req.body
+    const { name, boardData } = req.body
 
-    if (boardName) {
+    if (name) {
       const result = await ProjectModel().updateOne(
         { id: projectId, 'components.id': boardId },
         {
           $set: {
-            'components.$.boardName': boardName,
+            'components.$.name': name,
           },
         },
       )
@@ -95,7 +118,7 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
         return
       }
 
-      successResponse(res, 'Board name updated', { boardName })
+      successResponse(res, 'Board name updated', { name })
       return
     }
 
@@ -119,7 +142,6 @@ export async function updateBoard(req: Request, res: Response): Promise<void> {
         id: boardId,
         type: 'board',
       }
-
       await project.save()
 
       successResponse(res, 'Board updated successfully', project.components[boardIndex])

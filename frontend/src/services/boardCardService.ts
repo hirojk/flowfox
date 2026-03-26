@@ -1,3 +1,4 @@
+import { BoardCardSchema } from '@flowfox/shared'
 import type { BoardColumnType, BoardCardType } from '@flowfox/shared'
 import { useModalStore } from '@stores/appStore.ts'
 import { useBoardStore } from '@stores/boardStore.ts'
@@ -9,17 +10,12 @@ const getStores = () => ({
 })
 
 export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCardType => {
-  return {
+  return BoardCardSchema.parse({
     id: generateId(),
-    taskName: 'New Task',
-    priority: 'Medium',
-    description: 'No Description',
-    checklist: [],
     startDate: new Date(),
     deadline: new Date(),
-    tags: [],
     ...overrides,
-  }
+  })
 }
 
 export const addCard = (currentCards: BoardCardType[]) => {
@@ -33,7 +29,7 @@ export const removeCard = (cardId: [number, number]) => {
   const { board, modal } = getStores()
 
   if (modal.isOpen) {
-    modal.closeModal()
+    modal.isOpen = false
   }
 
   if (board.activeBoard) {

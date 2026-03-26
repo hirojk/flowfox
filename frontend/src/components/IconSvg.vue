@@ -1,5 +1,5 @@
 <template>
-  <i class="icon">
+  <i class="icon" aria-hidden="true">
     <svg :width="size" :height="size">
       <use class="iconSvg" :href="`/assets/iconSet.svg#${id}`"></use>
     </svg>
@@ -23,6 +23,6 @@
     stroke: currentColor;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 2px;
+    stroke-width: 1.25px;
   }
 </style>

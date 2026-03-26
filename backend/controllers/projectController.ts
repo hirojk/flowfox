@@ -15,17 +15,10 @@ import {
 export async function createProject(req: Request, res: Response): Promise<void> {
   try {
     const projectModel = ProjectModel()
-    const { projectName } = req.body
     const userId = req.user!.id
-
-    if (!projectName) {
-      badRequestResponse(res, 'projectName is required')
-      return
-    }
 
     const projectData = ProjectSchema.parse({
       id: generateId(),
-      projectName,
       creatorId: userId,
     })
 
@@ -86,13 +79,7 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
 // DELETE: delete project by ID
 export async function deleteProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.body
-    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId, creatorId: userId })
-
-    if (!userId) {
-      badRequestResponse(res, 'userId is required')
-      return
-    }
+    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -108,17 +95,12 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
 // PUT: update project by ID
 export async function updateProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { userId, components } = req.body
+    const { name, components } = req.body
     const project = await ProjectModel().findOneAndUpdate(
       { id: req.params.projectId },
-      { creatorId: userId, components: components },
+      { name, components },
       { returnDocument: 'after' },
     )
-
-    if (!userId) {
-      badRequestResponse(res, 'projectName and userId are required')
-      return
-    }
 
     if (!project) {
       notFoundResponse(res, 'Project not found')

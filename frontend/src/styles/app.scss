@@ -5,6 +5,31 @@
   box-sizing: border-box !important;
 }
 
+.page {
+  width: 100%;
+  height: 100dvh;
+  padding: $page-padding-y $page-padding-x;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5em;
+    margin-bottom: 4em;
+  }
+
+  &__headerContent {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  &__headerIcon,
+  &__headline {
+    color: $ff-primary;
+  }
+}
+
 h1 {
   @include fontMixin(map-get($font-size, 2xl));
 }
@@ -34,19 +59,29 @@ button {
   cursor: pointer;
 }
 
-.page {
-  background-color: $ff-tertiary;
-}
-
 .button {
-  display: inline-block;
-  border-radius: 0.4em;
-  padding: 1em 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 0.75em;
+  padding: 1em 4em;
   font-size: nth(map-get($font-size, md), 1);
+  text-align: center;
+
+  &--primary {
+    background-color: $ff-primary;
+    color: $ff-white;
+  }
 
   &--secondary {
     background-color: $ff-grey;
     color: $ff-white;
+  }
+
+  &--tertiary {
+    background-color: $ff-white;
+    color: $ff-black;
   }
 }
 
