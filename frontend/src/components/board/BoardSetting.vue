@@ -63,14 +63,18 @@
       }
     }
 
-    boardStore.updateBoard()
+    boardStore.updateBoard(boardStore.activeBoard.id)
   }
 
   const onDeleteBoard = () => {
-    open(`Are you sure you want to delete the board "${boardStore.activeBoard?.name}"?`, boardStore.deleteActiveBoard, {
-      name: 'project',
-      params: { projectId: String(projectStore.activeProject?.id) },
-    })
+    open(
+      `Are you sure you want to delete the board "${boardStore.activeBoard?.name}"?`,
+      () => boardStore.deleteBoard(boardStore.activeBoard?.id!),
+      {
+        name: 'project',
+        params: { projectId: String(projectStore.activeProject?.id) },
+      },
+    )
   }
 </script>
 

@@ -22,7 +22,7 @@ export const addCard = (currentCards: BoardCardType[]) => {
   const { board } = getStores()
 
   currentCards.push(createNewCard())
-  board.updateBoard()
+  board.updateBoard(board.activeBoard?.id!)
 }
 
 export const removeCard = (cardId: [number, number]) => {
@@ -43,7 +43,7 @@ export const removeCard = (cardId: [number, number]) => {
       return column
     })
 
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }
 
@@ -61,6 +61,6 @@ export const updateCard = (cardId: [number, number], updates: Partial<BoardCardT
       return column
     })
 
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }

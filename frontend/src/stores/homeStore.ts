@@ -50,18 +50,6 @@ export const useProjectStore = defineStore('project', {
         throw error
       }
     },
-    async updateProject(projectId: number): Promise<void> {
-      if (!projectId) return
-
-      try {
-        const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
-
-        this.activeProject = response.data.projects.find((project) => project.id === projectId) || null
-      } catch (error) {
-        console.error('Error loading project:', error)
-        this.activeProject = null
-      }
-    },
     async updateProjectName(projectId: number, newName: string): Promise<void> {
       if (!projectId) return
 
@@ -83,6 +71,18 @@ export const useProjectStore = defineStore('project', {
       } catch (error) {
         console.error('Error updating project name:', error)
         throw error
+      }
+    },
+    async updateProject(projectId: number): Promise<void> {
+      if (!projectId) return
+
+      try {
+        const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
+
+        this.activeProject = response.data.projects.find((project) => project.id === projectId) || null
+      } catch (error) {
+        console.error('Error loading project:', error)
+        this.activeProject = null
       }
     },
   },

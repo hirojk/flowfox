@@ -105,10 +105,15 @@
     &__label {
       width: var(--sign-size);
       text-align: center;
-      color: var(--label-color);
+
+      &--editing {
+        color: var(--label-color);
+        background-color: transparent;
+      }
 
       &--normal {
         @include fontMixin(map-get($font-size, md));
+        color: var(--label-color);
       }
     }
 

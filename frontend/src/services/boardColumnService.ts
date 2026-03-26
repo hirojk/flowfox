@@ -19,7 +19,7 @@ export const addColumn = () => {
 
   if (board.activeBoard) {
     board.activeBoard.columns.push(createNewColumn())
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }
 
@@ -28,7 +28,7 @@ export const removeColumn = (columnId: number) => {
 
   if (board.activeBoard) {
     board.activeBoard.columns = board.activeBoard.columns.filter((column: BoardColumnType) => column.id !== columnId)
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }
 
@@ -38,6 +38,6 @@ export const renameColumn = (columnId: number, newName: string) => {
 
   if (selectedColumn) {
     selectedColumn.name = newName
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }

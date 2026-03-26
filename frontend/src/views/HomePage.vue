@@ -16,7 +16,7 @@
               :id="project.id"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
-              @confirm="(name) => projectStore.updateProjectName(project.id, name)"
+              @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"
               @cancel="projectStore.deleteProject(project.id)"
             />
           </li>
