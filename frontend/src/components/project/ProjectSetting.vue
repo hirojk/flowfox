@@ -17,7 +17,7 @@
   const onDeleteBoard = () => {
     open(
       `Are you sure you want to delete the project "${projectStore.activeProject?.name}"?`,
-      projectStore.deleteActiveProject,
+      () => projectStore.deleteProject(projectStore.activeProject?.id!),
       { name: 'home' },
     )
   }

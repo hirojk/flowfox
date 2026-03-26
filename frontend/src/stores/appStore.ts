@@ -4,6 +4,7 @@ import type { ModalWindowType } from '@typeDefs/globalTypes'
 export const useAppStore = defineStore('app', {
   state: () => ({
     isSidebarOpen: false as boolean,
+    currentEditingId: null as number | null,
   }),
 })
 

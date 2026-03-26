@@ -13,7 +13,7 @@
             class="page__headline"
             htmlTag="h1"
             :text="boardStore.activeBoard?.name || ''"
-            :saveEvent="(newBoardName) => boardStore.updateBoardName(newBoardName)"
+            :saveEvent="(newBoardName) => boardStore.updateBoardName(boardStore.activeBoard?.id!, newBoardName)"
           />
         </div>
         <button class="button button--primary" @click="openSettingsModal('board-setting')">Setting</button>

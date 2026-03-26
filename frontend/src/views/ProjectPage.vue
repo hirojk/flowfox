@@ -10,7 +10,9 @@
           class="page__headline"
           htmlTag="h1"
           :text="projectStore.activeProject?.name || ''"
-          :saveEvent="(newProjectName) => projectStore.updateProjectName(newProjectName)"
+          :saveEvent="
+            (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
+          "
         />
       </div>
       <button class="button button--tertiary" @click="openSettingsModal('project-setting')">Setting</button>
@@ -22,13 +24,16 @@
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
               buttonStyle="component"
+              :id="component.id"
               :icon="`icon-${component.type}`"
               :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"
+              @confirm="(newName) => boardStore.updateBoardName(component.id, newName)"
+              @cancel="boardStore.deleteBoard(component.id)"
             />
           </li>
           <li class="components__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Component" @click="boardStore.createNewBoard()" />
+            <PageItem buttonStyle="new" icon="icon-plus" label="New Component" @click="handleNewComponent" />
           </li>
         </ul>
       </div>
@@ -38,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+  import { useAppStore } from '@stores/appStore'
   import { useModalStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/homeStore'
   import { useBoardStore } from '@stores/boardStore'
@@ -48,9 +54,15 @@
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
 
+  const appStore = useAppStore()
   const modalStore = useModalStore()
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
+
+  const handleNewComponent = async () => {
+    const newComponent = await boardStore.createNewBoard()
+    appStore.currentEditingId = newComponent.id
+  }
 
   defineOptions({ inheritAttrs: false })
 </script>

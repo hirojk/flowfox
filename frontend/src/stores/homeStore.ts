@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
-import router from '@/router'
 import type { ProjectType } from '@flowfox/shared'
 
 export const useProjectStore = defineStore('project', {
@@ -20,40 +19,17 @@ export const useProjectStore = defineStore('project', {
         throw error
       }
     },
-    async createNewProject(): Promise<void> {
+    async createNewProject(): Promise<ProjectType> {
       try {
         const response = (await api.post(`/api/v1/projects/`)) as { data: ProjectType }
 
         this.allProjects.push(response.data)
         this.activeProject = response.data
 
-        router.push({ name: 'project', params: { projectId: String(response.data.id) } })
+        return response.data
       } catch (error) {
         console.error('Error loading projects:', error)
         throw error
-      }
-    },
-    async deleteActiveProject(): Promise<void> {
-      if (!this.activeProject?.id) return
-
-      try {
-        await api.delete(`/api/v1/projects/${this.activeProject.id}`)
-
-        this.allProjects = this.allProjects.filter((project) => project.id !== this.activeProject?.id)
-        this.activeProject = null
-      } catch (error) {
-        console.error('Error loading projects:', error)
-        throw error
-      }
-    },
-    async updateActiveProject(projectId: number): Promise<void> {
-      try {
-        const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
-
-        this.activeProject = response.data.projects.find((project) => project.id === projectId) || null
-      } catch (error) {
-        console.error('Error loading project:', error)
-        this.activeProject = null
       }
     },
     getFirstComponentId(projectId: number): number | null {
@@ -61,18 +37,52 @@ export const useProjectStore = defineStore('project', {
 
       return (project?.components[0]?.id as number) ?? null
     },
-    async updateProjectName(newName: string): Promise<void> {
-      if (!this.activeProject || !this.activeProject.id) return
+    async deleteProject(projectId: number): Promise<void> {
+      if (!projectId) return
 
       try {
-        await api.put(`/api/v1/projects/${this.activeProject.id}`, {
+        await api.delete(`/api/v1/projects/${projectId}`)
+
+        this.allProjects = this.allProjects.filter((project) => project.id !== projectId)
+        this.activeProject = null
+      } catch (error) {
+        console.error('Error loading projects:', error)
+        throw error
+      }
+    },
+    async updateProjectName(projectId: number, newName: string): Promise<void> {
+      if (!projectId) return
+
+      try {
+        await api.put(`/api/v1/projects/${projectId}`, {
           name: newName,
         })
 
-        this.activeProject.name = newName
+        this.allProjects = this.allProjects.map((project) => {
+          if (project.id === projectId) {
+            return { ...project, name: newName }
+          }
+          return project
+        })
+
+        if (this.activeProject?.id === projectId) {
+          this.activeProject.name = newName
+        }
       } catch (error) {
         console.error('Error updating project name:', error)
         throw error
+      }
+    },
+    async updateProject(projectId: number): Promise<void> {
+      if (!projectId) return
+
+      try {
+        const response = (await api.get(`/api/v1/projects/user`)) as { data: { projects: ProjectType[] } }
+
+        this.activeProject = response.data.projects.find((project) => project.id === projectId) || null
+      } catch (error) {
+        console.error('Error loading project:', error)
+        this.activeProject = null
       }
     },
   },

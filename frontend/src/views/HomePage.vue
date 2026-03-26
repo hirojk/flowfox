@@ -13,12 +13,15 @@
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
               buttonStyle="project"
+              :id="project.id"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
+              @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"
+              @cancel="projectStore.deleteProject(project.id)"
             />
           </li>
           <li class="projects__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Project" @click="projectStore.createNewProject()" />
+            <PageItem buttonStyle="new" icon="icon-plus" label="New Project" @click="handleNewProject" />
           </li>
         </ul>
       </div>
@@ -30,15 +33,22 @@
   import { computed, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
+  import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/homeStore.ts'
   import { useAuth } from '@composables/useNavigation'
 
   import PageItem from '@components/PageItem.vue'
 
   const activeUser = computed(() => useAuthStore().activeUser)
+  const appStore = useAppStore()
   const projectStore = useProjectStore()
 
   const { handleLogout } = useAuth()
+
+  const handleNewProject = async () => {
+    const newProject = await projectStore.createNewProject()
+    appStore.currentEditingId = newProject.id
+  }
 
   onMounted(async () => {
     if (!activeUser.value) return
