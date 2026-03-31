@@ -49,10 +49,13 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   const onMouseDown = (e: MouseEvent) => {
     const columnElement = (e.target as HTMLElement).closest('.draggable') as HTMLElement | null
     if (!columnElement || !listRef.value) return
+    if (interactionState.value === 'dragging') return
+
+    interactionState.value = 'grabbing'
 
     const startDrag = () => {
-      interactionState.value = 'grabbing'
       grabbingElement = columnElement
+      columnElement.removeEventListener('mouseleave', cancelHold)
 
       const { left, top, width, height } = columnElement.getBoundingClientRect()
       ghost = createGhost(columnElement, width, height, e.clientX, e.clientY, e.clientX - left, e.clientY - top)
@@ -63,11 +66,15 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
     const cancelHold = () => {
       clearTimeout(holdTimer)
+      if (!ghost) {
+        interactionState.value = undefined
+      }
       window.removeEventListener('mouseup', cancelHold)
     }
 
     const holdTimer = setTimeout(startDrag, holdingTime)
 
+    columnElement.addEventListener('mouseleave', cancelHold)
     window.addEventListener('mouseup', cancelHold)
   }
 
