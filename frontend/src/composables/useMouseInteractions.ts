@@ -3,11 +3,16 @@ import type { Ref } from 'vue'
 
 const interactionState: Ref<'grabbing' | 'dragging' | undefined> = ref(undefined)
 
-export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStore: (newOrder: number[]) => void) => {
+// prettier-ignore
+export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStore: (newOrder: number[]) => void, scrollSelector = 'main') => {
   let grabbingElement: HTMLElement | null = null
   let ghost: HTMLElement | null = null
 
-  const holdingTime = 1000
+  const holdingTime: number = 1000
+
+  const scrollZone: number = 100
+  const scrollSpeed: number = 10
+  let scrollAnimation: number | null = null
 
   const moveGhost = (x: number, y: number) => {
     if (!ghost) return
@@ -20,6 +25,12 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     ghost = null
     grabbingElement = null
     document.body.style.cursor = ''
+    document.body.style.overflow = ''
+
+    if (scrollAnimation) {
+      cancelAnimationFrame(scrollAnimation)
+      scrollAnimation = null
+    }
   }
 
   // prettier-ignore
@@ -62,6 +73,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
       columnElement.replaceWith(createPlaceholder(width, height))
       document.body.style.cursor = 'grabbing'
+      document.body.style.overflow = 'hidden'
     }
 
     const cancelHold = () => {
@@ -78,9 +90,30 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     window.addEventListener('mouseup', cancelHold)
   }
 
+  const autoScroll = () => {
+    if (!ghost || !listRef.value) return
+
+    const scrollContainer = document.querySelector(scrollSelector) as HTMLElement
+    if (!scrollContainer) return
+
+    const { left, right } = scrollContainer.getBoundingClientRect()
+    const ghostX = Number(ghost.style.left.replace('px', '')) + Number(ghost.dataset.offsetX)
+
+    if (ghostX < left + scrollZone) {
+      scrollContainer.scrollLeft -= scrollSpeed
+    } else if (ghostX > right - scrollZone) {
+      scrollContainer.scrollLeft += scrollSpeed
+    }
+
+    scrollAnimation = requestAnimationFrame(autoScroll)
+  }
+
   const onMouseMove = (e: MouseEvent) => {
     if (!ghost || !listRef.value) return
     moveGhost(e.clientX, e.clientY)
+
+    if (scrollAnimation) cancelAnimationFrame(scrollAnimation)
+    scrollAnimation = requestAnimationFrame(autoScroll)
 
     const placeholder = listRef.value.querySelector('.grab-placeholder') as HTMLElement | null
     if (!placeholder) return
@@ -130,12 +163,12 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   })
 }
 
-export const useDragScroll = (querySelector?: string) => {
+export const useDragScroll = (scrollSelector: string = 'main') => {
   const scrollContainer = ref<HTMLElement | null>(null)
 
-  let isDragging = false
-  let startX = 0
-  let scrollLeft = 0
+  let isDragging: boolean = false
+  let startX: number = 0
+  let scrollLeft: number = 0
 
   const startDrag = (e: MouseEvent) => {
     if (!scrollContainer.value) return
@@ -169,8 +202,8 @@ export const useDragScroll = (querySelector?: string) => {
   }
 
   onMounted(() => {
-    if (querySelector) {
-      scrollContainer.value = document.querySelector(querySelector)
+    if (scrollSelector) {
+      scrollContainer.value = document.querySelector(scrollSelector)
     }
 
     if (scrollContainer.value) {

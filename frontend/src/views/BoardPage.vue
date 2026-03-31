@@ -44,7 +44,7 @@
   import { ref, watch } from 'vue'
   import { useBoardStore } from '@stores/boardStore'
   import { useModalStore } from '@stores/appStore'
-  import { useGrabElement, useDragScroll } from '@composables/useMouseInteraction'
+  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
   import { useComponentResolver } from '@composables/useNavigation'
 
   import BoardModal from '@components/board/BoardModal.vue'
@@ -61,7 +61,7 @@
   const boardRef = ref<HTMLElement | null>(null)
 
   defineOptions({ inheritAttrs: false })
-  useDragScroll('main')
+  useDragScroll()
   useGrabElement(boardRef, (newOrder: number[]) => {
     if (!boardStore.activeBoard) return
 
