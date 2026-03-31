@@ -92,7 +92,7 @@ button {
   font-size: nth(map-get($font-size, sm), 1);
 }
 
-.drag-placeholder {
+.grab-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,12 +102,26 @@ button {
   border-radius: 1em;
   font-size: 0.875rem;
   color: $ff-primary;
+
+  &::before {
+    content: 'Place here';
+  }
 }
 
-.drag-ghost {
+.grab-ghost {
+  @keyframes grab-pulse {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
   position: absolute;
-  opacity: 0.7;
+  // opacity: 0.7;
   pointer-events: none;
   z-index: 3003;
-  cursor: grabbing;
+  animation: grab-pulse 0.2s ease-in-out 3;
 }

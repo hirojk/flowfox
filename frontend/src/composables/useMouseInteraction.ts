@@ -7,6 +7,8 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   let grabbingElement: HTMLElement | null = null
   let ghost: HTMLElement | null = null
 
+  const holdingTime = 1000
+
   const moveGhost = (x: number, y: number) => {
     if (!ghost) return
     ghost.style.left = `${x - Number(ghost.dataset.offsetX)}px`
@@ -17,12 +19,13 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     ghost?.remove()
     ghost = null
     grabbingElement = null
+    document.body.style.cursor = ''
   }
 
   // prettier-ignore
   const createGhost = (htmlElement: HTMLElement, width: number, height: number, x: number, y: number, offsetX: number, offsetY: number) => {
     const element = htmlElement.cloneNode(true) as HTMLElement
-    element.classList.add('drag-ghost')
+    element.classList.add('grab-ghost')
     element.style.width = `${width}px`
     element.style.height = `${height}px`
     element.style.left = `${x - offsetX}px`
@@ -36,10 +39,9 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
   const createPlaceholder = (width: number, height: number) => {
     const element = document.createElement('li')
-    element.classList.add('drag-placeholder')
+    element.classList.add('grab-placeholder')
     element.style.width = `${width}px`
     element.style.height = `${height}px`
-    element.textContent = 'Place here'
 
     return element
   }
@@ -48,21 +50,32 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     const columnElement = (e.target as HTMLElement).closest('.draggable') as HTMLElement | null
     if (!columnElement || !listRef.value) return
 
-    interactionState.value = 'grabbing'
-    grabbingElement = columnElement
+    const startDrag = () => {
+      interactionState.value = 'grabbing'
+      grabbingElement = columnElement
 
-    const { left, top, width, height } = columnElement.getBoundingClientRect()
+      const { left, top, width, height } = columnElement.getBoundingClientRect()
+      ghost = createGhost(columnElement, width, height, e.clientX, e.clientY, e.clientX - left, e.clientY - top)
 
-    ghost = createGhost(columnElement, width, height, e.clientX, e.clientY, e.clientX - left, e.clientY - top)
+      columnElement.replaceWith(createPlaceholder(width, height))
+      document.body.style.cursor = 'grabbing'
+    }
 
-    columnElement.replaceWith(createPlaceholder(width, height))
+    const cancelHold = () => {
+      clearTimeout(holdTimer)
+      window.removeEventListener('mouseup', cancelHold)
+    }
+
+    const holdTimer = setTimeout(startDrag, holdingTime)
+
+    window.addEventListener('mouseup', cancelHold)
   }
 
   const onMouseMove = (e: MouseEvent) => {
     if (!ghost || !listRef.value) return
     moveGhost(e.clientX, e.clientY)
 
-    const placeholder = listRef.value.querySelector('.drag-placeholder') as HTMLElement | null
+    const placeholder = listRef.value.querySelector('.grab-placeholder') as HTMLElement | null
     if (!placeholder) return
 
     const listColumns = [...listRef.value.querySelectorAll('.draggable')] as HTMLElement[]
@@ -84,7 +97,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   const onMouseUp = () => {
     if (!ghost || !listRef.value) return
 
-    listRef.value?.querySelector('.drag-placeholder')?.replaceWith(grabbingElement!)
+    listRef.value?.querySelector('.grab-placeholder')?.replaceWith(grabbingElement!)
     removeGhost()
     interactionState.value = undefined
 
@@ -130,6 +143,10 @@ export const useDragScroll = (querySelector?: string) => {
 
   const onDrag = (e: MouseEvent) => {
     if (!isDragging || !scrollContainer.value) return
+    if (interactionState.value === 'grabbing') {
+      isDragging = false
+      return
+    }
     e.preventDefault()
 
     const x = e.pageX - scrollContainer.value.offsetLeft
