@@ -3,7 +3,7 @@ import { Application } from 'express'
 
 const PORT: string | number = process.env.PORT || 5000
 
-export async function startLocalServer(app: Application) {
+export const startLocalServer = async (app: Application): Promise<void> => {
   connectToDatabase()
     .then(() => {
       app.listen(PORT, () => {

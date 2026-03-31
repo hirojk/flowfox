@@ -1,4 +1,4 @@
-import { APP_ENV } from '@flowfox/shared'
+import { APP_ENV_VALUES } from '@flowfox/shared'
 
 const hashPassword = async (password: string): Promise<string> => {
   const data = new TextEncoder().encode(password)
@@ -10,7 +10,7 @@ const hashPassword = async (password: string): Promise<string> => {
 }
 
 export const checkTestAuth = async (): Promise<boolean> => {
-  if (import.meta.env.APP_ENV !== APP_ENV.STAGING) {
+  if (import.meta.env.APP_ENV !== APP_ENV_VALUES.STAGING) {
     return true
   }
 

@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project.js'
-import { BoardSchema } from '@flowfox/shared'
-import type { BoardType } from '@flowfox/shared'
-import { generateId } from '@flowfox/shared'
+import { BoardSchema, generateId, type BoardType } from '@flowfox/shared'
+
 import {
   successResponse,
   createdResponse,
@@ -12,14 +11,14 @@ import {
 } from '../utils/responses.js'
 
 // POST: create new board component
-export async function createBoardComponent(req: Request, res: Response): Promise<void> {
+export const createBoardComponent = async (req: Request, res: Response): Promise<void> => {
   try {
-    const projectModel = ProjectModel()
     const { projectId } = req.params
     const userId = req.user!.id
 
-    const project = await projectModel.findOne({ id: projectId })
-
+    const project = await ProjectModel().findOne({
+      id: Number(projectId),
+    })
     if (!project) {
       notFoundResponse(res, 'Project not found')
       return
@@ -30,7 +29,8 @@ export async function createBoardComponent(req: Request, res: Response): Promise
       creatorId: userId,
     })
 
-    project.components.push(newBoard)
+    const components = project.components as BoardType[]
+    components.push(newBoard)
     await project.save()
 
     createdResponse(res, 'New Board created successfully', newBoard)
@@ -40,21 +40,18 @@ export async function createBoardComponent(req: Request, res: Response): Promise
 }
 
 // GET: get board by id
-export async function getBoardById(req: Request, res: Response): Promise<void> {
+export const getBoardById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { projectId, boardId } = req.params
 
     const project = await ProjectModel().findOne({ id: Number(projectId) })
-
     if (!project) {
       notFoundResponse(res, 'Project not found')
       return
     }
 
-    const board = project.components.find(
-      (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
-    )
-
+    const components = project.components as BoardType[]
+    const board = components.find((component) => component.type === 'board' && component.id === Number(boardId))
     if (!board) {
       notFoundResponse(res, 'Board not found')
       return
@@ -67,27 +64,26 @@ export async function getBoardById(req: Request, res: Response): Promise<void> {
 }
 
 // DELETE: delete board by ID
-export async function deleteBoardById(req: Request, res: Response): Promise<void> {
+export const deleteBoardById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { projectId, boardId } = req.params
 
     const project = await ProjectModel().findOne({ id: Number(projectId) })
-
     if (!project) {
       notFoundResponse(res, 'Project not found')
       return
     }
 
-    const boardExists = project.components.find(
+    const components = project.components as BoardType[]
+    const boardExists = components.find(
       (component: BoardType) => component.type === 'board' && component.id === Number(boardId),
     )
-
     if (!boardExists) {
       notFoundResponse(res, 'Board not found')
       return
     }
 
-    project.components = project.components.filter((component: BoardType) => component.id !== Number(boardId))
+    project.components = components.filter((component: BoardType) => component.id !== Number(boardId))
     await project.save()
 
     successResponse(res, 'Board deleted successfully')
@@ -97,7 +93,7 @@ export async function deleteBoardById(req: Request, res: Response): Promise<void
 }
 
 // PUT: update board name and data
-export async function updateBoardById(req: Request, res: Response): Promise<void> {
+export const updateBoardById = async (req: Request, res: Response): Promise<void> => {
   try {
     const projectId = Number(req.params.projectId)
     const boardId = Number(req.params.boardId)
@@ -106,11 +102,7 @@ export async function updateBoardById(req: Request, res: Response): Promise<void
     if (name) {
       const result = await ProjectModel().updateOne(
         { id: projectId, 'components.id': boardId },
-        {
-          $set: {
-            'components.$.name': name,
-          },
-        },
+        { $set: { 'components.$.name': name } },
       )
 
       if (result.matchedCount === 0) {
@@ -124,27 +116,25 @@ export async function updateBoardById(req: Request, res: Response): Promise<void
 
     if (boardData) {
       const project = await ProjectModel().findOne({ id: projectId })
-
       if (!project) {
         notFoundResponse(res, 'Project not found')
         return
       }
 
-      const boardIndex = project.components.findIndex((c: any) => c.type === 'board' && c.id === boardId)
-
+      const components = project.components as BoardType[]
+      const boardIndex = components.findIndex(
+        (component: BoardType) => component.type === 'board' && component.id === boardId,
+      )
       if (boardIndex === -1) {
         notFoundResponse(res, 'Board not found')
         return
       }
 
-      project.components[boardIndex] = {
-        ...boardData,
-        id: boardId,
-        type: 'board',
-      }
+      components[boardIndex] = { ...boardData, id: boardId, type: 'board' }
+      project.components = components as BoardType[]
       await project.save()
 
-      successResponse(res, 'Board updated successfully', project.components[boardIndex])
+      successResponse(res, 'Board updated successfully', components[boardIndex])
       return
     }
 
