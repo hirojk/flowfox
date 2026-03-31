@@ -1,29 +1,39 @@
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
 import { Request, Response } from 'express'
-import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import UserModel from '../models/User.js'
+import { UserSchema } from '@flowfox/shared'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
   notFoundResponse,
   badRequestResponse,
   serverFailureResponse,
-} from '../utils/responses'
+} from '../utils/responses.js'
 
 // POST: create new user
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
-    const { username } = req.body
-    const existingUser = await UserModel.findOne({ $or: [{ username }] })
+    const userModel = UserModel()
+    const { username, name, password } = req.body
 
+    const existingUser = await userModel.findOne({ $or: [{ username }] })
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
     }
 
-    const user = new UserModel({
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    const userData = UserSchema.parse({
       id: generateId(),
       username,
+      name,
+      password: hashedPassword,
     })
+    const user = new userModel(userData)
     await user.save()
 
     createdResponse(res, 'User created successfully', user)
@@ -32,10 +42,50 @@ export async function createUser(req: Request, res: Response): Promise<void> {
   }
 }
 
+// POST: login user
+function createToken(payload: object): string {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7d' })
+}
+
+export async function loginUser(req: Request, res: Response): Promise<void> {
+  try {
+    const userModel = UserModel()
+    const { username, password } = req.body
+
+    const admin = {
+      username: process.env.ADMIN_USER,
+      password: process.env.ADMIN_PASS,
+    }
+    if (username === admin.username && password === admin.password) {
+      return successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
+    }
+
+    const user = await userModel.findOne({ username }).select('+password')
+
+    if (!user) {
+      badRequestResponse(res, 'Invalid credentials')
+      return
+    }
+
+    const isValid = await bcrypt.compare(password, user.password)
+    if (!isValid) {
+      badRequestResponse(res, 'Password is incorrect')
+      return
+    }
+
+    const { password: _password, ...userPayload } = user.toObject()
+    const userToken = createToken(userPayload)
+
+    successResponse(res, 'Login successful', { userToken })
+  } catch (error: any) {
+    serverFailureResponse(res, error.message)
+  }
+}
+
 // GET: get all users
 export async function getAllUsers(req: Request, res: Response): Promise<void> {
   try {
-    const users = await UserModel.find().select('-password')
+    const users = await UserModel().find().select('-password')
 
     successResponse(res, undefined, {
       userCount: users.length,
@@ -49,7 +99,7 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
 // GET: search single user by ID
 export async function getUserById(req: Request, res: Response): Promise<void> {
   try {
-    const user = await UserModel.findOne({ id: req.params.id }).select('-password')
+    const user = await UserModel().findOne({ id: req.params.id }).select('-password')
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -65,7 +115,7 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
 // DELETE: delete user by ID
 export async function deleteUserById(req: Request, res: Response): Promise<void> {
   try {
-    const user = await UserModel.findOneAndDelete({ id: req.params.id })
+    const user = await UserModel().findOneAndDelete({ id: req.params.id })
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -82,11 +132,9 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
 export async function updateUserById(req: Request, res: Response): Promise<void> {
   try {
     const { username } = req.body
-    const user = await UserModel.findOneAndUpdate(
-      { id: req.params.id },
-      { username },
-      { returnDocument: 'after' },
-    ).select('-password')
+    const user = await UserModel()
+      .findOneAndUpdate({ id: req.params.id }, { username }, { returnDocument: 'after' })
+      .select('-password')
 
     if (!user) {
       notFoundResponse(res, 'User not found')

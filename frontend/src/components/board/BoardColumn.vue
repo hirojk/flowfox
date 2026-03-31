@@ -3,11 +3,13 @@
     <div class="board-column__header">
       <EditableText
         htmlTag="h2"
-        :text="props.columnContent.columnName"
+        :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
-      <ContextMenu
-        :events="[
+      <DropdownMenu
+        mode="context"
+        icon="icon-menu"
+        :options="[
           {
             name: 'Remove Column',
             action: () => removeColumn(props.columnContent.id),
@@ -30,7 +32,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
-  import type { BoardColumnType } from '@shared/schemas/boardSchema'
+  import type { BoardColumnType } from '@flowfox/shared'
   import { removeColumn, renameColumn } from '@services/boardColumnService.ts'
   import { addCard } from '@services/boardCardService.ts'
 
@@ -39,6 +41,7 @@
   const props = defineProps<{
     columnContent: BoardColumnType
   }>()
+
   const boardCards = computed(() => props.columnContent.cards)
 </script>
 
@@ -46,11 +49,12 @@
   .board-column {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1.5em;
     width: 100%;
     border-radius: 1em;
-    padding: 1em;
-    background-color: $ff-quaternary;
+    padding: 1.5em;
+    background-color: $ff-quinary;
+    cursor: grab;
 
     &__header {
       display: flex;
@@ -61,7 +65,7 @@
     &__cards {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 0.5em;
     }
 
     &__button {
@@ -69,6 +73,10 @@
       align-items: center;
       gap: 0.5em;
       padding: 0 1em;
+    }
+
+    &:active {
+      cursor: grabbing;
     }
   }
 </style>

@@ -1,18 +1,17 @@
-import { generateId } from '@shared/utils/idGenerator'
-import type { BoardColumnType } from '@shared/schemas/boardSchema'
+import { BoardColumnSchema } from '@flowfox/shared'
+import type { BoardColumnType } from '@flowfox/shared'
 import { useBoardStore } from '@stores/boardStore.ts'
+import { generateId } from '@flowfox/shared'
 
 const getStores = () => ({
   board: useBoardStore(),
 })
 
 export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): BoardColumnType => {
-  return {
+  return BoardColumnSchema.parse({
     id: generateId(),
-    columnName: 'New Column',
-    cards: [],
     ...overrides,
-  }
+  })
 }
 
 export const addColumn = () => {
@@ -20,7 +19,7 @@ export const addColumn = () => {
 
   if (board.activeBoard) {
     board.activeBoard.columns.push(createNewColumn())
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }
 
@@ -29,7 +28,7 @@ export const removeColumn = (columnId: number) => {
 
   if (board.activeBoard) {
     board.activeBoard.columns = board.activeBoard.columns.filter((column: BoardColumnType) => column.id !== columnId)
-    board.updateBoard()
+    board.updateBoard(board.activeBoard?.id!)
   }
 }
 
@@ -38,7 +37,7 @@ export const renameColumn = (columnId: number, newName: string) => {
   const selectedColumn = board.activeBoard?.columns.find((column: BoardColumnType) => column.id === columnId)
 
   if (selectedColumn) {
-    selectedColumn.columnName = newName
-    board.updateBoard()
+    selectedColumn.name = newName
+    board.updateBoard(board.activeBoard?.id!)
   }
 }

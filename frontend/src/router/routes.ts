@@ -1,26 +1,44 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 import MainLayout from '@layouts/MainLayout.vue'
-import Board from '@views/BoardPage.vue'
+import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@views/LoginPage.vue'
+import Home from '@views/HomePage.vue'
+import Project from '@views/ProjectPage.vue'
+import Component from '@views/ComponentPage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/login',
-    name: 'login',
-    component: Login,
-  },
-  {
     path: '/',
-    redirect: '/board/97649491',
     component: MainLayout,
-    meta: { requiresAuth: true },
-
     children: [
       {
-        path: 'board/:projectId',
-        name: 'board',
-        component: Board,
+        path: '/login',
+        name: 'login',
+        component: Login,
+      },
+      {
+        path: '',
+        name: 'home',
+        meta: { requiresAuth: true },
+        component: Home,
+      },
+    ],
+  },
+  {
+    path: '/:projectId',
+    component: ComponentLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'project',
+        component: Project,
+      },
+      {
+        path: ':componentId',
+        name: 'component',
+        component: Component,
       },
     ],
   },

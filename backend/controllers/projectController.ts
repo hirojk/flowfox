@@ -1,33 +1,28 @@
 import { Request, Response } from 'express'
-import ProjectModel from '../models/Project'
-import { ProjectSchema } from '../shared/schemas/projectSchema'
-import UserModel from '../models/User'
-import { generateId } from '../shared/utils/idGenerator'
+import ProjectModel from '../models/Project.js'
+import { ProjectSchema } from '@flowfox/shared'
+import UserModel from '../models/User.js'
+import { generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
   notFoundResponse,
   badRequestResponse,
   serverFailureResponse,
-} from '../utils/responses'
+} from '../utils/responses.js'
 
 // POST: create new project
 export async function createProject(req: Request, res: Response): Promise<void> {
   try {
-    const { projectName, userId } = req.body
-
-    if (!projectName || !userId) {
-      badRequestResponse(res, 'projectName and userId are required')
-      return
-    }
+    const projectModel = ProjectModel()
+    const userId = req.user!.id
 
     const projectData = ProjectSchema.parse({
       id: generateId(),
-      projectName,
       creatorId: userId,
     })
 
-    const project = new ProjectModel(projectData)
+    const project = new projectModel(projectData)
     await project.save()
 
     createdResponse(res, 'Project created successfully', project)
@@ -46,7 +41,7 @@ export async function getProjectById(req: Request, res: Response): Promise<void>
       return
     }
 
-    const project = await ProjectModel.findOne({ id: projectId })
+    const project = await ProjectModel().findOne({ id: projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -62,10 +57,10 @@ export async function getProjectById(req: Request, res: Response): Promise<void>
 // GET: get all projects by user ID
 export async function getAllProjectsByUser(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.params
+    const userId = req.user!.id
 
-    const user = await UserModel.findOne({ id: userId })
-    const projects = await ProjectModel.find({ creatorId: userId })
+    const user = await UserModel().findOne({ id: userId })
+    const projects = await ProjectModel().find({ creatorId: userId })
 
     if (!user) {
       notFoundResponse(res, 'User not found')
@@ -84,13 +79,7 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
 // DELETE: delete project by ID
 export async function deleteProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { userId } = req.body
-    const project = await ProjectModel.findOneAndDelete({ id: req.params.projectId, creatorId: userId })
-
-    if (!userId) {
-      badRequestResponse(res, 'userId is required')
-      return
-    }
+    const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId })
 
     if (!project) {
       notFoundResponse(res, 'Project not found')
@@ -106,17 +95,12 @@ export async function deleteProjectById(req: Request, res: Response): Promise<vo
 // PUT: update project by ID
 export async function updateProjectById(req: Request, res: Response): Promise<void> {
   try {
-    const { userId, components } = req.body
-    const project = await ProjectModel.findOneAndUpdate(
+    const { name, components } = req.body
+    const project = await ProjectModel().findOneAndUpdate(
       { id: req.params.projectId },
-      { creatorId: userId, components: components },
+      { name, components },
       { returnDocument: 'after' },
     )
-
-    if (!userId) {
-      badRequestResponse(res, 'projectName and userId are required')
-      return
-    }
 
     if (!project) {
       notFoundResponse(res, 'Project not found')

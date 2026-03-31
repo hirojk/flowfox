@@ -5,6 +5,31 @@
   box-sizing: border-box !important;
 }
 
+.page {
+  width: 100%;
+  height: 100dvh;
+  padding: $page-padding-y $page-padding-x;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5em;
+    margin-bottom: 4em;
+  }
+
+  &__headerContent {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  &__headerIcon,
+  &__headline {
+    color: $ff-primary;
+  }
+}
+
 h1 {
   @include fontMixin(map-get($font-size, 2xl));
 }
@@ -27,18 +52,37 @@ li {
   all: unset;
 }
 
+a,
 button {
   all: unset;
   pointer-events: all;
   cursor: pointer;
 }
 
-.page {
-  background-color: $ff-tertiary;
-}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 0.75em;
+  padding: 1em 4em;
+  font-size: nth(map-get($font-size, md), 1);
+  text-align: center;
 
-.headline {
-  color: $ff-white;
+  &--primary {
+    background-color: $ff-primary;
+    color: $ff-white;
+  }
+
+  &--secondary {
+    background-color: $ff-grey;
+    color: $ff-white;
+  }
+
+  &--tertiary {
+    background-color: $ff-white;
+    color: $ff-black;
+  }
 }
 
 .tag {
@@ -46,5 +90,38 @@ button {
   border-radius: 0.4em;
   padding: 0.2em 0.6em;
   font-size: nth(map-get($font-size, sm), 1);
-  background-color: $ff-quaternary;
+}
+
+.grab-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed $ff-primary;
+  border-radius: 1em;
+  font-size: 0.875rem;
+  color: $ff-primary;
+
+  &::before {
+    content: 'Place here';
+  }
+}
+
+.grab-ghost {
+  @keyframes grab-pulse {
+    0%,
+    100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  position: absolute;
+  // opacity: 0.7;
+  pointer-events: none;
+  z-index: 3003;
+  animation: grab-pulse 0.2s ease-in-out 3;
 }
