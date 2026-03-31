@@ -54,6 +54,7 @@
     border-radius: 1em;
     padding: 1.5em;
     background-color: $ff-quinary;
+    cursor: grab;
 
     &__header {
       display: flex;
@@ -72,6 +73,10 @@
       align-items: center;
       gap: 0.5em;
       padding: 0 1em;
+    }
+
+    &:active {
+      cursor: grabbing;
     }
   }
 </style>

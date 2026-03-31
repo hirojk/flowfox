@@ -20,8 +20,13 @@
       </header>
     </div>
     <section class="page__content">
-      <ul class="board">
-        <li class="board__columnWrapper" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
+      <ul class="board" ref="boardRef">
+        <li
+          class="board__columnWrapper draggable"
+          v-for="column in boardStore.activeBoard?.columns"
+          :key="column.id"
+          :data-id="column.id"
+        >
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
@@ -36,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-  import { watch } from 'vue'
-  import { useBoardStore } from '@stores/boardStore.ts'
+  import { ref, watch } from 'vue'
+  import { useBoardStore } from '@stores/boardStore'
   import { useModalStore } from '@stores/appStore'
-  import { useDragScroll } from '@composables/useDragScroll.ts'
-  import { useComponentResolver } from '@composables/useNavigation.ts'
+  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
+  import { useComponentResolver } from '@composables/useNavigation'
 
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
@@ -53,9 +58,18 @@
   const modalStore = useModalStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
+  const boardRef = ref<HTMLElement | null>(null)
 
   defineOptions({ inheritAttrs: false })
-  useDragScroll('main')
+  useDragScroll()
+  useGrabElement(boardRef, (newOrder: number[]) => {
+    if (!boardStore.activeBoard) return
+
+    boardStore.activeBoard.columns = newOrder.map(
+      (id) => boardStore.activeBoard!.columns.find((column) => column.id === id)!,
+    )
+    boardStore.updateBoard(boardStore.activeBoard.id)
+  })
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],
@@ -95,8 +109,9 @@
       padding: 0 $page-padding-x;
 
       &__columnWrapper {
-        width: 20em;
         flex-shrink: 0;
+        width: 20em;
+        height: fit-content;
       }
 
       &__button {
