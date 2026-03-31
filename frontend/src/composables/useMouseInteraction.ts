@@ -1,8 +1,10 @@
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
 
-export const useGrabElement = (listRef: Ref<HTMLElement | null>) => {
-  let draggingElement: HTMLElement | null = null
+const interactionState: Ref<'grabbing' | 'dragging' | undefined> = ref(undefined)
+
+export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStore: (newOrder: number[]) => void) => {
+  let grabbingElement: HTMLElement | null = null
   let ghost: HTMLElement | null = null
 
   const moveGhost = (x: number, y: number) => {
@@ -14,7 +16,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>) => {
   const removeGhost = () => {
     ghost?.remove()
     ghost = null
-    draggingElement = null
+    grabbingElement = null
   }
 
   // prettier-ignore
@@ -46,7 +48,8 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>) => {
     const columnElement = (e.target as HTMLElement).closest('.draggable') as HTMLElement | null
     if (!columnElement || !listRef.value) return
 
-    draggingElement = columnElement
+    interactionState.value = 'grabbing'
+    grabbingElement = columnElement
 
     const { left, top, width, height } = columnElement.getBoundingClientRect()
 
@@ -56,19 +59,45 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>) => {
   }
 
   const onMouseMove = (e: MouseEvent) => {
-    if (!ghost) return
+    if (!ghost || !listRef.value) return
     moveGhost(e.clientX, e.clientY)
+
+    const placeholder = listRef.value.querySelector('.drag-placeholder') as HTMLElement | null
+    if (!placeholder) return
+
+    const listColumns = [...listRef.value.querySelectorAll('.draggable')] as HTMLElement[]
+
+    for (const column of listColumns) {
+      const rect = column.getBoundingClientRect()
+
+      if (e.clientX >= rect.left && e.clientX <= rect.right) {
+        if (e.clientX > rect.right - rect.width / 3) {
+          column.before(placeholder)
+        } else if (e.clientX < rect.left + rect.width / 3) {
+          column.after(placeholder)
+        }
+        break
+      }
+    }
   }
 
   const onMouseUp = () => {
-    if (!ghost) return
-    listRef.value?.querySelector('.drag-placeholder')?.replaceWith(draggingElement!)
+    if (!ghost || !listRef.value) return
+
+    listRef.value?.querySelector('.drag-placeholder')?.replaceWith(grabbingElement!)
     removeGhost()
+    interactionState.value = undefined
+
+    const newOrder = [...listRef.value.querySelectorAll('.draggable')].map((el) =>
+      Number((el as HTMLElement).dataset.id),
+    )
+
+    saveUpdatedStore(newOrder)
   }
 
-  watch(listRef, (element) => {
-    if (!element) return
-    element.addEventListener('mousedown', onMouseDown)
+  watch(listRef, (listElement) => {
+    if (!listElement) return
+    listElement.addEventListener('mousedown', onMouseDown)
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
   })
@@ -90,6 +119,9 @@ export const useDragScroll = (querySelector?: string) => {
 
   const startDrag = (e: MouseEvent) => {
     if (!scrollContainer.value) return
+    if (interactionState.value === 'grabbing') return
+
+    interactionState.value = 'dragging'
     isDragging = true
 
     startX = e.pageX - scrollContainer.value.offsetLeft
@@ -107,6 +139,8 @@ export const useDragScroll = (querySelector?: string) => {
 
   const stopDrag = () => {
     if (!scrollContainer.value) return
+
+    interactionState.value = undefined
     isDragging = false
   }
 

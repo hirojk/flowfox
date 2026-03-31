@@ -21,7 +21,12 @@
     </div>
     <section class="page__content">
       <ul class="board" ref="boardRef">
-        <li class="board__columnWrapper draggable" v-for="column in boardStore.activeBoard?.columns" :key="column.id">
+        <li
+          class="board__columnWrapper draggable"
+          v-for="column in boardStore.activeBoard?.columns"
+          :key="column.id"
+          :data-id="column.id"
+        >
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
@@ -57,7 +62,14 @@
 
   defineOptions({ inheritAttrs: false })
   useDragScroll('main')
-  useGrabElement(boardRef)
+  useGrabElement(boardRef, (newOrder: number[]) => {
+    if (!boardStore.activeBoard) return
+
+    boardStore.activeBoard.columns = newOrder.map(
+      (id) => boardStore.activeBoard!.columns.find((column) => column.id === id)!,
+    )
+    boardStore.updateBoard(boardStore.activeBoard.id)
+  })
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],
