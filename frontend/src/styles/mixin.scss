@@ -7,7 +7,6 @@
     $size: list.nth($size, 1);
   }
 
-  all: unset;
   display: inline-block;
   font-size: $size;
   line-height: $line-height;

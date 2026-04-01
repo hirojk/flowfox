@@ -71,6 +71,7 @@
       display: flex;
       flex-direction: column;
       gap: 2em;
+      padding-right: 1em;
       overflow-y: auto;
     }
   }

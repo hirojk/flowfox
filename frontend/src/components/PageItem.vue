@@ -87,6 +87,8 @@
 
     &__initials {
       @include fontMixin(map.get($font-size, xl));
+
+      font-weight: normal;
     }
 
     &__sign {

@@ -3,6 +3,7 @@
     <div class="board-column__header">
       <EditableText
         htmlTag="h2"
+        textStyle="h3"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
@@ -60,6 +61,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 2em;
     }
 
     &__cards {

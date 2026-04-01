@@ -19,11 +19,14 @@
             }
         ],
         "order/properties-order": [
+            "content",
             "position",
             "top",
             "right",
             "bottom",
             "left",
+            "isolation",
+            "inset",
             "display",
             "flex",
             "flex-direction",
@@ -50,6 +53,7 @@
             "margin-right",
             "margin-bottom",
             "margin-left",
+            "outline",
             "border",
             "border-width",
             "border-style",
@@ -72,10 +76,13 @@
             "line-clamp",
             "-webkit-line-clamp",
             "-webkit-box-orient",
+            "white-space",
             "z-index",
             "cursor",
             "opacity",
             "overflow",
+            "overflow-x",
+            "overflow-y",
             "transition",
             "animation"
         ]

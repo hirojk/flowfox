@@ -31,19 +31,30 @@
   }
 }
 
-h1 {
+h1,
+h2,
+h3,
+p {
+  all: unset;
+}
+
+h1,
+.h1 {
   @include fontMixin(map.get($font-size, 2xl));
 }
 
-h2 {
+h2,
+.h2 {
   @include fontMixin(map.get($font-size, xl));
 }
 
-h3 {
+h3,
+.h3 {
   @include fontMixin(map.get($font-size, lg));
 }
 
-p {
+p,
+.p {
   @include fontMixin(map.get($font-size, md));
 }
 

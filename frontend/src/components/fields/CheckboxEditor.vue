@@ -69,12 +69,14 @@
     margin-bottom: 1em;
 
     &__message {
+      padding: 0.2em;
       color: $ff-grey;
     }
 
     &__item {
       display: flex;
       align-items: center;
+      gap: 3em;
     }
 
     &__checkbox {
