@@ -36,8 +36,8 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     await newUser.save()
 
     createdResponse(res, 'User created successfully', newUser)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -75,8 +75,8 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const { password: _password, ...userPayload } = user.toObject()
 
     successResponse(res, 'Login successful', { userToken: createToken(userPayload) })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -89,8 +89,8 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
       userCount: users.length,
       users,
     })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -105,8 +105,8 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
     }
 
     successResponse(res, undefined, user)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -121,8 +121,8 @@ export const deleteUserById = async (req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, 'User deleted successfully')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -140,7 +140,7 @@ export const updateUserById = async (req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, 'User updated successfully', user)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }

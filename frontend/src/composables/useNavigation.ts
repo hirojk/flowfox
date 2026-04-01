@@ -2,6 +2,7 @@ import { computed, type ComputedRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@stores/authStore'
 import { useProjectStore } from '@stores/projectStore'
+import type { ProjectType, BoardType } from '@flowfox/shared'
 
 export const useAuth = (): { handleLogout: () => void } => {
   const authStore = useAuthStore()
@@ -26,7 +27,8 @@ export const useNavigation = (): { componentRoute: (projectId: number, component
   return { componentRoute }
 }
 
-export const useComponentResolver = (): { activeProject: ComputedRef<any>; activeComponent: ComputedRef<any> } => {
+// prettier-ignore
+export const useComponentResolver = (): { activeProject: ComputedRef<ProjectType | undefined>; activeComponent: ComputedRef<BoardType | undefined> } => {
   const route = useRoute()
   const projectStore = useProjectStore()
 

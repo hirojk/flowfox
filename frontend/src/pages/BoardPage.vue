@@ -123,7 +123,7 @@
         padding: 1em;
         background-color: $ff-quinary;
         color: $ff-black;
-        font-size: nth(map-get($font-size, sm), 1);
+        font-size: list.nth(map.get($font-size, sm), 1);
       }
     }
   }

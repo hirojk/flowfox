@@ -37,7 +37,7 @@
     padding: 2em;
 
     &__message {
-      @include fontMixin(map-get($font-size, md));
+      @include fontMixin(map.get($font-size, md));
 
       max-width: 15em;
       text-align: center;

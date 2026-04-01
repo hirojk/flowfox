@@ -67,9 +67,11 @@
   }
 
   const onDeleteBoard = () => {
+    if (!boardStore.activeBoard) return
+
     open(
       `Are you sure you want to delete the board "${boardStore.activeBoard?.name}"?`,
-      () => boardStore.deleteBoard(boardStore.activeBoard?.id!),
+      () => boardStore.deleteBoard(boardStore.activeBoard!.id),
       {
         name: 'project',
         params: { projectId: String(projectStore.activeProject?.id) },
@@ -88,7 +90,7 @@
       margin-bottom: 2em;
 
       &-headline {
-        @include fontMixin(map-get($font-size, xl));
+        @include fontMixin(map.get($font-size, xl));
 
         width: 100%;
         cursor: text;
@@ -108,7 +110,7 @@
     }
 
     &__label {
-      @include fontMixin(map-get($font-size, md));
+      @include fontMixin(map.get($font-size, md));
 
       margin-bottom: 0.5em;
       font-weight: bold;

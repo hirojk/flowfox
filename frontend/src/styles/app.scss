@@ -32,19 +32,19 @@
 }
 
 h1 {
-  @include fontMixin(map-get($font-size, 2xl));
+  @include fontMixin(map.get($font-size, 2xl));
 }
 
 h2 {
-  @include fontMixin(map-get($font-size, xl));
+  @include fontMixin(map.get($font-size, xl));
 }
 
 h3 {
-  @include fontMixin(map-get($font-size, lg));
+  @include fontMixin(map.get($font-size, lg));
 }
 
 p {
-  @include fontMixin(map-get($font-size, md));
+  @include fontMixin(map.get($font-size, md));
 }
 
 ul,
@@ -67,7 +67,7 @@ button {
   gap: 0.5em;
   border-radius: 0.75em;
   padding: 1em 4em;
-  font-size: nth(map-get($font-size, md), 1);
+  font-size: list.nth(map.get($font-size, md), 1);
   text-align: center;
 
   &--primary {
@@ -90,7 +90,7 @@ button {
   display: inline-block;
   border-radius: 0.4em;
   padding: 0.2em 0.6em;
-  font-size: nth(map-get($font-size, sm), 1);
+  font-size: list.nth(map.get($font-size, sm), 1);
 }
 
 .grab-placeholder {
@@ -111,6 +111,7 @@ button {
 
 .grab-ghost {
   position: absolute;
+
   // opacity: 0.7;
   pointer-events: none;
   z-index: 3003;

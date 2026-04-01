@@ -3,7 +3,7 @@ import { APP_ENV_VALUES } from '@flowfox/shared'
 
 const isDevelopment = process.env.APP_ENV === APP_ENV_VALUES.DEVELOPMENT
 
-export const successResponse = (res: Response, message?: string, data?: any): void => {
+export const successResponse = (res: Response, message?: string, data?: unknown): void => {
   res.status(200).json({
     success: true,
     message: message,
@@ -11,7 +11,7 @@ export const successResponse = (res: Response, message?: string, data?: any): vo
   })
 }
 
-export const createdResponse = (res: Response, message?: string, data?: any): void => {
+export const createdResponse = (res: Response, message?: string, data?: unknown): void => {
   res.status(201).json({
     success: true,
     message: message,

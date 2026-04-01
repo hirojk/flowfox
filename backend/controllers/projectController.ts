@@ -25,8 +25,8 @@ export const createProject = async (req: Request, res: Response): Promise<void> 
     await newProject.save()
 
     createdResponse(res, 'Project created successfully', newProject)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -46,8 +46,8 @@ export const getProjectById = async (req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, undefined, project)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -68,8 +68,8 @@ export const getAllProjectsByUser = async (req: Request, res: Response): Promise
       projectCount: projects.length,
       projects,
     })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -83,8 +83,8 @@ export const deleteProjectById = async (req: Request, res: Response): Promise<vo
     }
 
     successResponse(res, 'Project deleted successfully')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -104,7 +104,7 @@ export const updateProjectById = async (req: Request, res: Response): Promise<vo
     }
 
     successResponse(res, 'Project updated successfully', project)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }

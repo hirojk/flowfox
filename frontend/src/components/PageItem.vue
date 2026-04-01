@@ -86,7 +86,7 @@
     gap: 1em;
 
     &__initials {
-      @include fontMixin(map-get($font-size, xl));
+      @include fontMixin(map.get($font-size, xl));
     }
 
     &__sign {
@@ -112,7 +112,7 @@
       }
 
       &--normal {
-        @include fontMixin(map-get($font-size, md));
+        @include fontMixin(map.get($font-size, md));
 
         color: var(--label-color);
       }

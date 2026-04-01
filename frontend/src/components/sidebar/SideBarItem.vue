@@ -56,7 +56,7 @@
     align-items: center;
     padding: 0 !important;
     color: $ff-black;
-    font-size: nth(map-get($font-size, md), 1);
+    font-size: list.nth(map.get($font-size, md), 1);
 
     &__icon {
       display: flex;

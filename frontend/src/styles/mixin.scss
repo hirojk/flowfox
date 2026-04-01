@@ -1,7 +1,10 @@
+@use 'sass:list';
+@use 'sass:meta';
+
 @mixin fontMixin($size, $line-height: 1rem) {
-  @if type-of($size) == 'list' {
-    $line-height: nth($size, 2);
-    $size: nth($size, 1);
+  @if meta.type-of($size) == 'list' {
+    $line-height: list.nth($size, 2);
+    $size: list.nth($size, 1);
   }
 
   all: unset;

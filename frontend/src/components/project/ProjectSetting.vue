@@ -15,9 +15,11 @@
   const { open } = useDeletePrompt()
 
   const onDeleteBoard = () => {
+    if (!projectStore.activeProject) return
+
     open(
       `Are you sure you want to delete the project "${projectStore.activeProject?.name}"?`,
-      () => projectStore.deleteProject(projectStore.activeProject?.id!),
+      () => projectStore.deleteProject(projectStore.activeProject!.id),
       { name: 'home' },
     )
   }

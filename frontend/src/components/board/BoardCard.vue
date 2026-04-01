@@ -108,10 +108,10 @@
 
     &__description {
       display: -webkit-box;
-      line-clamp: 3;
       -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      line-clamp: 3;
       overflow: hidden;
+      -webkit-box-orient: vertical;
     }
 
     &__checklist {

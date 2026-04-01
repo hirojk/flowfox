@@ -34,8 +34,8 @@ export const createBoardComponent = async (req: Request, res: Response): Promise
     await project.save()
 
     createdResponse(res, 'New Board created successfully', newBoard)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -58,8 +58,8 @@ export const getBoardById = async (req: Request, res: Response): Promise<void> =
     }
 
     successResponse(res, undefined, board)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -87,8 +87,8 @@ export const deleteBoardById = async (req: Request, res: Response): Promise<void
     await project.save()
 
     successResponse(res, 'Board deleted successfully')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
@@ -139,7 +139,7 @@ export const updateBoardById = async (req: Request, res: Response): Promise<void
     }
 
     badRequestResponse(res, 'Either boardName or boardData is required')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }

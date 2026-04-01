@@ -10,8 +10,9 @@ export const databaseMiddleware = async (req: Request, res: Response, next: Next
   if (!dbState.isDbConnected) {
     try {
       await connectToDatabase()
-    } catch (error) {
+    } catch (_error) {
       serviceUnavailableResponse(res, 'Database connection failed')
+      return
     }
   }
   next()

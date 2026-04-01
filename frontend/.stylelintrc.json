@@ -7,6 +7,17 @@
     ],
     "rules": {
         "selector-class-pattern": null,
+        "scss/at-mixin-pattern": null,
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClasses": [
+                    "deep",
+                    "global",
+                    "slotted"
+                ]
+            }
+        ],
         "order/properties-order": [
             "position",
             "top",

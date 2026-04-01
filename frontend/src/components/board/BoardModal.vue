@@ -134,7 +134,7 @@
       margin-bottom: 2em;
 
       &-headline {
-        @include fontMixin(map-get($font-size, xl));
+        @include fontMixin(map.get($font-size, xl));
 
         width: 100%;
         cursor: text;
@@ -160,7 +160,7 @@
     }
 
     &__label {
-      @include fontMixin(map-get($font-size, md));
+      @include fontMixin(map.get($font-size, md));
 
       margin-bottom: 0.5em;
       font-weight: bold;

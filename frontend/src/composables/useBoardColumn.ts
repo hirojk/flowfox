@@ -14,10 +14,11 @@ export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): Board
 
 export const addColumn = (): void => {
   const { board } = getStores()
+  if (!board.activeBoard) return
 
   if (board.activeBoard) {
     board.activeBoard.columns.push(createNewColumn())
-    board.updateBoard(board.activeBoard?.id!)
+    board.updateBoard(board.activeBoard!.id)
   }
 }
 
@@ -26,7 +27,7 @@ export const removeColumn = (columnId: number): void => {
 
   if (board.activeBoard) {
     board.activeBoard.columns = board.activeBoard.columns.filter((column: BoardColumnType) => column.id !== columnId)
-    board.updateBoard(board.activeBoard?.id!)
+    board.updateBoard(board.activeBoard!.id)
   }
 }
 
@@ -36,6 +37,6 @@ export const renameColumn = (columnId: number, newName: string): void => {
 
   if (selectedColumn) {
     selectedColumn.name = newName
-    board.updateBoard(board.activeBoard?.id!)
+    board.updateBoard(board.activeBoard!.id)
   }
 }
