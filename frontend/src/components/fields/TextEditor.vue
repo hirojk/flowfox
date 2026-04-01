@@ -82,7 +82,7 @@
 
     &:active {
       border-radius: 0.25em;
-      background-color: rgba($ff-grey, 0.05);
+      background-color: rgba($ff-grey, 0.1);
     }
 
     &[contenteditable='true'] {

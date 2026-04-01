@@ -15,7 +15,7 @@
       </button>
     </li>
   </ul>
-  <button class="checkboxEditor__button" @click="addCheckbox()">
+  <button class="checkboxEditor__button button button--secondary" @click="addCheckbox()">
     <IconSvg id="icon-plus" />
     Add Subtask
   </button>
@@ -99,18 +99,6 @@
       &--checked {
         text-decoration: line-through;
       }
-    }
-
-    &__button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1em;
-      width: 100%;
-      border-radius: 0.5em;
-      padding: 0.75em 3em 0.75em 2em;
-      background-color: $ff-grey;
-      color: $ff-white;
     }
   }
 </style>

@@ -23,6 +23,8 @@
     display: flex;
     align-items: center;
     gap: 1em;
+    width: 100%;
+    max-width: 80em;
   }
 
   &__headerIcon,
@@ -72,6 +74,8 @@ button {
 }
 
 .button {
+  @include simpleAnimation;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,16 +88,32 @@ button {
   &--primary {
     background-color: $ff-primary;
     color: $ff-white;
+
+    &:hover,
+    &:active {
+      background-color: $ff-secondary;
+    }
   }
 
   &--secondary {
     background-color: $ff-grey;
     color: $ff-white;
+
+    &:hover,
+    &:active {
+      background-color: $ff-black;
+    }
   }
 
   &--tertiary {
     background-color: $ff-white;
     color: $ff-black;
+
+    &:hover,
+    &:active {
+      background-color: $ff-grey;
+      color: $ff-white;
+    }
   }
 }
 

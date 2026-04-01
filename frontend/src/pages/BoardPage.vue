@@ -100,11 +100,6 @@
         gap: 2em;
         padding: 0 $page-padding-x;
       }
-
-      &__headerContent {
-        width: 100%;
-        max-width: 80em;
-      }
     }
 
     .board {

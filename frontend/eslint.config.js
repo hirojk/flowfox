@@ -37,6 +37,20 @@ export default tseslint.config(
       'vue/html-self-closing': 'off',
       'vue/attributes-order': 'warn',
       'vue/attribute-hyphenation': 'off',
+      'vue/block-order': [
+        'warn',
+        {
+          order: ['template', 'script', 'style'],
+        },
+      ],
+      'vue/block-lang': [
+        'warn',
+        {
+          script: { lang: 'ts' },
+        },
+      ],
+      'vue/prefer-define-options': 'warn',
+      'vue/component-api-style': ['warn', ['script-setup']],
       'no-undef': 'off',
     },
   },

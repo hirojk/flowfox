@@ -15,7 +15,7 @@
           "
         />
       </div>
-      <button class="button button--tertiary" @click="openSettingsModal('project-setting')">Setting</button>
+      <button class="button button--primary" @click="openSettingsModal('project-setting')">Setting</button>
     </header>
     <section class="page__content">
       <div class="components">
@@ -66,11 +66,11 @@
 
 <style lang="scss" scoped>
   .page--project {
-    background-color: $ff-secondary;
+    background-color: $ff-tertiary;
 
     .page {
       &__headline {
-        color: $ff-white;
+        color: $ff-primary;
       }
     }
 
@@ -80,16 +80,13 @@
       gap: 1.5em;
 
       &__title {
-        color: $ff-white;
+        padding: 0.2em;
+        color: $ff-black;
       }
 
       &__list {
         display: flex;
         gap: 2em;
-      }
-
-      .page-item--new {
-        --label-color: #{$ff-white};
       }
     }
   }

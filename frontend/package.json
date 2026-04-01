@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "lint": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\" --fix",
+    "lint": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\"",
+    "lint:fix": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\" --fix",
     "test:unit": "vitest"
   },
   "dependencies": {

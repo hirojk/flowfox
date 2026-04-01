@@ -34,22 +34,32 @@
 
 <style lang="scss" scoped>
   .sideBar-item {
-    --box-bg: transparent;
-    --box-color: #{$ff-black};
-
     &--project {
       --box-bg: #{$ff-primary};
       --box-color: #{$ff-white};
+      --hover-bg: #{$ff-secondary};
+      --hover-color: #{$ff-white};
     }
 
     &--component {
       --box-bg: #{$ff-tertiary};
       --box-color: #{$ff-black};
+      --hover-bg: #{rgba($ff-primary, 0.5)};
+      --hover-color: #{$ff-black};
     }
 
     &--new {
       --box-bg: #{$ff-quaternary};
       --box-color: #{$ff-grey};
+      --hover-bg: #{$ff-grey};
+      --hover-color: #{$ff-white};
+    }
+
+    &--nav {
+      --box-bg: transparent;
+      --box-color: #{$ff-black};
+      --hover-bg: #{$ff-quaternary};
+      --hover-color: #{$ff-black};
     }
 
     display: flex;
@@ -69,6 +79,8 @@
     }
 
     &__box {
+      @include simpleAnimation;
+
       display: flex;
       justify-content: center;
       align-items: center;
@@ -88,6 +100,15 @@
 
     :deep(.q-focus-helper) {
       display: none;
+    }
+
+    &:hover {
+      .sideBar-item {
+        &__box {
+          background-color: var(--hover-bg);
+          color: var(--hover-color);
+        }
+      }
     }
   }
 </style>

@@ -36,6 +36,11 @@
       "dependsOn": [
         "^lint"
       ]
+    },
+    "lint:fix": {
+      "dependsOn": [
+        "^lint:fix"
+      ]
     }
   }
 }

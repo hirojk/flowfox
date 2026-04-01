@@ -76,14 +76,38 @@
 
 <style lang="scss" scoped>
   .page-item {
-    --sign-bg: #{$ff-primary};
-    --sign-color: #{$ff-white};
-    --label-color: currentcolor;
+    &--project {
+      --sign-bg: #{$ff-primary};
+      --sign-color: #{$ff-white};
+      --label-color: #{$ff-black};
+      --hover-bg: #{$ff-secondary};
+      --hover-color: #{$ff-white};
+    }
+
+    &--component {
+      --sign-bg: #{rgba($ff-primary, 0.4)};
+      --sign-color: #{$ff-black};
+      --label-color: #{$ff-black};
+      --hover-bg: #{rgba($ff-primary, 0.75)};
+      --hover-color: #{$ff-black};
+    }
+
+    &--new {
+      --sign-bg: #{rgba($ff-grey, 0.2)};
+      --sign-color: #{$ff-grey};
+      --label-color: #{$ff-grey};
+      --hover-bg: #{rgba($ff-grey, 0.4)};
+      --hover-color: #{$ff-black};
+    }
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
+
+    > * {
+      @include simpleAnimation;
+    }
 
     &__initials {
       @include fontMixin(map.get($font-size, xl));
@@ -120,16 +144,14 @@
       }
     }
 
-    &--component {
-      --sign-bg: #{$ff-tertiary};
-      --sign-color: #{$ff-black};
-      --label-color: #{$ff-white};
-    }
-
-    &--new {
-      --sign-bg: #{$ff-quaternary};
-      --sign-color: #{$ff-grey};
-      --label-color: #{$ff-grey};
+    &:hover,
+    &:active {
+      .page-item {
+        &__sign {
+          background-color: var(--hover-bg);
+          color: var(--hover-color);
+        }
+      }
     }
   }
 </style>
