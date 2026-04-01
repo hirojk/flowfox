@@ -33,7 +33,7 @@
   import { computed } from 'vue'
   import { PRIORITY_LIST } from '@constants/priority'
   import { getIcon } from '@services/helpers'
-  import { useModalStore } from '@stores/appStore'
+  import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType } from '@flowfox/shared'
 
@@ -42,7 +42,7 @@
     cardContent: BoardCardType
   }>()
 
-  const modalStore = useModalStore()
+  const appStore = useAppStore()
   const boardStore = useBoardStore()
 
   const card = computed(() => ({
@@ -63,8 +63,8 @@
   })
 
   const openCardModal = () => {
-    modalStore.isOpen = true
-    modalStore.currentWindow = 'board-card'
+    appStore.isModalOpen = true
+    appStore.modalContent = 'board-card'
     boardStore.setActiveCardId(props.columnId, props.cardContent.id)
   }
 </script>

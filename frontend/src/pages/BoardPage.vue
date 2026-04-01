@@ -1,7 +1,7 @@
 <template>
   <ModalWindow>
-    <BoardModal v-if="modalStore.currentWindow === 'board-card'" />
-    <BoardSetting v-if="modalStore.currentWindow === 'board-setting'" />
+    <BoardModal v-if="appStore.modalContent === 'board-card'" />
+    <BoardSetting v-if="appStore.modalContent === 'board-setting'" />
   </ModalWindow>
 
   <q-page class="page--board" v-bind="$attrs">
@@ -50,11 +50,11 @@
   import { openSettingsModal } from '@composables/useModal'
   import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
   import { useComponentResolver } from '@composables/useNavigation'
-  import { useModalStore } from '@stores/appStore'
+  import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
 
   const boardStore = useBoardStore()
-  const modalStore = useModalStore()
+  const appStore = useAppStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
   const boardRef = ref<HTMLElement | null>(null)

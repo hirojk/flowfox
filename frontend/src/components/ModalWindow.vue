@@ -1,8 +1,8 @@
 <template>
-  <div v-if="modalStore.isOpen" class="modal" @click="modalStore.isOpen = false">
+  <div v-if="appStore.isModalOpen" class="modal" @click="closeModal">
     <div class="modal__content" @click.stop>
       <div class="modal__header">
-        <button class="modal__close" @click="modalStore.isOpen = false">
+        <button class="modal__close" @click="closeModal">
           <IconSvg id="icon-cancel" />
           Close
         </button>
@@ -17,9 +17,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useModalStore } from '@stores/appStore'
+  import { useAppStore } from '@stores/appStore'
 
-  const modalStore = useModalStore()
+  const appStore = useAppStore()
+
+  const closeModal = () => {
+    appStore.isModalOpen = false
+    appStore.modalContent = null
+  }
 </script>
 
 <style lang="scss" scoped>

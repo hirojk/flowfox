@@ -1,10 +1,10 @@
-import { useModalStore } from '@stores/appStore.ts'
+import { useAppStore } from '@stores/appStore.ts'
 import { useBoardStore } from '@stores/boardStore.ts'
 import { BoardCardSchema, generateId, type BoardColumnType, type BoardCardType } from '@flowfox/shared'
 
-const getStores = (): { board: ReturnType<typeof useBoardStore>; modal: ReturnType<typeof useModalStore> } => ({
+const getStores = (): { board: ReturnType<typeof useBoardStore>; modal: ReturnType<typeof useAppStore> } => ({
   board: useBoardStore(),
-  modal: useModalStore(),
+  modal: useAppStore(),
 })
 
 export const createNewCard = (overrides: Partial<BoardCardType> = {}): BoardCardType => {
@@ -27,8 +27,8 @@ export const addCard = (currentCards: BoardCardType[]): void => {
 export const removeCard = (cardId: [number, number]): void => {
   const { board, modal } = getStores()
 
-  if (modal.isOpen) {
-    modal.isOpen = false
+  if (modal.isModalOpen) {
+    modal.isModalOpen = false
   }
 
   if (board.activeBoard) {

@@ -1,6 +1,6 @@
 <template>
   <ModalWindow>
-    <ProjectSetting v-if="modalStore.currentWindow === 'project-setting'" />
+    <ProjectSetting v-if="appStore.modalContent === 'project-setting'" />
   </ModalWindow>
 
   <q-page class="page--project" v-bind="$attrs">
@@ -48,12 +48,11 @@
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
-  import { useAppStore, useModalStore } from '@stores/appStore'
+  import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
 
   const appStore = useAppStore()
-  const modalStore = useModalStore()
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
 

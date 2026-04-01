@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import router from '@/router'
 import type { RouteLocationRaw } from 'vue-router'
-import { useModalStore } from '@stores/appStore'
+import { useAppStore } from '@stores/appStore'
 
-const getStores = (): { modal: ReturnType<typeof useModalStore> } => ({
-  modal: useModalStore(),
+const getStores = (): { modal: ReturnType<typeof useAppStore> } => ({
+  modal: useAppStore(),
 })
 
 const isOpen = ref(false)
@@ -26,7 +26,7 @@ export const useDeletePrompt = (): { isOpen: typeof isOpen; message: typeof mess
   const confirm = async () => {
     await confirmEvent.value?.()
     isOpen.value = false
-    modal.isOpen = false
+    modal.isModalOpen = false
     if (backToEvent.value) {
       router.push(backToEvent.value)
     }
