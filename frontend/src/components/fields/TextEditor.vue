@@ -2,13 +2,13 @@
   <component
     :is="props.htmlTag || 'p'"
     v-bind="$attrs"
+    ref="editorRef"
     class="textEditor"
     :contenteditable="isEditing"
     @click="startEdit"
     @blur="saveEdit"
     @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
-    ref="editorRef"
   >
     {{ props.text }}
   </component>

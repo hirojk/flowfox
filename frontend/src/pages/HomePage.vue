@@ -12,8 +12,8 @@
         <ul class="projects__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
-              buttonStyle="project"
               :id="project.id"
+              buttonStyle="project"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
               @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"

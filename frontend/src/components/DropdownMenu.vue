@@ -76,10 +76,10 @@
 
     &__list {
       position: fixed;
+      transform: translateX(-50%);
       margin-top: 0.75em;
       border-radius: 0.5em;
       padding: 0.5em 0;
-      transform: translateX(-50%);
       background: $ff-white;
       box-shadow: 0 2px 8px rgba($ff-grey, 0.5);
       z-index: 3002;

@@ -8,7 +8,7 @@
     <div class="page__headerWrapper">
       <header class="page__header">
         <div class="page__headerContent">
-          <iconSvg class="page__headerIcon" buttonStyle="project" id="icon-board" size="56" />
+          <iconSvg id="icon-board" class="page__headerIcon" buttonStyle="project" size="56" />
           <TextEditor
             class="page__headline"
             htmlTag="h1"
@@ -20,11 +20,11 @@
       </header>
     </div>
     <section class="page__content">
-      <ul class="board" ref="boardRef">
+      <ul ref="boardRef" class="board">
         <li
-          class="board__columnWrapper draggable"
           v-for="column in boardStore.activeBoard?.columns"
           :key="column.id"
+          class="board__columnWrapper draggable"
           :data-id="column.id"
         >
           <BoardColumn :columnContent="column" />
@@ -118,12 +118,12 @@
         justify-content: center;
         align-items: center;
         gap: 0.5em;
+        width: 100%;
         border-radius: 1em;
         padding: 1em;
-        width: 100%;
-        font-size: nth(map-get($font-size, sm), 1);
-        color: $ff-black;
         background-color: $ff-quinary;
+        color: $ff-black;
+        font-size: nth(map-get($font-size, sm), 1);
       }
     }
   }

@@ -23,8 +23,8 @@
         <ul class="components__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
-              buttonStyle="component"
               :id="component.id"
+              buttonStyle="component"
               :icon="`icon-${component.type}`"
               :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"

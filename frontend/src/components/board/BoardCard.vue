@@ -3,7 +3,7 @@
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <h3 class="board-card__heading">{{ card.heading }}</h3>
-        <IconSvg class="board-card__priority" v-if="cardSettings.priority" :id="card.priority" size="22" />
+        <IconSvg v-if="cardSettings.priority" :id="card.priority" class="board-card__priority" size="22" />
       </div>
       <div
         v-if="cardSettings.description || cardSettings.checklist"
@@ -13,6 +13,7 @@
         <ul v-if="cardSettings.checklist" class="board-card__checklist">
           <li
             v-for="subtask in card.checklist"
+            :key="subtask.label"
             :class="`board-card__subtask board-card__subtask${subtask.isChecked ? '--checked' : '--todo'}`"
           >
             <i class="board-card__subtask-icon">

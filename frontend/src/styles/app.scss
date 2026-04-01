@@ -1,6 +1,6 @@
-@import './animations.scss';
-@import './variables.scss';
-@import './mixin.scss';
+@import './animations';
+@import './variables';
+@import './mixin';
 
 * {
   box-sizing: border-box !important;
@@ -62,8 +62,8 @@ button {
 
 .button {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 0.5em;
   border-radius: 0.75em;
   padding: 1em 4em;
@@ -95,14 +95,14 @@ button {
 
 .grab-placeholder {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   border: 2px dashed $ff-primary;
   border-radius: 1em;
-  font-size: 0.875rem;
   color: $ff-primary;
+  font-size: 0.875rem;
 
   &::before {
     content: 'Place here';

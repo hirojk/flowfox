@@ -54,15 +54,15 @@
 
     display: flex;
     align-items: center;
-    font-size: nth(map-get($font-size, md), 1);
     padding: 0 !important;
     color: $ff-black;
+    font-size: nth(map-get($font-size, md), 1);
 
     &__icon {
       display: flex;
+      flex-shrink: 0;
       justify-content: center;
       align-items: center;
-      flex-shrink: 0;
       width: var(--sidebar-mini-width);
       height: auto;
       aspect-ratio: 1 / 0.7;
@@ -70,14 +70,14 @@
 
     &__box {
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       width: calc(var(--sidebar-mini-width) - var(--sidebar-padding));
       height: auto;
       aspect-ratio: 1;
       border-radius: 0.5em;
-      color: var(--box-color);
       background-color: var(--box-bg);
+      color: var(--box-color);
     }
 
     &__label {

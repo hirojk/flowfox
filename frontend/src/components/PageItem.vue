@@ -1,13 +1,13 @@
 <template>
   <component
-    :class="`page-item page-item--${props.buttonStyle}`"
     :is="props.route && !isEditing ? RouterLink : 'button'"
+    :class="`page-item page-item--${props.buttonStyle}`"
     :to="props.route && !isEditing ? props.route : undefined"
-    @click="props.action"
     :style="{ '--sign-size': signSize + 'em' }"
+    @click="props.action"
   >
     <div class="page-item__sign">
-      <IconSvg v-if="props.icon" class="page-item__icon" :id="props.icon" :size="`${signSize / 2}em`" />
+      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
       <strong v-else class="page-item__initials">{{ useInitials(props.label) }}</strong>
     </div>
     <input
@@ -78,7 +78,7 @@
   .page-item {
     --sign-bg: #{$ff-primary};
     --sign-color: #{$ff-white};
-    --label-color: currentColor;
+    --label-color: currentcolor;
 
     display: flex;
     flex-direction: column;
@@ -98,8 +98,8 @@
       height: auto;
       aspect-ratio: 1 / 1;
       border-radius: 1em;
-      color: var(--sign-color);
       background-color: var(--sign-bg);
+      color: var(--sign-color);
     }
 
     &__label {
@@ -107,12 +107,13 @@
       text-align: center;
 
       &--editing {
-        color: var(--label-color);
         background-color: transparent;
+        color: var(--label-color);
       }
 
       &--normal {
         @include fontMixin(map-get($font-size, md));
+
         color: var(--label-color);
       }
     }

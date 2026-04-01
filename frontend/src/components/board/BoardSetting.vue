@@ -89,6 +89,7 @@
 
       &-headline {
         @include fontMixin(map-get($font-size, xl));
+
         width: 100%;
         cursor: text;
       }
@@ -108,8 +109,9 @@
 
     &__label {
       @include fontMixin(map-get($font-size, md));
-      font-weight: bold;
+
       margin-bottom: 0.5em;
+      font-weight: bold;
     }
 
     &__checkbox {

@@ -135,6 +135,7 @@
 
       &-headline {
         @include fontMixin(map-get($font-size, xl));
+
         width: 100%;
         cursor: text;
       }
@@ -160,8 +161,9 @@
 
     &__label {
       @include fontMixin(map-get($font-size, md));
-      font-weight: bold;
+
       margin-bottom: 0.5em;
+      font-weight: bold;
     }
 
     &__description {
@@ -177,8 +179,8 @@
 
     &__tags {
       display: flex;
-      gap: 0.5em;
       flex-wrap: wrap;
+      gap: 0.5em;
     }
 
     &__settings {
@@ -194,8 +196,8 @@
 
       &--copy,
       &--delete {
-        width: 100%;
         justify-content: center;
+        width: 100%;
         border-radius: 1em;
         padding: 1em 2em;
         background-color: $ff-quaternary;

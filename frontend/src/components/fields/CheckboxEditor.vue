@@ -1,7 +1,7 @@
 <template>
   <ul class="checkboxEditor">
     <span v-if="props.checkboxes.length === 0" class="checkboxEditor__message">No Subtask submitted</span>
-    <li class="checkboxEditor__item" v-for="item in props.checkboxes" :key="item.label">
+    <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
       <div class="checkboxEditor__checkbox">
         <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
         <TextEditor
@@ -107,8 +107,8 @@
       width: 100%;
       border-radius: 0.5em;
       padding: 0.75em 3em 0.75em 2em;
-      color: $ff-white;
       background-color: $ff-grey;
+      color: $ff-white;
     }
   }
 </style>
