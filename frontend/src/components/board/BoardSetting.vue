@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useDeletePrompt } from '@composables/usePrompt'
+  import { useDeletePrompt } from '@composables/usePromptWindow'
   import { useBoardStore } from '@stores/boardStore'
   import { useProjectStore } from '@stores/projectStore'
   import type { BoardSettingType } from '@flowfox/shared'

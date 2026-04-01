@@ -46,13 +46,14 @@
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
-  import { addColumn } from '@composables/useBoardColumn'
+  import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'
   import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
   import { useComponentResolver } from '@composables/useNavigation'
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
 
+  const { addColumn } = useBoardColumn()
   const boardStore = useBoardStore()
   const appStore = useAppStore()
 

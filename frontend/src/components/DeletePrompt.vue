@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { useDeletePrompt } from '@composables/usePrompt'
+  import { useDeletePrompt } from '@composables/usePromptWindow'
 
   const { isOpen, message, confirm, close } = useDeletePrompt()
 

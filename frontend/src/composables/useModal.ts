@@ -5,9 +5,9 @@ const getStores = (): { modal: ReturnType<typeof useAppStore> } => ({
   modal: useAppStore(),
 })
 
-export const openSettingsModal = (currentWindowString: ModalWindowType): void => {
+export const openSettingsModal = (modalContentString: ModalWindowType): void => {
   const { modal } = getStores()
 
   modal.isModalOpen = true
-  modal.modalContent = currentWindowString
+  modal.modalContent = modalContentString
 }

@@ -95,7 +95,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { PRIORITY_LIST } from '@constants/priority'
-  import { removeCard, updateCard } from '@composables/useBoardCard'
+  import { useBoardCard } from '@composables/useBoard'
   import { getIcon } from '@services/helpers'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
@@ -104,6 +104,7 @@
   import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
   // import DatePicker from '@components/fields/DatePicker.vue'
 
+  const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()
 
   const modalSettings = computed(() => {

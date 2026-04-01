@@ -33,8 +33,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
-  import { removeColumn, renameColumn } from '@composables/useBoardColumn'
-  import { addCard } from '@composables/useBoardCard'
+  import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import type { BoardColumnType } from '@flowfox/shared'
 
   import EditableText from '@components/fields/TextEditor.vue'
@@ -42,6 +41,9 @@
   const props = defineProps<{
     columnContent: BoardColumnType
   }>()
+
+  const { removeColumn, renameColumn } = useBoardColumn()
+  const { addCard } = useBoardCard()
 
   const boardCards = computed(() => props.columnContent.cards)
 </script>

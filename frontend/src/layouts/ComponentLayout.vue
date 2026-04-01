@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
-  import SideBar from '@components/SideBar.vue'
+  import SideBar from '@components/sidebar/SideBar.vue'
   import { useProjectStore } from '@stores/projectStore'
 
   const projectStore = useProjectStore()
