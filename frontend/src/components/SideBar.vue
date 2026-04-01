@@ -44,9 +44,9 @@
   import { ref, computed, watch } from 'vue'
   import SidebarItem from '@components/sidebar/SideBarItem.vue'
 
+  import { useComponentResolver } from '@composables/useNavigation'
   import { useAppStore } from '@stores/appStore'
-  import { useComponentResolver } from '@composables/useNavigation.ts'
-  import { useProjectStore } from '@stores/homeStore'
+  import { useProjectStore } from '@stores/projectStore'
 
   const drawer = ref(true)
 

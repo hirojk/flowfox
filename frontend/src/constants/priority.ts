@@ -1,6 +1,5 @@
-import type { BoardCardType } from '@flowfox/shared'
 import type { IconType } from '@typeDefs/globalTypes'
-import { PRIORITY_VALUES } from '@flowfox/shared'
+import { PRIORITY_VALUES, type BoardCardType } from '@flowfox/shared'
 
 export const PRIORITY_LIST: IconType[] = [
   { name: 'Critical', icon: 'icon-critical' },

@@ -38,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useProjectStore } from '@stores/homeStore'
-  import { useBoardStore } from '@stores/boardStore'
   import { useDeletePrompt } from '@composables/usePrompt'
+  import { useBoardStore } from '@stores/boardStore'
+  import { useProjectStore } from '@stores/projectStore'
   import type { BoardSettingType } from '@flowfox/shared'
 
   const projectStore = useProjectStore()

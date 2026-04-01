@@ -44,11 +44,10 @@ export default defineConfig(({ mode }) => {
         '@composables': path.resolve(__dirname, 'src/composables'),
         '@constants': path.resolve(__dirname, 'src/constants'),
         '@layouts': path.resolve(__dirname, 'src/layouts'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@stores': path.resolve(__dirname, 'src/stores'),
         '@typeDefs': path.resolve(__dirname, 'src/types'),
-        '@views': path.resolve(__dirname, 'src/views'),
-        '@shared': fileURLToPath(new URL('../backend/shared', import.meta.url)),
       },
     },
     test: {

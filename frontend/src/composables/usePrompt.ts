@@ -3,7 +3,7 @@ import router from '@/router'
 import type { RouteLocationRaw } from 'vue-router'
 import { useModalStore } from '@stores/appStore'
 
-const getStores = () => ({
+const getStores = (): { modal: ReturnType<typeof useModalStore> } => ({
   modal: useModalStore(),
 })
 
@@ -12,7 +12,8 @@ const message = ref('')
 const confirmEvent = ref<(() => void) | null>(null)
 const backToEvent = ref<RouteLocationRaw | null>(null)
 
-export const useDeletePrompt = () => {
+// prettier-ignore
+export const useDeletePrompt = (): { isOpen: typeof isOpen; message: typeof message; open: (messageText: string, apiRequest: () => Promise<void>, backRoute: RouteLocationRaw) => void; confirm: () => Promise<void>; close: () => void } => {
   const { modal } = getStores()
 
   const open = (messageText: string, apiRequest: () => Promise<void>, backRoute: RouteLocationRaw) => {

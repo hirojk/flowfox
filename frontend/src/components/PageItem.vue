@@ -27,8 +27,8 @@
 <script setup lang="ts">
   import { computed, ref, watch, nextTick } from 'vue'
   import { RouterLink } from 'vue-router'
+  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
-  import { useInitials } from '@composables/useInitials'
 
   const appStore = useAppStore()
   const inputRef = ref<HTMLInputElement | null>(null)

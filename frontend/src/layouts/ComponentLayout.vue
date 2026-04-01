@@ -10,11 +10,10 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
-  import { useProjectStore } from '@stores/homeStore.ts'
+  import SideBar from '@components/SideBar.vue'
+  import { useProjectStore } from '@stores/projectStore'
 
   const projectStore = useProjectStore()
-
-  import SideBar from '@components/SideBar.vue'
 
   onMounted(async () => {
     if (!projectStore.allProjects.length) {

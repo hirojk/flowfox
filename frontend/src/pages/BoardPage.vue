@@ -42,17 +42,16 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { useBoardStore } from '@stores/boardStore'
-  import { useModalStore } from '@stores/appStore'
-  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
-  import { useComponentResolver } from '@composables/useNavigation'
-
+  import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
-  import BoardColumn from '@components/board/BoardColumn.vue'
-  import { addColumn } from '@services/boardColumnService.ts'
+  import { addColumn } from '@composables/useBoardColumn'
   import { openSettingsModal } from '@composables/useModal'
+  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
+  import { useComponentResolver } from '@composables/useNavigation'
+  import { useModalStore } from '@stores/appStore'
+  import { useBoardStore } from '@stores/boardStore'
 
   const boardStore = useBoardStore()
   const modalStore = useModalStore()

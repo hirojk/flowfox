@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
-  import { useInitials } from '@composables/useInitials'
 
   const appStore = useAppStore()
 

@@ -32,9 +32,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
+  import { removeColumn, renameColumn } from '@composables/useBoardColumn'
+  import { addCard } from '@composables/useBoardCard'
   import type { BoardColumnType } from '@flowfox/shared'
-  import { removeColumn, renameColumn } from '@services/boardColumnService.ts'
-  import { addCard } from '@services/boardCardService.ts'
 
   import EditableText from '@components/fields/TextEditor.vue'
 

@@ -1,9 +1,9 @@
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@stores/authStore'
-import { useProjectStore } from '@stores/homeStore.ts'
+import { useProjectStore } from '@stores/projectStore'
 
-export const useAuth = () => {
+export const useAuth = (): { handleLogout: () => void } => {
   const authStore = useAuthStore()
 
   const handleLogout = () => {
@@ -13,7 +13,7 @@ export const useAuth = () => {
   return { handleLogout }
 }
 
-export const useNavigation = () => {
+export const useNavigation = (): { componentRoute: (projectId: number, componentId: number) => void } => {
   const componentRoute = (projectId: number, componentId: number) => {
     if (!projectId || !componentId) return null
 
@@ -26,7 +26,7 @@ export const useNavigation = () => {
   return { componentRoute }
 }
 
-export const useComponentResolver = () => {
+export const useComponentResolver = (): { activeProject: ComputedRef<any>; activeComponent: ComputedRef<any> } => {
   const route = useRoute()
   const projectStore = useProjectStore()
 

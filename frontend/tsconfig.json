@@ -28,11 +28,10 @@
       "@composables/*": ["./src/composables/*"],
       "@constants/*": ["./src/constants/*"],
       "@layouts/*": ["./src/layouts/*"],
+      "@pages/*": ["./src/pages/*"],
       "@services/*": ["./src/services/*"],
       "@stores/*": ["./src/stores/*"],
-      "@typeDefs/*": ["./src/types/*"],
-      "@views/*": ["./src/views/*"],
-      "@shared/*": ["../backend/shared/*"]
+      "@typeDefs/*": ["./src/types/*"]
     },
 
     "types": ["node", "jsdom"]

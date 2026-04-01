@@ -22,9 +22,8 @@
 </template>
 
 <script setup lang="ts">
-  import type { CheckboxItemType } from '@flowfox/shared'
-
   import TextEditor from '@components/fields/TextEditor.vue'
+  import type { CheckboxItemType } from '@flowfox/shared'
 
   const props = defineProps<{
     class?: string

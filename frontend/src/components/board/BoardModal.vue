@@ -31,7 +31,7 @@
           PRIORITY_LIST.map((p) => ({
             name: p.name,
             icon: p.icon,
-            action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityName }),
+            action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
       />
@@ -94,11 +94,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useBoardStore } from '@stores/boardStore.ts'
-  import { PRIORITY_LIST } from '@constants/priority.ts'
-  import { removeCard, updateCard } from '@services/boardCardService.ts'
-  import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType, PriorityName } from '@flowfox/shared'
+  import { PRIORITY_LIST } from '@constants/priority'
+  import { removeCard, updateCard } from '@composables/useBoardCard'
+  import { getIcon } from '@services/helpers'
+  import { useBoardStore } from '@stores/boardStore'
+  import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
@@ -198,7 +198,7 @@
         justify-content: center;
         border-radius: 1em;
         padding: 1em 2em;
-        background-color: rgb(199, 199, 199);
+        background-color: $ff-quaternary;
       }
     }
   }

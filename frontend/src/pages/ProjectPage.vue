@@ -43,16 +43,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useAppStore } from '@stores/appStore'
-  import { useModalStore } from '@stores/appStore'
-  import { useProjectStore } from '@stores/homeStore'
-  import { useBoardStore } from '@stores/boardStore'
-
-  import ProjectSetting from '@components/project/ProjectSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
+  import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
+  import { useAppStore, useModalStore } from '@stores/appStore'
+  import { useProjectStore } from '@stores/projectStore'
+  import { useBoardStore } from '@stores/boardStore'
 
   const appStore = useAppStore()
   const modalStore = useModalStore()

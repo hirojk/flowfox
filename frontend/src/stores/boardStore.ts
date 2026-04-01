@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
-import { useProjectStore } from '@stores/homeStore'
+import { useProjectStore } from '@stores/projectStore'
 import type { BoardType, BoardColumnType, BoardCardType } from '@flowfox/shared'
 import { sortedCardsByPriority } from '@constants/priority.ts'
 

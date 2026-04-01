@@ -30,11 +30,11 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { PRIORITY_LIST } from '@constants/priority'
+  import { getIcon } from '@services/helpers'
+  import { useModalStore } from '@stores/appStore'
+  import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType } from '@flowfox/shared'
-  import { getIcon } from '@services/helpers.ts'
-  import { useModalStore } from '@stores/appStore.ts'
-  import { useBoardStore } from '@stores/boardStore.ts'
-  import { PRIORITY_LIST } from '@constants/priority.ts'
 
   const props = defineProps<{
     columnId: number

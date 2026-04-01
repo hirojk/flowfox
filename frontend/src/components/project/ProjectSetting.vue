@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useProjectStore } from '@stores/homeStore'
   import { useDeletePrompt } from '@composables/usePrompt'
+  import { useProjectStore } from '@stores/projectStore'
 
   const projectStore = useProjectStore()
   const { open } = useDeletePrompt()

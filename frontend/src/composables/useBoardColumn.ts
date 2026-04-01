@@ -1,9 +1,7 @@
-import { BoardColumnSchema } from '@flowfox/shared'
-import type { BoardColumnType } from '@flowfox/shared'
-import { useBoardStore } from '@stores/boardStore.ts'
-import { generateId } from '@flowfox/shared'
+import { useBoardStore } from '@stores/boardStore'
+import { BoardColumnSchema, generateId, type BoardColumnType } from '@flowfox/shared'
 
-const getStores = () => ({
+const getStores = (): { board: ReturnType<typeof useBoardStore> } => ({
   board: useBoardStore(),
 })
 
@@ -14,7 +12,7 @@ export const createNewColumn = (overrides: Partial<BoardColumnType> = {}): Board
   })
 }
 
-export const addColumn = () => {
+export const addColumn = (): void => {
   const { board } = getStores()
 
   if (board.activeBoard) {
@@ -23,7 +21,7 @@ export const addColumn = () => {
   }
 }
 
-export const removeColumn = (columnId: number) => {
+export const removeColumn = (columnId: number): void => {
   const { board } = getStores()
 
   if (board.activeBoard) {
@@ -32,7 +30,7 @@ export const removeColumn = (columnId: number) => {
   }
 }
 
-export const renameColumn = (columnId: number, newName: string) => {
+export const renameColumn = (columnId: number, newName: string): void => {
   const { board } = getStores()
   const selectedColumn = board.activeBoard?.columns.find((column: BoardColumnType) => column.id === columnId)
 
