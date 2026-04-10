@@ -1,28 +1,25 @@
-# Flowfox App (1.0.0)
+# Flowfox App (0.1.0)
 
-This is a personal project built to organize and manage future projects in a flexible way. The goal is to provide a system with reusable components and customizable display settings, allowing each project to be tailored to specific needs.
+Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
 
-At the moment, only one component called **Board** is implemented, which works similarly to a Trello-style Kanban board for organizing tasks. More components and features are planned for the future.
+Currently, the app includes a **Board** component, inspired by a Trello-style Kanban board, for organizing tasks. Additional components and features are planned for future releases.
 
-The application is currently optimized for desktop and tablet devices.
+⚠️ The application is currently optimized for desktop and tablet devices.
 
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
-- [Branching Strategy](#branching-strategy)
-- [Branch and Commit Naming](#branch-and-commit-naming)
-- [Recommended Practices](#recommended-practices)
 - [Deployment](#deployment)
 
 ## Tech Stack
 
-This project is managed as a monorepo using [Turborepo](https://turbo.build/) together with [pnpm](https://pnpm.io/) workspaces.
+This project is structured as a monorepo using [Turborepo](https://turbo.build/) with [pnpm](https://pnpm.io/) workspaces.
 
 ### Frontend
 
-- **Framework:** Vue.js 3 with TypeScript
+- **Framework:** Vue.js 3 (TypeScript)
 - **State Management:** Pinia
 - **UI Framework:** Quasar
 - **HTTP Client:** Axios
@@ -33,22 +30,20 @@ This project is managed as a monorepo using [Turborepo](https://turbo.build/) to
 
 ### Backend
 
-- **Framework:** Express.js with TypeScript
+- **Framework:** Express.js (TypeScript)
 - **Database:** MongoDB
 - **ODM:** Mongoose
 - **Tests:** Not implemented yet
 
 ## Getting Started
 
-Clone this repository to your local machine using Git to set up the project locally.
-
-Open the project in your IDE and run:
+Clone the repository and install dependencies:
 
 ```sh
 pnpm install
 ```
 
-To start the development environment, run:
+Start the development server:
 
 ```sh
 pnpm dev
@@ -60,109 +55,52 @@ The application should now be running locally.
 
 ## Project Structure
 
-## Branching Strategy
-
-This project follows a feature-based workflow:
-
-- **Main branch (`main`)**: Contains stable, production-ready code
-- **Staging branch (`dev`)**: Includes release-ready changes and ongoing development
-- **Feature branches**: All new features and fixes are developed in separate branches created from `dev`
-
-### Workflow
-
-1. Create a new feature or fix branch based on the `dev` branch
-2. Implement your changes in this feature branch
-3. Create a merge request to merge your branch back into `dev`
-   > ⚠️ Do not merge into `main` directly. This is not allowed
-4. After a code review, the branch is merged into `dev` (only the author can approve it)
-5. Once the changes are ready for release, `dev` is merged into `main` (only the author can perform this step)
-
-## Branch and Commit Naming
-
-All branch and commit names must follow the standard conventional naming format. Other naming types are not allowed.
-
-### Branches
-
-Branch names should use only lowercase letters and hyphens. Keep them short but descriptive.
-
-Use the following prefixes:
-
-- **feat/** – for new features
-- **fix/** – for bug fixes
-- **chore/** – for non-code tasks like dependency or documentation updates
-
-Examples:
+The Project files are structured like this:
 
 ```sh
-feat/new-feature
-
-fix/header-bug
-
-chore/update-dependencies
+├── backend                         # Backend (Node.js / API layer)
+│   ├── config                      # Configuration files (environment, database, etc.)
+│   ├── controllers                 # Request handlers and business logic
+│   ├── middleware                  # Express middleware (auth, logging, etc.)
+│   ├── models                      # Database models / schemas
+│   ├── routes                      # API route definitions
+│   ├── types                       # TypeScript type definitions
+│   ├── utils                       # Utility/helper functions
+│   └── server.ts                   # Application entry point
+│
+├── frontend                        # Frontend (Vue.js application)
+│   ├── public                      # Static assets
+│   ├── src                         # Main source code
+│   │   ├── components              # Reusable UI components
+│   │   ├── composables             # Vue composables (logic reuse)
+│   │   ├── constants               # Frontend constants
+│   │   ├── layouts                 # Layout components
+│   │   ├── pages                   # Application pages/views
+│   │   ├── router                  # Routing configuration
+│   │   ├── services                # API calls and external services
+│   │   ├── stores                  # State management (e.g. Pinia)
+│   │   ├── styles                  # Global and component styles
+│   │   ├── types                   # TypeScript type definitions
+│   │   ├── App.vue                 # Root Vue component
+│   │   ├── global.components.ts    # Global component registration
+│   │   └── main.ts                 # Frontend entry point
+│   └── index.html                  # Main HTML file
+│
+├── shared                          # Shared code between frontend & backend
+│   ├── constants                   # Shared constants
+│   ├── schemas                     # Shared validation schemas
+│   ├── utils                       # Shared utility functions
+│   └── index.ts                    # Shared module entry point
+│
+├── package.json                    # Project dependencies and scripts
+└── turbo.json                      # Turborepo configuration
 ```
-
-More information: [Conventional Branch](https://conventional-branch.github.io/)
-
-### Commits
-
-Commit messages should also use lowercase letters and follow this format:
-
-```sh
-<type>[optional scope]: <description>
-```
-
-Common types:
-
-- **feat:** – introduces a new feature (correlates with MINOR in Semantic Versioning)
-- **fix:** – fixes a bug (correlates with PATCH in Semantic Versioning)
-- **refactor:** – improves code without changing functionality
-- **chore:** – for non-code tasks (e.g. dependencies, documentation)
-
-⚠️ Merge commits should follow this format: `chore: merge with ...`
-
-```sh
-feat: allow provided config object to extend other configs
-
-fix: resolve issue with header
-
-refactor: improve validation logic
-
-chore: update dependencies
-
-chore: merge with dev
-```
-
-More information: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-
-## Recommended Practices
-
-For the frontend, the following conventions must be followed:
-
-- Vue files should always be structured in this order: **template**, **script**, **style**
-- The `<script>` block should use `setup` and `lang="ts"` (Composition API with TypeScript)
-- All styles should be written in **SCSS** and should generally be **scoped**
-- CSS properties must follow a specific order based on grouped rules
-  - You can find the exact configuration in `.stylelintrc.json`
-  - More information: [CSS Order Guide](https://9elements.com/css-rule-order/)
-- Use predefined variables for **colors** and **fonts** from the global style variables file
-
-> ⚠️ Before every commit, it is highly recommended to run the following command. It will automatically fix and format your code:
-
-```sh
-pnpm lint
-
-# or
-
-pnpm lint:fix
-```
-
-This ensures all code is formatted and follows the recommended rules.
 
 ## Deployment
 
-This project is currently deployed using [Vercel](https://vercel.com), a simple and convenient deployment and hosting platform. This setup is temporary and may change in the future as the project grows or requires a different deployment solution.
+The application is currently deployed using [Vercel](https://vercel.com), a simple and convenient deployment and hosting platform. This setup is temporary and may change in the future as the project grows or requires a different deployment solution.
 
-Every merge into the `main` or `dev` branch triggers an automatic deployment on Vercel. Only the author has access to manage and control deployments.
+Each merge into the `main` or `dev` branch triggers an automatic deployment.
 
 - **Production (`main`):** https://flowfox.vercel.app/
 - **Staging (`dev`):** https://stagingflowfox.vercel.app/
@@ -170,3 +108,10 @@ Every merge into the `main` or `dev` branch triggers an automatic deployment on 
 Once a deployment is successful, the application is live and can be accessed as a web app.
 
 ## Issues and future Changes
+
+The following improvements are planned for the upcoming 0.2.0 release:
+
+- Improve the UX/UI with a more refined visual design
+- Add tests for both frontend and backend to increase stability
+
+🙏 Feedback is always welcome. If you encounter any critical issues or bugs, please report them so they can be resolved promptly.

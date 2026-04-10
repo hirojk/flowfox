@@ -88,7 +88,7 @@ importers:
         specifier: workspace:*
         version: link:../shared
       axios:
-        specifier: ^1.13.6
+        specifier: 1.13.6
         version: 1.13.6
       jwt-decode:
         specifier: ^4.0.0
