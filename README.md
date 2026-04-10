@@ -1,159 +1,172 @@
-# Turborepo starter
+# Flowfox App (1.0.0)
 
-This Turborepo starter is maintained by the Turborepo core team.
+This is a personal project built to organize and manage future projects in a flexible way. The goal is to provide a system with reusable components and customizable display settings, allowing each project to be tailored to specific needs.
 
-## Using this example
+At the moment, only one component called **Board** is implemented, which works similarly to a Trello-style Kanban board for organizing tasks. More components and features are planned for the future.
 
-Run the following command:
+The application is currently optimized for desktop and tablet devices.
 
-```sh
-npx create-turbo@latest
-```
+## Table of Contents
 
-## What's inside?
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Branching Strategy](#branching-strategy)
+- [Branch and Commit Naming](#branch-and-commit-naming)
+- [Recommended Practices](#recommended-practices)
+- [Deployment](#deployment)
 
-This Turborepo includes the following packages/apps:
+## Tech Stack
 
-### Apps and Packages
+This project is managed as a monorepo using [Turborepo](https://turbo.build/) together with [pnpm](https://pnpm.io/) workspaces.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Frontend
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- **Framework:** Vue.js 3 with TypeScript
+- **State Management:** Pinia
+- **UI Framework:** Quasar
+- **HTTP Client:** Axios
+- **Rendering:** Server-Side Rendering (SSR)
+- **Build Tool:** Vite
+- **Code Quality:** ESLint, Prettier, Stylelint
+- **Tests:** Not implemented yet
 
-### Utilities
+### Backend
 
-This Turborepo has some additional tools already setup for you:
+- **Framework:** Express.js with TypeScript
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Tests:** Not implemented yet
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Getting Started
 
-### Build
+Clone this repository to your local machine using Git to set up the project locally.
 
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Open the project in your IDE and run:
 
 ```sh
-turbo build --filter=docs
+pnpm install
 ```
 
-Without global `turbo`:
+To start the development environment, run:
 
 ```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+pnpm dev
 ```
 
-### Develop
+The application should now be running locally.
 
-To develop all apps and packages, run the following command:
+⚠️ For access to a test account and login credentials, please contact the author.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## Project Structure
+
+## Branching Strategy
+
+This project follows a feature-based workflow:
+
+- **Main branch (`main`)**: Contains stable, production-ready code
+- **Staging branch (`dev`)**: Includes release-ready changes and ongoing development
+- **Feature branches**: All new features and fixes are developed in separate branches created from `dev`
+
+### Workflow
+
+1. Create a new feature or fix branch based on the `dev` branch
+2. Implement your changes in this feature branch
+3. Create a merge request to merge your branch back into `dev`
+   > ⚠️ Do not merge into `main` directly. This is not allowed
+4. After a code review, the branch is merged into `dev` (only the author can approve it)
+5. Once the changes are ready for release, `dev` is merged into `main` (only the author can perform this step)
+
+## Branch and Commit Naming
+
+All branch and commit names must follow the standard conventional naming format. Other naming types are not allowed.
+
+### Branches
+
+Branch names should use only lowercase letters and hyphens. Keep them short but descriptive.
+
+Use the following prefixes:
+
+- **feat/** – for new features
+- **fix/** – for bug fixes
+- **chore/** – for non-code tasks like dependency or documentation updates
+
+Examples:
 
 ```sh
-cd my-turborepo
-turbo dev
+feat/new-feature
+
+fix/header-bug
+
+chore/update-dependencies
 ```
 
-Without global `turbo`, use your package manager:
+More information: [Conventional Branch](https://conventional-branch.github.io/)
+
+### Commits
+
+Commit messages should also use lowercase letters and follow this format:
 
 ```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+<type>[optional scope]: <description>
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Common types:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+- **feat:** – introduces a new feature (correlates with MINOR in Semantic Versioning)
+- **fix:** – fixes a bug (correlates with PATCH in Semantic Versioning)
+- **refactor:** – improves code without changing functionality
+- **chore:** – for non-code tasks (e.g. dependencies, documentation)
+
+⚠️ Merge commits should follow this format: `chore: merge with ...`
 
 ```sh
-turbo dev --filter=web
+feat: allow provided config object to extend other configs
+
+fix: resolve issue with header
+
+refactor: improve validation logic
+
+chore: update dependencies
+
+chore: merge with dev
 ```
 
-Without global `turbo`:
+More information: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+## Recommended Practices
+
+For the frontend, the following conventions must be followed:
+
+- Vue files should always be structured in this order: **template**, **script**, **style**
+- The `<script>` block should use `setup` and `lang="ts"` (Composition API with TypeScript)
+- All styles should be written in **SCSS** and should generally be **scoped**
+- CSS properties must follow a specific order based on grouped rules
+  - You can find the exact configuration in `.stylelintrc.json`
+  - More information: [CSS Order Guide](https://9elements.com/css-rule-order/)
+- Use predefined variables for **colors** and **fonts** from the global style variables file
+
+> ⚠️ Before every commit, it is highly recommended to run the following command. It will automatically fix and format your code:
 
 ```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+pnpm lint
+
+# or
+
+pnpm lint:fix
 ```
 
-### Remote Caching
+This ensures all code is formatted and follows the recommended rules.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## Deployment
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+This project is currently deployed using [Vercel](https://vercel.com), a simple and convenient deployment and hosting platform. This setup is temporary and may change in the future as the project grows or requires a different deployment solution.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+Every merge into the `main` or `dev` branch triggers an automatic deployment on Vercel. Only the author has access to manage and control deployments.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+- **Production (`main`):** https://flowfox.vercel.app/
+- **Staging (`dev`):** https://stagingflowfox.vercel.app/
 
-```sh
-cd my-turborepo
-turbo login
-```
+Once a deployment is successful, the application is live and can be accessed as a web app.
 
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+## Issues and future Changes
