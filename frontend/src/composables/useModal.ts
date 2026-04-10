@@ -1,13 +1,13 @@
-import { useModalStore } from '@stores/appStore'
+import { useAppStore } from '@stores/appStore'
 import type { ModalWindowType } from '@typeDefs/globalTypes'
 
-const getStores = () => ({
-  modal: useModalStore(),
+const getStores = (): { modal: ReturnType<typeof useAppStore> } => ({
+  modal: useAppStore(),
 })
 
-export const openSettingsModal = (currentWindowString: ModalWindowType) => {
+export const openSettingsModal = (modalContentString: ModalWindowType): void => {
   const { modal } = getStores()
 
-  modal.isOpen = true
-  modal.currentWindow = currentWindowString
+  modal.isModalOpen = true
+  modal.modalContent = modalContentString
 }

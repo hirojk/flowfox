@@ -6,8 +6,8 @@
 <script setup lang="ts">
   import { onMounted, computed, type Component } from 'vue'
   import { useComponentResolver } from '@composables/useNavigation'
-  import Board from '@views/BoardPage.vue'
-  import { useProjectStore } from '@stores/homeStore.ts'
+  import Board from '@pages/BoardPage.vue'
+  import { useProjectStore } from '@stores/projectStore'
 
   import Backdrop from '@components/Backdrop.vue'
 

@@ -1,44 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose'
 
-export function zodToMongooseSchema(zodSchema: any) {
-  const def = zodSchema.def
+export const zodToMongooseSchema = (zodSchema: any): Record<string, any> => {
+  const getZodDef = (zodSchema: any) => zodSchema.def
 
-  if (!def) {
-    return {}
+  const isZodEffects = (def: any) => {
+    return def.typeName === 'ZodEffects' || def.type === 'effects'
   }
 
-  // Handle ZodEffects
-  if (def.typeName === 'ZodEffects' || def.type === 'effects') {
-    return zodToMongooseSchema(def.schema)
+  const isZodObject = (def: any) => {
+    return def.typeName === 'ZodObject' || def.type === 'object'
   }
 
-  // Nur ZodObject akzeptieren
-  if (def.typeName !== 'ZodObject' && def.type !== 'object') {
-    return {}
-  }
+  const extractShape = (def: any) => {
+    let shape = typeof def.shape === 'function' ? def.shape() : def.shape
 
-  // ⭐ Shape extrahieren (kann Getter sein!)
-  let shape = def.shape
-
-  // Wenn es ein Getter ist, aufrufen
-  if (typeof shape === 'function') {
-    shape = shape()
-  }
-
-  // Oder Property Descriptor
-  if (!shape && def.shape) {
-    const descriptor = Object.getOwnPropertyDescriptor(def, 'shape')
-    if (descriptor && descriptor.get) {
-      shape = descriptor.get.call(def)
+    if (!shape) {
+      const descriptor = Object.getOwnPropertyDescriptor(def, 'shape')
+      if (descriptor?.get) shape = descriptor.get.call(def)
     }
+
+    return shape
   }
 
-  if (!shape || typeof shape !== 'object') {
-    return {}
-  }
+  const def = getZodDef(zodSchema)
+  if (!def) return {}
+
+  if (isZodEffects(def)) return zodToMongooseSchema(def.schema)
+  if (!isZodObject(def)) return {}
+
+  const shape = extractShape(def)
+  if (!shape || typeof shape !== 'object') return {}
 
   const mongooseSchema: any = {}
-
   for (const [key, value] of Object.entries(shape)) {
     mongooseSchema[key] = zodToMongooseField(value)
   }
@@ -46,79 +40,69 @@ export function zodToMongooseSchema(zodSchema: any) {
   return mongooseSchema
 }
 
-export function zodToMongooseField(zodType: any): any {
+export const zodToMongooseField = (zodType: any): any => {
   const def = zodType._def || zodType.def
   const typeName = def?.typeName || def?.type
+  const isRequired = !zodType.isOptional?.()
 
-  // String
-  if (typeName === 'ZodString' || typeName === 'string') {
-    return { type: String, required: !zodType.isOptional?.() }
-  }
+  const resolveDefaultValue = () => (typeof def.defaultValue === 'function' ? def.defaultValue() : def.defaultValue)
 
-  // Number
-  if (typeName === 'ZodNumber' || typeName === 'number') {
-    return { type: Number, required: !zodType.isOptional?.() }
-  }
-
-  // Boolean
-  if (typeName === 'ZodBoolean' || typeName === 'boolean') {
-    const config: any = { type: Boolean, required: !zodType.isOptional?.() }
-    if (def.defaultValue !== undefined) {
-      config.default = typeof def.defaultValue === 'function' ? def.defaultValue() : def.defaultValue
-    }
-    return config
-  }
-
-  // Date
-  if (typeName === 'ZodDate' || typeName === 'date') {
-    return { type: Date, required: !zodType.isOptional?.() }
-  }
-
-  // Enum
-  if (typeName === 'ZodEnum' || typeName === 'enum') {
-    return {
-      type: String,
-      enum: def.values,
-      required: !zodType.isOptional?.(),
-    }
-  }
-
-  // Array
-  if (typeName === 'ZodArray' || typeName === 'array') {
-    const elementType = def.type || def.element
-
-    if (!elementType) {
-      return []
-    }
+  const resolveArrayElement = () => {
+    const elementType = def.items || def.element || def.type
+    if (!elementType) return []
 
     const elementDef = elementType._def || elementType.def
     const elementTypeName = elementDef?.typeName || elementDef?.type
+    const isObject = elementTypeName === 'ZodObject' || elementTypeName === 'object'
 
-    if (elementTypeName === 'ZodObject' || elementTypeName === 'object') {
-      return [zodToMongooseSchema(elementType)]
+    return isObject ? [zodToMongooseSchema(elementType)] : [zodToMongooseField(elementType)]
+  }
+
+  switch (typeName) {
+    case 'ZodString':
+    case 'string':
+      return { type: String, required: isRequired }
+
+    case 'ZodNumber':
+    case 'number':
+      return { type: Number, required: isRequired }
+
+    case 'ZodBoolean':
+    case 'boolean': {
+      const config: any = { type: Boolean, required: isRequired }
+      if (def.defaultValue !== undefined) config.default = resolveDefaultValue()
+      return config
     }
 
-    return [zodToMongooseField(elementType)]
-  }
+    case 'ZodDate':
+    case 'date':
+      return { type: Date, required: isRequired }
 
-  // Optional
-  if (typeName === 'ZodOptional' || typeName === 'optional') {
-    return zodToMongooseField(def.innerType)
-  }
+    case 'ZodEnum':
+    case 'enum':
+      return { type: String, enum: def.values, required: isRequired }
 
-  // Default
-  if (typeName === 'ZodDefault' || typeName === 'default') {
-    const field = zodToMongooseField(def.innerType)
-    const defaultValue = typeof def.defaultValue === 'function' ? def.defaultValue() : def.defaultValue
-    field.default = defaultValue
-    field.required = false
-    return field
-  }
+    case 'ZodArray':
+    case 'array':
+      return resolveArrayElement()
 
-  // Effects (coerce, transform)
-  if (typeName === 'ZodEffects' || typeName === 'effects') {
-    return zodToMongooseField(def.schema)
-  }
+    case 'ZodOptional':
+    case 'optional':
+      return zodToMongooseField(def.innerType)
 
-  return { type: mongoose.Schema.Types.Mixed }
+    case 'ZodDefault':
+    case 'default': {
+      const field = zodToMongooseField(def.innerType)
+      field.default = resolveDefaultValue()
+      field.required = false
+      return field
+    }
+
+    case 'ZodEffects':
+    case 'effects':
+      return zodToMongooseField(def.schema)
+
+    default:
+      return { type: mongoose.Schema.Types.Mixed }
+  }
 }

@@ -12,8 +12,8 @@
         <ul class="projects__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
-              buttonStyle="project"
               :id="project.id"
+              buttonStyle="project"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
               @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"
@@ -32,10 +32,10 @@
 <script setup lang="ts">
   import { computed, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
-  import { useAuthStore } from '@stores/authStore'
-  import { useAppStore } from '@stores/appStore'
-  import { useProjectStore } from '@stores/homeStore.ts'
   import { useAuth } from '@composables/useNavigation'
+  import { useAppStore } from '@stores/appStore'
+  import { useAuthStore } from '@stores/authStore'
+  import { useProjectStore } from '@stores/projectStore'
 
   import PageItem from '@components/PageItem.vue'
 

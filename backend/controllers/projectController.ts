@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import ProjectModel from '../models/Project.js'
-import { ProjectSchema } from '@flowfox/shared'
-import UserModel from '../models/User.js'
-import { generateId } from '@flowfox/shared'
+import { ProjectModel } from '../models/Project.js'
+import { ProjectSchema, generateId } from '@flowfox/shared'
+import { UserModel } from '../models/User.js'
+
 import {
   successResponse,
   createdResponse,
@@ -12,7 +12,7 @@ import {
 } from '../utils/responses.js'
 
 // POST: create new project
-export async function createProject(req: Request, res: Response): Promise<void> {
+export const createProject = async (req: Request, res: Response): Promise<void> => {
   try {
     const projectModel = ProjectModel()
     const userId = req.user!.id
@@ -21,41 +21,38 @@ export async function createProject(req: Request, res: Response): Promise<void> 
       id: generateId(),
       creatorId: userId,
     })
+    const newProject = new projectModel(projectData)
+    await newProject.save()
 
-    const project = new projectModel(projectData)
-    await project.save()
-
-    createdResponse(res, 'Project created successfully', project)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+    createdResponse(res, 'Project created successfully', newProject)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // GET: get single project by ID
-export async function getProjectById(req: Request, res: Response): Promise<void> {
+export const getProjectById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const projectId = req.params.projectId
-
+    const { projectId } = req.params
     if (!projectId) {
       badRequestResponse(res, 'Invalid project ID')
       return
     }
 
     const project = await ProjectModel().findOne({ id: projectId })
-
     if (!project) {
       notFoundResponse(res, 'Project not found')
       return
     }
 
     successResponse(res, undefined, project)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // GET: get all projects by user ID
-export async function getAllProjectsByUser(req: Request, res: Response): Promise<void> {
+export const getAllProjectsByUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user!.id
 
@@ -71,29 +68,28 @@ export async function getAllProjectsByUser(req: Request, res: Response): Promise
       projectCount: projects.length,
       projects,
     })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // DELETE: delete project by ID
-export async function deleteProjectById(req: Request, res: Response): Promise<void> {
+export const deleteProjectById = async (req: Request, res: Response): Promise<void> => {
   try {
     const project = await ProjectModel().findOneAndDelete({ id: req.params.projectId })
-
     if (!project) {
       notFoundResponse(res, 'Project not found')
       return
     }
 
     successResponse(res, 'Project deleted successfully')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // PUT: update project by ID
-export async function updateProjectById(req: Request, res: Response): Promise<void> {
+export const updateProjectById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, components } = req.body
     const project = await ProjectModel().findOneAndUpdate(
@@ -108,7 +104,7 @@ export async function updateProjectById(req: Request, res: Response): Promise<vo
     }
 
     successResponse(res, 'Project updated successfully', project)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }

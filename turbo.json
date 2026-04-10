@@ -1,46 +1,22 @@
 {
-  "$schema": "https://turborepo.dev/schema.json",
+  "$schema": "https://v2-9-6.turborepo.dev/schema.json",
   "ui": "tui",
   "tasks": {
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": [
-        "STAGE_PASS",
-        "VITE_API_URL",
-        "ADMIN_USER",
-        "ADMIN_PASS",
-        "ACCESS_TOKEN_SECRET",
-        "MONGODB_URI",
-        "APP_ENV"
-      ]
+      "env": ["STAGE_PASS", "API_URL", "ADMIN_USER", "ADMIN_PASS", "ACCESS_TOKEN_SECRET", "MONGODB_URI", "APP_ENV"]
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**"
-      ],
-      "env": [
-        "STAGE_PASS",
-        "VITE_API_URL",
-        "ADMIN_USER",
-        "ADMIN_PASS",
-        "ACCESS_TOKEN_SECRET",
-        "MONGODB_URI",
-        "APP_ENV"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "env": ["STAGE_PASS", "API_URL", "ADMIN_USER", "ADMIN_PASS", "ACCESS_TOKEN_SECRET", "MONGODB_URI", "APP_ENV"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
-    "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
     }
   }
 }

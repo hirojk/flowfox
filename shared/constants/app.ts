@@ -1,4 +1,4 @@
-export enum APP_ENV {
+export enum APP_ENV_VALUES {
   DEVELOPMENT = 'development',
   STAGING = 'staging',
   PRODUCTION = 'production',

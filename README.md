@@ -1,159 +1,117 @@
-# Turborepo starter
+# Flowfox App (0.1.0)
 
-This Turborepo starter is maintained by the Turborepo core team.
+Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
 
-## Using this example
+Currently, the app includes a **Board** component, inspired by a Trello-style Kanban board, for organizing tasks. Additional components and features are planned for future releases.
 
-Run the following command:
+⚠️ The application is currently optimized for desktop and tablet devices.
 
-```sh
-npx create-turbo@latest
-```
+## Table of Contents
 
-## What's inside?
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Deployment](#deployment)
 
-This Turborepo includes the following packages/apps:
+## Tech Stack
 
-### Apps and Packages
+This project is structured as a monorepo using [Turborepo](https://turbo.build/) with [pnpm](https://pnpm.io/) workspaces.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Frontend
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- **Framework:** Vue.js 3 (TypeScript)
+- **State Management:** Pinia
+- **UI Framework:** Quasar
+- **HTTP Client:** Axios
+- **Rendering:** Server-Side Rendering (SSR)
+- **Build Tool:** Vite
+- **Code Quality:** ESLint, Prettier, Stylelint
+- **Tests:** Not implemented yet
 
-### Utilities
+### Backend
 
-This Turborepo has some additional tools already setup for you:
+- **Framework:** Express.js (TypeScript)
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Tests:** Not implemented yet
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Getting Started
 
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
-```
-
-Without global `turbo`, use your package manager:
+Clone the repository and install dependencies:
 
 ```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+pnpm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Start the development server:
 
 ```sh
-turbo build --filter=docs
+pnpm dev
 ```
 
-Without global `turbo`:
+The application should now be running locally.
+
+⚠️ For access to a test account and login credentials, please contact the author.
+
+## Project Structure
+
+The Project files are structured like this:
 
 ```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+├── backend                         # Backend (Node.js / API layer)
+│   ├── config                      # Configuration files (environment, database, etc.)
+│   ├── controllers                 # Request handlers and business logic
+│   ├── middleware                  # Express middleware (auth, logging, etc.)
+│   ├── models                      # Database models / schemas
+│   ├── routes                      # API route definitions
+│   ├── types                       # TypeScript type definitions
+│   ├── utils                       # Utility/helper functions
+│   └── server.ts                   # Application entry point
+│
+├── frontend                        # Frontend (Vue.js application)
+│   ├── public                      # Static assets
+│   ├── src                         # Main source code
+│   │   ├── components              # Reusable UI components
+│   │   ├── composables             # Vue composables (logic reuse)
+│   │   ├── constants               # Frontend constants
+│   │   ├── layouts                 # Layout components
+│   │   ├── pages                   # Application pages/views
+│   │   ├── router                  # Routing configuration
+│   │   ├── services                # API calls and external services
+│   │   ├── stores                  # State management (e.g. Pinia)
+│   │   ├── styles                  # Global and component styles
+│   │   ├── types                   # TypeScript type definitions
+│   │   ├── App.vue                 # Root Vue component
+│   │   ├── global.components.ts    # Global component registration
+│   │   └── main.ts                 # Frontend entry point
+│   └── index.html                  # Main HTML file
+│
+├── shared                          # Shared code between frontend & backend
+│   ├── constants                   # Shared constants
+│   ├── schemas                     # Shared validation schemas
+│   ├── utils                       # Shared utility functions
+│   └── index.ts                    # Shared module entry point
+│
+├── package.json                    # Project dependencies and scripts
+└── turbo.json                      # Turborepo configuration
 ```
 
-### Develop
+## Deployment
 
-To develop all apps and packages, run the following command:
+The application is currently deployed using [Vercel](https://vercel.com), a simple and convenient deployment and hosting platform. This setup is temporary and may change in the future as the project grows or requires a different deployment solution.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Each merge into the `main` or `dev` branch triggers an automatic deployment.
 
-```sh
-cd my-turborepo
-turbo dev
-```
+- **Production (`main`):** https://flowfox.vercel.app/
+- **Staging (`dev`):** https://stagingflowfox.vercel.app/
 
-Without global `turbo`, use your package manager:
+Once a deployment is successful, the application is live and can be accessed as a web app.
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+## Issues and future Changes
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+The following improvements are planned for the upcoming 0.2.0 release:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+- Improve the UX/UI with a more refined visual design
+- Add tests for both frontend and backend to increase stability
 
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+🙏 Feedback is always welcome. If you encounter any critical issues or bugs, please report them so they can be resolved promptly.

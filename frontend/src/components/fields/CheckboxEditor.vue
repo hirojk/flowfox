@@ -1,7 +1,7 @@
 <template>
   <ul class="checkboxEditor">
     <span v-if="props.checkboxes.length === 0" class="checkboxEditor__message">No Subtask submitted</span>
-    <li class="checkboxEditor__item" v-for="item in props.checkboxes" :key="item.label">
+    <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
       <div class="checkboxEditor__checkbox">
         <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
         <TextEditor
@@ -15,16 +15,15 @@
       </button>
     </li>
   </ul>
-  <button class="checkboxEditor__button" @click="addCheckbox()">
+  <button class="checkboxEditor__button button button--secondary" @click="addCheckbox()">
     <IconSvg id="icon-plus" />
     Add Subtask
   </button>
 </template>
 
 <script setup lang="ts">
-  import type { CheckboxItemType } from '@flowfox/shared'
-
   import TextEditor from '@components/fields/TextEditor.vue'
+  import type { CheckboxItemType } from '@flowfox/shared'
 
   const props = defineProps<{
     class?: string
@@ -70,12 +69,14 @@
     margin-bottom: 1em;
 
     &__message {
+      padding: 0.2em;
       color: $ff-grey;
     }
 
     &__item {
       display: flex;
       align-items: center;
+      gap: 3em;
     }
 
     &__checkbox {
@@ -98,18 +99,6 @@
       &--checked {
         text-decoration: line-through;
       }
-    }
-
-    &__button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1em;
-      width: 100%;
-      border-radius: 0.5em;
-      padding: 0.75em 3em 0.75em 2em;
-      color: $ff-white;
-      background-color: $ff-grey;
     }
   }
 </style>

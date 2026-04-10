@@ -2,9 +2,8 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { Request, Response } from 'express'
-import UserModel from '../models/User.js'
-import { UserSchema } from '@flowfox/shared'
-import { generateId } from '@flowfox/shared'
+import { UserModel } from '../models/User.js'
+import { UserSchema, generateId } from '@flowfox/shared'
 import {
   successResponse,
   createdResponse,
@@ -14,7 +13,7 @@ import {
 } from '../utils/responses.js'
 
 // POST: create new user
-export async function createUser(req: Request, res: Response): Promise<void> {
+export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userModel = UserModel()
     const { username, name, password } = req.body
@@ -25,7 +24,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
       return
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12)
+    const hashedPassword = await bcrypt.hash(password as string, 12)
 
     const userData = UserSchema.parse({
       id: generateId(),
@@ -33,57 +32,56 @@ export async function createUser(req: Request, res: Response): Promise<void> {
       name,
       password: hashedPassword,
     })
-    const user = new userModel(userData)
-    await user.save()
+    const newUser = new userModel(userData)
+    await newUser.save()
 
-    createdResponse(res, 'User created successfully', user)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+    createdResponse(res, 'User created successfully', newUser)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // POST: login user
-function createToken(payload: object): string {
+const createToken = (payload: object): string => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7d' })
 }
 
-export async function loginUser(req: Request, res: Response): Promise<void> {
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userModel = UserModel()
-    const { username, password } = req.body
+    const { username, password } = req.body as { username: string; password: string }
 
     const admin = {
       username: process.env.ADMIN_USER,
       password: process.env.ADMIN_PASS,
     }
     if (username === admin.username && password === admin.password) {
-      return successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
+      successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
+      return
     }
 
     const user = await userModel.findOne({ username }).select('+password')
-
     if (!user) {
       badRequestResponse(res, 'Invalid credentials')
       return
     }
 
-    const isValid = await bcrypt.compare(password, user.password)
+    const isValid = await bcrypt.compare(password, user.password as string)
     if (!isValid) {
       badRequestResponse(res, 'Password is incorrect')
       return
     }
 
     const { password: _password, ...userPayload } = user.toObject()
-    const userToken = createToken(userPayload)
 
-    successResponse(res, 'Login successful', { userToken })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+    successResponse(res, 'Login successful', { userToken: createToken(userPayload) })
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // GET: get all users
-export async function getAllUsers(req: Request, res: Response): Promise<void> {
+export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await UserModel().find().select('-password')
 
@@ -91,13 +89,13 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
       userCount: users.length,
       users,
     })
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // GET: search single user by ID
-export async function getUserById(req: Request, res: Response): Promise<void> {
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await UserModel().findOne({ id: req.params.id }).select('-password')
 
@@ -107,13 +105,13 @@ export async function getUserById(req: Request, res: Response): Promise<void> {
     }
 
     successResponse(res, undefined, user)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // DELETE: delete user by ID
-export async function deleteUserById(req: Request, res: Response): Promise<void> {
+export const deleteUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await UserModel().findOneAndDelete({ id: req.params.id })
 
@@ -123,13 +121,13 @@ export async function deleteUserById(req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, 'User deleted successfully')
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }
 
 // PUT: update user by ID
-export async function updateUserById(req: Request, res: Response): Promise<void> {
+export const updateUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username } = req.body
     const user = await UserModel()
@@ -142,7 +140,7 @@ export async function updateUserById(req: Request, res: Response): Promise<void>
     }
 
     successResponse(res, 'User updated successfully', user)
-  } catch (error: any) {
-    serverFailureResponse(res, error.message)
+  } catch (error) {
+    serverFailureResponse(res, (error as Error).message)
   }
 }

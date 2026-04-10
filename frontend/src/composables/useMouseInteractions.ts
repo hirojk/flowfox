@@ -1,10 +1,9 @@
-import { ref, watch, onMounted, onUnmounted } from 'vue'
-import type { Ref } from 'vue'
+import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue'
 
 const interactionState: Ref<'grabbing' | 'dragging' | undefined> = ref(undefined)
 
 // prettier-ignore
-export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStore: (newOrder: number[]) => void, scrollSelector = 'main') => {
+export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStore: (newOrder: number[]) => void, scrollSelector = 'main'): void => {
   let grabbingElement: HTMLElement | null = null
   let ghost: HTMLElement | null = null
 
@@ -163,7 +162,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   })
 }
 
-export const useDragScroll = (scrollSelector: string = 'main') => {
+export const useDragScroll = (scrollSelector: string = 'main'): { scrollContainer: Ref<HTMLElement | null> } => {
   const scrollContainer = ref<HTMLElement | null>(null)
 
   let isDragging: boolean = false

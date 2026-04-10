@@ -1,5 +1,4 @@
 export const PRIORITY_VALUES = ['Critical', 'High', 'Medium', 'Low'] as const
+export const DEFAULT_PRIORITY: PriorityType = 'Medium'
 
-export type PriorityName = (typeof PRIORITY_VALUES)[number]
-
-export const DEFAULT_PRIORITY: PriorityName = 'Medium'
+export type PriorityType = (typeof PRIORITY_VALUES)[number]

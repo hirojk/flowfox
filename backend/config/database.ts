@@ -1,28 +1,29 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
 import { serviceUnavailableResponse } from '../utils/responses.js'
-import { APP_ENV } from '@flowfox/shared'
+import { APP_ENV_VALUES } from '@flowfox/shared'
 
 let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }
 
-export async function databaseMiddleware(req: Request, res: Response, next: NextFunction) {
+export const databaseMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (!dbState.isDbConnected) {
     try {
       await connectToDatabase()
-    } catch (error) {
+    } catch (_error) {
       serviceUnavailableResponse(res, 'Database connection failed')
+      return
     }
   }
   next()
 }
 
-export async function connectToDatabase(): Promise<mongoose.Connection> {
-  const CONNECTION_URL = process.env.MONGODB_URI || ''
-  const dbName = process.env.APP_ENV === APP_ENV.PRODUCTION ? 'productiondb' : 'testdb'
+export const connectToDatabase = async (): Promise<mongoose.Connection> => {
+  const connectionUrl = process.env.MONGODB_URI || ''
+  const dbName = process.env.APP_ENV === APP_ENV_VALUES.PRODUCTION ? 'productiondb' : 'testdb'
 
   try {
-    await mongoose.connect(CONNECTION_URL)
+    await mongoose.connect(connectionUrl)
 
     database = mongoose.connection.useDb(dbName)
     dbState.isDbConnected = true
@@ -36,7 +37,7 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
   }
 }
 
-export function getDatabase(): mongoose.Connection {
+export const getDatabase = (): mongoose.Connection => {
   if (!database) {
     throw new Error('\nDatabase not initialized. Call connectToDatabase first.')
   }

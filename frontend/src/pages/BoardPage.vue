@@ -1,14 +1,14 @@
 <template>
   <ModalWindow>
-    <BoardModal v-if="modalStore.currentWindow === 'board-card'" />
-    <BoardSetting v-if="modalStore.currentWindow === 'board-setting'" />
+    <BoardModal v-if="appStore.modalContent === 'board-card'" />
+    <BoardSetting v-if="appStore.modalContent === 'board-setting'" />
   </ModalWindow>
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
       <header class="page__header">
         <div class="page__headerContent">
-          <iconSvg class="page__headerIcon" buttonStyle="project" id="icon-board" size="56" />
+          <iconSvg id="icon-board" class="page__headerIcon" buttonStyle="project" size="56" />
           <TextEditor
             class="page__headline"
             htmlTag="h1"
@@ -20,11 +20,11 @@
       </header>
     </div>
     <section class="page__content">
-      <ul class="board" ref="boardRef">
+      <ul ref="boardRef" class="board">
         <li
-          class="board__columnWrapper draggable"
           v-for="column in boardStore.activeBoard?.columns"
           :key="column.id"
+          class="board__columnWrapper draggable"
           :data-id="column.id"
         >
           <BoardColumn :columnContent="column" />
@@ -42,20 +42,20 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { useBoardStore } from '@stores/boardStore'
-  import { useModalStore } from '@stores/appStore'
-  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
-  import { useComponentResolver } from '@composables/useNavigation'
-
+  import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
-  import BoardColumn from '@components/board/BoardColumn.vue'
-  import { addColumn } from '@services/boardColumnService.ts'
+  import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'
+  import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
+  import { useComponentResolver } from '@composables/useNavigation'
+  import { useAppStore } from '@stores/appStore'
+  import { useBoardStore } from '@stores/boardStore'
 
+  const { addColumn } = useBoardColumn()
   const boardStore = useBoardStore()
-  const modalStore = useModalStore()
+  const appStore = useAppStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
   const boardRef = ref<HTMLElement | null>(null)
@@ -98,6 +98,7 @@
       }
 
       &__header {
+        gap: 2em;
         padding: 0 $page-padding-x;
       }
     }
@@ -119,12 +120,12 @@
         justify-content: center;
         align-items: center;
         gap: 0.5em;
+        width: 100%;
         border-radius: 1em;
         padding: 1em;
-        width: 100%;
-        font-size: nth(map-get($font-size, sm), 1);
-        color: $ff-black;
         background-color: $ff-quinary;
+        color: $ff-black;
+        font-size: list.nth(map.get($font-size, sm), 1);
       }
     }
   }

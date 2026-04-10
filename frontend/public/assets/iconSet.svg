@@ -30,7 +30,7 @@
 
   <!-- Medium Icon -->
   <symbol id="icon-medium" viewBox="0 0 24 24">
-    <line x1="7" y1="12" x2="17" y2="12"/>
+    <circle class="cls-1" cx="12" cy="12" r="6"/>
   </symbol>
 
   <!-- Low Icon -->

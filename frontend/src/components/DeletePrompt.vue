@@ -2,7 +2,7 @@
   <dialog ref="dialogRef" class="delete-prompt">
     <span class="delete-prompt__message">{{ message }}</span>
     <div class="delete-prompt__button-group">
-      <button class="delete-prompt__button delete-prompt__button--delete" @click="confirm" autofocus>
+      <button class="delete-prompt__button delete-prompt__button--delete" autofocus @click="confirm">
         <IconSvg id="icon-cancel" /> Delete
       </button>
       <button class="delete-prompt__button delete-prompt__button--cancel" @click="close">Cancel</button>
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { useDeletePrompt } from '@composables/usePrompt'
+  import { useDeletePrompt } from '@composables/usePromptWindow'
 
   const { isOpen, message, confirm, close } = useDeletePrompt()
 
@@ -37,7 +37,8 @@
     padding: 2em;
 
     &__message {
-      @include fontMixin(map-get($font-size, md));
+      @include fontMixin(map.get($font-size, md));
+
       max-width: 15em;
       text-align: center;
     }
@@ -50,8 +51,8 @@
 
     &__button {
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       gap: 0.5em;
       width: 10em;
       border-radius: 1em;

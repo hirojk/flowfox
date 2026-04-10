@@ -3,7 +3,12 @@
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <h3 class="board-card__heading">{{ card.heading }}</h3>
-        <IconSvg class="board-card__priority" v-if="cardSettings.priority" :id="card.priority" size="22" />
+        <IconSvg
+          v-if="cardSettings.priority && card.priority !== 'icon-medium'"
+          :id="card.priority"
+          class="board-card__priority"
+          size="22"
+        />
       </div>
       <div
         v-if="cardSettings.description || cardSettings.checklist"
@@ -13,6 +18,7 @@
         <ul v-if="cardSettings.checklist" class="board-card__checklist">
           <li
             v-for="subtask in card.checklist"
+            :key="subtask.label"
             :class="`board-card__subtask board-card__subtask${subtask.isChecked ? '--checked' : '--todo'}`"
           >
             <i class="board-card__subtask-icon">
@@ -30,18 +36,18 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { PRIORITY_LIST } from '@constants/priority'
+  import { getIcon } from '@services/helpers'
+  import { useAppStore } from '@stores/appStore'
+  import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType } from '@flowfox/shared'
-  import { getIcon } from '@services/helpers.ts'
-  import { useModalStore } from '@stores/appStore.ts'
-  import { useBoardStore } from '@stores/boardStore.ts'
-  import { PRIORITY_LIST } from '@constants/priority.ts'
 
   const props = defineProps<{
     columnId: number
     cardContent: BoardCardType
   }>()
 
-  const modalStore = useModalStore()
+  const appStore = useAppStore()
   const boardStore = useBoardStore()
 
   const card = computed(() => ({
@@ -62,8 +68,8 @@
   })
 
   const openCardModal = () => {
-    modalStore.isOpen = true
-    modalStore.currentWindow = 'board-card'
+    appStore.isModalOpen = true
+    appStore.modalContent = 'board-card'
     boardStore.setActiveCardId(props.columnId, props.cardContent.id)
   }
 </script>
@@ -107,10 +113,10 @@
 
     &__description {
       display: -webkit-box;
-      line-clamp: 3;
       -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      line-clamp: 3;
       overflow: hidden;
+      -webkit-box-orient: vertical;
     }
 
     &__checklist {

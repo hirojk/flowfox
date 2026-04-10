@@ -2,13 +2,13 @@
   <component
     :is="props.htmlTag || 'p'"
     v-bind="$attrs"
-    class="textEditor"
+    ref="editorRef"
+    :class="['textEditor', props.textStyle]"
     :contenteditable="isEditing"
     @click="startEdit"
     @blur="saveEdit"
     @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
-    ref="editorRef"
   >
     {{ props.text }}
   </component>
@@ -21,6 +21,7 @@
 
   const props = defineProps<{
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'div'
+    textStyle?: string
     multiline?: boolean
     text: string
     saveEvent: (newName: string) => void
@@ -73,11 +74,31 @@
 
 <style lang="scss" scoped>
   .textEditor {
+    position: relative;
+    width: 100%;
+    padding: 0.2em;
     white-space: pre-wrap;
     cursor: text;
 
-    // &[contenteditable='true'] {
-    //   outline: none;
-    // }
+    &:active {
+      border-radius: 0.25em;
+      background-color: rgba($ff-grey, 0.1);
+    }
+
+    &[contenteditable='true'] {
+      position: relative;
+      isolation: isolate;
+      outline: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 2px solid currentcolor;
+        border-radius: 0.25em;
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
   }
 </style>

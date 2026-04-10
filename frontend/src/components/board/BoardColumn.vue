@@ -3,6 +3,7 @@
     <div class="board-column__header">
       <EditableText
         htmlTag="h2"
+        textStyle="h3"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
       />
@@ -32,15 +33,17 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
+  import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import type { BoardColumnType } from '@flowfox/shared'
-  import { removeColumn, renameColumn } from '@services/boardColumnService.ts'
-  import { addCard } from '@services/boardCardService.ts'
 
   import EditableText from '@components/fields/TextEditor.vue'
 
   const props = defineProps<{
     columnContent: BoardColumnType
   }>()
+
+  const { removeColumn, renameColumn } = useBoardColumn()
+  const { addCard } = useBoardCard()
 
   const boardCards = computed(() => props.columnContent.cards)
 </script>
@@ -59,7 +62,8 @@
     &__header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
+      gap: 2em;
     }
 
     &__cards {

@@ -38,9 +38,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useProjectStore } from '@stores/homeStore'
+  import { useDeletePrompt } from '@composables/usePromptWindow'
   import { useBoardStore } from '@stores/boardStore'
-  import { useDeletePrompt } from '@composables/usePrompt'
+  import { useProjectStore } from '@stores/projectStore'
   import type { BoardSettingType } from '@flowfox/shared'
 
   const projectStore = useProjectStore()
@@ -67,9 +67,11 @@
   }
 
   const onDeleteBoard = () => {
+    if (!boardStore.activeBoard) return
+
     open(
       `Are you sure you want to delete the board "${boardStore.activeBoard?.name}"?`,
-      () => boardStore.deleteBoard(boardStore.activeBoard?.id!),
+      () => boardStore.deleteBoard(boardStore.activeBoard!.id),
       {
         name: 'project',
         params: { projectId: String(projectStore.activeProject?.id) },
@@ -88,7 +90,8 @@
       margin-bottom: 2em;
 
       &-headline {
-        @include fontMixin(map-get($font-size, xl));
+        @include fontMixin(map.get($font-size, xl));
+
         width: 100%;
         cursor: text;
       }
@@ -107,9 +110,10 @@
     }
 
     &__label {
-      @include fontMixin(map-get($font-size, md));
-      font-weight: bold;
+      @include fontMixin(map.get($font-size, md));
+
       margin-bottom: 0.5em;
+      font-weight: bold;
     }
 
     &__checkbox {

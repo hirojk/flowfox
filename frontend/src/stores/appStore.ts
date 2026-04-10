@@ -5,12 +5,8 @@ export const useAppStore = defineStore('app', {
   state: () => ({
     isSidebarOpen: false as boolean,
     currentEditingId: null as number | null,
-  }),
-})
 
-export const useModalStore = defineStore('modal', {
-  state: () => ({
-    isOpen: false as boolean,
-    currentWindow: null as ModalWindowType | null,
+    isModalOpen: false as boolean,
+    modalContent: null as ModalWindowType | null,
   }),
 })

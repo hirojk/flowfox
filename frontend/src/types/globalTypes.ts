@@ -1,4 +1,4 @@
-import { type PriorityName } from '@flowfox/shared'
+import { type PriorityType } from '@flowfox/shared'
 import { MODAL_WINDOWS } from '@constants/windows'
 
 export interface IconType {
@@ -7,7 +7,7 @@ export interface IconType {
 }
 
 export interface PriorityIconType extends IconType {
-  name: PriorityName
+  name: PriorityType
 }
 
 export type ModalWindowType = (typeof MODAL_WINDOWS)[number]

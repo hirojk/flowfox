@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
-  import { useInitials } from '@composables/useInitials'
 
   const appStore = useAppStore()
 
@@ -34,50 +34,62 @@
 
 <style lang="scss" scoped>
   .sideBar-item {
-    --box-bg: transparent;
-    --box-color: #{$ff-black};
-
     &--project {
       --box-bg: #{$ff-primary};
       --box-color: #{$ff-white};
+      --hover-bg: #{$ff-secondary};
+      --hover-color: #{$ff-white};
     }
 
     &--component {
       --box-bg: #{$ff-tertiary};
       --box-color: #{$ff-black};
+      --hover-bg: #{rgba($ff-primary, 0.5)};
+      --hover-color: #{$ff-black};
     }
 
     &--new {
       --box-bg: #{$ff-quaternary};
       --box-color: #{$ff-grey};
+      --hover-bg: #{$ff-grey};
+      --hover-color: #{$ff-white};
+    }
+
+    &--nav {
+      --box-bg: transparent;
+      --box-color: #{$ff-black};
+      --hover-bg: #{$ff-quaternary};
+      --hover-color: #{$ff-black};
     }
 
     display: flex;
     align-items: center;
-    font-size: nth(map-get($font-size, md), 1);
     padding: 0 !important;
     color: $ff-black;
+    font-size: list.nth(map.get($font-size, md), 1);
 
     &__icon {
       display: flex;
+      flex-shrink: 0;
       justify-content: center;
       align-items: center;
-      flex-shrink: 0;
       width: var(--sidebar-mini-width);
       height: auto;
       aspect-ratio: 1 / 0.7;
     }
 
     &__box {
+      @include simpleAnimation;
+
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       width: calc(var(--sidebar-mini-width) - var(--sidebar-padding));
       height: auto;
       aspect-ratio: 1;
       border-radius: 0.5em;
-      color: var(--box-color);
       background-color: var(--box-bg);
+      color: var(--box-color);
     }
 
     &__label {
@@ -88,6 +100,15 @@
 
     :deep(.q-focus-helper) {
       display: none;
+    }
+
+    &:hover {
+      .sideBar-item {
+        &__box {
+          background-color: var(--hover-bg);
+          color: var(--hover-color);
+        }
+      }
     }
   }
 </style>

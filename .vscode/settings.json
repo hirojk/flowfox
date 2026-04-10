@@ -7,7 +7,9 @@
     ".gitignore": ".gitattributes, .gitmodules",
     ".eslintrc*": ".eslintignore",
     ".prettierrc*": ".prettierignore",
-    "vite.config.*": "vitest.config.*, cypress.config.*, playwright.config.*"
+    ".stylelintrc*": ".stylelintignore",
+    "vite.config.*": "vitest.config.*, cypress.config.*, playwright.config.*",
+    "README.md": "CHANGELOG.md, CONTRIBUTING.md, LICENSE, CODE_OF_CONDUCT.md"
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"

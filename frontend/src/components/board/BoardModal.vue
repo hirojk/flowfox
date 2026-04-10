@@ -31,7 +31,7 @@
           PRIORITY_LIST.map((p) => ({
             name: p.name,
             icon: p.icon,
-            action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityName }),
+            action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
       />
@@ -94,16 +94,17 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useBoardStore } from '@stores/boardStore.ts'
-  import { PRIORITY_LIST } from '@constants/priority.ts'
-  import { removeCard, updateCard } from '@services/boardCardService.ts'
-  import { getIcon } from '@services/helpers.ts'
-  import type { BoardCardType, BoardColumnType, PriorityName } from '@flowfox/shared'
+  import { PRIORITY_LIST } from '@constants/priority'
+  import { useBoardCard } from '@composables/useBoard'
+  import { getIcon } from '@services/helpers'
+  import { useBoardStore } from '@stores/boardStore'
+  import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
   import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
   // import DatePicker from '@components/fields/DatePicker.vue'
 
+  const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()
 
   const modalSettings = computed(() => {
@@ -130,12 +131,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 0.5em;
+      gap: 2em;
       margin-bottom: 2em;
 
       &-headline {
-        @include fontMixin(map-get($font-size, xl));
+        @include fontMixin(map.get($font-size, xl));
+
         width: 100%;
+        font-weight: normal;
         cursor: text;
       }
     }
@@ -159,9 +162,11 @@
     }
 
     &__label {
-      @include fontMixin(map-get($font-size, md));
-      font-weight: bold;
+      @include fontMixin(map.get($font-size, md));
+
       margin-bottom: 0.5em;
+      padding: 0.2em;
+      font-weight: bold;
     }
 
     &__description {
@@ -177,8 +182,8 @@
 
     &__tags {
       display: flex;
-      gap: 0.5em;
       flex-wrap: wrap;
+      gap: 0.5em;
     }
 
     &__settings {
@@ -194,11 +199,11 @@
 
       &--copy,
       &--delete {
-        width: 100%;
         justify-content: center;
+        width: 100%;
         border-radius: 1em;
         padding: 1em 2em;
-        background-color: rgb(199, 199, 199);
+        background-color: $ff-quaternary;
       }
     }
   }

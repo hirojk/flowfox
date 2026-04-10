@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import router from '@/router'
 import type { RouteLocationRaw } from 'vue-router'
-import { useModalStore } from '@stores/appStore'
+import { useAppStore } from '@stores/appStore'
 
-const getStores = () => ({
-  modal: useModalStore(),
+const getStores = (): { modal: ReturnType<typeof useAppStore> } => ({
+  modal: useAppStore(),
 })
 
 const isOpen = ref(false)
@@ -12,7 +12,8 @@ const message = ref('')
 const confirmEvent = ref<(() => void) | null>(null)
 const backToEvent = ref<RouteLocationRaw | null>(null)
 
-export const useDeletePrompt = () => {
+// prettier-ignore
+export const useDeletePrompt = (): { isOpen: typeof isOpen; message: typeof message; open: (messageText: string, apiRequest: () => Promise<void>, backRoute: RouteLocationRaw) => void; confirm: () => Promise<void>; close: () => void } => {
   const { modal } = getStores()
 
   const open = (messageText: string, apiRequest: () => Promise<void>, backRoute: RouteLocationRaw) => {
@@ -25,7 +26,7 @@ export const useDeletePrompt = () => {
   const confirm = async () => {
     await confirmEvent.value?.()
     isOpen.value = false
-    modal.isOpen = false
+    modal.isModalOpen = false
     if (backToEvent.value) {
       router.push(backToEvent.value)
     }

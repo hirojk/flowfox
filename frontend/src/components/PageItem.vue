@@ -1,13 +1,13 @@
 <template>
   <component
-    :class="`page-item page-item--${props.buttonStyle}`"
     :is="props.route && !isEditing ? RouterLink : 'button'"
+    :class="`page-item page-item--${props.buttonStyle}`"
     :to="props.route && !isEditing ? props.route : undefined"
-    @click="props.action"
     :style="{ '--sign-size': signSize + 'em' }"
+    @click="props.action"
   >
     <div class="page-item__sign">
-      <IconSvg v-if="props.icon" class="page-item__icon" :id="props.icon" :size="`${signSize / 2}em`" />
+      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
       <strong v-else class="page-item__initials">{{ useInitials(props.label) }}</strong>
     </div>
     <input
@@ -27,8 +27,8 @@
 <script setup lang="ts">
   import { computed, ref, watch, nextTick } from 'vue'
   import { RouterLink } from 'vue-router'
+  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
-  import { useInitials } from '@composables/useInitials'
 
   const appStore = useAppStore()
   const inputRef = ref<HTMLInputElement | null>(null)
@@ -76,17 +76,43 @@
 
 <style lang="scss" scoped>
   .page-item {
-    --sign-bg: #{$ff-primary};
-    --sign-color: #{$ff-white};
-    --label-color: currentColor;
+    &--project {
+      --sign-bg: #{$ff-primary};
+      --sign-color: #{$ff-white};
+      --label-color: #{$ff-black};
+      --hover-bg: #{$ff-secondary};
+      --hover-color: #{$ff-white};
+    }
+
+    &--component {
+      --sign-bg: #{rgba($ff-primary, 0.4)};
+      --sign-color: #{$ff-black};
+      --label-color: #{$ff-black};
+      --hover-bg: #{rgba($ff-primary, 0.75)};
+      --hover-color: #{$ff-black};
+    }
+
+    &--new {
+      --sign-bg: #{rgba($ff-grey, 0.2)};
+      --sign-color: #{$ff-grey};
+      --label-color: #{$ff-grey};
+      --hover-bg: #{rgba($ff-grey, 0.4)};
+      --hover-color: #{$ff-black};
+    }
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
 
+    > * {
+      @include simpleAnimation;
+    }
+
     &__initials {
-      @include fontMixin(map-get($font-size, xl));
+      @include fontMixin(map.get($font-size, xl));
+
+      font-weight: normal;
     }
 
     &__sign {
@@ -98,8 +124,8 @@
       height: auto;
       aspect-ratio: 1 / 1;
       border-radius: 1em;
-      color: var(--sign-color);
       background-color: var(--sign-bg);
+      color: var(--sign-color);
     }
 
     &__label {
@@ -107,26 +133,25 @@
       text-align: center;
 
       &--editing {
-        color: var(--label-color);
         background-color: transparent;
+        color: var(--label-color);
       }
 
       &--normal {
-        @include fontMixin(map-get($font-size, md));
+        @include fontMixin(map.get($font-size, md));
+
         color: var(--label-color);
       }
     }
 
-    &--component {
-      --sign-bg: #{$ff-tertiary};
-      --sign-color: #{$ff-black};
-      --label-color: #{$ff-white};
-    }
-
-    &--new {
-      --sign-bg: #{$ff-quaternary};
-      --sign-color: #{$ff-grey};
-      --label-color: #{$ff-grey};
+    &:hover,
+    &:active {
+      .page-item {
+        &__sign {
+          background-color: var(--hover-bg);
+          color: var(--hover-color);
+        }
+      }
     }
   }
 </style>

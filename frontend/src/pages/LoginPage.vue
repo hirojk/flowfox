@@ -6,11 +6,11 @@
       <form class="login-form__form" @submit.prevent="handleLogin">
         <div class="login-form__form-group">
           <label class="login-form__form-label" for="login-username">Username</label>
-          <input class="login-form__form-input" type="text" id="login-username" v-model="username" required />
+          <input id="login-username" v-model="username" class="login-form__form-input" type="text" required />
         </div>
         <div class="login-form__form-group">
           <label class="login-form__form-label" for="login-password">Password</label>
-          <input class="login-form__form-input" type="password" id="login-password" v-model="password" required />
+          <input id="login-password" v-model="password" class="login-form__form-input" type="password" required />
         </div>
         <button class="login-form__form-button button button--primary" type="submit">Login</button>
       </form>
@@ -80,9 +80,9 @@
         }
 
         &-input {
-          padding: 0.5em;
           border: 1px solid $ff-grey;
           border-radius: 0.5em;
+          padding: 0.5em;
         }
 
         &-button {

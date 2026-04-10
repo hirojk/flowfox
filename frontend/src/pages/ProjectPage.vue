@@ -1,6 +1,6 @@
 <template>
   <ModalWindow>
-    <ProjectSetting v-if="modalStore.currentWindow === 'project-setting'" />
+    <ProjectSetting v-if="appStore.modalContent === 'project-setting'" />
   </ModalWindow>
 
   <q-page class="page--project" v-bind="$attrs">
@@ -15,7 +15,7 @@
           "
         />
       </div>
-      <button class="button button--tertiary" @click="openSettingsModal('project-setting')">Setting</button>
+      <button class="button button--primary" @click="openSettingsModal('project-setting')">Setting</button>
     </header>
     <section class="page__content">
       <div class="components">
@@ -23,8 +23,8 @@
         <ul class="components__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
-              buttonStyle="component"
               :id="component.id"
+              buttonStyle="component"
               :icon="`icon-${component.type}`"
               :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"
@@ -43,19 +43,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useAppStore } from '@stores/appStore'
-  import { useModalStore } from '@stores/appStore'
-  import { useProjectStore } from '@stores/homeStore'
-  import { useBoardStore } from '@stores/boardStore'
-
-  import ProjectSetting from '@components/project/ProjectSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
+  import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
+  import { useAppStore } from '@stores/appStore'
+  import { useProjectStore } from '@stores/projectStore'
+  import { useBoardStore } from '@stores/boardStore'
 
   const appStore = useAppStore()
-  const modalStore = useModalStore()
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
 
@@ -69,11 +66,11 @@
 
 <style lang="scss" scoped>
   .page--project {
-    background-color: $ff-secondary;
+    background-color: $ff-tertiary;
 
     .page {
       &__headline {
-        color: $ff-white;
+        color: $ff-primary;
       }
     }
 
@@ -83,16 +80,13 @@
       gap: 1.5em;
 
       &__title {
-        color: $ff-white;
+        padding: 0.2em;
+        color: $ff-black;
       }
 
       &__list {
         display: flex;
         gap: 2em;
-      }
-
-      .page-item--new {
-        --label-color: #{$ff-white};
       }
     }
   }
