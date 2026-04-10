@@ -1,5 +1,22 @@
 import { z } from 'zod'
-import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority'
+import { PRIORITY_VALUES, DEFAULT_PRIORITY } from '../constants/priority.js'
+
+export const BoardSettingSchema = z.object({
+  cards: z
+    .object({
+      priority: z.boolean(),
+      description: z.boolean(),
+      checklist: z.boolean(),
+    })
+    .default({ priority: true, description: false, checklist: false }),
+  modal: z
+    .object({
+      priority: z.boolean(),
+      description: z.boolean(),
+      checklist: z.boolean(),
+    })
+    .default({ priority: true, description: true, checklist: true }),
+})
 
 export const CheckboxItemSchema = z.object({
   isChecked: z.boolean().default(false),
@@ -13,9 +30,9 @@ export const BoardTagSchema = z.object({
 
 export const BoardCardSchema = z.object({
   id: z.number(),
-  taskName: z.string(),
+  name: z.string().default('New Card'),
   priority: z.enum(PRIORITY_VALUES).default(DEFAULT_PRIORITY),
-  description: z.string().default(''),
+  description: z.string().default('No Description'),
   checklist: z.array(CheckboxItemSchema).default([]),
   startDate: z.coerce.date(),
   deadline: z.coerce.date(),
@@ -24,18 +41,21 @@ export const BoardCardSchema = z.object({
 
 export const BoardColumnSchema = z.object({
   id: z.number(),
-  columnName: z.string(),
+  name: z.string().default('New Column'),
   cards: z.array(BoardCardSchema).default([]),
 })
 
 export const BoardSchema = z.object({
   id: z.number(),
   type: z.literal('board').default('board'),
-  boardName: z.string(),
-  creatorId: z.string(),
+  name: z.string().default('New Board'),
+  creatorId: z.number(),
+  members: z.array(z.number()).default([]),
   columns: z.array(BoardColumnSchema).default([]),
+  settings: BoardSettingSchema.default(() => BoardSettingSchema.parse({})),
 })
 
+export type BoardSettingType = z.infer<typeof BoardSettingSchema>
 export type CheckboxItemType = z.infer<typeof CheckboxItemSchema>
 export type BoardTagType = z.infer<typeof BoardTagSchema>
 export type BoardCardType = z.infer<typeof BoardCardSchema>

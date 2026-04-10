@@ -1,37 +1,51 @@
 <template>
-  <q-input
-    v-if="isEditing"
-    v-model="inputText"
-    :type="props.multiline ? 'textarea' : 'text'"
-    :autogrow="props.multiline"
-    dense
-    autofocus
-    borderless
+  <component
+    :is="props.htmlTag || 'p'"
+    v-bind="$attrs"
+    ref="editorRef"
+    :class="['textEditor', props.textStyle]"
+    :contenteditable="isEditing"
+    @click="startEdit"
     @blur="saveEdit"
     @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
-  />
-  <component v-else :is="props.htmlTag || 'p'" class="textEditor" @click="startEdit">
+  >
     {{ props.text }}
   </component>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, nextTick } from 'vue'
+
+  defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'div'
+    textStyle?: string
     multiline?: boolean
     text: string
     saveEvent: (newName: string) => void
   }>()
 
   const isEditing = ref(false)
-  const inputText = ref('')
+  const editorRef = ref<HTMLElement | null>(null)
 
-  const startEdit = () => {
-    inputText.value = props.text
+  const startEdit = async (event: MouseEvent) => {
+    if (isEditing.value) return
+
     isEditing.value = true
+    await nextTick()
+
+    const sel = window.getSelection()
+    sel?.removeAllRanges()
+
+    const position = document.caretPositionFromPoint(event.clientX, event.clientY)
+    if (position) {
+      const range = document.createRange()
+      range.setStart(position.offsetNode, position.offset)
+      range.collapse(true)
+      sel?.addRange(range)
+    }
   }
 
   const handleEnter = (event: KeyboardEvent) => {
@@ -47,19 +61,44 @@
   }
 
   const saveEdit = () => {
-    if (inputText.value.trim()) {
-      props.saveEvent(inputText.value.trim())
-    }
+    const newText = editorRef.value?.innerText.trim()
+    if (newText) props.saveEvent(newText)
     isEditing.value = false
   }
 
   const cancelEdit = () => {
     isEditing.value = false
+    if (editorRef.value) editorRef.value.innerText = props.text
   }
 </script>
 
 <style lang="scss" scoped>
   .textEditor {
+    position: relative;
+    width: 100%;
+    padding: 0.2em;
     white-space: pre-wrap;
+    cursor: text;
+
+    &:active {
+      border-radius: 0.25em;
+      background-color: rgba($ff-grey, 0.1);
+    }
+
+    &[contenteditable='true'] {
+      position: relative;
+      isolation: isolate;
+      outline: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 2px solid currentcolor;
+        border-radius: 0.25em;
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
   }
 </style>

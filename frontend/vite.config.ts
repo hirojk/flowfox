@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -8,36 +7,56 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls },
-    }),
-    vueDevTools(),
-    quasar(),
-  ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
-          @use "@/styles/variables.scss" as *;
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, path.resolve(__dirname, '..'), '')
+
+  return {
+    plugins: [
+      vue({
+        template: { transformAssetUrls },
+      }),
+      vueDevTools(),
+      quasar(),
+    ],
+    build: {
+      outDir: './dist',
+      emptyOutDir: true,
+    },
+    define: {
+      'import.meta.env.STAGE_PASS': JSON.stringify(env.STAGE_PASS),
+      'import.meta.env.API_URL': JSON.stringify(env.API_URL),
+      'import.meta.env.APP_ENV': JSON.stringify(env.APP_ENV),
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+          @use 'sass:map';
+          @use 'sass:list';
+          @use "@/styles/animations.scss" as *;
           @use "@/styles/mixin.scss" as *;
+          @use "@/styles/variables.scss" as *;
         `,
+        },
       },
     },
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@composables': path.resolve(__dirname, 'src/composables'),
-      '@constants': path.resolve(__dirname, 'src/constants'),
-      '@layouts': path.resolve(__dirname, 'src/layouts'),
-      '@services': path.resolve(__dirname, 'src/services'),
-      '@stores': path.resolve(__dirname, 'src/stores'),
-      '@typeDefs': path.resolve(__dirname, 'src/types'),
-      '@views': path.resolve(__dirname, 'src/views'),
-      '@shared': fileURLToPath(new URL('../shared', import.meta.url)),
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@composables': path.resolve(__dirname, 'src/composables'),
+        '@constants': path.resolve(__dirname, 'src/constants'),
+        '@layouts': path.resolve(__dirname, 'src/layouts'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
+        '@services': path.resolve(__dirname, 'src/services'),
+        '@stores': path.resolve(__dirname, 'src/stores'),
+        '@typeDefs': path.resolve(__dirname, 'src/types'),
+      },
     },
-  },
+    test: {
+      environment: 'jsdom',
+      exclude: ['**/node_modules/**', '**/dist/**', '**/e2e/**'],
+      root: fileURLToPath(new URL('./', import.meta.url)),
+    },
+  }
 })

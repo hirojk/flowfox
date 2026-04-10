@@ -1,24 +1,63 @@
-@import './variables.scss';
-@import './mixin.scss';
+@import './animations';
+@import './variables';
+@import './mixin';
 
 * {
   box-sizing: border-box !important;
 }
 
-h1 {
-  @include fontMixin(map-get($font-size, 2xl));
+.page {
+  width: 100%;
+  height: 100dvh;
+  padding: $page-padding-y $page-padding-x;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5em;
+    margin-bottom: 4em;
+  }
+
+  &__headerContent {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+    max-width: 80em;
+  }
+
+  &__headerIcon,
+  &__headline {
+    color: $ff-primary;
+  }
 }
 
-h2 {
-  @include fontMixin(map-get($font-size, xl));
-}
-
-h3 {
-  @include fontMixin(map-get($font-size, lg));
-}
-
+h1,
+h2,
+h3,
 p {
-  @include fontMixin(map-get($font-size, md));
+  all: unset;
+}
+
+h1,
+.h1 {
+  @include fontMixin(map.get($font-size, 2xl));
+}
+
+h2,
+.h2 {
+  @include fontMixin(map.get($font-size, xl));
+}
+
+h3,
+.h3 {
+  @include fontMixin(map.get($font-size, lg));
+}
+
+p,
+.p {
+  @include fontMixin(map.get($font-size, md));
 }
 
 ul,
@@ -27,24 +66,85 @@ li {
   all: unset;
 }
 
+a,
 button {
   all: unset;
   pointer-events: all;
   cursor: pointer;
 }
 
-.page {
-  background-color: $terinary;
-}
+.button {
+  @include simpleAnimation;
 
-.headline {
-  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  border-radius: 0.75em;
+  padding: 1em 4em;
+  font-size: list.nth(map.get($font-size, md), 1);
+  text-align: center;
+
+  &--primary {
+    background-color: $ff-primary;
+    color: $ff-white;
+
+    &:hover,
+    &:active {
+      background-color: $ff-secondary;
+    }
+  }
+
+  &--secondary {
+    background-color: $ff-grey;
+    color: $ff-white;
+
+    &:hover,
+    &:active {
+      background-color: $ff-black;
+    }
+  }
+
+  &--tertiary {
+    background-color: $ff-white;
+    color: $ff-black;
+
+    &:hover,
+    &:active {
+      background-color: $ff-grey;
+      color: $ff-white;
+    }
+  }
 }
 
 .tag {
   display: inline-block;
   border-radius: 0.4em;
   padding: 0.2em 0.6em;
-  font-size: nth(map-get($font-size, sm), 1);
-  background-color: $quaternary;
+  font-size: list.nth(map.get($font-size, sm), 1);
+}
+
+.grab-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed $ff-primary;
+  border-radius: 1em;
+  color: $ff-primary;
+  font-size: 0.875rem;
+
+  &::before {
+    content: 'Place here';
+  }
+}
+
+.grab-ghost {
+  position: absolute;
+
+  // opacity: 0.7;
+  pointer-events: none;
+  z-index: 3003;
+  animation: pulse 0.2s ease-in-out 3;
 }

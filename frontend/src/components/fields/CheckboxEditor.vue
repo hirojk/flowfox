@@ -1,20 +1,29 @@
 <template>
   <ul class="checkboxEditor">
-    <li class="checkboxEditor__item" v-for="item in props.checkboxes" :key="item.label">
-      <q-checkbox v-model="item.isChecked" dense @click="saveEdit(item)" />
-      <TextEditor :text="item.label" :saveEvent="(newLabel) => saveEdit(item, newLabel)" />
+    <span v-if="props.checkboxes.length === 0" class="checkboxEditor__message">No Subtask submitted</span>
+    <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
+      <div class="checkboxEditor__checkbox">
+        <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
+        <TextEditor
+          :class="['checkboxEditor__label', { 'checkboxEditor__label--checked': item.isChecked }]"
+          :text="item.label"
+          :saveEvent="(newLabel) => saveEdit(item, newLabel)"
+        />
+      </div>
+      <button class="checkboxEditor__delete" @click="deleteCheckbox(item)">
+        <IconSvg id="icon-cancel" />
+      </button>
     </li>
   </ul>
-  <button class="checkboxEditor__button" @click="addCheckbox()">
+  <button class="checkboxEditor__button button button--secondary" @click="addCheckbox()">
     <IconSvg id="icon-plus" />
     Add Subtask
   </button>
 </template>
 
 <script setup lang="ts">
-  import type { CheckboxItemType } from '@shared/schemas/boardSchema'
-
   import TextEditor from '@components/fields/TextEditor.vue'
+  import type { CheckboxItemType } from '@flowfox/shared'
 
   const props = defineProps<{
     class?: string
@@ -28,6 +37,7 @@
         if (checkbox === item) {
           return {
             ...checkbox,
+            isChecked: newLabel ? checkbox.isChecked : !checkbox.isChecked,
             label: newLabel ?? checkbox.label,
           }
         }
@@ -45,6 +55,10 @@
       },
     ])
   }
+
+  const deleteCheckbox = (item: CheckboxItemType) => {
+    props.saveEvent(props.checkboxes.filter((checkbox) => checkbox !== item))
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -54,21 +68,37 @@
     gap: 0.5em;
     margin-bottom: 1em;
 
+    &__message {
+      padding: 0.2em;
+      color: $ff-grey;
+    }
+
     &__item {
       display: flex;
+      align-items: center;
+      gap: 3em;
+    }
+
+    &__checkbox {
+      display: flex;
+      align-items: center;
       gap: 1em;
       width: 100%;
       padding: 0.5em 0;
     }
 
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 1em;
-      width: fit-content;
-      padding: 0.5em 2em 0.5em 1em;
-      color: $white;
-      background-color: $grey;
+    &__box {
+      width: 2em;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      accent-color: $ff-grey;
+      cursor: pointer;
+    }
+
+    &__label {
+      &--checked {
+        text-decoration: line-through;
+      }
     }
   }
 </style>

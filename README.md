@@ -1,70 +1,117 @@
-# flowfox
+# Flowfox App (0.1.0)
 
-This template should help get you started developing with Vue 3 in Vite.
+Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
 
-## Recommended IDE Setup
+Currently, the app includes a **Board** component, inspired by a Trello-style Kanban board, for organizing tasks. Additional components and features are planned for future releases.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+⚠️ The application is currently optimized for desktop and tablet devices.
 
-## Recommended Browser Setup
+## Table of Contents
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Deployment](#deployment)
 
-## Type Support for `.vue` Imports in TS
+## Tech Stack
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+This project is structured as a monorepo using [Turborepo](https://turbo.build/) with [pnpm](https://pnpm.io/) workspaces.
 
-## Customize configuration
+### Frontend
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Framework:** Vue.js 3 (TypeScript)
+- **State Management:** Pinia
+- **UI Framework:** Quasar
+- **HTTP Client:** Axios
+- **Rendering:** Server-Side Rendering (SSR)
+- **Build Tool:** Vite
+- **Code Quality:** ESLint, Prettier, Stylelint
+- **Tests:** Not implemented yet
 
-## Project Setup
+### Backend
 
-```sh
-npm install
-```
+- **Framework:** Express.js (TypeScript)
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Tests:** Not implemented yet
 
-### Compile and Hot-Reload for Development
+## Getting Started
 
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+Clone the repository and install dependencies:
 
 ```sh
-npm run test:unit
+pnpm install
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+Start the development server:
 
 ```sh
-npm run test:e2e:dev
+pnpm dev
 ```
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+The application should now be running locally.
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+⚠️ For access to a test account and login credentials, please contact the author.
+
+## Project Structure
+
+The Project files are structured like this:
 
 ```sh
-npm run build
-npm run test:e2e
+├── backend                         # Backend (Node.js / API layer)
+│   ├── config                      # Configuration files (environment, database, etc.)
+│   ├── controllers                 # Request handlers and business logic
+│   ├── middleware                  # Express middleware (auth, logging, etc.)
+│   ├── models                      # Database models / schemas
+│   ├── routes                      # API route definitions
+│   ├── types                       # TypeScript type definitions
+│   ├── utils                       # Utility/helper functions
+│   └── server.ts                   # Application entry point
+│
+├── frontend                        # Frontend (Vue.js application)
+│   ├── public                      # Static assets
+│   ├── src                         # Main source code
+│   │   ├── components              # Reusable UI components
+│   │   ├── composables             # Vue composables (logic reuse)
+│   │   ├── constants               # Frontend constants
+│   │   ├── layouts                 # Layout components
+│   │   ├── pages                   # Application pages/views
+│   │   ├── router                  # Routing configuration
+│   │   ├── services                # API calls and external services
+│   │   ├── stores                  # State management (e.g. Pinia)
+│   │   ├── styles                  # Global and component styles
+│   │   ├── types                   # TypeScript type definitions
+│   │   ├── App.vue                 # Root Vue component
+│   │   ├── global.components.ts    # Global component registration
+│   │   └── main.ts                 # Frontend entry point
+│   └── index.html                  # Main HTML file
+│
+├── shared                          # Shared code between frontend & backend
+│   ├── constants                   # Shared constants
+│   ├── schemas                     # Shared validation schemas
+│   ├── utils                       # Shared utility functions
+│   └── index.ts                    # Shared module entry point
+│
+├── package.json                    # Project dependencies and scripts
+└── turbo.json                      # Turborepo configuration
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Deployment
 
-```sh
-npm run lint
-```
+The application is currently deployed using [Vercel](https://vercel.com), a simple and convenient deployment and hosting platform. This setup is temporary and may change in the future as the project grows or requires a different deployment solution.
+
+Each merge into the `main` or `dev` branch triggers an automatic deployment.
+
+- **Production (`main`):** https://flowfox.vercel.app/
+- **Staging (`dev`):** https://stagingflowfox.vercel.app/
+
+Once a deployment is successful, the application is live and can be accessed as a web app.
+
+## Issues and future Changes
+
+The following improvements are planned for the upcoming 0.2.0 release:
+
+- Improve the UX/UI with a more refined visual design
+- Add tests for both frontend and backend to increase stability
+
+🙏 Feedback is always welcome. If you encounter any critical issues or bugs, please report them so they can be resolved promptly.

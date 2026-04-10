@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "rootDir": "../",
-    "baseUrl": "./",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "outDir": "dist",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,14 +12,9 @@
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "@config/*": ["./config/*"],
-      "@controllers/*": ["./controllers/*"],
-      "@models/*": ["./models/*"],
-      "@routes/*": ["./routes/*"],
-      "@utils/*": ["./utils/*"],
-      "@shared/*": ["../shared/*"]
+      "@flowfox/shared": ["../shared/dist/index.d.ts"]
     }
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "../shared"]
 }

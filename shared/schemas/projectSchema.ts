@@ -1,12 +1,12 @@
 import { z } from 'zod'
-import { BoardSchema } from './boardSchema'
+import { BoardSchema } from './boardSchema.js'
 
 export const ComponentSchema = z.discriminatedUnion('type', [BoardSchema])
 
 export const ProjectSchema = z.object({
   id: z.number(),
-  projectName: z.string(),
-  creatorId: z.string(),
+  name: z.string().default('New Project'),
+  creatorId: z.number(),
   components: z.array(ComponentSchema).default([]),
 })
 

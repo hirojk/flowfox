@@ -1,20 +1,25 @@
+import './config/env.js'
 import express from 'express'
 import cors from 'cors'
-import { connectToDatabase } from '@config/database'
-import userRoutes from '@routes/userRoutes'
-import projectRoutes from '@routes/projectRoutes'
+import { databaseMiddleware } from './config/database.js'
+import { authMiddleware } from './middleware/authMiddleware.js'
+import authRoutes from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import projectRoutes from './routes/projectRoutes.js'
 
-const app = express()
-const PORT = 5000
+import { startLocalServer } from './config/localServer.js'
+
+const app: express.Application = express()
 
 app.use(cors())
 app.use(express.json())
 
-// Use routes
-app.use('/api/users', userRoutes)
-app.use('/api/projects', projectRoutes)
+app.use(databaseMiddleware)
 
-app.listen(PORT, async () => {
-  console.log(`\nServer running on port ${PORT}`)
-  await connectToDatabase()
-})
+// Routes
+app.use('/api/auth', authRoutes)
+app.use('/api/v1/users', authMiddleware, userRoutes)
+app.use('/api/v1/projects', authMiddleware, projectRoutes)
+
+export default app
+startLocalServer(app)
