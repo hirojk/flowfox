@@ -3,7 +3,12 @@
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <h3 class="board-card__heading">{{ card.heading }}</h3>
-        <IconSvg v-if="cardSettings.priority" :id="card.priority" class="board-card__priority" size="22" />
+        <IconSvg
+          v-if="cardSettings.priority && card.priority !== 'icon-medium'"
+          :id="card.priority"
+          class="board-card__priority"
+          size="22"
+        />
       </div>
       <div
         v-if="cardSettings.description || cardSettings.checklist"
