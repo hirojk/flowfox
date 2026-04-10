@@ -23,8 +23,8 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
     },
     define: {
-      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL),
       'import.meta.env.STAGE_PASS': JSON.stringify(env.STAGE_PASS),
+      'import.meta.env.API_URL': JSON.stringify(env.API_URL),
       'import.meta.env.APP_ENV': JSON.stringify(env.APP_ENV),
     },
     css: {
