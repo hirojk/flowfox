@@ -1,6 +1,6 @@
 {
   "name": "@flowfox/frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -47,6 +47,6 @@
     "vue-tsc": "^3.2.5"
   },
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": ">=22.12.0 <25.0.0"
   }
 }
