@@ -4,7 +4,7 @@ import { adminMiddleware } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.post('/', createUser)
+router.post('/', adminMiddleware, createUser)
 router.get('/', adminMiddleware, getAllUsers)
 router.get('/:id', getUserById)
 router.delete('/:id', deleteUserById)
