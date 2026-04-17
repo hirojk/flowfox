@@ -50,8 +50,8 @@
   const isEditing = computed(() => appStore.currentEditingId === props.id)
 
   const handleConfirm = (value: string) => {
-    if (!value) return
-    emit('confirm', value)
+    if (!value) emit('cancel')
+    else emit('confirm', value)
     appStore.currentEditingId = null
   }
 

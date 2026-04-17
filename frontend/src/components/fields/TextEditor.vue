@@ -77,8 +77,9 @@
   const saveEdit = () => {
     editAction.value = 'save'
     const newText = editorRef.value?.innerText.trim()
-    if (newText) props.saveEvent(newText)
     isEditing.value = false
+    if (newText) props.saveEvent(newText)
+    else props.cancelEvent?.()
   }
 
   const cancelEdit = () => {
