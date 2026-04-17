@@ -1,8 +1,8 @@
 <template>
   <component
-    :is="props.route && !isEditing ? RouterLink : 'button'"
+    :is="props.route ? RouterLink : 'button'"
     :class="`page-item page-item--${props.buttonStyle}`"
-    :to="props.route && !isEditing ? props.route : undefined"
+    :to="props.route ? props.route : undefined"
     :style="{ '--sign-size': signSize + 'em' }"
     @click="props.action"
   >
@@ -10,29 +10,25 @@
       <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
       <strong v-else class="page-item__initials">{{ useInitials(props.label) }}</strong>
     </div>
-    <input
-      v-if="isEditing"
-      ref="inputRef"
-      class="page-item__label page-item__label--editing"
-      :value="props.label"
-      @click.stop
-      @keydown.enter="handleConfirm"
-      @keydown.esc="handleCancel"
-      @blur="handleCancel"
+    <TextEditor
+      class="page-item__label"
+      htmlTag="span"
+      :text="props.label"
+      :editMode="isEditing"
+      :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
     />
-    <span v-else class="page-item__label page-item__label--normal">{{ props.label }}</span>
   </component>
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch, nextTick } from 'vue'
+  import { computed } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
 
+  import TextEditor from '@components/fields/TextEditor.vue'
+
   const appStore = useAppStore()
-  const inputRef = ref<HTMLInputElement | null>(null)
-  const isConfirming = ref(false)
 
   const signSize = 6
 
@@ -52,26 +48,11 @@
 
   const isEditing = computed(() => appStore.currentEditingId === props.id)
 
-  const handleConfirm = (e: KeyboardEvent) => {
-    const value = (e.target as HTMLInputElement).value.trim()
+  const handleConfirm = (value: string) => {
     if (!value) return
-    isConfirming.value = true
     emit('confirm', value)
     appStore.currentEditingId = null
   }
-
-  const handleCancel = () => {
-    if (isConfirming.value) return
-    emit('cancel')
-    appStore.currentEditingId = null
-  }
-
-  watch(isEditing, async (value) => {
-    if (value) {
-      await nextTick()
-      inputRef.value?.focus()
-    }
-  })
 </script>
 
 <style lang="scss" scoped>

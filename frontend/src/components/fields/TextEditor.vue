@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, nextTick } from 'vue'
+  import { ref, nextTick, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
 
@@ -24,28 +24,40 @@
     textStyle?: string
     multiline?: boolean
     text: string
+    editMode?: boolean
     saveEvent: (newName: string) => void
   }>()
 
-  const isEditing = ref(false)
+  const isEditing = ref<boolean>(props.editMode ?? false)
   const editorRef = ref<HTMLElement | null>(null)
+
+  const setCursor = async (event?: MouseEvent) => {
+    await nextTick()
+    const element = editorRef.value
+    if (!element) return
+
+    element.focus()
+
+    const inputRange = document.createRange()
+    const cursorPosition = event && document.caretPositionFromPoint(event.clientX, event.clientY)
+
+    if (cursorPosition) {
+      inputRange.setStart(cursorPosition.offsetNode, cursorPosition.offset)
+      inputRange.collapse(true)
+    } else {
+      inputRange.selectNodeContents(element as Node)
+      inputRange.collapse(false)
+    }
+
+    window.getSelection()?.removeAllRanges()
+    window.getSelection()?.addRange(inputRange)
+  }
 
   const startEdit = async (event: MouseEvent) => {
     if (isEditing.value) return
 
     isEditing.value = true
-    await nextTick()
-
-    const sel = window.getSelection()
-    sel?.removeAllRanges()
-
-    const position = document.caretPositionFromPoint(event.clientX, event.clientY)
-    if (position) {
-      const range = document.createRange()
-      range.setStart(position.offsetNode, position.offset)
-      range.collapse(true)
-      sel?.addRange(range)
-    }
+    await setCursor(event)
   }
 
   const handleEnter = (event: KeyboardEvent) => {
@@ -70,6 +82,17 @@
     isEditing.value = false
     if (editorRef.value) editorRef.value.innerText = props.text
   }
+
+  watch(
+    () => props.editMode,
+    async (editModeState) => {
+      if (editModeState) {
+        isEditing.value = true
+        setCursor()
+      }
+    },
+    { immediate: true },
+  )
 </script>
 
 <style lang="scss" scoped>

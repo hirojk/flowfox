@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "run-p type-check \"build-only {@}\" --",
     "lint": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\"",
     "lint:fix": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\" --fix",
