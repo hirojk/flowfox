@@ -6,7 +6,7 @@
     :class="['textEditor', props.textStyle]"
     :contenteditable="isEditing"
     @click="startEdit"
-    @blur="saveEdit"
+    @blur="handleBlur"
     @keydown.enter="handleEnter"
     @keyup.esc="cancelEdit"
   >
@@ -26,10 +26,12 @@
     text: string
     editMode?: boolean
     saveEvent: (newName: string) => void
+    cancelEvent?: () => void
   }>()
 
-  const isEditing = ref<boolean>(props.editMode ?? false)
   const editorRef = ref<HTMLElement | null>(null)
+  const isEditing = ref<boolean>(props.editMode ?? false)
+  const editAction = ref<'save' | 'cancel' | null>(null)
 
   const setCursor = async (event?: MouseEvent) => {
     await nextTick()
@@ -73,14 +75,25 @@
   }
 
   const saveEdit = () => {
+    editAction.value = 'save'
     const newText = editorRef.value?.innerText.trim()
     if (newText) props.saveEvent(newText)
     isEditing.value = false
   }
 
   const cancelEdit = () => {
+    editAction.value = 'cancel'
     isEditing.value = false
     if (editorRef.value) editorRef.value.innerText = props.text
+    props.cancelEvent?.()
+  }
+
+  const handleBlur = () => {
+    if (editAction.value) {
+      editAction.value = null
+      return
+    }
+    cancelEdit()
   }
 
   watch(

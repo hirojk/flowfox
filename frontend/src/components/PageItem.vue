@@ -16,12 +16,13 @@
       :text="props.label"
       :editMode="isEditing"
       :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
+      :cancelEvent="handleCancel"
     />
   </component>
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
@@ -51,6 +52,11 @@
   const handleConfirm = (value: string) => {
     if (!value) return
     emit('confirm', value)
+    appStore.currentEditingId = null
+  }
+
+  const handleCancel = () => {
+    emit('cancel')
     appStore.currentEditingId = null
   }
 </script>
