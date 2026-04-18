@@ -1,141 +1,106 @@
 <template>
-  <component
-    :is="props.htmlTag || 'p'"
-    v-bind="$attrs"
-    ref="editorRef"
-    :class="['textEditor', props.textStyle]"
-    :contenteditable="isEditing"
+  <input
+    ref="inputRef"
+    v-bind="{ ...$attrs, ...ariaAttrs }"
+    :class="['textEditor', currentTag.style]"
+    :readonly="!isEditing"
+    :name="localText"
+    :value="localText"
     @click="startEdit"
+    @touchend.prevent="startEdit"
     @blur="handleBlur"
-    @keydown.enter="handleEnter"
-    @keyup.esc="cancelEdit"
-  >
-    {{ props.text }}
-  </component>
+    @keydown.enter.prevent="handleEnter"
+    @keydown.esc="cancelEdit"
+  />
 </template>
 
 <script setup lang="ts">
-  import { ref, nextTick, watch } from 'vue'
+  import { ref, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
-    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'div'
-    textStyle?: string
-    multiline?: boolean
+    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
     text: string
-    editMode?: boolean
     saveEvent: (newName: string) => void
     cancelEvent?: () => void
   }>()
 
-  const editorRef = ref<HTMLElement | null>(null)
-  const isEditing = ref<boolean>(props.editMode ?? false)
-  const editAction = ref<'save' | 'cancel' | null>(null)
-
-  const setCursor = async (event?: MouseEvent) => {
-    await nextTick()
-    const element = editorRef.value
-    if (!element) return
-
-    element.focus()
-
-    const inputRange = document.createRange()
-    const cursorPosition = event && document.caretPositionFromPoint(event.clientX, event.clientY)
-
-    if (cursorPosition) {
-      inputRange.setStart(cursorPosition.offsetNode, cursorPosition.offset)
-      inputRange.collapse(true)
-    } else {
-      inputRange.selectNodeContents(element as Node)
-      inputRange.collapse(false)
-    }
-
-    window.getSelection()?.removeAllRanges()
-    window.getSelection()?.addRange(inputRange)
+  const htmlTagMap: Record<string, { style: string; level?: number }> = {
+    h1: { style: 'h1', level: 1 },
+    h2: { style: 'h2', level: 2 },
+    h3: { style: 'h3', level: 3 },
+    h4: { style: 'h4', level: 4 },
+    h5: { style: 'h5', level: 5 },
+    h6: { style: 'h6', level: 6 },
+    p: { style: 'p' },
+    strong: { style: 'strong' },
+    span: { style: 'span' },
   }
 
-  const startEdit = async (event: MouseEvent) => {
+  const inputRef = ref<HTMLInputElement | null>(null)
+  const currentTag = htmlTagMap[props.htmlTag || 'span'] ?? { style: 'span' }
+  const isEditing = ref(false)
+  const localText = ref(props.text)
+
+  const ariaAttrs: Record<string, unknown> = {}
+  if (currentTag.level) {
+    ariaAttrs.role = 'heading'
+    ariaAttrs['aria-level'] = currentTag.level
+    ariaAttrs['aria-label'] = props.text
+  }
+
+  const startEdit = () => {
     if (isEditing.value) return
-
     isEditing.value = true
-    await setCursor(event)
-  }
-
-  const handleEnter = (event: KeyboardEvent) => {
-    if (props.multiline) {
-      if (event.ctrlKey || event.metaKey) {
-        event.preventDefault()
-        saveEdit()
-      }
-    } else {
-      event.preventDefault()
-      saveEdit()
-    }
-  }
-
-  const saveEdit = () => {
-    editAction.value = 'save'
-    const newText = editorRef.value?.innerText.trim()
-    isEditing.value = false
-    if (newText) props.saveEvent(newText)
-    else props.cancelEvent?.()
+    inputRef.value?.removeAttribute('readonly')
+    inputRef.value?.focus()
   }
 
   const cancelEdit = () => {
-    editAction.value = 'cancel'
-    isEditing.value = false
-    if (editorRef.value) editorRef.value.innerText = props.text
-    props.cancelEvent?.()
+    if (inputRef.value) inputRef.value.value = props.text
+    submit()
   }
 
-  const handleBlur = () => {
-    if (editAction.value) {
-      editAction.value = null
-      return
+  const submit = (value?: string) => {
+    isEditing.value = false
+    if (value) {
+      localText.value = value
+      props.saveEvent(value)
+    } else {
+      props.cancelEvent?.()
     }
-    cancelEdit()
+  }
+
+  const handleEnter = () => {
+    inputRef.value?.blur()
+    submit(inputRef.value?.value.trim())
+  }
+  const handleBlur = () => {
+    inputRef.value?.blur()
+    submit(inputRef.value?.value.trim())
   }
 
   watch(
-    () => props.editMode,
-    async (editModeState) => {
-      if (editModeState) {
-        isEditing.value = true
-        setCursor()
-      }
+    () => props.text,
+    (newText) => {
+      if (!isEditing.value) localText.value = newText
     },
-    { immediate: true },
   )
 </script>
 
 <style lang="scss" scoped>
   .textEditor {
-    position: relative;
     width: 100%;
-    padding: 0.2em;
-    white-space: pre-wrap;
+    border: 2px solid transparent;
+    border-radius: 0.25em;
+    padding: 0.1em;
     cursor: text;
+    pointer-events: auto;
 
-    &:active {
-      border-radius: 0.25em;
-      background-color: rgba($ff-grey, 0.1);
-    }
-
-    &[contenteditable='true'] {
-      position: relative;
-      isolation: isolate;
-      outline: none;
-
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border: 2px solid currentcolor;
-        border-radius: 0.25em;
-        pointer-events: none;
-        z-index: -1;
-      }
+    &:read-write {
+      border: 2px solid currentcolor;
+      background: transparent;
     }
   }
 </style>

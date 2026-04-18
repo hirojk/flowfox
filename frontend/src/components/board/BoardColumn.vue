@@ -1,7 +1,7 @@
 <template>
   <section class="board-column">
     <div class="board-column__header">
-      <EditableText
+      <TextEditor
         htmlTag="h2"
         textStyle="h3"
         :text="props.columnContent.name"
@@ -36,7 +36,7 @@
   import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import type { BoardColumnType } from '@flowfox/shared'
 
-  import EditableText from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/fields/TextEditor.vue'
 
   const props = defineProps<{
     columnContent: BoardColumnType

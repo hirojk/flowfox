@@ -4,8 +4,6 @@
 
 * {
   box-sizing: border-box !important;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 .page {
@@ -74,6 +72,10 @@ button {
   all: unset;
   pointer-events: all;
   cursor: pointer;
+}
+
+input {
+  all: unset;
 }
 
 .button {
