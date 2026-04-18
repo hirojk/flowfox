@@ -98,7 +98,6 @@
       }
 
       &__header {
-        gap: 2em;
         padding: 0 $page-padding-x;
       }
     }

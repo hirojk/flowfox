@@ -95,8 +95,10 @@
       padding: 0.5em 1em;
       cursor: pointer;
 
-      &:hover {
-        background: #f5f5f5;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background: #f5f5f5;
+        }
       }
     }
   }

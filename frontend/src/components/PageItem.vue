@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
@@ -131,12 +131,14 @@
       }
     }
 
-    &:hover,
-    &:active {
-      .page-item {
-        &__sign {
-          background-color: var(--hover-bg);
-          color: var(--hover-color);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover,
+      &:active {
+        .page-item {
+          &__sign {
+            background-color: var(--hover-bg);
+            color: var(--hover-color);
+          }
         }
       }
     }

@@ -4,6 +4,8 @@
 
 * {
   box-sizing: border-box !important;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .page {
@@ -15,6 +17,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2em;
     height: 5em;
     margin-bottom: 4em;
   }
@@ -89,9 +92,11 @@ button {
     background-color: $ff-primary;
     color: $ff-white;
 
-    &:hover,
-    &:active {
-      background-color: $ff-secondary;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover,
+      &:active {
+        background-color: $ff-secondary;
+      }
     }
   }
 
@@ -99,9 +104,11 @@ button {
     background-color: $ff-grey;
     color: $ff-white;
 
-    &:hover,
-    &:active {
-      background-color: $ff-black;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover,
+      &:active {
+        background-color: $ff-black;
+      }
     }
   }
 
@@ -109,10 +116,12 @@ button {
     background-color: $ff-white;
     color: $ff-black;
 
-    &:hover,
-    &:active {
-      background-color: $ff-grey;
-      color: $ff-white;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover,
+      &:active {
+        background-color: $ff-grey;
+        color: $ff-white;
+      }
     }
   }
 }

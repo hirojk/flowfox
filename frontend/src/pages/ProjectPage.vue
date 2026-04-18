@@ -48,6 +48,7 @@
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
+  import { focusAfterAsync } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
@@ -56,9 +57,11 @@
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
 
-  const handleNewComponent = async () => {
-    const newComponent = await boardStore.createNewBoard()
-    appStore.currentEditingId = newComponent.id
+  const handleNewComponent = () => {
+    focusAfterAsync(async () => {
+      const newComponent = await boardStore.createNewBoard()
+      appStore.currentEditingId = newComponent.id
+    }, '.page-item:last-child [contenteditable]')
   }
 
   defineOptions({ inheritAttrs: false })
