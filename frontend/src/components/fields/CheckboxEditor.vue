@@ -84,15 +84,7 @@
       align-items: center;
       gap: 1em;
       width: 100%;
-      padding: 0.5em 0;
-    }
-
-    &__box {
-      width: 2em;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      accent-color: $ff-grey;
-      cursor: pointer;
+      padding: 0.5em;
     }
 
     &__label {
