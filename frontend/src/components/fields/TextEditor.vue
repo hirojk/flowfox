@@ -1,8 +1,24 @@
 <template>
-  <input
+  <textarea
+    v-if="props.multiline"
     ref="inputRef"
     v-bind="{ ...$attrs, ...ariaAttrs }"
-    :class="['textEditor', currentTag.style]"
+    :class="['textEditor textEditor--textarea', currentTag.style]"
+    :readonly="!isEditing"
+    :name="localText"
+    :value="localText"
+    @click="startEdit"
+    @touchend.prevent="startEdit"
+    @blur="handleBlur"
+    @keydown.enter.exact="handleEnter"
+    @keydown.esc="cancelEdit"
+  />
+
+  <input
+    v-else
+    ref="inputRef"
+    v-bind="{ ...$attrs, ...ariaAttrs }"
+    :class="['textEditor textEditor--input', currentTag.style]"
     :readonly="!isEditing"
     :name="localText"
     :value="localText"
@@ -21,6 +37,7 @@
 
   const props = defineProps<{
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
+    multiline?: boolean
     text: string
     saveEvent: (newName: string) => void
     cancelEvent?: () => void
@@ -38,7 +55,7 @@
     span: { style: 'span' },
   }
 
-  const inputRef = ref<HTMLInputElement | null>(null)
+  const inputRef = ref<HTMLInputElement | HTMLTextAreaElement | null>(null)
   const currentTag = htmlTagMap[props.htmlTag || 'span'] ?? { style: 'span' }
   const isEditing = ref(false)
   const localText = ref(props.text)
@@ -97,6 +114,11 @@
     padding: 0.1em;
     cursor: text;
     pointer-events: auto;
+
+    &--textarea {
+      resize: none;
+      field-sizing: content;
+    }
 
     &:read-write {
       border: 2px solid currentcolor;
