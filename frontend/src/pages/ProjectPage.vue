@@ -48,7 +48,7 @@
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
-  import { focusAfterAsync } from '@/composables/useIosInteractions'
+  import { triggerInputFocus } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
@@ -58,10 +58,9 @@
   const boardStore = useBoardStore()
 
   const handleNewComponent = () => {
-    focusAfterAsync(async () => {
-      const newComponent = await boardStore.createNewBoard()
-      appStore.currentEditingId = newComponent.id
-    }, '.page-item:last-child [contenteditable]')
+    triggerInputFocus(async () => {
+      appStore.currentEditingId = (await boardStore.createNewBoard()).id
+    }, '.components__item:nth-last-child(2) input')
   }
 
   defineOptions({ inheritAttrs: false })

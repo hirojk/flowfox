@@ -1,31 +1,16 @@
 <template>
-  <textarea
-    v-if="props.multiline"
+  <component
+    :is="props.multiline ? 'textarea' : 'input'"
     ref="inputRef"
     v-bind="{ ...$attrs, ...ariaAttrs }"
-    :class="['textEditor textEditor--textarea', currentTag.style]"
+    :class="['textEditor', props.multiline ? 'textEditor--textarea' : 'textEditor--input', currentTag.style]"
     :readonly="!isEditing"
     :name="localText"
     :value="localText"
     @click="startEdit"
     @touchend.prevent="startEdit"
     @blur="handleBlur"
-    @keydown.enter.exact="handleEnter"
-    @keydown.esc="cancelEdit"
-  />
-
-  <input
-    v-else
-    ref="inputRef"
-    v-bind="{ ...$attrs, ...ariaAttrs }"
-    :class="['textEditor textEditor--input', currentTag.style]"
-    :readonly="!isEditing"
-    :name="localText"
-    :value="localText"
-    @click="startEdit"
-    @touchend.prevent="startEdit"
-    @blur="handleBlur"
-    @keydown.enter.prevent="handleEnter"
+    @keydown.enter="handleEnter"
     @keydown.esc="cancelEdit"
   />
 </template>
@@ -82,6 +67,7 @@
 
   const submit = (value?: string) => {
     isEditing.value = false
+
     if (value) {
       localText.value = value
       props.saveEvent(value)
@@ -90,17 +76,17 @@
     }
   }
 
-  const handleEnter = () => {
+  const getNewTextValue = () => inputRef.value?.value.trim()
+  const handleEnter = (e: KeyboardEvent) => {
+    if (props.multiline && !e.ctrlKey && !e.metaKey) return
+
+    e.preventDefault()
     inputRef.value?.blur()
-    submit(inputRef.value?.value.trim())
+    submit(getNewTextValue())
   }
   const handleBlur = () => {
-    const value = inputRef.value?.value.trim()
-    if (!value) {
-      cancelEdit()
-      return
-    }
-    submit(value)
+    if (getNewTextValue()) submit(getNewTextValue())
+    else cancelEdit()
   }
 
   watch(

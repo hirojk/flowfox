@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 
-export const focusAfterAsync = async (asyncFn: () => Promise<void>, selector: string) => {
+export const triggerInputFocus = async (asyncFn: () => Promise<void>, selector: string) => {
   const tempInput = document.createElement('input')
-  tempInput.style.cssText = 'position:fixed;opacity:0;pointer-events:none;'
+  tempInput.style.cssText = 'position:fixed;opacity:0;'
   document.body.appendChild(tempInput)
   tempInput.focus()
 

@@ -33,7 +33,7 @@
   import { computed, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useAuth } from '@composables/useNavigation'
-  import { focusAfterAsync } from '@/composables/useIosInteractions'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/projectStore'
@@ -47,9 +47,8 @@
   const { handleLogout } = useAuth()
 
   const handleNewProject = () => {
-    focusAfterAsync(async () => {
-      const newProject = await projectStore.createNewProject()
-      appStore.currentEditingId = newProject.id
+    triggerInputFocus(async () => {
+      appStore.currentEditingId = (await projectStore.createNewProject()).id
     }, '.projects__item:nth-last-child(2) input')
   }
 
