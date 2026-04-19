@@ -25,7 +25,7 @@
         <BoardCard :id="card.id" :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
-    <button class="board-column__button" @click="addCard(boardCards)">
+    <button class="board-column__button" @click="handleAddCard">
       <IconSvg id="icon-plus" />
       Add Card
     </button>
@@ -36,6 +36,8 @@
   import { computed } from 'vue'
   import BoardCard from '@components/board/BoardCard.vue'
   import { useBoardColumn, useBoardCard } from '@composables/useBoard'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
+  import { useAppStore } from '@stores/appStore'
   import type { BoardColumnType } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'
@@ -44,10 +46,18 @@
     columnContent: BoardColumnType
   }>()
 
+  const appStore = useAppStore()
   const { removeColumn, renameColumn } = useBoardColumn()
   const { addCard } = useBoardCard()
 
   const boardCards = computed(() => props.columnContent.cards)
+
+  const handleAddCard = () => {
+    triggerInputFocus(async () => {
+      const newCard = addCard(props.columnContent.cards)
+      if (newCard) appStore.currentEditingId = newCard.id
+    }, '.board-column__cards li:last-child input')
+  }
 </script>
 
 <style lang="scss" scoped>

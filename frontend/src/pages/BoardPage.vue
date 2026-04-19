@@ -54,9 +54,9 @@
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
 
+  const appStore = useAppStore()
   const { addColumn } = useBoardColumn()
   const boardStore = useBoardStore()
-  const appStore = useAppStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
   const boardRef = ref<HTMLElement | null>(null)

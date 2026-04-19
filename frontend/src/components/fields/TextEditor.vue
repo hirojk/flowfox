@@ -7,12 +7,13 @@
       'textEditor',
       props.multiline ? 'textEditor--textarea' : 'textEditor--input',
       props.textStyle ? props.textStyle : currentTag.style,
+      props.singleEdit && hasEdited ? 'textEditor--pointer' : '',
     ]"
     :readonly="!isEditing"
     :name="localText"
     :value="localText"
-    @click="startEdit"
-    @touchend.prevent="startEdit"
+    @click="handleClick"
+    @touchend="handleTouch"
     @blur="handleBlur"
     @keydown.enter="handleEnter"
     @keydown.esc="cancelEdit"
@@ -20,12 +21,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { ref, computed, watch } from 'vue'
 
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
     editMode?: boolean
+    singleEdit?: boolean
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
     textStyle?: string
     multiline?: boolean
@@ -47,6 +49,7 @@
   }
 
   const inputRef = ref<HTMLInputElement | HTMLTextAreaElement | null>(null)
+  const hasEdited = computed(() => props.text !== '')
   const currentTag = htmlTagMap[props.htmlTag || 'span'] ?? { style: 'span' }
   const isEditing = ref(false)
   const localText = ref(props.text)
@@ -60,6 +63,7 @@
 
   const startEdit = () => {
     if (isEditing.value) return
+    if (props.singleEdit && hasEdited.value) return
     isEditing.value = true
     inputRef.value?.removeAttribute('readonly')
     inputRef.value?.focus()
@@ -72,19 +76,19 @@
 
   const submit = (value?: string) => {
     isEditing.value = false
-
-    if (inputRef.value) {
-      inputRef.value.readOnly = true
-    }
+    if (inputRef.value) inputRef.value.readOnly = true
     if (value) {
       localText.value = value
       props.saveEvent(value)
-    } else {
-      props.cancelEvent?.()
-    }
+    } else props.cancelEvent?.()
   }
 
   const getNewTextValue = () => inputRef.value?.value.trim()
+  const handleClick = (e: MouseEvent) => {
+    if (props.singleEdit && hasEdited.value) return
+    if (props.editMode) e.stopPropagation()
+    startEdit()
+  }
   const handleEnter = (e: KeyboardEvent) => {
     if (props.multiline && !e.ctrlKey && !e.metaKey) return
 
@@ -95,6 +99,11 @@
   const handleBlur = () => {
     if (getNewTextValue()) submit(getNewTextValue())
     else cancelEdit()
+  }
+  const handleTouch = (e: TouchEvent) => {
+    if (props.singleEdit && hasEdited.value) return
+    e.preventDefault()
+    startEdit()
   }
 
   watch(
@@ -121,14 +130,18 @@
     cursor: text;
     pointer-events: auto;
 
+    &:read-write {
+      border: 2px solid currentcolor;
+      background: transparent;
+    }
+
     &--textarea {
       resize: none;
       field-sizing: content;
     }
 
-    &:read-write {
-      border: 2px solid currentcolor;
-      background: transparent;
+    &--pointer {
+      cursor: pointer;
     }
   }
 </style>

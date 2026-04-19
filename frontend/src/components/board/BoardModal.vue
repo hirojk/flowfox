@@ -20,7 +20,7 @@
         class="board-modal__header-headline"
         htmlTag="strong"
         :text="activeCard.name"
-        :saveEvent="(newTaskName) => updateCard(boardStore.activeCardId, { name: newTaskName })"
+        :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
       <DropdownMenu
         v-if="modalSettings.priority"

@@ -30,7 +30,7 @@ export const BoardTagSchema = z.object({
 
 export const BoardCardSchema = z.object({
   id: z.number(),
-  name: z.string().default('New Card'),
+  name: z.string().default(''),
   priority: z.enum(PRIORITY_VALUES).default(DEFAULT_PRIORITY),
   description: z.string().default('No Description'),
   checklist: z.array(CheckboxItemSchema).default([]),

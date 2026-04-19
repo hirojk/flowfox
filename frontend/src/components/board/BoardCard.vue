@@ -2,7 +2,16 @@
   <article class="board-card" @click="openCardModal">
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
-        <h3 class="board-card__heading">{{ card.heading }}</h3>
+        <TextEditor
+          editMode
+          singleEdit
+          htmlTag="h3"
+          :text="card.heading"
+          :saveEvent="
+            (newCardName: string) => updateCard([props.columnId, props.cardContent.id], { name: newCardName })
+          "
+          :cancelEvent="() => removeCard([props.columnId, props.cardContent.id])"
+        />
         <IconSvg
           v-if="cardSettings.priority && card.priority !== 'icon-medium'"
           :id="card.priority"
@@ -36,16 +45,21 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
+  import { useBoardCard } from '@composables/useBoard'
   import { PRIORITY_LIST } from '@constants/priority'
   import { getIcon } from '@services/helpers'
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType } from '@flowfox/shared'
 
+  import TextEditor from '@components/fields/TextEditor.vue'
+
   const props = defineProps<{
     columnId: number
     cardContent: BoardCardType
   }>()
+
+  const { updateCard, removeCard } = useBoardCard()
 
   const appStore = useAppStore()
   const boardStore = useBoardStore()

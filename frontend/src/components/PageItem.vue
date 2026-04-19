@@ -13,6 +13,7 @@
     <TextEditor
       class="page-item__label"
       editMode
+      singleEdit
       htmlTag="span"
       :text="props.label"
       :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
