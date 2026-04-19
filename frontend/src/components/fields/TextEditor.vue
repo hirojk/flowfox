@@ -3,7 +3,11 @@
     :is="props.multiline ? 'textarea' : 'input'"
     ref="inputRef"
     v-bind="{ ...$attrs, ...ariaAttrs }"
-    :class="['textEditor', props.multiline ? 'textEditor--textarea' : 'textEditor--input', currentTag.style]"
+    :class="[
+      'textEditor',
+      props.multiline ? 'textEditor--textarea' : 'textEditor--input',
+      props.textStyle ? props.textStyle : currentTag.style,
+    ]"
     :readonly="!isEditing"
     :name="localText"
     :value="localText"
@@ -21,10 +25,11 @@
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
+    editMode?: boolean
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
+    textStyle?: string
     multiline?: boolean
     text: string
-    editMode?: boolean
     saveEvent: (newName: string) => void
     cancelEvent?: () => void
   }>()
@@ -68,6 +73,9 @@
   const submit = (value?: string) => {
     isEditing.value = false
 
+    if (inputRef.value) {
+      inputRef.value.readOnly = true
+    }
     if (value) {
       localText.value = value
       props.saveEvent(value)

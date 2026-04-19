@@ -2,10 +2,12 @@
   <section class="board-column">
     <div class="board-column__header">
       <TextEditor
+        editMode
         htmlTag="h2"
         textStyle="h3"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
+        :cancelEvent="() => removeColumn(props.columnContent.id)"
       />
       <DropdownMenu
         mode="context"

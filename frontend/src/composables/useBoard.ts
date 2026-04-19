@@ -13,7 +13,7 @@ const getStores = (): { board: ReturnType<typeof useBoardStore>; modal: ReturnTy
  * Syncs all changes to the global board store and persists them via API.
  */
 export const useBoardColumn = (): {
-  addColumn: () => void
+  addColumn: () => BoardColumnType | undefined
   removeColumn: (columnId: number) => void
   renameColumn: (columnId: number, newName: string) => void
   createNewColumn: (overrides: Partial<BoardColumnType>) => BoardColumnType
@@ -27,10 +27,12 @@ export const useBoardColumn = (): {
     })
   }
 
-  const addColumn = (): void => {
+  const addColumn = (): BoardColumnType | undefined => {
     if (!board.activeBoard) return
-    board.activeBoard.columns.push(createNewColumn())
+    const newColumn = createNewColumn()
+    board.activeBoard.columns.push(newColumn)
     board.updateBoard(board.activeBoard.id)
+    return newColumn
   }
 
   const removeColumn = (columnId: number): void => {

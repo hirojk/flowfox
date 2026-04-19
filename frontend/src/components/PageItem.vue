@@ -12,9 +12,9 @@
     </div>
     <TextEditor
       class="page-item__label"
+      editMode
       htmlTag="span"
       :text="props.label"
-      :editMode="isEditing"
       :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
       :cancelEvent="handleCancel"
     />
@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
@@ -46,8 +45,6 @@
     confirm: [name: string]
     cancel: []
   }>()
-
-  const isEditing = computed(() => appStore.currentEditingId === props.id)
 
   const handleConfirm = (value: string) => {
     if (!value) emit('cancel')
