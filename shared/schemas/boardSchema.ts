@@ -41,14 +41,14 @@ export const BoardCardSchema = z.object({
 
 export const BoardColumnSchema = z.object({
   id: z.number(),
-  name: z.string().default('New Column'),
+  name: z.string().default(''),
   cards: z.array(BoardCardSchema).default([]),
 })
 
 export const BoardSchema = z.object({
   id: z.number(),
   type: z.literal('board').default('board'),
-  name: z.string().default('New Board'),
+  name: z.string().default(''),
   creatorId: z.number(),
   members: z.array(z.number()).default([]),
   columns: z.array(BoardColumnSchema).default([]),
