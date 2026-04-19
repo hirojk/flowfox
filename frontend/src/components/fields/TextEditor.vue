@@ -39,6 +39,7 @@
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
     multiline?: boolean
     text: string
+    editMode?: boolean
     saveEvent: (newName: string) => void
     cancelEvent?: () => void
   }>()
@@ -94,14 +95,25 @@
     submit(inputRef.value?.value.trim())
   }
   const handleBlur = () => {
-    inputRef.value?.blur()
-    submit(inputRef.value?.value.trim())
+    const value = inputRef.value?.value.trim()
+    if (!value) {
+      cancelEdit()
+      return
+    }
+    submit(value)
   }
 
   watch(
     () => props.text,
     (newText) => {
       if (!isEditing.value) localText.value = newText
+    },
+  )
+
+  watch(
+    () => props.editMode,
+    (editModeState) => {
+      if (editModeState) isEditing.value = true
     },
   )
 </script>

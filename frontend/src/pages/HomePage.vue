@@ -50,7 +50,7 @@
     focusAfterAsync(async () => {
       const newProject = await projectStore.createNewProject()
       appStore.currentEditingId = newProject.id
-    }, '.page-item:last-child [contenteditable]')
+    }, `.projects__item:nth-last-child(2) input`)
   }
 
   onMounted(async () => {

@@ -9,6 +9,11 @@ export const focusAfterAsync = async (asyncFn: () => Promise<void>, selector: st
   await asyncFn()
   await nextTick()
 
-  document.querySelector<HTMLElement>(selector)?.focus()
+  const realInput = document.querySelector<HTMLInputElement>(selector)
+  if (realInput) {
+    realInput.removeAttribute('readonly')
+    realInput.focus()
+  }
+
   tempInput.remove()
 }
