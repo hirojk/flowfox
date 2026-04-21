@@ -22,13 +22,13 @@
   const appStore = useAppStore()
 
   const closeModal = () => {
-    if (appStore.isEditing) return
+    if (appStore.isEditing || appStore.isDropdownOpen) return
     appStore.isModalOpen = false
     appStore.modalContent = null
   }
 
   const handleCloseMousedown = (e: MouseEvent) => {
-    if (appStore.isEditing) e.preventDefault()
+    if (appStore.isEditing || appStore.isDropdownOpen) e.preventDefault()
   }
 </script>
 
@@ -54,6 +54,7 @@
       width: 100%;
       height: 100%;
       max-width: 56.25em;
+      max-height: 56.25em;
       border-radius: 1em;
       padding: 2em;
       background-color: $ff-white;

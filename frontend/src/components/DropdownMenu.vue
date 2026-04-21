@@ -1,6 +1,16 @@
 <template>
   <div class="dropdown">
-    <button ref="buttonRef" class="dropdown__button" @click="handleOpen" @focusout="isOpen = false">
+    <button
+      ref="buttonRef"
+      class="dropdown__button"
+      @click="handleOpen"
+      @focusout="
+        () => {
+          isOpen = false
+          appStore.isDropdownOpen = false
+        }
+      "
+    >
       <IconSvg v-if="props.icon" :id="props.icon" />
       <span v-if="props.label">{{ props.label }}</span>
     </button>
@@ -28,6 +38,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useAppStore } from '@stores/appStore'
 
   interface DropdownItem {
     name: string
@@ -41,6 +52,8 @@
     label?: string
     options: DropdownItem[]
   }>()
+
+  const appStore = useAppStore()
 
   const isOpen = ref(false)
 
@@ -56,11 +69,13 @@
       left: rect.left + rect.width / 2,
     }
     isOpen.value = !isOpen.value
+    appStore.isDropdownOpen = isOpen.value
   }
 
   const handleSelect = (item: DropdownItem) => {
     item.action()
     isOpen.value = false
+    appStore.isDropdownOpen = false
   }
 </script>
 
