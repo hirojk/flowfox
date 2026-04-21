@@ -1,8 +1,8 @@
 <template>
-  <div v-if="appStore.isModalOpen" class="modal" @click="closeModal">
-    <div class="modal__content" @click.stop>
+  <div v-if="appStore.isModalOpen" class="modal" @mousedown="closeModal">
+    <div class="modal__content" @click.stop @mousedown.stop @touchstart.stop>
       <div class="modal__header">
-        <button class="modal__close" @click="closeModal">
+        <button class="modal__close" @mousedown="handleCloseMousedown" @click="closeModal">
           <IconSvg id="icon-cancel" />
           Close
         </button>
@@ -22,8 +22,13 @@
   const appStore = useAppStore()
 
   const closeModal = () => {
+    if (appStore.isEditing) return
     appStore.isModalOpen = false
     appStore.modalContent = null
+  }
+
+  const handleCloseMousedown = (e: MouseEvent) => {
+    if (appStore.isEditing) e.preventDefault()
   }
 </script>
 

@@ -13,6 +13,7 @@
     :name="localText"
     :value="localText"
     @click="handleClick"
+    @focus="handleFocus"
     @touchend="handleTouch"
     @blur="handleBlur"
     @keydown.enter="handleEnter"
@@ -104,6 +105,10 @@
     if (getNewTextValue()) submit(getNewTextValue())
     else cancelEdit()
   }
+  const handleFocus = () => {
+    if (isEditing.value) return
+    startEdit()
+  }
   const handleTouch = (e: TouchEvent) => {
     if (props.singleEdit && hasEdited.value) return
     e.preventDefault()
@@ -120,7 +125,10 @@
   watch(
     () => props.editMode,
     (editModeState) => {
-      if (editModeState) isEditing.value = true
+      if (editModeState) {
+        isEditing.value = true
+        appStore.isEditing = true
+      }
     },
   )
 </script>
