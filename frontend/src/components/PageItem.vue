@@ -35,7 +35,6 @@
 
   const props = defineProps<{
     buttonStyle: 'project' | 'component' | 'new'
-    id?: number
     icon?: string
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }

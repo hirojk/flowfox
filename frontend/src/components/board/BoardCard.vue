@@ -1,5 +1,5 @@
 <template>
-  <article class="board-card" @click="openCardModal">
+  <article :id="`board-card-${props.cardContent.id}`" class="board-card" @click="openCardModal">
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <TextEditor

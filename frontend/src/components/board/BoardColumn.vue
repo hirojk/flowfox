@@ -1,5 +1,5 @@
 <template>
-  <section class="board-column">
+  <section :id="`board-column-${props.columnContent.id}`" class="board-column">
     <div class="board-column__header">
       <TextEditor
         editMode
@@ -22,7 +22,7 @@
     </div>
     <ul class="board-column__cards">
       <li v-for="card in boardCards" :key="Array.isArray(card.id) ? card.id[1] : card.id">
-        <BoardCard :id="card.id" :columnId="props.columnContent.id" :cardContent="card" />
+        <BoardCard :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
     <button class="board-column__button" @click="handleAddCard">
@@ -56,7 +56,7 @@
     triggerInputFocus(async () => {
       const newCard = addCard(props.columnContent.cards)
       if (newCard) appStore.currentEditingId = newCard.id
-    }, '.board-column__cards li:last-child input')
+    }, `#board-column-${props.columnContent.id} .board-column__cards li:last-child input`)
   }
 </script>
 

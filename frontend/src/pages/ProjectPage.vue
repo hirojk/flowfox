@@ -23,7 +23,7 @@
         <ul class="components__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
-              :id="component.id"
+              :id="`board-${component.id}`"
               buttonStyle="component"
               :icon="`icon-${component.type}`"
               :label="component.name"
