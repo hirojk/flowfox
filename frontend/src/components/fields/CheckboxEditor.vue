@@ -8,6 +8,7 @@
           :class="['checkboxEditor__label', { 'checkboxEditor__label--checked': item.isChecked }]"
           :text="item.label"
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
+          :cancelEvent="() => deleteCheckbox(item)"
         />
       </div>
       <button class="checkboxEditor__delete" @click="deleteCheckbox(item)">
@@ -23,12 +24,13 @@
 
 <script setup lang="ts">
   import TextEditor from '@components/fields/TextEditor.vue'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
   import type { CheckboxItemType } from '@flowfox/shared'
 
   const props = defineProps<{
     class?: string
     checkboxes: CheckboxItemType[]
-    saveEvent: (newChecklist: CheckboxItemType[]) => void
+    saveEvent: (newChecklist: CheckboxItemType[]) => CheckboxItemType | void
   }>()
 
   const saveEdit = (item: CheckboxItemType, newLabel?: string) => {
@@ -47,13 +49,15 @@
   }
 
   const addCheckbox = () => {
-    props.saveEvent([
-      ...props.checkboxes,
-      {
-        label: 'New Subtask',
-        isChecked: false,
-      },
-    ])
+    triggerInputFocus(async () => {
+      props.saveEvent([
+        ...props.checkboxes,
+        {
+          label: '',
+          isChecked: false,
+        },
+      ])
+    }, '.checkboxEditor li:last-child .checkboxEditor__label')
   }
 
   const deleteCheckbox = (item: CheckboxItemType) => {

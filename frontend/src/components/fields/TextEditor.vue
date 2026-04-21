@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
   import { ref, computed, watch } from 'vue'
+  import { useAppStore } from '@stores/appStore'
 
   defineOptions({ inheritAttrs: false })
 
@@ -35,6 +36,7 @@
     saveEvent: (newName: string) => void
     cancelEvent?: () => void
   }>()
+  const appStore = useAppStore()
 
   const htmlTagMap: Record<string, { style: string; level?: number }> = {
     h1: { style: 'h1', level: 1 },
@@ -65,6 +67,7 @@
     if (isEditing.value) return
     if (props.singleEdit && hasEdited.value) return
     isEditing.value = true
+    appStore.isEditing = true
     inputRef.value?.removeAttribute('readonly')
     inputRef.value?.focus()
   }
@@ -76,6 +79,7 @@
 
   const submit = (value?: string) => {
     isEditing.value = false
+    appStore.isEditing = false
     if (inputRef.value) inputRef.value.readOnly = true
     if (value) {
       localText.value = value
