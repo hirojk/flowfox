@@ -4,12 +4,9 @@
       ref="buttonRef"
       class="dropdown__button"
       @click="handleOpen"
-      @focusout="
-        () => {
-          isOpen = false
-          appStore.isDropdownOpen = false
-        }
-      "
+      @focusout="close"
+      @touchstart.stop
+      @touchend.prevent="handleOpen"
     >
       <IconSvg v-if="props.icon" :id="props.icon" />
       <span v-if="props.label">{{ props.label }}</span>
@@ -37,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, onMounted, onUnmounted } from 'vue'
   import { useAppStore } from '@stores/appStore'
 
   interface DropdownItem {
@@ -60,6 +57,11 @@
   const buttonRef = ref<HTMLElement | null>(null)
   const listPosition = ref({ top: 0, left: 0 })
 
+  const close = () => {
+    isOpen.value = false
+    appStore.isDropdownOpen = false
+  }
+
   const handleOpen = () => {
     const rect = buttonRef.value?.getBoundingClientRect()
     if (!rect) return
@@ -74,9 +76,26 @@
 
   const handleSelect = (item: DropdownItem) => {
     item.action()
-    isOpen.value = false
-    appStore.isDropdownOpen = false
+    close()
   }
+
+  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+    if (!isOpen.value) return
+
+    const target = e.target as HTMLElement
+    if (buttonRef.value?.contains(target) || target.closest('.dropdown__list')) return
+    close()
+  }
+
+  onMounted(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchend', handleClickOutside)
+  })
+
+  onUnmounted(() => {
+    document.removeEventListener('mousedown', handleClickOutside)
+    document.removeEventListener('touchend', handleClickOutside)
+  })
 </script>
 
 <style lang="scss" scoped>

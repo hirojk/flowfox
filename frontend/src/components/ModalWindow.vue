@@ -1,6 +1,6 @@
 <template>
-  <div v-if="appStore.isModalOpen" class="modal" @mousedown="closeModal">
-    <div class="modal__content" @click.stop @mousedown.stop @touchstart.stop>
+  <div v-if="appStore.isModalOpen" class="modal" @pointerdown="closeModal">
+    <div class="modal__content" @click.stop @pointerdown.stop>
       <div class="modal__header">
         <button class="modal__close" @mousedown="handleCloseMousedown" @click="closeModal">
           <IconSvg id="icon-cancel" />
