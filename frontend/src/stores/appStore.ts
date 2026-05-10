@@ -10,5 +10,7 @@ export const useAppStore = defineStore('app', {
 
     isModalOpen: false as boolean,
     modalContent: null as ModalWindowType | null,
+
+    justDropped: false as boolean,
   }),
 })

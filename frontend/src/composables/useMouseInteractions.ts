@@ -1,4 +1,5 @@
 import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue'
+const { useAppStore } = await import('@stores/appStore')
 
 const interactionState: Ref<'grabbing' | 'dragging' | undefined> = ref(undefined)
 
@@ -140,10 +141,14 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     removeGhost()
     interactionState.value = undefined
 
+    const appStore = useAppStore()
+    appStore.justDropped = true
+    setTimeout(() => { appStore.justDropped = false }, 500)
+
     const newOrder = [...listRef.value.querySelectorAll('.draggable')].map((el) =>
       Number((el as HTMLElement).dataset.id),
     )
-    
+
     saveUpdatedStore(newOrder)
   }
 

@@ -65,7 +65,7 @@
   }
 
   const startEdit = () => {
-    if (isEditing.value) return
+    if (isEditing.value || appStore.justDropped) return
     if (props.singleEdit && hasEdited.value) return
     isEditing.value = true
     appStore.isEditing = true
