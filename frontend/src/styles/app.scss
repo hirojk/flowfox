@@ -189,6 +189,10 @@ input {
   font-size: list.nth(map.get($font-size, sm), 1);
 }
 
+.draggable {
+  touch-action: none;
+}
+
 .grab-placeholder {
   display: flex;
   justify-content: center;

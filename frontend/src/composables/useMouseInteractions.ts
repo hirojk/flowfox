@@ -154,14 +154,12 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
   watch(listRef, (listElement) => {
     if (!listElement) return
-    listElement.style.touchAction = 'none'
     listElement.addEventListener('pointerdown', onPointerDown)
     window.addEventListener('pointermove', onPointerMove)
     window.addEventListener('pointerup', onPointerUp)
   })
 
   onUnmounted(() => {
-    if (listRef.value) listRef.value.style.touchAction = ''
     listRef.value?.removeEventListener('pointerdown', onPointerDown)
     window.removeEventListener('pointermove', onPointerMove)
     window.removeEventListener('pointerup', onPointerUp)
