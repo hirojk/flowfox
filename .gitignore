@@ -49,7 +49,6 @@ lerna-debug.log*
 
 # Editor / IDE
 .vscode/*
-!.vscode/settings.json
 .idea
 *.suo
 *.ntvs*
