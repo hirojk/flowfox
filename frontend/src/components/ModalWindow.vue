@@ -1,27 +1,36 @@
 <template>
-  <dialog class="modal">
-    <div class="modal__header">
-      <button class="modal__close" @click="closeSettingsModal">
-        <IconSvg id="icon-cancel" />
-        Close
-      </button>
-      <div id="modal-interactives"></div>
+  <dialog ref="dialogRef" class="modal" @click="handleBackdropClick">
+    <div class="modal__content" @click.stop>
+      <div class="modal__header">
+        <button class="modal__close" @click="closeSettingsModal">
+          <IconSvg id="icon-cancel" />
+          Close
+        </button>
+        <div id="modal-interactives"></div>
+      </div>
+      <div class="modal__scrollContent">
+        <slot></slot>
+      </div>
+      <div id="modal-footer" class="modal__footer"></div>
     </div>
-    <div class="modal__scrollContent">
-      <slot></slot>
-    </div>
-    <div id="modal-footer" class="modal__footer"></div>
   </dialog>
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
   import { closeSettingsModal } from '@composables/useModal'
+
+  const dialogRef = ref<HTMLDialogElement>()
+
+  const handleBackdropClick = () => {
+    dialogRef.value?.close()
+  }
 </script>
 
 <style lang="scss" scoped>
   .modal {
     display: none;
-    grid-template-rows: auto 1fr;
+    flex-direction: column;
     gap: 1em;
     width: 100%;
     height: 100%;
@@ -34,11 +43,18 @@
     cursor: default;
 
     &[open] {
-      display: grid;
+      display: flex;
     }
 
     &::backdrop {
       background-color: rgba($ff-senary, 0.5);
+    }
+
+    &__content {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 1em;
+      height: 100%;
     }
 
     &__header {
