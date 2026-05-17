@@ -68,6 +68,8 @@
     color: $ff-black;
     font-size: list.nth(map.get($font-size, md), 1);
 
+    @include focusVisible;
+
     &__icon {
       display: flex;
       flex-shrink: 0;
