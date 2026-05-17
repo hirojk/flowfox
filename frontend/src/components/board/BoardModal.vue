@@ -10,7 +10,7 @@
         :options="[
           {
             name: 'Remove Card',
-            action: () => removeCard(boardStore.activeCardId as [number, number]),
+            action: () => handleRemoveCard(),
           },
         ]"
       />
@@ -94,8 +94,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardCard } from '@composables/useBoard'
+  import { closeSettingsModal } from '@composables/useModal'
+  import { PRIORITY_LIST } from '@constants/priority'
   import { getIcon } from '@services/helpers'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
@@ -123,6 +124,11 @@
     )
     return column?.cards.find((card: BoardCardType) => card.id === boardStore.activeCardId[1])
   })
+
+  const handleRemoveCard = () => {
+    removeCard(boardStore.activeCardId as [number, number])
+    closeSettingsModal()
+  }
 </script>
 
 <style lang="scss" scoped>
