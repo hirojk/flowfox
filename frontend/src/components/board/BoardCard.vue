@@ -1,5 +1,5 @@
 <template>
-  <article :id="`board-card-${props.cardContent.id}`" class="board-card" @click="openCardModal">
+  <button :id="`board-card-${props.cardContent.id}`" class="board-card" @click="openCardModal">
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <TextEditor
@@ -40,7 +40,7 @@
         </ul>
       </div>
     </div>
-  </article>
+  </button>
 </template>
 
 <script setup lang="ts">

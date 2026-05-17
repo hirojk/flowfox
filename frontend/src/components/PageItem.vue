@@ -10,11 +10,7 @@
       <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
       <strong v-else class="page-item__initials">{{ useInitials(props.label) }}</strong>
     </div>
-    <span v-if="isConfirmed" class="page-item__label page-item__label--normal">
-      {{ props.label }}
-    </span>
     <TextEditor
-      v-else
       class="page-item__label page-item__label--editing"
       editMode
       singleEdit
@@ -27,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
@@ -50,14 +45,11 @@
     confirm: [name: string]
     cancel: []
   }>()
-  const isConfirmed = ref(props.label !== '')
 
   const handleConfirm = (value: string) => {
     if (!value) emit('cancel')
-    else {
-      emit('confirm', value)
-      isConfirmed.value = true
-    }
+    else emit('confirm', value)
+
     appStore.currentEditingId = null
   }
 
