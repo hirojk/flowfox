@@ -30,7 +30,7 @@
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
-          <button class="board__button board__button--add-column" @click="addColumn()">
+          <button class="board__button board__button--add-column" @click="handleAddColumn">
             <IconSvg id="icon-plus" />
             Add Column
           </button>
@@ -46,6 +46,7 @@
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
   import TextEditor from '@components/fields/TextEditor.vue'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'
   import { useGrabElement, useDragScroll } from '@composables/useMouseInteractions'
@@ -53,14 +54,15 @@
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
 
+  const appStore = useAppStore()
   const { addColumn } = useBoardColumn()
   const boardStore = useBoardStore()
-  const appStore = useAppStore()
 
   const { activeProject, activeComponent } = useComponentResolver()
   const boardRef = ref<HTMLElement | null>(null)
 
   defineOptions({ inheritAttrs: false })
+
   useDragScroll()
   useGrabElement(boardRef, (newOrder: number[]) => {
     if (!boardStore.activeBoard) return
@@ -70,6 +72,13 @@
     )
     boardStore.updateBoard(boardStore.activeBoard.id)
   })
+
+  const handleAddColumn = () => {
+    triggerInputFocus(async () => {
+      const newColumn = addColumn()
+      if (newColumn) appStore.currentEditingId = newColumn.id
+    }, '.board__columnWrapper:nth-last-child(2) input')
+  }
 
   watch(
     () => [activeProject.value?.id, activeComponent.value?.id],
@@ -98,7 +107,6 @@
       }
 
       &__header {
-        gap: 2em;
         padding: 0 $page-padding-x;
       }
     }

@@ -1,8 +1,8 @@
 <template>
-  <div v-if="appStore.isModalOpen" class="modal" @click="closeModal">
-    <div class="modal__content" @click.stop>
+  <div v-if="appStore.isModalOpen" class="modal" @pointerdown="closeModal">
+    <div class="modal__content" @click.stop @pointerdown.stop>
       <div class="modal__header">
-        <button class="modal__close" @click="closeModal">
+        <button class="modal__close" @mousedown="handleCloseMousedown" @click="closeModal">
           <IconSvg id="icon-cancel" />
           Close
         </button>
@@ -22,8 +22,13 @@
   const appStore = useAppStore()
 
   const closeModal = () => {
+    if (appStore.isEditing || appStore.isDropdownOpen) return
     appStore.isModalOpen = false
     appStore.modalContent = null
+  }
+
+  const handleCloseMousedown = (e: MouseEvent) => {
+    if (appStore.isEditing || appStore.isDropdownOpen) e.preventDefault()
   }
 </script>
 
@@ -49,6 +54,7 @@
       width: 100%;
       height: 100%;
       max-width: 56.25em;
+      max-height: 56.25em;
       border-radius: 1em;
       padding: 2em;
       background-color: $ff-white;

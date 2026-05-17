@@ -124,14 +124,6 @@
       padding: 0.5em 0;
     }
 
-    &__box {
-      width: 2em;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      accent-color: $ff-primary;
-      cursor: pointer;
-    }
-
     &__delete {
       width: 100%;
     }

@@ -1,104 +1,159 @@
 <template>
   <component
-    :is="props.htmlTag || 'p'"
-    v-bind="$attrs"
-    ref="editorRef"
-    :class="['textEditor', props.textStyle]"
-    :contenteditable="isEditing"
-    @click="startEdit"
-    @blur="saveEdit"
+    :is="props.multiline ? 'textarea' : 'input'"
+    ref="inputRef"
+    v-bind="{ ...$attrs, ...ariaAttrs }"
+    :class="[
+      'textEditor',
+      props.multiline ? 'textEditor--textarea' : 'textEditor--input',
+      props.textStyle ? props.textStyle : currentTag.style,
+      props.singleEdit && hasEdited ? 'textEditor--pointer' : '',
+    ]"
+    :readonly="!isEditing"
+    :name="localText"
+    :value="localText"
+    @click="handleClick"
+    @focus="handleFocus"
+    @touchend="handleTouch"
+    @blur="handleBlur"
     @keydown.enter="handleEnter"
-    @keyup.esc="cancelEdit"
-  >
-    {{ props.text }}
-  </component>
+    @keydown.esc="cancelEdit"
+  />
 </template>
 
 <script setup lang="ts">
-  import { ref, nextTick } from 'vue'
+  import { ref, computed, watch } from 'vue'
+  import { useAppStore } from '@stores/appStore'
 
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
-    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'div'
+    editMode?: boolean
+    singleEdit?: boolean
+    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
     textStyle?: string
     multiline?: boolean
     text: string
     saveEvent: (newName: string) => void
+    cancelEvent?: () => void
   }>()
+  const appStore = useAppStore()
 
+  const htmlTagMap: Record<string, { style: string; level?: number }> = {
+    h1: { style: 'h1', level: 1 },
+    h2: { style: 'h2', level: 2 },
+    h3: { style: 'h3', level: 3 },
+    h4: { style: 'h4', level: 4 },
+    h5: { style: 'h5', level: 5 },
+    h6: { style: 'h6', level: 6 },
+    p: { style: 'p' },
+    strong: { style: 'strong' },
+    span: { style: 'span' },
+  }
+
+  const inputRef = ref<HTMLInputElement | HTMLTextAreaElement | null>(null)
+  const hasEdited = computed(() => props.text !== '')
+  const currentTag = htmlTagMap[props.htmlTag || 'span'] ?? { style: 'span' }
   const isEditing = ref(false)
-  const editorRef = ref<HTMLElement | null>(null)
+  const localText = ref(props.text)
 
-  const startEdit = async (event: MouseEvent) => {
-    if (isEditing.value) return
+  const ariaAttrs: Record<string, unknown> = {}
+  if (currentTag.level) {
+    ariaAttrs.role = 'heading'
+    ariaAttrs['aria-level'] = currentTag.level
+    ariaAttrs['aria-label'] = props.text
+  }
 
+  const startEdit = () => {
+    if (isEditing.value || appStore.justDropped) return
+    if (props.singleEdit && hasEdited.value) return
     isEditing.value = true
-    await nextTick()
-
-    const sel = window.getSelection()
-    sel?.removeAllRanges()
-
-    const position = document.caretPositionFromPoint(event.clientX, event.clientY)
-    if (position) {
-      const range = document.createRange()
-      range.setStart(position.offsetNode, position.offset)
-      range.collapse(true)
-      sel?.addRange(range)
-    }
-  }
-
-  const handleEnter = (event: KeyboardEvent) => {
-    if (props.multiline) {
-      if (event.ctrlKey || event.metaKey) {
-        event.preventDefault()
-        saveEdit()
-      }
-    } else {
-      event.preventDefault()
-      saveEdit()
-    }
-  }
-
-  const saveEdit = () => {
-    const newText = editorRef.value?.innerText.trim()
-    if (newText) props.saveEvent(newText)
-    isEditing.value = false
+    appStore.isEditing = true
+    inputRef.value?.removeAttribute('readonly')
+    inputRef.value?.focus()
   }
 
   const cancelEdit = () => {
-    isEditing.value = false
-    if (editorRef.value) editorRef.value.innerText = props.text
+    if (inputRef.value) inputRef.value.value = props.text
+    submit()
   }
+
+  const submit = (value?: string) => {
+    isEditing.value = false
+    appStore.isEditing = false
+    if (inputRef.value) inputRef.value.readOnly = true
+    if (value) {
+      localText.value = value
+      props.saveEvent(value)
+    } else props.cancelEvent?.()
+  }
+
+  const getNewTextValue = () => inputRef.value?.value.trim()
+  const handleClick = (e: MouseEvent) => {
+    if (props.singleEdit && hasEdited.value) return
+    if (props.editMode) e.stopPropagation()
+    startEdit()
+  }
+  const handleEnter = (e: KeyboardEvent) => {
+    if (props.multiline && !e.ctrlKey && !e.metaKey) return
+
+    e.preventDefault()
+    inputRef.value?.blur()
+    submit(getNewTextValue())
+  }
+  const handleBlur = () => {
+    if (getNewTextValue()) submit(getNewTextValue())
+    else cancelEdit()
+  }
+  const handleFocus = () => {
+    if (isEditing.value) return
+    startEdit()
+  }
+  const handleTouch = (e: TouchEvent) => {
+    if (props.singleEdit && hasEdited.value) return
+    e.preventDefault()
+    startEdit()
+  }
+
+  watch(
+    () => props.text,
+    (newText) => {
+      if (!isEditing.value) localText.value = newText
+    },
+  )
+
+  watch(
+    () => props.editMode,
+    (editModeState) => {
+      if (editModeState) {
+        isEditing.value = true
+        appStore.isEditing = true
+      }
+    },
+  )
 </script>
 
 <style lang="scss" scoped>
   .textEditor {
-    position: relative;
     width: 100%;
-    padding: 0.2em;
-    white-space: pre-wrap;
+    border: 2px solid transparent;
+    border-radius: 0.25em;
+    padding: 0.1em;
     cursor: text;
+    pointer-events: auto;
 
-    &:active {
-      border-radius: 0.25em;
-      background-color: rgba($ff-grey, 0.1);
+    &:read-write {
+      border: 2px solid currentcolor;
+      background: transparent;
     }
 
-    &[contenteditable='true'] {
-      position: relative;
-      isolation: isolate;
-      outline: none;
+    &--textarea {
+      resize: none;
+      field-sizing: content;
+    }
 
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border: 2px solid currentcolor;
-        border-radius: 0.25em;
-        pointer-events: none;
-        z-index: -1;
-      }
+    &--pointer {
+      cursor: pointer;
     }
   }
 </style>

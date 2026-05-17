@@ -5,7 +5,7 @@ export const ComponentSchema = z.discriminatedUnion('type', [BoardSchema])
 
 export const ProjectSchema = z.object({
   id: z.number(),
-  name: z.string().default('New Project'),
+  name: z.string().default(''),
   creatorId: z.number(),
   components: z.array(ComponentSchema).default([]),
 })

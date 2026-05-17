@@ -12,7 +12,7 @@
         <ul class="projects__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
-              :id="project.id"
+              :id="`project-${project.id}`"
               buttonStyle="project"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
@@ -33,6 +33,7 @@
   import { computed, onMounted } from 'vue'
   import { RouterLink } from 'vue-router'
   import { useAuth } from '@composables/useNavigation'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/projectStore'
@@ -45,9 +46,10 @@
 
   const { handleLogout } = useAuth()
 
-  const handleNewProject = async () => {
-    const newProject = await projectStore.createNewProject()
-    appStore.currentEditingId = newProject.id
+  const handleNewProject = () => {
+    triggerInputFocus(async () => {
+      appStore.currentEditingId = (await projectStore.createNewProject()).id
+    }, '.projects__item:nth-last-child(2) input')
   }
 
   onMounted(async () => {

@@ -102,11 +102,13 @@
       display: none;
     }
 
-    &:hover {
-      .sideBar-item {
-        &__box {
-          background-color: var(--hover-bg);
-          color: var(--hover-color);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        .sideBar-item {
+          &__box {
+            background-color: var(--hover-bg);
+            color: var(--hover-color);
+          }
         }
       }
     }

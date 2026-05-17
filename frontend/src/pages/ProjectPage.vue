@@ -23,7 +23,7 @@
         <ul class="components__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
-              :id="component.id"
+              :id="`board-${component.id}`"
               buttonStyle="component"
               :icon="`icon-${component.type}`"
               :label="component.name"
@@ -48,6 +48,7 @@
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
+  import { triggerInputFocus } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
@@ -56,9 +57,10 @@
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
 
-  const handleNewComponent = async () => {
-    const newComponent = await boardStore.createNewBoard()
-    appStore.currentEditingId = newComponent.id
+  const handleNewComponent = () => {
+    triggerInputFocus(async () => {
+      appStore.currentEditingId = (await boardStore.createNewBoard()).id
+    }, '.components__item:nth-last-child(2) input')
   }
 
   defineOptions({ inheritAttrs: false })

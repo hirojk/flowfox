@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "run-p type-check \"build-only {@}\" --",
     "lint": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\"",
     "lint:fix": "eslint ./src --fix && stylelint \"src/**/*.{css,scss,vue}\" --fix",
@@ -35,7 +35,7 @@
     "npm-run-all2": "^8.0.4",
     "postcss-html": "^1.8.1",
     "sass-embedded": "^1.98.0",
-    "stylelint": "^17.6.0",
+    "stylelint": "^17.11.0",
     "stylelint-config-recess-order": "^7.7.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-order": "^8.1.1",

@@ -26,7 +26,7 @@
 
 <style lang="scss" scoped>
   .delete-prompt {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 2em;
@@ -35,6 +35,10 @@
     border: none;
     border-radius: 1em;
     padding: 2em;
+
+    &[open] {
+      display: flex;
+    }
 
     &__message {
       @include fontMixin(map.get($font-size, md));

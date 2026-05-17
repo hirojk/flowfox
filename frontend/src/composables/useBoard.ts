@@ -13,7 +13,7 @@ const getStores = (): { board: ReturnType<typeof useBoardStore>; modal: ReturnTy
  * Syncs all changes to the global board store and persists them via API.
  */
 export const useBoardColumn = (): {
-  addColumn: () => void
+  addColumn: () => BoardColumnType | undefined
   removeColumn: (columnId: number) => void
   renameColumn: (columnId: number, newName: string) => void
   createNewColumn: (overrides: Partial<BoardColumnType>) => BoardColumnType
@@ -27,10 +27,12 @@ export const useBoardColumn = (): {
     })
   }
 
-  const addColumn = (): void => {
+  const addColumn = (): BoardColumnType | undefined => {
     if (!board.activeBoard) return
-    board.activeBoard.columns.push(createNewColumn())
+    const newColumn = createNewColumn()
+    board.activeBoard.columns.push(newColumn)
     board.updateBoard(board.activeBoard.id)
+    return newColumn
   }
 
   const removeColumn = (columnId: number): void => {
@@ -55,7 +57,7 @@ export const useBoardColumn = (): {
  * Syncs all changes to the global board store and persists them via API.
  */
 export const useBoardCard = (): {
-  addCard: (currentCards: BoardCardType[]) => void
+  addCard: (currentCards: BoardCardType[]) => BoardCardType
   removeCard: (cardId: [number, number]) => void
   updateCard: (cardId: [number, number], updates: Partial<BoardCardType>) => void
   createNewCard: (overrides: Partial<BoardCardType>) => BoardCardType
@@ -71,10 +73,10 @@ export const useBoardCard = (): {
     })
   }
 
-  const addCard = (currentCards: BoardCardType[]): void => {
-    if (!board.activeBoard) return
-    currentCards.push(createNewCard())
-    board.updateBoard(board.activeBoard.id)
+  const addCard = (currentCards: BoardCardType[]): BoardCardType => {
+    const newCard = createNewCard()
+    currentCards.push(newCard)
+    return newCard
   }
 
   const removeCard = (cardId: [number, number]): void => {

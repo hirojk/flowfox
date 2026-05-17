@@ -30,7 +30,7 @@ export const BoardTagSchema = z.object({
 
 export const BoardCardSchema = z.object({
   id: z.number(),
-  name: z.string().default('New Card'),
+  name: z.string().default(''),
   priority: z.enum(PRIORITY_VALUES).default(DEFAULT_PRIORITY),
   description: z.string().default('No Description'),
   checklist: z.array(CheckboxItemSchema).default([]),
@@ -41,14 +41,14 @@ export const BoardCardSchema = z.object({
 
 export const BoardColumnSchema = z.object({
   id: z.number(),
-  name: z.string().default('New Column'),
+  name: z.string().default(''),
   cards: z.array(BoardCardSchema).default([]),
 })
 
 export const BoardSchema = z.object({
   id: z.number(),
   type: z.literal('board').default('board'),
-  name: z.string().default('New Board'),
+  name: z.string().default(''),
   creatorId: z.number(),
   members: z.array(z.number()).default([]),
   columns: z.array(BoardColumnSchema).default([]),

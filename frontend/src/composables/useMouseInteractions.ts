@@ -1,4 +1,5 @@
 import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue'
+const { useAppStore } = await import('@stores/appStore')
 
 const interactionState: Ref<'grabbing' | 'dragging' | undefined> = ref(undefined)
 
@@ -7,7 +8,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   let grabbingElement: HTMLElement | null = null
   let ghost: HTMLElement | null = null
 
-  const holdingTime: number = 1000
+  const holdingTime: number = 750
 
   const scrollZone: number = 100
   const scrollSpeed: number = 10
@@ -25,7 +26,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     grabbingElement = null
     document.body.style.cursor = ''
     document.body.style.overflow = ''
-
+    
     if (scrollAnimation) {
       cancelAnimationFrame(scrollAnimation)
       scrollAnimation = null
@@ -56,7 +57,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     return element
   }
 
-  const onMouseDown = (e: MouseEvent) => {
+  const onPointerDown = (e: PointerEvent) => {
     const columnElement = (e.target as HTMLElement).closest('.draggable') as HTMLElement | null
     if (!columnElement || !listRef.value) return
     if (interactionState.value === 'dragging') return
@@ -65,7 +66,7 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
     const startDrag = () => {
       grabbingElement = columnElement
-      columnElement.removeEventListener('mouseleave', cancelHold)
+      columnElement.removeEventListener('pointercancel', cancelHold)
 
       const { left, top, width, height } = columnElement.getBoundingClientRect()
       ghost = createGhost(columnElement, width, height, e.clientX, e.clientY, e.clientX - left, e.clientY - top)
@@ -80,13 +81,12 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
       if (!ghost) {
         interactionState.value = undefined
       }
-      window.removeEventListener('mouseup', cancelHold)
+      window.removeEventListener('pointerup', cancelHold)
     }
 
     const holdTimer = setTimeout(startDrag, holdingTime)
-
-    columnElement.addEventListener('mouseleave', cancelHold)
-    window.addEventListener('mouseup', cancelHold)
+    columnElement.addEventListener('pointerup', cancelHold, { once: true })
+    columnElement.addEventListener('pointercancel', cancelHold, { once: true })
   }
 
   const autoScroll = () => {
@@ -107,8 +107,9 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     scrollAnimation = requestAnimationFrame(autoScroll)
   }
 
-  const onMouseMove = (e: MouseEvent) => {
+  const onPointerMove = (e: PointerEvent) => {
     if (!ghost || !listRef.value) return
+    e.preventDefault()
     moveGhost(e.clientX, e.clientY)
 
     if (scrollAnimation) cancelAnimationFrame(scrollAnimation)
@@ -133,12 +134,16 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
     }
   }
 
-  const onMouseUp = () => {
+  const onPointerUp = () => {
     if (!ghost || !listRef.value) return
 
-    listRef.value?.querySelector('.grab-placeholder')?.replaceWith(grabbingElement!)
+    listRef.value.querySelector('.grab-placeholder')?.replaceWith(grabbingElement!)
     removeGhost()
     interactionState.value = undefined
+
+    const appStore = useAppStore()
+    appStore.justDropped = true
+    setTimeout(() => { appStore.justDropped = false }, 500)
 
     const newOrder = [...listRef.value.querySelectorAll('.draggable')].map((el) =>
       Number((el as HTMLElement).dataset.id),
@@ -149,15 +154,15 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
 
   watch(listRef, (listElement) => {
     if (!listElement) return
-    listElement.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    listElement.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
   })
 
   onUnmounted(() => {
-    listRef.value?.removeEventListener('mousedown', onMouseDown)
-    window.removeEventListener('mousemove', onMouseMove)
-    window.removeEventListener('mouseup', onMouseUp)
+    listRef.value?.removeEventListener('pointerdown', onPointerDown)
+    window.removeEventListener('pointermove', onPointerMove)
+    window.removeEventListener('pointerup', onPointerUp)
     removeGhost()
   })
 }
