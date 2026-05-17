@@ -73,6 +73,10 @@
     }
 
     dialogRef.value.showModal()
+
+    requestAnimationFrame(() => {
+      ;(document.activeElement as HTMLElement | null)?.blur()
+    })
   }
 
   const handleBackdropClick = () => {

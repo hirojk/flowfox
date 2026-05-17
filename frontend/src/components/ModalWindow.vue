@@ -38,7 +38,7 @@
     max-height: 56.25em;
     border: none;
     border-radius: 1em;
-    padding: 2em;
+    padding: 0;
     background-color: $ff-white;
     cursor: default;
 
@@ -55,6 +55,7 @@
       grid-template-rows: auto 1fr;
       gap: 1em;
       height: 100%;
+      padding: 2em;
     }
 
     &__header {

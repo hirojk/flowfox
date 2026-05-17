@@ -84,12 +84,13 @@ a,
 button,
 input[type='checkbox'] {
   @include focusVisible;
-}
 
-a,
-button {
   pointer-events: all;
   cursor: pointer;
+}
+
+dialog {
+  outline: none;
 }
 
 input {
