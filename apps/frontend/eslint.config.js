@@ -28,23 +28,32 @@ export default tseslint.config(
   },
   {
     rules: {
+      // Vue structure
+      'vue/block-order': ['warn', { order: ['template', 'script', 'style'] }],
+      'vue/block-lang': ['warn', { script: { lang: 'ts' } }],
+      'vue/component-api-style': ['warn', ['script-setup']],
+      'vue/prefer-define-options': 'warn',
+      'vue/attributes-order': 'warn',
+
+      // Vue formatting
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/script-indent': 'off',
+      'vue/multi-word-component-names': 'off',
+      'vue/attribute-hyphenation': 'off',
+      'vue/html-self-closing': 'off',
+      'vue/max-attributes-per-line': 'off',
+
+      // TypeScript
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
-      'vue/multi-word-component-names': 'off',
-      'vue/max-attributes-per-line': 'off',
-      'vue/singleline-html-element-content-newline': 'off',
-      'vue/html-self-closing': 'off',
-      'vue/attributes-order': 'warn',
-      'vue/attribute-hyphenation': 'off',
-      'vue/block-order': ['warn', { order: ['template', 'script', 'style'] }],
-      'vue/block-lang': ['warn', { script: { lang: 'ts' } }],
-      'vue/prefer-define-options': 'warn',
-      'vue/component-api-style': ['warn', ['script-setup']],
       'no-undef': 'off',
+      'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
+      'no-unused-expressions': 'error',
+      'object-shorthand': ['error', 'always'],
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**'],
+    ignores: ['dist/**', 'node_modules/**', '.turbo/**'],
   },
 )

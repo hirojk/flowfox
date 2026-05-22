@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+package-lock.json
+.pnpm-store
+
+# Build
+.turbo
+.cache
+dist
+build
+
+# Assets
+app/frontend/assets/**
+
+# Datatypes
+**/*.json
+*.md
+
+# Config
+.env
+.vscode
