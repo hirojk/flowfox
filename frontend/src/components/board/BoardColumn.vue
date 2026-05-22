@@ -18,6 +18,7 @@
             action: () => removeColumn(props.columnContent.id),
           },
         ]"
+        :ariaLabel="`${props.columnContent.name} column actions`"
       />
     </div>
     <ul class="board-column__cards">
@@ -25,7 +26,7 @@
         <BoardCard :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
-    <button class="board-column__button" @click="handleAddCard">
+    <button class="board-column__button" aria-label="Add new card" @click="handleAddCard">
       <IconSvg id="icon-plus" />
       Add Card
     </button>

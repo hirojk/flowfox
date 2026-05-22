@@ -8,7 +8,7 @@
   >
     <div class="page-item__sign">
       <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
-      <strong v-else class="page-item__initials">{{ useInitials(props.label) }}</strong>
+      <strong v-else class="page-item__initials" aria-hidden="true">{{ useInitials(props.label) }}</strong>
     </div>
     <TextEditor
       class="page-item__label page-item__label--editing"

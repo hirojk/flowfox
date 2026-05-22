@@ -1,5 +1,10 @@
 <template>
-  <div v-if="appStore.isSidebarOpen" class="page__backdrop" @click="appStore.isSidebarOpen = false"></div>
+  <div
+    v-if="appStore.isSidebarOpen"
+    class="page__backdrop"
+    aria-hidden="true"
+    @click="appStore.isSidebarOpen = false"
+  ></div>
 </template>
 
 <script setup lang="ts">

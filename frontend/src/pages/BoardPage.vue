@@ -16,11 +16,11 @@
             :saveEvent="(newBoardName) => boardStore.updateBoardName(boardStore.activeBoard?.id!, newBoardName)"
           />
         </div>
-        <button class="button button--primary" @click="openSettingsModal('board-setting')">Setting</button>
+        <button class="button button--primary" @click="openSettingsModal('board-setting')">Board setting</button>
       </header>
     </div>
     <section class="page__content">
-      <ul ref="boardRef" class="board">
+      <ul ref="boardRef" class="board" aria-label="Board columns">
         <li
           v-for="column in boardStore.activeBoard?.columns"
           :key="column.id"
@@ -30,7 +30,7 @@
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
-          <button class="board__button board__button--add-column" @click="handleAddColumn">
+          <button class="board__button board__button--add-column" aria-label="Add new column" @click="handleAddColumn">
             <IconSvg id="icon-plus" />
             Add Column
           </button>

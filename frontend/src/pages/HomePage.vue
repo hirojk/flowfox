@@ -21,7 +21,13 @@
             />
           </li>
           <li class="projects__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Project" @click="handleNewProject" />
+            <PageItem
+              buttonStyle="new"
+              icon="icon-plus"
+              label="New Project"
+              aria-label="Create New Project"
+              @click="handleNewProject"
+            />
           </li>
         </ul>
       </div>

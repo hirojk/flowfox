@@ -2,7 +2,7 @@
   <ul class="checkboxEditor">
     <span v-if="props.checkboxes.length === 0" class="checkboxEditor__message">No Subtask submitted</span>
     <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
-      <div class="checkboxEditor__checkbox">
+      <label class="checkboxEditor__checkbox">
         <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
         <TextEditor
           :class="['checkboxEditor__label', { 'checkboxEditor__label--checked': item.isChecked }]"
@@ -10,15 +10,15 @@
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
           :cancelEvent="() => deleteCheckbox(item)"
         />
-      </div>
-      <button class="checkboxEditor__delete" @click="deleteCheckbox(item)">
+      </label>
+      <button class="checkboxEditor__delete" :aria-label="`Delete ${item.label}`" @click="deleteCheckbox(item)">
         <IconSvg id="icon-cancel" />
       </button>
     </li>
   </ul>
-  <button class="checkboxEditor__button button button--secondary" @click="addCheckbox()">
+  <button class="checkboxEditor__button button button--secondary" aria-label="Add new subtask" @click="addCheckbox()">
     <IconSvg id="icon-plus" />
-    Add Subtask
+    Add subtask
   </button>
 </template>
 

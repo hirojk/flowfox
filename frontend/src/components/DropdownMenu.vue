@@ -1,6 +1,12 @@
 <template>
   <div class="selectmenu">
-    <button ref="buttonRef" class="selectmenu__button" aria-haspopup="menu" @click="toggleMenu">
+    <button
+      ref="buttonRef"
+      class="selectmenu__button"
+      aria-haspopup="menu"
+      :aria-label="props.ariaLabel"
+      @click="toggleMenu"
+    >
       <IconSvg v-if="props.icon" :id="props.icon" />
       <span v-if="props.label">
         {{ props.label }}
@@ -47,6 +53,7 @@
     icon?: string
     label?: string
     options: SelectItem[]
+    ariaLabel?: string
   }>()
 
   const buttonRef = ref<HTMLElement>()

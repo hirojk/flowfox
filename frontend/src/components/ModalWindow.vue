@@ -2,7 +2,7 @@
   <dialog ref="dialogRef" class="modal" @click="handleBackdropClick">
     <div class="modal__content" @click.stop>
       <div class="modal__header">
-        <button class="modal__close" @click="closeSettingsModal">
+        <button class="modal__close" aria-label="Close dialog" @click="closeSettingsModal">
           <IconSvg id="icon-cancel" />
           Close
         </button>

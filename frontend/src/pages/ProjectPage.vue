@@ -15,7 +15,7 @@
           "
         />
       </div>
-      <button class="button button--primary" @click="openSettingsModal('project-setting')">Setting</button>
+      <button class="button button--primary" @click="openSettingsModal('project-setting')">Project setting</button>
     </header>
     <section class="page__content">
       <div class="components">
@@ -33,7 +33,13 @@
             />
           </li>
           <li class="components__item">
-            <PageItem buttonStyle="new" icon="icon-plus" label="New Component" @click="handleNewComponent" />
+            <PageItem
+              buttonStyle="new"
+              icon="icon-plus"
+              label="New Component"
+              aria-label="Create New Component"
+              @click="handleNewComponent"
+            />
           </li>
         </ul>
       </div>

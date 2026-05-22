@@ -1,5 +1,10 @@
 <template>
-  <button :id="`board-card-${props.cardContent.id}`" class="board-card" @click="openCardModal">
+  <button
+    :id="`board-card-${props.cardContent.id}`"
+    class="board-card"
+    :aria-label="`Open ${props.cardContent.name} card details`"
+    @click="openCardModal"
+  >
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <TextEditor

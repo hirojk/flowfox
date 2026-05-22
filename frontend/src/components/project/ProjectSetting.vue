@@ -2,7 +2,7 @@
   <Teleport defer to="#modal-footer">
     <button class="project-setting__delete button button--primary" @click="onDeleteBoard">
       <IconSvg id="icon-cancel" />
-      Delete this Project
+      Delete project
     </button>
   </Teleport>
 </template>
