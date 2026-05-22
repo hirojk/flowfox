@@ -1,10 +1,10 @@
 <template>
   <section class="board-setting__header">
-    <h2>Board Custom Setting</h2>
+    <h1 class="board-setting__headline">Board Custom Setting</h1>
   </section>
   <section class="board-setting__details">
     <div class="board-setting__content board-setting__content--card">
-      <strong class="board-setting__label">Cards Display</strong>
+      <h2 class="board-setting__label">Cards Display</h2>
       <label v-for="(value, key) in boardStore.activeBoard?.settings.cards" :key="key" class="board-setting__checkbox">
         <input
           type="checkbox"
@@ -17,7 +17,7 @@
       </label>
     </div>
     <div class="board-setting__content board-setting__content--modal">
-      <strong class="board-setting__label">Modal Display</strong>
+      <h2 class="board-setting__label">Modal Display</h2>
       <label v-for="(value, key) in boardStore.activeBoard?.settings.modal" :key="key" class="board-setting__checkbox">
         <input
           type="checkbox"
@@ -32,7 +32,7 @@
   <Teleport defer to="#modal-footer">
     <button class="board-setting__delete button button--primary" @click="onDeleteBoard">
       <IconSvg id="icon-cancel" />
-      Delete this Board
+      Delete Board
     </button>
   </Teleport>
 </template>
@@ -88,13 +88,10 @@
       align-items: center;
       gap: 0.5em;
       margin-bottom: 2em;
+    }
 
-      &-headline {
-        @include fontMixin(map.get($font-size, xl));
-
-        width: 100%;
-        cursor: text;
-      }
+    &__headline {
+      @include fontMixin(map.get($font-size, xl));
     }
 
     &__details {

@@ -1,13 +1,28 @@
 import { useAppStore } from '@stores/appStore'
 import type { ModalWindowType } from '@typeDefs/globalTypes'
 
-const getStores = (): { modal: ReturnType<typeof useAppStore> } => ({
-  modal: useAppStore(),
-})
+const getModal = (): HTMLDialogElement | null => document.querySelector('.modal')
 
-export const openSettingsModal = (modalContentString: ModalWindowType): void => {
-  const { modal } = getStores()
+export const openSettingsModal = (content: ModalWindowType): void => {
+  const store = useAppStore()
 
-  modal.isModalOpen = true
-  modal.modalContent = modalContentString
+  store.isModalOpen = true
+  store.modalContent = content
+
+  getModal()?.showModal()
+
+  requestAnimationFrame(() => {
+    ;(document.activeElement as HTMLElement | null)?.blur()
+  })
+}
+
+export const closeSettingsModal = (): void => {
+  const store = useAppStore()
+
+  if (store.isEditing || store.isDropdownOpen) return
+
+  store.isModalOpen = false
+  store.modalContent = null
+
+  getModal()?.close()
 }

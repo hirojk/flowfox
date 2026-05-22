@@ -1,5 +1,10 @@
 <template>
-  <article :id="`board-card-${props.cardContent.id}`" class="board-card" @click="openCardModal">
+  <button
+    :id="`board-card-${props.cardContent.id}`"
+    class="board-card"
+    :aria-label="`Open ${props.cardContent.name} card details`"
+    @click="openCardModal"
+  >
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <TextEditor
@@ -40,15 +45,15 @@
         </ul>
       </div>
     </div>
-  </article>
+  </button>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useBoardCard } from '@composables/useBoard'
+  import { openSettingsModal } from '@composables/useModal'
   import { PRIORITY_LIST } from '@constants/priority'
   import { getIcon } from '@services/helpers'
-  import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType } from '@flowfox/shared'
 
@@ -61,7 +66,6 @@
 
   const { updateCard, removeCard } = useBoardCard()
 
-  const appStore = useAppStore()
   const boardStore = useBoardStore()
 
   const card = computed(() => ({
@@ -82,8 +86,7 @@
   })
 
   const openCardModal = () => {
-    appStore.isModalOpen = true
-    appStore.modalContent = 'board-card'
+    openSettingsModal('board-card')
     boardStore.setActiveCardId(props.columnId, props.cardContent.id)
   }
 </script>

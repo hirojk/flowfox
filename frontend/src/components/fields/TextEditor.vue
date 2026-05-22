@@ -10,6 +10,7 @@
       props.singleEdit && hasEdited ? 'textEditor--pointer' : '',
     ]"
     :readonly="!isEditing"
+    :tabindex="props.singleEdit && hasEdited ? -1 : 0"
     :name="localText"
     :value="localText"
     @click="handleClick"

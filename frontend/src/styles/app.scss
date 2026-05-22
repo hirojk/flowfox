@@ -8,14 +8,12 @@
 
 @media (pointer: coarse) {
   * {
-    -webkit-user-select: none;
     user-select: none;
   }
 
   input,
   textarea,
   [contenteditable] {
-    -webkit-user-select: text;
     user-select: text;
   }
 }
@@ -83,17 +81,16 @@ p,
 }
 
 a,
-button {
-  &:focus-visible {
-    outline: 2px solid -webkit-focus-ring-color;
-    outline-offset: 2px;
-  }
-}
+button,
+input[type='checkbox'] {
+  @include focusVisible;
 
-a,
-button {
   pointer-events: all;
   cursor: pointer;
+}
+
+dialog {
+  outline: none;
 }
 
 input {

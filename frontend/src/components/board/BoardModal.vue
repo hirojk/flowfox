@@ -10,15 +10,16 @@
         :options="[
           {
             name: 'Remove Card',
-            action: () => removeCard(boardStore.activeCardId as [number, number]),
+            action: () => handleRemoveCard(),
           },
         ]"
+        :ariaLabel="`${activeCard.name} card actions`"
       />
     </Teleport>
     <section class="board-modal__header">
       <TextEditor
         class="board-modal__header-headline"
-        htmlTag="strong"
+        htmlTag="h1"
         :text="activeCard.name"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
@@ -34,11 +35,12 @@
             action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
+        :ariaLabel="`priority: ${activeCard.priority ?? 'medium'}`"
       />
     </section>
     <section class="board-modal__details">
       <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
-        <strong class="board-modal__label">Description</strong>
+        <h2 class="board-modal__label">Description</h2>
         <TextEditor
           class="board-modal__description"
           htmlTag="p"
@@ -48,7 +50,7 @@
         />
       </div>
       <div v-if="modalSettings.checklist" class="board-modal__content board-modal__content--checklist">
-        <strong class="board-modal__label">Checklist</strong>
+        <h2 class="board-modal__label">Checklist</h2>
         <CheckboxEditor
           class="board-modal__checklist"
           :checkboxes="activeCard.checklist"
@@ -94,8 +96,9 @@
 
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardCard } from '@composables/useBoard'
+  import { closeSettingsModal } from '@composables/useModal'
+  import { PRIORITY_LIST } from '@constants/priority'
   import { getIcon } from '@services/helpers'
   import { useBoardStore } from '@stores/boardStore'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
@@ -123,6 +126,11 @@
     )
     return column?.cards.find((card: BoardCardType) => card.id === boardStore.activeCardId[1])
   })
+
+  const handleRemoveCard = () => {
+    removeCard(boardStore.activeCardId as [number, number])
+    closeSettingsModal()
+  }
 </script>
 
 <style lang="scss" scoped>

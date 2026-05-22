@@ -1,117 +1,152 @@
 <template>
-  <div class="dropdown">
+  <div class="selectmenu">
     <button
       ref="buttonRef"
-      class="dropdown__button"
-      @click="handleOpen"
-      @focusout="close"
-      @touchstart.stop
-      @touchend.prevent="handleOpen"
+      class="selectmenu__button"
+      aria-haspopup="menu"
+      :aria-label="props.ariaLabel"
+      @click="toggleMenu"
     >
       <IconSvg v-if="props.icon" :id="props.icon" />
-      <span v-if="props.label">{{ props.label }}</span>
+      <span v-if="props.label">
+        {{ props.label }}
+      </span>
     </button>
 
-    <Teleport to="body">
+    <dialog ref="dialogRef" class="selectmenu__menu" @click="handleBackdropClick">
       <ul
-        v-if="isOpen"
-        class="dropdown__list"
-        :style="{ top: `${listPosition.top}px`, left: `${listPosition.left}px` }"
+        ref="listRef"
+        class="selectmenu__list"
+        role="menu"
+        :style="{
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+        }"
+        @click.stop
       >
         <li
-          v-for="item in props.options"
+          v-for="(item, index) in props.options"
           :key="item.name"
-          class="dropdown__item"
-          @mousedown.prevent="handleSelect(item)"
-          @touchend.prevent="handleSelect(item)"
+          class="selectmenu__item"
+          tabindex="0"
+          @click="handleSelect(item)"
+          @keydown="handleKeydown($event, index, item)"
         >
           <IconSvg v-if="item.icon" :id="item.icon" />
-          {{ item.name }}
+          <span>{{ item.name }}</span>
         </li>
       </ul>
-    </Teleport>
+    </dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from 'vue'
-  import { useAppStore } from '@stores/appStore'
+  import { ref } from 'vue'
 
-  interface DropdownItem {
+  interface SelectItem {
     name: string
     icon?: string
-    action: () => void
+    action?: () => void
   }
 
   const props = defineProps<{
-    mode: 'select' | 'context'
     icon?: string
     label?: string
-    options: DropdownItem[]
+    options: SelectItem[]
+    ariaLabel?: string
   }>()
 
-  const appStore = useAppStore()
+  const buttonRef = ref<HTMLElement>()
+  const dialogRef = ref<HTMLDialogElement>()
+  const listRef = ref<HTMLElement>()
+  const position = ref({
+    top: 0,
+    left: 0,
+  })
 
-  const isOpen = ref(false)
+  const toggleMenu = () => {
+    if (!dialogRef.value || !buttonRef.value) return
 
-  const buttonRef = ref<HTMLElement | null>(null)
-  const listPosition = ref({ top: 0, left: 0 })
-
-  const close = () => {
-    isOpen.value = false
-    appStore.isDropdownOpen = false
-  }
-
-  const handleOpen = () => {
-    const rect = buttonRef.value?.getBoundingClientRect()
-    if (!rect) return
-
-    listPosition.value = {
-      top: rect.bottom,
-      left: rect.left + rect.width / 2,
+    if (dialogRef.value.open) {
+      dialogRef.value.close()
+      return
     }
-    isOpen.value = !isOpen.value
-    appStore.isDropdownOpen = isOpen.value
+
+    const { bottom, left, width } = buttonRef.value.getBoundingClientRect()
+
+    position.value = {
+      top: bottom + 12,
+      left: left + width / 2,
+    }
+
+    dialogRef.value.showModal()
+
+    requestAnimationFrame(() => {
+      ;(document.activeElement as HTMLElement | null)?.blur()
+    })
   }
 
-  const handleSelect = (item: DropdownItem) => {
-    item.action()
-    close()
+  const handleBackdropClick = () => {
+    dialogRef.value?.close()
   }
 
-  const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-    if (!isOpen.value) return
-
-    const target = e.target as HTMLElement
-    if (buttonRef.value?.contains(target) || target.closest('.dropdown__list')) return
-    close()
+  const handleSelect = (item: SelectItem) => {
+    item.action?.()
+    dialogRef.value?.close()
   }
 
-  onMounted(() => {
-    document.addEventListener('mousedown', handleClickOutside)
-    document.addEventListener('touchend', handleClickOutside)
-  })
+  const focusItem = (index: number) => {
+    const items = listRef.value?.querySelectorAll<HTMLElement>('.selectmenu__item')
 
-  onUnmounted(() => {
-    document.removeEventListener('mousedown', handleClickOutside)
-    document.removeEventListener('touchend', handleClickOutside)
-  })
+    items?.[index]?.focus()
+  }
+
+  const handleKeydown = (event: KeyboardEvent, index: number, item: SelectItem) => {
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault()
+        focusItem((index + 1) % props.options.length)
+        break
+
+      case 'ArrowUp':
+        event.preventDefault()
+        focusItem((index - 1 + props.options.length) % props.options.length)
+        break
+
+      case 'Enter':
+      case ' ':
+        event.preventDefault()
+        handleSelect(item)
+        break
+
+      case 'Escape':
+        dialogRef.value?.close()
+        buttonRef.value?.focus()
+        break
+    }
+  }
 </script>
 
-<style lang="scss" scoped>
-  .dropdown {
-    position: relative;
-
+<style scoped lang="scss">
+  .selectmenu {
     &__button {
       display: flex;
       align-items: center;
       gap: 0.5em;
     }
 
+    &__menu {
+      border: none;
+      padding: 0;
+
+      &::backdrop {
+        background: transparent;
+      }
+    }
+
     &__list {
       position: fixed;
       transform: translateX(-50%);
-      margin-top: 0.75em;
       border-radius: 0.5em;
       padding: 0.5em 0;
       background: $ff-white;
@@ -120,6 +155,8 @@
     }
 
     &__item {
+      @include focusVisible;
+
       display: flex;
       align-items: center;
       gap: 0.5em;

@@ -2,7 +2,7 @@
   <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
       <div class="sideBar-item__box" :class="`sideBar-item__box--${props.buttonStyle}`">
-        <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project">
+        <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project" aria-hidden="true">
           {{ useInitials(props.label) }}
         </span>
         <iconSvg v-if="props.icon" :id="props.icon" size="36" />
@@ -67,6 +67,8 @@
     padding: 0 !important;
     color: $ff-black;
     font-size: list.nth(map.get($font-size, md), 1);
+
+    @include focusVisible;
 
     &__icon {
       display: flex;

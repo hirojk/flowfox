@@ -1,8 +1,8 @@
 <template>
-  <div v-if="appStore.isModalOpen" class="modal" @pointerdown="closeModal">
-    <div class="modal__content" @click.stop @pointerdown.stop>
+  <dialog ref="dialogRef" class="modal" @click="handleBackdropClick">
+    <div class="modal__content" @click.stop>
       <div class="modal__header">
-        <button class="modal__close" @mousedown="handleCloseMousedown" @click="closeModal">
+        <button class="modal__close" aria-label="Close dialog" @click="closeSettingsModal">
           <IconSvg id="icon-cancel" />
           Close
         </button>
@@ -13,51 +13,49 @@
       </div>
       <div id="modal-footer" class="modal__footer"></div>
     </div>
-  </div>
+  </dialog>
 </template>
 
 <script setup lang="ts">
-  import { useAppStore } from '@stores/appStore'
+  import { ref } from 'vue'
+  import { closeSettingsModal } from '@composables/useModal'
 
-  const appStore = useAppStore()
+  const dialogRef = ref<HTMLDialogElement>()
 
-  const closeModal = () => {
-    if (appStore.isEditing || appStore.isDropdownOpen) return
-    appStore.isModalOpen = false
-    appStore.modalContent = null
-  }
-
-  const handleCloseMousedown = (e: MouseEvent) => {
-    if (appStore.isEditing || appStore.isDropdownOpen) e.preventDefault()
+  const handleBackdropClick = () => {
+    dialogRef.value?.close()
   }
 </script>
 
 <style lang="scss" scoped>
   .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100dvw;
-    height: 100dvh;
-    padding: 4em 4em 6em;
-    background-color: rgba($ff-senary, 0.5);
-    z-index: 3001;
+    display: none;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+    height: 100%;
+    max-width: 56.25em;
+    max-height: 56.25em;
+    border: none;
+    border-radius: 1em;
+    padding: 0;
+    background-color: $ff-white;
     cursor: default;
+
+    &[open] {
+      display: flex;
+    }
+
+    &::backdrop {
+      background-color: rgba($ff-senary, 0.5);
+    }
 
     &__content {
       display: grid;
       grid-template-rows: auto 1fr;
       gap: 1em;
-      width: 100%;
       height: 100%;
-      max-width: 56.25em;
-      max-height: 56.25em;
-      border-radius: 1em;
       padding: 2em;
-      background-color: $ff-white;
     }
 
     &__header {

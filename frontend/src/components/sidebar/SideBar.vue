@@ -69,7 +69,7 @@
     {
       buttonStyle: 'nav' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
-      label: appStore.isSidebarOpen ? 'Collapse' : 'Expand',
+      label: appStore.isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar',
       action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])
