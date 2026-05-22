@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project follows [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-05-22
+
+### Added
+
+- Improved accessibility support for better screen reader compatibility
+
+### Fixed
+
+- Fixed touch and input behavior on iOS web app
+
+### Changed
+
+- Restructured project architecture into `apps/` and `packages/` for better monorepo organization
+- Migrated application from SPA to SSR architecture
+
 ## [0.1.0] - 2026-04-11
 
 ### Added

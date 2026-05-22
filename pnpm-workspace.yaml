@@ -1,4 +1,11 @@
 packages:
-  - 'frontend'
-  - 'backend'
-  - 'shared'
+  - 'apps/*'
+  - 'packages/*'
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - 'bcrypt'
+  - 'esbuild'
+
+overrides:
+  axios: '1.16.1'

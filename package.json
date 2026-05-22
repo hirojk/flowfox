@@ -1,8 +1,8 @@
 {
   "name": "flowfox",
-  "description": "A Kanban Board App",
+  "description": "Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.",
   "author": "Jan Kolar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "prettier": "^3.7.4",
-    "turbo": "^2.9.6",
+    "turbo": "^2.9.14",
     "typescript": "5.9.2"
   },
   "packageManager": "pnpm@10.33.0",
