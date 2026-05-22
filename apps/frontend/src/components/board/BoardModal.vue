@@ -99,8 +99,8 @@
   import { useBoardCard } from '@composables/useBoard'
   import { closeSettingsModal } from '@composables/useModal'
   import { PRIORITY_LIST } from '@constants/priority'
-  import { getIcon } from '@services/helpers'
   import { useBoardStore } from '@stores/boardStore'
+  import { getIcon } from '@utils/helpers'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
 
   import TextEditor from '@components/fields/TextEditor.vue'

@@ -30,7 +30,8 @@
       "@pages/*": ["./src/pages/*"],
       "@services/*": ["./src/services/*"],
       "@stores/*": ["./src/stores/*"],
-      "@typeDefs/*": ["./src/types/*"]
+      "@typeDefs/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"]
     },
 
     "types": ["node", "jsdom"]
