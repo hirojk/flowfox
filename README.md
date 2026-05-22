@@ -23,7 +23,7 @@ This project is structured as a monorepo using [Turborepo](https://turbo.build/)
 - **State Management:** Pinia
 - **UI Framework:** Quasar
 - **HTTP Client:** Axios
-- **Rendering:** Server-Side Rendering (SSR)
+- **Rendering:** Single Page Application (SPA)
 - **Build Tool:** Vite
 - **Code Quality:** ESLint, Prettier, Stylelint
 - **Tests:** Not implemented yet
@@ -58,42 +58,47 @@ The application should now be running locally.
 The Project files are structured like this:
 
 ```sh
-├── backend                         # Backend (Node.js / API layer)
-│   ├── config                      # Configuration files (environment, database, etc.)
-│   ├── controllers                 # Request handlers and business logic
-│   ├── middleware                  # Express middleware (auth, logging, etc.)
-│   ├── models                      # Database models / schemas
-│   ├── routes                      # API route definitions
-│   ├── types                       # TypeScript type definitions
-│   ├── utils                       # Utility/helper functions
-│   └── server.ts                   # Application entry point
+├── apps
+│   ├── backend                         # Backend (Node.js / API layer)
+│   │   ├── config                      # Configuration files (environment, database, etc.)
+│   │   ├── controllers                 # Request handlers and business logic
+│   │   ├── middleware                  # Express middleware (auth, logging, etc.)
+│   │   ├── models                      # Database models / schemas
+│   │   ├── routes                      # API route definitions
+│   │   ├── types                       # TypeScript type definitions
+│   │   ├── utils                       # Utility/helper functions
+│   │   │
+│   │   └── server.ts                   # Application entry point
+│   │
+│   └── frontend                        # Frontend (Vue.js application)
+│       ├── public                      # Static assets
+│       ├── src                         # Main source code
+│       │   ├── components              # Reusable UI components
+│       │   ├── composables             # Vue composables (logic reuse)
+│       │   ├── constants               # Frontend constants
+│       │   ├── layouts                 # Layout components
+│       │   ├── pages                   # Application pages/views
+│       │   ├── router                  # Routing configuration
+│       │   ├── services                # API calls and external services
+│       │   ├── stores                  # State management (e.g. Pinia)
+│       │   ├── styles                  # Global and component styles
+│       │   ├── types                   # TypeScript type definitions
+│       │   ├── App.vue                 # Root Vue component
+│       │   ├── global.components.ts    # Global component registration
+│       │   └── main.ts                 # Frontend entry point
+│       │
+│       └── index.html                  # Main HTML file
 │
-├── frontend                        # Frontend (Vue.js application)
-│   ├── public                      # Static assets
-│   ├── src                         # Main source code
-│   │   ├── components              # Reusable UI components
-│   │   ├── composables             # Vue composables (logic reuse)
-│   │   ├── constants               # Frontend constants
-│   │   ├── layouts                 # Layout components
-│   │   ├── pages                   # Application pages/views
-│   │   ├── router                  # Routing configuration
-│   │   ├── services                # API calls and external services
-│   │   ├── stores                  # State management (e.g. Pinia)
-│   │   ├── styles                  # Global and component styles
-│   │   ├── types                   # TypeScript type definitions
-│   │   ├── App.vue                 # Root Vue component
-│   │   ├── global.components.ts    # Global component registration
-│   │   └── main.ts                 # Frontend entry point
-│   └── index.html                  # Main HTML file
+├── packages
+│   └── shared                          # Shared code between frontend & backend
+│       ├── constants                   # Shared constants
+│       ├── schemas                     # Shared validation schemas
+│       ├── utils                       # Shared utility functions
+│       ├── types                       # Shared TypeScript types
+│       └── index.ts                    # Shared module entry point
 │
-├── shared                          # Shared code between frontend & backend
-│   ├── constants                   # Shared constants
-│   ├── schemas                     # Shared validation schemas
-│   ├── utils                       # Shared utility functions
-│   └── index.ts                    # Shared module entry point
-│
-├── package.json                    # Project dependencies and scripts
-└── turbo.json                      # Turborepo configuration
+├── package.json                        # Project dependencies and scripts
+└── turbo.json                          # Turborepo configuration
 ```
 
 ## Deployment
