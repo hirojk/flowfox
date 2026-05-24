@@ -1,4 +1,4 @@
-# Flowfox App (0.1.0)
+# Flowfox App (0.2.0)
 
 Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
 

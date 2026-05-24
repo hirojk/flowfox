@@ -139,10 +139,11 @@ input {
   border-radius: 0.75em;
   padding: 1em 4em;
   font-size: list.nth(map.get($font-size, md), 1);
+  font-family: $font-family-secondary;
   text-align: center;
 
   &--primary {
-    background-color: $ff-primary;
+    background-color: $ff-black;
     color: $ff-white;
 
     @media (hover: hover) and (pointer: fine) {

@@ -12,6 +12,7 @@ $ff-senary: #8e5842;
 $ff-error: #f00;
 $ff-black: #000;
 $ff-grey: #696969;
+$pw-lightgrey: #bfbfbf;
 $ff-white: #fff;
 
 // font sizes
@@ -37,3 +38,7 @@ $font-size: (
     1.1rem,
   ),
 );
+
+// font family
+$font-family-primary: 'Inter', sans-serif;
+$font-family-secondary: 'PT Sans', serif;

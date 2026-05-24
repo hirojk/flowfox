@@ -1,7 +1,7 @@
 <template>
   <main class="page--login">
     <section class="login-form">
-      <h1 class="login-form__title">Flowfox</h1>
+      <h1 class="login-form__title">Pagewise</h1>
       <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
       <form class="login-form__form" @submit.prevent="handleLogin">
         <div class="login-form__form-group">
@@ -15,19 +15,29 @@
         <button class="login-form__form-button button button--primary" type="submit">Login</button>
       </form>
     </section>
+    <img ref="backgroundImage" class="login-form__background" />
   </main>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
 
   const authStore = useAuthStore()
   const router = useRouter()
+  const backgroundImage = ref<HTMLImageElement | null>(null)
   const username = ref('')
   const password = ref('')
   const errorMessage = ref('')
+
+  const backgroundImages = [
+    {
+      title: 'Monet - Water Lilies',
+      imageSource: '/assets/images/background_monet_waterlilies.webp',
+      altText: "Background image of Monet's Water Lilies painting",
+    },
+  ]
 
   const handleLogin = async () => {
     try {
@@ -37,6 +47,19 @@
       errorMessage.value = 'Invalid username or password'
     }
   }
+
+  const loadBackgroundImage = () => {
+    if (backgroundImage.value) {
+      let randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)]
+
+      backgroundImage.value.src = randomImage!.imageSource
+      backgroundImage.value.alt = randomImage!.altText
+    }
+  }
+
+  onMounted(() => {
+    loadBackgroundImage()
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -45,7 +68,7 @@
     justify-content: center;
     align-items: center;
     height: 100dvh;
-    background-color: $ff-secondary;
+    background-color: transparent;
 
     .login-form {
       display: flex;
@@ -53,14 +76,21 @@
       align-items: center;
       gap: 2em;
       width: 100%;
-      max-width: 25em;
-      border-radius: 1em;
-      padding: 2em;
+      max-width: 35em;
+      outline: 5px solid $ff-black;
+      outline-offset: -1em;
+      border: 5px solid $ff-black;
+      border-radius: 2em;
+      padding: 3em 5em;
       background-color: $ff-white;
+      box-shadow: 0 0 2em rgba($ff-black, 0.5);
 
       &__title {
-        color: $ff-primary;
+        color: $ff-black;
+        font-weight: bold;
+        font-family: $font-family-primary;
         text-align: center;
+        text-transform: uppercase;
       }
 
       &__error {
@@ -70,25 +100,42 @@
       &__form {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 1em;
         width: 100%;
 
         &-group {
           display: flex;
           flex-direction: column;
-          gap: 0.5em;
+          gap: 0.25em;
+          width: 100%;
+        }
+
+        &-label {
+          font-size: list.nth(map.get($font-size, sm), 1);
         }
 
         &-input {
-          border: 1px solid $ff-grey;
-          border-radius: 0.5em;
+          border-bottom: 1px solid $ff-black;
+          border-radius: 0.5em 0.5em 0 0;
           padding: 0.5em;
+          background-color: rgba($pw-lightgrey, 0.2);
         }
 
         &-button {
-          margin-top: 2em;
+          width: 12em;
+          margin-top: 2.5em;
           padding: 0.75em;
         }
+      }
+
+      &__background {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
       }
     }
   }
