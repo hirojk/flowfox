@@ -5,16 +5,33 @@
       <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
       <form class="login-form__form" @submit.prevent="handleLogin">
         <div class="login-form__form-group">
-          <label class="login-form__form-label" for="login-username">Username</label>
-          <input id="login-username" v-model="username" class="login-form__form-input" type="text" required />
+          <label class="login-form__form-label inputField__label" for="login-username">Username</label>
+          <input
+            id="login-username"
+            v-model="username"
+            class="login-form__form-input inputField__field"
+            type="text"
+            required
+          />
         </div>
         <div class="login-form__form-group">
-          <label class="login-form__form-label" for="login-password">Password</label>
-          <input id="login-password" v-model="password" class="login-form__form-input" type="password" required />
+          <label class="login-form__form-label inputField__label" for="login-password">Password</label>
+          <input
+            id="login-password"
+            v-model="password"
+            class="login-form__form-input inputField__field"
+            type="password"
+            required
+          />
         </div>
         <button class="login-form__form-button button button--primary" type="submit">Login</button>
       </form>
     </section>
+    <div v-if="false">
+      <button class="login-form__background-button button button--secondary" type="button" @click="loadBackgroundImage">
+        Change Background
+      </button>
+    </div>
     <img ref="backgroundImage" class="login-form__background" />
   </main>
 </template>
@@ -111,15 +128,8 @@
           width: 100%;
         }
 
-        &-label {
-          font-size: list.nth(map.get($font-size, sm), 1);
-        }
-
         &-input {
-          border-bottom: 1px solid $ff-black;
-          border-radius: 0.5em 0.5em 0 0;
-          padding: 0.5em;
-          background-color: rgba($pw-lightgrey, 0.2);
+          border-bottom-color: $ff-black;
         }
 
         &-button {
@@ -136,6 +146,12 @@
         height: 100%;
         object-fit: cover;
         z-index: -1;
+
+        &-button {
+          position: absolute;
+          right: $page-padding-x;
+          bottom: $page-padding-y;
+        }
       }
     }
   }
