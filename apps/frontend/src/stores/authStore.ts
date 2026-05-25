@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
 import { jwtDecode } from 'jwt-decode'
-import type { UserType } from '@flowfox/shared'
+import type { UserType } from '@pagewise/shared'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

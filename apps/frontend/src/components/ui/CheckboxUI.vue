@@ -25,7 +25,7 @@
 <script setup lang="ts">
   import TextEditor from '@components/ui/TextEditor.vue'
   import { triggerInputFocus } from '@composables/useIosInteractions'
-  import type { CheckboxItemType } from '@flowfox/shared'
+  import type { CheckboxItemType } from '@pagewise/shared'
 
   const props = defineProps<{
     class?: string

@@ -1,4 +1,4 @@
-import { type PriorityType } from '@flowfox/shared'
+import { type PriorityType } from '@pagewise/shared'
 import { MODAL_WINDOWS } from '@constants/windows'
 
 export interface IconType {

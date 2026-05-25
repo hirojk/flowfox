@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
-import type { ProjectType } from '@flowfox/shared'
+import type { ProjectType } from '@pagewise/shared'
 
 export const useProjectStore = defineStore('project', {
   state: () => ({

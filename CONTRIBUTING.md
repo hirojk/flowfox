@@ -1,6 +1,6 @@
-# Contributing to Flowfox
+# Contributing to Pagewise
 
-Thank you for your interest in contributing to Flowfox.
+Thank you for your interest in contributing to Pagewise.
 
 This document outlines the development workflow, naming conventions, and coding practices to ensure consistency across the project.
 

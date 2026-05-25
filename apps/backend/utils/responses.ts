@@ -1,5 +1,5 @@
 import { Response } from 'express'
-import { APP_ENV_VALUES } from '@flowfox/shared'
+import { APP_ENV_VALUES } from '@pagewise/shared'
 
 const isDevelopment = process.env.APP_ENV === APP_ENV_VALUES.DEVELOPMENT
 

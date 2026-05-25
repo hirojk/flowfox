@@ -1,6 +1,6 @@
 {
-  "name": "@flowfox/backend",
-  "version": "0.1.1",
+  "name": "@pagewise/backend",
+  "version": "0.2",
   "main": "server.ts",
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@flowfox/shared": "workspace:*",
+    "@pagewise/shared": "workspace:*",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",

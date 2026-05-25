@@ -55,7 +55,7 @@
   import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardStore } from '@stores/boardStore'
   import { getIcon } from '@utils/helpers'
-  import type { BoardCardType } from '@flowfox/shared'
+  import type { BoardCardType } from '@pagewise/shared'
 
   import TextEditor from '@components/ui/TextEditor.vue'
 

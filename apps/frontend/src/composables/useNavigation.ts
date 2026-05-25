@@ -2,7 +2,7 @@ import { computed, type ComputedRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@stores/authStore'
 import { useProjectStore } from '@stores/projectStore'
-import type { ProjectType, BoardType } from '@flowfox/shared'
+import type { ProjectType, BoardType } from '@pagewise/shared'
 
 export const useAuth = (): { handleLogout: () => void } => {
   const authStore = useAuthStore()

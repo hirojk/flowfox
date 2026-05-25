@@ -1,5 +1,5 @@
 import 'express'
-import type { UserType } from '@flowfox/shared'
+import type { UserType } from '@pagewise/shared'
 
 declare module 'express' {
   interface Request {

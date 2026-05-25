@@ -1,4 +1,4 @@
-import { APP_ENV_VALUES } from '@flowfox/shared'
+import { APP_ENV_VALUES } from '@pagewise/shared'
 
 const hashPassword = async (password: string): Promise<string> => {
   const data = new TextEncoder().encode(password)

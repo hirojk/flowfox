@@ -41,7 +41,7 @@
   import { useDeletePrompt } from '@composables/usePromptWindow'
   import { useBoardStore } from '@stores/boardStore'
   import { useProjectStore } from '@stores/projectStore'
-  import type { BoardSettingType } from '@flowfox/shared'
+  import type { BoardSettingType } from '@pagewise/shared'
 
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()

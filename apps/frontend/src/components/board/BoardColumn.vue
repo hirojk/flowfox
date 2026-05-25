@@ -39,7 +39,7 @@
   import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
-  import type { BoardColumnType } from '@flowfox/shared'
+  import type { BoardColumnType } from '@pagewise/shared'
 
   import TextEditor from '@components/ui/TextEditor.vue'
 

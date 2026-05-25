@@ -1,7 +1,7 @@
 import { useBoardStore } from '@stores/boardStore'
 import { useAppStore } from '@stores/appStore'
 // prettier-ignore
-import { BoardColumnSchema, BoardCardSchema, generateId, type BoardColumnType, type BoardCardType } from '@flowfox/shared'
+import { BoardColumnSchema, BoardCardSchema, generateId, type BoardColumnType, type BoardCardType } from '@pagewise/shared'
 
 const getStores = (): { board: ReturnType<typeof useBoardStore>; modal: ReturnType<typeof useAppStore> } => ({
   board: useBoardStore(),

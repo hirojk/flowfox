@@ -23,7 +23,7 @@ importers:
 
   apps/backend:
     dependencies:
-      '@flowfox/shared':
+      '@pagewise/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       bcrypt:
@@ -87,7 +87,7 @@ importers:
 
   apps/frontend:
     dependencies:
-      '@flowfox/shared':
+      '@pagewise/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       axios:

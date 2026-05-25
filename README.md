@@ -1,6 +1,6 @@
-# Flowfox App (0.2.0)
+# Pagewise App (0.2.0)
 
-Flowfox is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
+Pagewise is a project management application designed to organize and manage projects in a flexible and customizable way. It focuses on reusable components and configurable layouts, allowing each project to be tailored to specific needs.
 
 Currently, the app includes a **Board** component, inspired by a Trello-style Kanban board, for organizing tasks. Additional components and features are planned for future releases.
 

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import { getDatabase } from '../config/database.js'
 import { zodToMongooseSchema } from '../utils/zodToMongoose.js'
-import { UserSchema } from '@flowfox/shared'
+import { UserSchema } from '@pagewise/shared'
 
 const userSchema = new Schema(zodToMongooseSchema(UserSchema), { timestamps: true })
 

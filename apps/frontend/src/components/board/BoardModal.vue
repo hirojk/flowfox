@@ -101,7 +101,7 @@
   import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardStore } from '@stores/boardStore'
   import { getIcon } from '@utils/helpers'
-  import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
+  import type { BoardCardType, BoardColumnType, PriorityType } from '@pagewise/shared'
 
   import TextEditor from '@components/ui/TextEditor.vue'
   import CheckboxUI from '@components/ui/CheckboxUI.vue'
