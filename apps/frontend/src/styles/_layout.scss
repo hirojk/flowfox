@@ -15,10 +15,6 @@
     height: 5em;
   }
 
-  &__divider {
-    @include hrDivider($pw-black);
-  }
-
   &__headerContent {
     display: flex;
     align-items: center;
@@ -27,9 +23,12 @@
     max-width: 80em;
   }
 
-  &__headerIcon,
-  &__headline {
+  &__headerIcon {
     color: $pw-primary;
+  }
+
+  &__subline {
+    @include fontHeadline4;
   }
 
   &__content {
@@ -40,14 +39,9 @@
     height: 100%;
   }
 
-  &__contentDivider {
-    @include hrDivider;
-  }
-
-  &__footerDivider {
-    @include hrDivider($pw-primary);
-
-    position: absolute;
-    bottom: calc($page-padding-y * 2);
+  &__title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

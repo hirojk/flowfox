@@ -100,7 +100,7 @@
       background-color: $pw-background;
 
       &__title {
-        @include fontMixin($font-size-2xl);
+        @include fontMixin($font-size-xl);
 
         color: $pw-black;
         font-weight: bold;

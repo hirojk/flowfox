@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page v-bind="$attrs">
     <header class="page__header">
       <div class="page__topbar">
         <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
@@ -9,10 +9,13 @@
       </div>
       <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
     </header>
-    <hr class="page__divider" />
+    <LineDivider variant="secondary" />
     <section class="page__content">
       <div class="projects">
-        <h2 class="projects__title">Your Projects</h2>
+        <div class="page__title-wrapper">
+          <h2 class="projects__title">Your Projects</h2>
+          <LinkUI label="Create New Project" @click="handleNewProject" />
+        </div>
         <ul class="projects__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
@@ -24,20 +27,12 @@
               @cancel="projectStore.deleteProject(project.id)"
             />
           </li>
-          <li class="projects__item">
-            <PageItem
-              buttonStyle="new"
-              icon="icon-plus"
-              label="New Project"
-              aria-label="Create New Project"
-              @click="handleNewProject"
-            />
-          </li>
         </ul>
       </div>
-      <hr v-for="i in 6" :key="i" class="page__contentDivider" role="none" aria-hidden="true" />
+      <LineDivider v-for="i in 6" :key="i" variant="tertiary" />
     </section>
   </q-page>
+  <LineDivider class="line-divider__footer" variant="primary" />
 </template>
 
 <script setup lang="ts">
@@ -60,7 +55,7 @@
   const handleNewProject = () => {
     triggerInputFocus(async () => {
       appStore.currentEditingId = (await projectStore.createNewProject()).id
-    }, '.projects__item:nth-last-child(2) input')
+    }, '.projects__item:nth-last-child(1) input')
   }
 
   onMounted(async () => {
@@ -95,7 +90,7 @@
   .projects {
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
+    gap: 2em;
 
     &__list {
       display: flex;

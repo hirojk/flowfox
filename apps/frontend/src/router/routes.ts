@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import MainLayout from '@layouts/MainLayout.vue'
 import ComponentLayout from '@layouts/ComponentLayout.vue'
 import Login from '@pages/LoginPage.vue'
-import Home from '@pages/HomePage.vue'
+import Home from '@pages/MainPage.vue'
 import Project from '@pages/ProjectPage.vue'
 import Component from '@pages/ComponentPage.vue'
 
