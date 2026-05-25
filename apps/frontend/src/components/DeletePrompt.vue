@@ -41,7 +41,7 @@
     }
 
     &__message {
-      @include fontMixin(map.get($font-size, md));
+      @include fontMixin($font-size-md);
 
       max-width: 15em;
       text-align: center;
@@ -64,13 +64,13 @@
       text-align: center;
 
       &--delete {
-        border: 2px solid $ff-error;
-        color: $ff-error;
+        border: 2px solid $pw-error;
+        color: $pw-error;
       }
 
       &--cancel {
         background-color: rgba($ff-grey, 0.75);
-        color: $ff-white;
+        color: $pw-white;
       }
     }
   }

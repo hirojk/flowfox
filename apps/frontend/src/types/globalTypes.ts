@@ -10,4 +10,4 @@ export interface PriorityIconType extends IconType {
   name: PriorityType
 }
 
-export type ModalWindowType = (typeof MODAL_WINDOWS)[number]
+export type ModalUIType = (typeof MODAL_WINDOWS)[number]

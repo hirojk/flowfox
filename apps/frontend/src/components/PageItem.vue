@@ -63,18 +63,18 @@
   .page-item {
     &--project {
       --sign-bg: #{$pw-primary};
-      --sign-color: #{$ff-white};
-      --label-color: #{$ff-black};
+      --sign-color: #{$pw-white};
+      --label-color: #{$pw-black};
       --hover-bg: #{$ff-secondary};
-      --hover-color: #{$ff-white};
+      --hover-color: #{$pw-white};
     }
 
     &--component {
       --sign-bg: #{rgba($pw-primary, 0.4)};
-      --sign-color: #{$ff-black};
-      --label-color: #{$ff-black};
+      --sign-color: #{$pw-black};
+      --label-color: #{$pw-black};
       --hover-bg: #{rgba($pw-primary, 0.75)};
-      --hover-color: #{$ff-black};
+      --hover-color: #{$pw-black};
     }
 
     &--new {
@@ -82,7 +82,7 @@
       --sign-color: #{$ff-grey};
       --label-color: #{$ff-grey};
       --hover-bg: #{rgba($ff-grey, 0.4)};
-      --hover-color: #{$ff-black};
+      --hover-color: #{$pw-black};
     }
 
     display: flex;
@@ -95,7 +95,7 @@
     }
 
     &__initials {
-      @include fontMixin(map.get($font-size, xl));
+      @include fontMixin($font-size-xl);
 
       font-weight: normal;
     }
@@ -123,7 +123,7 @@
       }
 
       &--normal {
-        @include fontMixin(map.get($font-size, md));
+        @include fontMixin($font-size-md);
 
         color: var(--label-color);
       }

@@ -1,8 +1,8 @@
 <template>
-  <ModalWindow>
+  <ModalUI>
     <BoardModal v-if="appStore.modalContent === 'board-card'" />
     <BoardSetting v-if="appStore.modalContent === 'board-setting'" />
-  </ModalWindow>
+  </ModalUI>
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
@@ -132,8 +132,7 @@
         border-radius: 1em;
         padding: 1em;
         background-color: $ff-quinary;
-        color: $ff-black;
-        font-size: list.nth(map.get($font-size, sm), 1);
+        color: $pw-black;
       }
     }
   }

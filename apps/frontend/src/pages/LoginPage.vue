@@ -2,34 +2,19 @@
   <main class="page--login">
     <section class="login-form">
       <h1 class="login-form__title">Pagewise</h1>
-      <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
+      <p ref="errorRef" class="login-form__error" role="alert" aria-live="polite" aria-atomic="true" tabindex="-1">
+        {{ errorMessage }}
+      </p>
       <form class="login-form__form" @submit.prevent="handleLogin">
-        <div class="login-form__form-group">
-          <label class="login-form__form-label inputField__label" for="login-username">Username</label>
-          <input
-            id="login-username"
-            v-model="username"
-            class="login-form__form-input inputField__field"
-            type="text"
-            required
-          />
-        </div>
-        <div class="login-form__form-group">
-          <label class="login-form__form-label inputField__label" for="login-password">Password</label>
-          <input
-            id="login-password"
-            v-model="password"
-            class="login-form__form-input inputField__field"
-            type="password"
-            required
-          />
-        </div>
+        <InputUI id="login-username" label="Username" type="text" required />
+        <InputUI id="login-password" label="Password" type="password" required />
         <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
       </form>
     </section>
     <ButtonUI
       class="login-form__background-button"
       variant="secondary"
+      size="small"
       label="Change Background"
       @click="loadBackgroundImage"
     />
@@ -38,16 +23,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref, nextTick, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
+  import InputUI from '@components/ui/InputUI.vue'
 
   const authStore = useAuthStore()
   const router = useRouter()
-  const backgroundImage = ref<HTMLImageElement | null>(null)
-  const username = ref('')
-  const password = ref('')
+  const errorRef = ref<HTMLParagraphElement | null>(null)
   const errorMessage = ref('')
+  const backgroundImage = ref<HTMLImageElement | null>(null)
 
   const backgroundImages = [
     {
@@ -58,11 +43,16 @@
   ]
 
   const handleLogin = async () => {
+    const usernameInput = document.getElementById('login-username') as HTMLInputElement
+    const passwordInput = document.getElementById('login-password') as HTMLInputElement
+
     try {
-      await authStore.login(username.value, password.value)
+      await authStore.login(usernameInput.value, passwordInput.value)
       router.push('/')
     } catch {
       errorMessage.value = 'Invalid username or password'
+      await nextTick()
+      errorRef.value?.focus()
     }
   }
 
@@ -92,21 +82,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2em;
+      gap: 1em;
       width: 100%;
       max-width: 35em;
-      outline: 5px solid $ff-black;
+      outline: 5px solid $pw-black;
       outline-offset: -1em;
-      border: 5px solid $ff-black;
+      border: 5px solid $pw-black;
       border-radius: 2em;
       padding: 3em 5em;
-      background-color: $ff-white;
-      box-shadow: 0 0 2em rgba($ff-black, 0.5);
+      background-color: $pw-background;
+      box-shadow: 0 0 2em rgba($pw-black, 0.5);
 
       &__title {
-        @include fontMixin(map.get($font-size, 2xl));
+        @include fontMixin($font-size-2xl);
 
-        color: $ff-black;
+        color: $pw-black;
         font-weight: bold;
         font-family: $font-family-primary;
         text-align: center;
@@ -114,7 +104,7 @@
       }
 
       &__error {
-        color: $ff-error;
+        color: $pw-error;
       }
 
       &__form {
@@ -124,21 +114,9 @@
         gap: 1em;
         width: 100%;
 
-        &-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5em;
-          width: 100%;
-        }
-
-        &-input {
-          border-bottom-color: $ff-black;
-        }
-
         &-button {
-          width: 12em;
+          width: 10em;
           margin-top: 2.5em;
-          padding: 0.75em;
         }
       }
 

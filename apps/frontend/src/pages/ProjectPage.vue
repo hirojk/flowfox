@@ -1,7 +1,7 @@
 <template>
-  <ModalWindow>
+  <ModalUI>
     <ProjectSetting v-if="appStore.modalContent === 'project-setting'" />
-  </ModalWindow>
+  </ModalUI>
 
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
@@ -89,7 +89,7 @@
 
       &__title {
         padding: 0.2em;
-        color: $ff-black;
+        color: $pw-black;
       }
 
       &__list {

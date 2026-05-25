@@ -1,5 +1,6 @@
 @use 'sass:list';
 @use 'sass:meta';
+@use './variables' as *;
 
 @mixin fontMixin($size, $line-height: 1rem) {
   @if meta.type-of($size) == 'list' {
@@ -12,6 +13,26 @@
   line-height: $line-height;
 }
 
+// font sizes mixins
+@mixin fontSmall {
+  @include fontMixin($font-size-sm);
+
+  font-family: $font-family-primary;
+}
+
+@mixin fontButton {
+  @include fontMixin($font-size-md);
+
+  font-family: $font-family-secondary;
+}
+
+@mixin fontButtonSmall {
+  @include fontMixin($font-size-sm);
+
+  font-family: $font-family-secondary;
+}
+
+// accessibility mixin
 @mixin focusVisible {
   &:focus {
     outline: none;

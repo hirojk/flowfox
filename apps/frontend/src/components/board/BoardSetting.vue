@@ -91,7 +91,7 @@
     }
 
     &__headline {
-      @include fontMixin(map.get($font-size, xl));
+      @include fontMixin($font-size-xl);
     }
 
     &__details {
@@ -107,7 +107,7 @@
     }
 
     &__label {
-      @include fontMixin(map.get($font-size, md));
+      @include fontMixin($font-size-md);
 
       margin-bottom: 0.5em;
       font-weight: bold;

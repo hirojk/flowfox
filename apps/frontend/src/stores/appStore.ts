@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { ModalWindowType } from '@typeDefs/globalTypes'
+import type { ModalUIType } from '@typeDefs/globalTypes'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -9,7 +9,7 @@ export const useAppStore = defineStore('app', {
     currentEditingId: null as number | null,
 
     isModalOpen: false as boolean,
-    modalContent: null as ModalWindowType | null,
+    modalContent: null as ModalUIType | null,
 
     justDropped: false as boolean,
   }),

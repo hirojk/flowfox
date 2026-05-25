@@ -9,6 +9,6 @@
 <style lang="scss">
   .page--main {
     padding: $page-padding-y $page-padding-x;
-    background-color: $ff-white;
+    background-color: $pw-white;
   }
 </style>

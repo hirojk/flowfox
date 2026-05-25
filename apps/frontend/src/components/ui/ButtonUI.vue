@@ -1,5 +1,5 @@
 <template>
-  <button :class="['button', `button--${props.variant || 'primary'}`]">
+  <button :class="['button', `button--${props.variant || 'primary'}`, `button--${props.size || 'large'}`]">
     {{ props.label }}
   </button>
 </template>
@@ -15,20 +15,17 @@
 <style lang="scss" scoped>
   .button {
     @include simpleAnimation;
-    @include fontMixin(map.get($font-size, md));
 
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5em;
-    border-radius: 0.75em;
-    padding: 1em 4em;
     font-family: $font-family-secondary;
     text-align: center;
 
     &--primary {
-      background-color: $ff-black;
-      color: $ff-white;
+      background-color: $pw-black;
+      color: $pw-white;
 
       @media (hover: hover) and (pointer: fine) {
         &:hover,
@@ -39,28 +36,44 @@
     }
 
     &--secondary {
-      background-color: $ff-grey;
-      color: $ff-white;
+      border: 2px solid $pw-black;
+      background-color: $pw-background;
+      color: $pw-black;
 
       @media (hover: hover) and (pointer: fine) {
         &:hover,
         &:active {
-          background-color: $ff-black;
+          background-color: $pw-black;
+          color: $pw-white;
         }
       }
     }
 
     &--tertiary {
-      background-color: $ff-white;
-      color: $ff-black;
+      background-color: $pw-white;
+      color: $pw-black;
 
       @media (hover: hover) and (pointer: fine) {
         &:hover,
         &:active {
           background-color: $ff-grey;
-          color: $ff-white;
+          color: $pw-white;
         }
       }
+    }
+
+    &--large {
+      @include fontButton;
+
+      border-radius: 0.75em;
+      padding: 0.5em 1em;
+    }
+
+    &--small {
+      @include fontButtonSmall;
+
+      border-radius: 0.75em;
+      padding: 0.5em 1em;
     }
   }
 </style>

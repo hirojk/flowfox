@@ -39,7 +39,7 @@
     border: none;
     border-radius: 1em;
     padding: 0;
-    background-color: $ff-white;
+    background-color: $pw-white;
     cursor: default;
 
     &[open] {

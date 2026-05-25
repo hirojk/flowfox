@@ -1,8 +1,8 @@
 <template>
-  <div class="selectmenu">
+  <div class="dropdown">
     <button
       ref="buttonRef"
-      class="selectmenu__button"
+      class="dropdown__button"
       aria-haspopup="menu"
       :aria-label="props.ariaLabel"
       @click="toggleMenu"
@@ -13,10 +13,10 @@
       </span>
     </button>
 
-    <dialog ref="dialogRef" class="selectmenu__menu" @click="handleBackdropClick">
+    <dialog ref="dialogRef" class="dropdown__menu" @click="handleBackdropClick">
       <ul
         ref="listRef"
-        class="selectmenu__list"
+        class="dropdown__list"
         role="menu"
         :style="{
           top: `${position.top}px`,
@@ -27,7 +27,7 @@
         <li
           v-for="(item, index) in props.options"
           :key="item.name"
-          class="selectmenu__item"
+          class="dropdown__item"
           tabindex="0"
           @click="handleSelect(item)"
           @keydown="handleKeydown($event, index, item)"
@@ -96,7 +96,7 @@
   }
 
   const focusItem = (index: number) => {
-    const items = listRef.value?.querySelectorAll<HTMLElement>('.selectmenu__item')
+    const items = listRef.value?.querySelectorAll<HTMLElement>('.dropdown__item')
 
     items?.[index]?.focus()
   }
@@ -128,7 +128,7 @@
 </script>
 
 <style scoped lang="scss">
-  .selectmenu {
+  .dropdown {
     &__button {
       display: flex;
       align-items: center;
@@ -149,7 +149,7 @@
       transform: translateX(-50%);
       border-radius: 0.5em;
       padding: 0.5em 0;
-      background: $ff-white;
+      background: $pw-white;
       box-shadow: 0 2px 8px rgba($ff-grey, 0.5);
       z-index: 3002;
     }

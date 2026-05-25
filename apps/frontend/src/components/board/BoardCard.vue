@@ -99,7 +99,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1em;
-    background-color: $ff-white;
+    background-color: $pw-white;
     cursor: pointer;
 
     &__content {
@@ -159,7 +159,7 @@
 
       &--todo {
         .board-card__subtask-icon {
-          color: $ff-white;
+          color: $pw-white;
         }
       }
     }

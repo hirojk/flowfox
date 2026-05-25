@@ -4,7 +4,7 @@
   </div>
   <template v-else>
     <Teleport defer to="#modal-interactives">
-      <DropdownMenu
+      <DropdownUI
         mode="context"
         icon="icon-menu"
         :options="[
@@ -23,7 +23,7 @@
         :text="activeCard.name"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
-      <DropdownMenu
+      <DropdownUI
         v-if="modalSettings.priority"
         mode="select"
         :label="activeCard.priority"
@@ -143,7 +143,7 @@
       margin-bottom: 2em;
 
       &-headline {
-        @include fontMixin(map.get($font-size, xl));
+        @include fontMixin($font-size-xl);
 
         width: 100%;
         font-weight: normal;
@@ -170,7 +170,7 @@
     }
 
     &__label {
-      @include fontMixin(map.get($font-size, md));
+      @include fontMixin($font-size-md);
 
       margin-bottom: 0.5em;
       padding: 0.2em;

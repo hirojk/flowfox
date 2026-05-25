@@ -20,20 +20,20 @@ dialog {
 
 h1,
 .h1 {
-  @include fontMixin(map.get($font-size, 2xl));
+  @include fontMixin($font-size-2xl);
 }
 
 h2,
 .h2 {
-  @include fontMixin(map.get($font-size, xl));
+  @include fontMixin($font-size-xl);
 }
 
 h3,
 .h3 {
-  @include fontMixin(map.get($font-size, lg));
+  @include fontMixin($font-size-lg);
 }
 
 p,
 .p {
-  @include fontMixin(map.get($font-size, md));
+  @include fontMixin($font-size-md);
 }

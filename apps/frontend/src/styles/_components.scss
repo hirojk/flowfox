@@ -1,12 +1,17 @@
 // Eingabefeld-Komponente
 .inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 100%;
+
   &__label {
-    @include fontMixin(map.get($font-size, sm));
+    @include fontSmall;
   }
 
   &__field {
     border-bottom: 1px solid $pw-primary;
-    border-radius: 0.25em 0.25em 0 0;
+    border-radius: 0.2em 0.2em 0 0;
     padding: 0.5em;
     background-color: rgba($pw-lightgrey, 0.2);
 
@@ -57,7 +62,7 @@ input[type='checkbox'] {
 
 // Tag-Komponente
 .tag {
-  @include fontMixin(map.get($font-size, sm));
+  @include fontMixin($font-size-sm);
 
   display: inline-block;
   border-radius: 0.4em;

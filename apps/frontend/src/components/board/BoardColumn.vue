@@ -9,7 +9,7 @@
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
         :cancelEvent="() => removeColumn(props.columnContent.id)"
       />
-      <DropdownMenu
+      <DropdownUI
         mode="context"
         icon="icon-menu"
         :options="[

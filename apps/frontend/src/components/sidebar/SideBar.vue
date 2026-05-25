@@ -90,7 +90,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: $page-padding-y 0;
-    background-color: $ff-white;
+    background-color: $pw-white;
 
     &__divider {
       margin: 2em calc(var(--sidebar-padding) - 1em);

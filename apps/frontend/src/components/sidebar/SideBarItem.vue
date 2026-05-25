@@ -36,37 +36,36 @@
   .sideBar-item {
     &--project {
       --box-bg: #{$pw-primary};
-      --box-color: #{$ff-white};
+      --box-color: #{$pw-white};
       --hover-bg: #{$ff-secondary};
-      --hover-color: #{$ff-white};
+      --hover-color: #{$pw-white};
     }
 
     &--component {
       --box-bg: #{$ff-tertiary};
-      --box-color: #{$ff-black};
+      --box-color: #{$pw-black};
       --hover-bg: #{rgba($pw-primary, 0.5)};
-      --hover-color: #{$ff-black};
+      --hover-color: #{$pw-black};
     }
 
     &--new {
       --box-bg: #{$ff-quaternary};
       --box-color: #{$ff-grey};
       --hover-bg: #{$ff-grey};
-      --hover-color: #{$ff-white};
+      --hover-color: #{$pw-white};
     }
 
     &--nav {
       --box-bg: transparent;
-      --box-color: #{$ff-black};
+      --box-color: #{$pw-black};
       --hover-bg: #{$ff-quaternary};
-      --hover-color: #{$ff-black};
+      --hover-color: #{$pw-black};
     }
 
     display: flex;
     align-items: center;
     padding: 0 !important;
-    color: $ff-black;
-    font-size: list.nth(map.get($font-size, md), 1);
+    color: $pw-black;
 
     @include focusVisible;
 
