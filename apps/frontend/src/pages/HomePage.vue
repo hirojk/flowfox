@@ -1,14 +1,18 @@
 <template>
   <q-page>
     <header class="page__header">
-      <h1 class="page__headline">Hello {{ activeUser?.name }}</h1>
-      <RouterLink class="page__logout button button--secondary" :to="{ name: 'login' }" @click="handleLogout">
-        Logout
-      </RouterLink>
+      <div class="page__topbar">
+        <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
+        <RouterLink class="page__logout button button--secondary" :to="{ name: 'login' }" @click="handleLogout">
+          Logout
+        </RouterLink>
+      </div>
+      <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
     </header>
+    <hr class="page__divider" />
     <section class="page__content">
       <div class="projects">
-        <h2 class="projects__title">Projects</h2>
+        <h2 class="projects__title">Your Projects</h2>
         <ul class="projects__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
@@ -31,6 +35,7 @@
           </li>
         </ul>
       </div>
+      <hr v-for="i in 6" :key="i" class="page__contentDivider" role="none" aria-hidden="true" />
     </section>
   </q-page>
 </template>
@@ -70,8 +75,20 @@
 
 <style lang="scss" scoped>
   .page {
-    &__headline {
-      color: $pw-primary;
+    padding: $page-padding-y $page-padding-x calc($page-padding-y * 2);
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2em;
+      height: auto;
+    }
+
+    &__topbar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
     }
   }
 

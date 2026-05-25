@@ -2,6 +2,7 @@ h1,
 h2,
 h3,
 p,
+hr,
 ul,
 ol,
 li,
@@ -19,4 +20,8 @@ input[type='checkbox'] {
 
   pointer-events: all;
   cursor: pointer;
+}
+
+dialog {
+  outline: none;
 }

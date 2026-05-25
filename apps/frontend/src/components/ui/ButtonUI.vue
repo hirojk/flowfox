@@ -20,7 +20,6 @@
     justify-content: center;
     align-items: center;
     gap: 0.5em;
-    font-family: $font-family-secondary;
     text-align: center;
 
     &--primary {

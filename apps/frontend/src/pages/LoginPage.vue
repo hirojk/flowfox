@@ -40,6 +40,11 @@
       imageSource: '/assets/images/background_monet_waterlilies.webp',
       altText: "Background image of Monet's Water Lilies painting",
     },
+    {
+      title: 'Vincent van Gogh - The Starry Night',
+      imageSource: '/assets/images/background_vangogh_starrynight.webp',
+      altText: "Background image of Vincent van Gogh's The Starry Night painting",
+    },
   ]
 
   const handleLogin = async () => {
@@ -79,6 +84,8 @@
     background-color: transparent;
 
     .login-form {
+      @include boxShadowMixin;
+
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -91,7 +98,6 @@
       border-radius: 2em;
       padding: 3em 5em;
       background-color: $pw-background;
-      box-shadow: 0 0 2em rgba($pw-black, 0.5);
 
       &__title {
         @include fontMixin($font-size-2xl);

@@ -2,18 +2,53 @@
 @use 'sass:meta';
 @use './variables' as *;
 
+// hr divider mixin
+@mixin hrDivider($color: $pw-input-background) {
+  width: 100%;
+  height: 4px;
+  background-color: $color;
+}
+
+// box shadow mixin
+@mixin boxShadowMixin {
+  box-shadow: 0 0 2em rgba($pw-black, 0.5);
+}
+
+// font mixin
 @mixin fontMixin($size, $line-height: 1rem) {
   @if meta.type-of($size) == 'list' {
     $line-height: list.nth($size, 2);
     $size: list.nth($size, 1);
   }
 
-  display: inline-block;
   font-size: $size;
   line-height: $line-height;
 }
 
 // font sizes mixins
+@mixin fontHeadline1 {
+  @include fontMixin($font-size-2xl);
+
+  color: $pw-primary;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-primary;
+  text-transform: uppercase;
+}
+
+@mixin fontHeadline2 {
+  @include fontMixin($font-size-xl);
+
+  color: $pw-black;
+  font-family: $font-family-secondary;
+}
+
+@mixin fontCopy {
+  @include fontMixin($font-size-md);
+
+  color: $pw-black;
+  font-family: $font-family-primary;
+}
+
 @mixin fontSmall {
   @include fontMixin($font-size-sm);
 

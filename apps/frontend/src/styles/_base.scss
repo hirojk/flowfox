@@ -14,18 +14,14 @@
   }
 }
 
-dialog {
-  outline: none;
-}
-
 h1,
 .h1 {
-  @include fontMixin($font-size-2xl);
+  @include fontHeadline1;
 }
 
 h2,
 .h2 {
-  @include fontMixin($font-size-xl);
+  @include fontHeadline2;
 }
 
 h3,

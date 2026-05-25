@@ -1,7 +1,11 @@
 .page {
+  display: flex;
+  flex-direction: column;
+  gap: 3.75em;
   width: 100%;
   height: 100dvh;
   padding: $page-padding-y $page-padding-x;
+  background-color: $pw-background;
 
   &__header {
     display: flex;
@@ -9,7 +13,10 @@
     align-items: center;
     gap: 2em;
     height: 5em;
-    margin-bottom: 4em;
+  }
+
+  &__divider {
+    @include hrDivider($pw-black);
   }
 
   &__headerContent {
@@ -23,5 +30,24 @@
   &__headerIcon,
   &__headline {
     color: $pw-primary;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3.75em;
+    height: 100%;
+  }
+
+  &__contentDivider {
+    @include hrDivider;
+  }
+
+  &__footerDivider {
+    @include hrDivider($pw-primary);
+
+    position: absolute;
+    bottom: calc($page-padding-y * 2);
   }
 }
