@@ -27,7 +27,7 @@
   import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
 
   const appStore = useAppStore()
 
@@ -62,7 +62,7 @@
 <style lang="scss" scoped>
   .page-item {
     &--project {
-      --sign-bg: #{$ff-primary};
+      --sign-bg: #{$pw-primary};
       --sign-color: #{$ff-white};
       --label-color: #{$ff-black};
       --hover-bg: #{$ff-secondary};
@@ -70,10 +70,10 @@
     }
 
     &--component {
-      --sign-bg: #{rgba($ff-primary, 0.4)};
+      --sign-bg: #{rgba($pw-primary, 0.4)};
       --sign-color: #{$ff-black};
       --label-color: #{$ff-black};
-      --hover-bg: #{rgba($ff-primary, 0.75)};
+      --hover-bg: #{rgba($pw-primary, 0.75)};
       --hover-color: #{$ff-black};
     }
 

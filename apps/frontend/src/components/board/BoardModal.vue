@@ -51,7 +51,7 @@
       </div>
       <div v-if="modalSettings.checklist" class="board-modal__content board-modal__content--checklist">
         <h2 class="board-modal__label">Checklist</h2>
-        <CheckboxEditor
+        <CheckboxUI
           class="board-modal__checklist"
           :checkboxes="activeCard.checklist"
           :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
@@ -103,9 +103,9 @@
   import { getIcon } from '@utils/helpers'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
-  import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
-  // import DatePicker from '@components/fields/DatePicker.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
+  import CheckboxUI from '@components/ui/CheckboxUI.vue'
+  // import DatePicker from '@components/ui/DatePicker.vue'
 
   const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()

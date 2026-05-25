@@ -41,7 +41,7 @@
   import { useAppStore } from '@stores/appStore'
   import type { BoardColumnType } from '@flowfox/shared'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
 
   const props = defineProps<{
     columnContent: BoardColumnType

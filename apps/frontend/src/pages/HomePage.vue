@@ -71,7 +71,7 @@
 <style lang="scss" scoped>
   .page {
     &__headline {
-      color: $ff-primary;
+      color: $pw-primary;
     }
   }
 

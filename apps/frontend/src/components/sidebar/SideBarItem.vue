@@ -35,7 +35,7 @@
 <style lang="scss" scoped>
   .sideBar-item {
     &--project {
-      --box-bg: #{$ff-primary};
+      --box-bg: #{$pw-primary};
       --box-color: #{$ff-white};
       --hover-bg: #{$ff-secondary};
       --hover-color: #{$ff-white};
@@ -44,7 +44,7 @@
     &--component {
       --box-bg: #{$ff-tertiary};
       --box-color: #{$ff-black};
-      --hover-bg: #{rgba($ff-primary, 0.5)};
+      --hover-bg: #{rgba($pw-primary, 0.5)};
       --hover-color: #{$ff-black};
     }
 

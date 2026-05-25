@@ -1,0 +1,95 @@
+// Eingabefeld-Komponente
+.inputField {
+  &__label {
+    @include fontMixin(map.get($font-size, sm));
+  }
+
+  &__field {
+    border-bottom: 1px solid $pw-primary;
+    border-radius: 0.25em 0.25em 0 0;
+    padding: 0.5em;
+    background-color: rgba($pw-lightgrey, 0.2);
+
+    &:read-write {
+      @include focusVisible;
+
+      &:focus {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+}
+
+// Checkbox-Styling
+input[type='checkbox'] {
+  display: grid;
+  place-items: center;
+  width: 2em;
+  aspect-ratio: 1 / 1;
+  border: 2px solid $ff-grey;
+  border-radius: 0.4em;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+
+  &::after {
+    content: '';
+    width: 1.2em;
+    aspect-ratio: 1 / 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:checked {
+    border-color: $pw-primary;
+    background-color: $pw-primary;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+// Tag-Komponente
+.tag {
+  @include fontMixin(map.get($font-size, sm));
+
+  display: inline-block;
+  border-radius: 0.4em;
+  padding: 0.2em 0.6em;
+}
+
+// Verhindert ungewolltes Scrollen beim Dragging auf Touch
+.draggable {
+  touch-action: none;
+}
+
+// Platzhalter-Bereich beim Drag-and-Drop
+.grab-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed $pw-primary;
+  border-radius: 1em;
+  color: $pw-primary;
+  font-size: 0.875rem;
+
+  &::before {
+    content: 'Place here';
+  }
+}
+
+// Das "Geist-Element" das beim Ziehen dem Cursor folgt
+.grab-ghost {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3003;
+  animation: pulse 0.2s ease-in-out 3;
+}

@@ -24,14 +24,15 @@
             required
           />
         </div>
-        <button class="login-form__form-button button button--primary" type="submit">Login</button>
+        <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
       </form>
     </section>
-    <div v-if="false">
-      <button class="login-form__background-button button button--secondary" type="button" @click="loadBackgroundImage">
-        Change Background
-      </button>
-    </div>
+    <ButtonUI
+      class="login-form__background-button"
+      variant="secondary"
+      label="Change Background"
+      @click="loadBackgroundImage"
+    />
     <img ref="backgroundImage" class="login-form__background" />
   </main>
 </template>
@@ -103,6 +104,8 @@
       box-shadow: 0 0 2em rgba($ff-black, 0.5);
 
       &__title {
+        @include fontMixin(map.get($font-size, 2xl));
+
         color: $ff-black;
         font-weight: bold;
         font-family: $font-family-primary;
@@ -124,7 +127,7 @@
         &-group {
           display: flex;
           flex-direction: column;
-          gap: 0.25em;
+          gap: 0.5em;
           width: 100%;
         }
 

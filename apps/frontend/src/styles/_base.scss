@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box !important;
+}
+
+@media (pointer: coarse) {
+  * {
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    user-select: text;
+  }
+}
+
+dialog {
+  outline: none;
+}
+
+h1,
+.h1 {
+  @include fontMixin(map.get($font-size, 2xl));
+}
+
+h2,
+.h2 {
+  @include fontMixin(map.get($font-size, xl));
+}
+
+h3,
+.h3 {
+  @include fontMixin(map.get($font-size, lg));
+}
+
+p,
+.p {
+  @include fontMixin(map.get($font-size, md));
+}

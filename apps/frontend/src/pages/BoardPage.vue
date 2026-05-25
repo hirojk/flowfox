@@ -45,7 +45,7 @@
   import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'

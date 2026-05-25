@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import type { CheckboxItemType } from '@flowfox/shared'
 

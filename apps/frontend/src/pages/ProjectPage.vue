@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import TextEditor from '@components/ui/TextEditor.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
   import Backdrop from '@components/Backdrop.vue'
@@ -78,7 +78,7 @@
 
     .page {
       &__headline {
-        color: $ff-primary;
+        color: $pw-primary;
       }
     }
 
