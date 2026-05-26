@@ -3,8 +3,12 @@
     <header class="page__header">
       <div class="page__topbar">
         <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
-        <Avatar @click="(e: MouseEvent) => dropdown?.open(e.currentTarget as HTMLElement)">
-          <DropdownUI ref="dropdown" :options="[{ name: 'Logout', route: { name: 'login' }, action: handleLogout }]" />
+        <Avatar @click="(e: MouseEvent) => avatarDropdown?.open(e.currentTarget as HTMLElement)">
+          <DropdownUI
+            ref="avatarDropdown"
+            :description="`${activeUser?.name}`"
+            :options="[{ name: 'Logout', route: { name: 'login' }, action: handleLogout }]"
+          />
         </Avatar>
       </div>
       <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
@@ -44,7 +48,6 @@
   import { useProjectStore } from '@stores/projectStore'
 
   import Avatar from '@components/ui/Avatar.vue'
-  import type DropdownUIType from '@components/ui/DropdownUI.vue'
   import PageItem from '@components/PageItem.vue'
 
   const activeUser = computed(() => useAuthStore().activeUser)
@@ -53,7 +56,7 @@
 
   const { handleLogout } = useAuth()
 
-  const dropdown = useTemplateRef<InstanceType<typeof DropdownUIType>>('dropdown')
+  const avatarDropdown = useTemplateRef<{ open: (element: HTMLElement) => void }>('avatarDropdown')
 
   const handleNewProject = () => {
     triggerInputFocus(async () => {

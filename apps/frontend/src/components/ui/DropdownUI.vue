@@ -1,28 +1,30 @@
 <template>
   <dialog ref="dialogRef" class="dropdown" @mousedown="handleBackdropClick">
-    <ul
+    <div
       ref="listRef"
-      class="dropdown__list"
-      role="menu"
+      class="dropdown__panel"
       :style="{
         top: `${position.top}px`,
         left: `${position.left}px`,
       }"
       @click.stop
     >
-      <li v-for="(item, index) in props.options" :key="item.name" class="dropdown__item" role="menuitem">
-        <component
-          :is="item.route ? RouterLink : 'button'"
-          v-bind="item.route ? { to: item.route } : {}"
-          class="dropdown__action"
-          @click="handleSelect(item)"
-          @keydown="handleKeydown($event, index, item)"
-        >
-          <IconSvg v-if="item.icon" :id="item.icon" />
-          <span>{{ item.name }}</span>
-        </component>
-      </li>
-    </ul>
+      <p v-if="props.description" class="dropdown__description">{{ props.description }}</p>
+      <ul class="dropdown__list" role="menu">
+        <li v-for="(item, index) in props.options" :key="item.name" class="dropdown__item" role="menuitem">
+          <component
+            :is="item.route ? RouterLink : 'button'"
+            v-bind="item.route ? { to: item.route } : {}"
+            class="dropdown__action"
+            @click="handleSelect(item)"
+            @keydown="handleKeydown($event, index)"
+          >
+            <IconSvg v-if="item.icon" :id="item.icon" />
+            <span>{{ item.name }}</span>
+          </component>
+        </li>
+      </ul>
+    </div>
   </dialog>
 </template>
 
@@ -38,6 +40,7 @@
   }
 
   const props = defineProps<{
+    description?: string
     options: SelectItem[]
   }>()
 
@@ -61,7 +64,7 @@
     dialogRef.value.showModal()
 
     requestAnimationFrame(() => {
-      ;(document.activeElement as HTMLElement | null)?.blur()
+      focusItem(0)
     })
   }
 
@@ -82,7 +85,7 @@
     items?.[index]?.focus()
   }
 
-  const handleKeydown = (event: KeyboardEvent, index: number, item: SelectItem) => {
+  const handleKeydown = (event: KeyboardEvent, index: number) => {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
@@ -97,7 +100,7 @@
       case 'Enter':
       case ' ':
         event.preventDefault()
-        handleSelect(item)
+        ;(event.currentTarget as HTMLElement).click()
         break
 
       case 'Escape':
@@ -116,20 +119,34 @@
 
     &::backdrop {
       background: transparent;
+      cursor: default;
     }
 
-    &__list {
+    &__panel {
       position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
       transform: translateX(-50%);
+      border: 1px solid $pw-primary;
       border-radius: 0.5em;
-      padding: 0.5em 0;
+      padding: 0.5em;
       background: $pw-white;
-      box-shadow: 0 2px 8px rgba($ff-grey, 0.5);
       z-index: 3002;
+      cursor: default;
+    }
+
+    &__description {
+      @include fontCopy;
+
+      padding: 0.25em 0.5em;
+      text-transform: capitalize;
+      font-weight: $font-weight-bold;
     }
 
     &__action {
       @include focusVisible;
+      @include fontButtonSmall;
 
       display: flex;
       align-items: center;
@@ -137,12 +154,13 @@
       width: max-content;
       min-width: 10em;
       max-width: 20em;
-      padding: 0.5em 1em;
+      padding: 0.25em 0.5em;
+      color: $pw-tertiary;
       cursor: pointer;
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
-          background: #f5f5f5;
+          background: rgba($pw-tertiary, 0.1);
         }
       }
     }
