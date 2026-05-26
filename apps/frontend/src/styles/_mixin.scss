@@ -4,7 +4,7 @@
 
 // box shadow mixin
 @mixin boxShadowMixin {
-  box-shadow: 0 0 2em rgba($pw-black, 0.5);
+  box-shadow: 0 0 1em rgba($pw-black, 0.25);
 }
 
 // font mixin

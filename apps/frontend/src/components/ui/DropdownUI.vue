@@ -123,6 +123,8 @@
     }
 
     &__panel {
+      @include boxShadowMixin;
+
       position: fixed;
       display: flex;
       flex-direction: column;

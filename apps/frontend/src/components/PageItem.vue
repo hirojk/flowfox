@@ -10,15 +10,17 @@
       <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
       <strong v-else class="page-item__initials" aria-hidden="true">{{ useInitials(props.label) }}</strong>
     </div>
-    <TextEditor
-      class="page-item__label page-item__label--editing"
-      editMode
-      singleEdit
-      htmlTag="span"
-      :text="props.label"
-      :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
-      :cancelEvent="handleCancel"
-    />
+    <div class="page-item__content">
+      <TextEditor
+        class="page-item__label page-item__label--editing"
+        editMode
+        singleEdit
+        htmlTag="span"
+        :text="props.label"
+        :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
+        :cancelEvent="handleCancel"
+      />
+    </div>
   </component>
 </template>
 
@@ -31,10 +33,10 @@
 
   const appStore = useAppStore()
 
-  const signSize = 6
+  const signSize = 3
 
   const props = defineProps<{
-    buttonStyle: 'project' | 'component' | 'new'
+    buttonStyle: 'project' | 'component'
     icon?: string
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
@@ -64,7 +66,7 @@
     &--project {
       --sign-bg: #{$pw-primary};
       --sign-color: #{$pw-white};
-      --label-color: #{$pw-black};
+      --label-color: #{$pw-white};
       --hover-bg: #{$ff-secondary};
       --hover-color: #{$pw-white};
     }
@@ -77,18 +79,11 @@
       --hover-color: #{$pw-black};
     }
 
-    &--new {
-      --sign-bg: #{rgba($ff-grey, 0.2)};
-      --sign-color: #{$ff-grey};
-      --label-color: #{$ff-grey};
-      --hover-bg: #{rgba($ff-grey, 0.4)};
-      --hover-color: #{$pw-black};
-    }
-
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 1em;
+    padding: 1em;
+    background-color: var(--sign-bg);
 
     > * {
       @include simpleAnimation;
@@ -107,15 +102,13 @@
       align-items: center;
       width: var(--sign-size);
       height: auto;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 1;
       border-radius: 1em;
-      background-color: var(--sign-bg);
       color: var(--sign-color);
     }
 
     &__label {
-      width: var(--sign-size);
-      text-align: center;
+      @include fontButton;
 
       &--editing {
         background-color: transparent;
@@ -123,22 +116,20 @@
       }
 
       &--normal {
-        @include fontMixin($font-size-md);
-
         color: var(--label-color);
       }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover,
-      &:active {
-        .page-item {
-          &__sign {
-            background-color: var(--hover-bg);
-            color: var(--hover-color);
-          }
-        }
-      }
-    }
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:hover,
+    //   &:active {
+    //     .page-item {
+    //       &__sign {
+    //         background-color: var(--hover-bg);
+    //         color: var(--hover-color);
+    //       }
+    //     }
+    //   }
+    // }
   }
 </style>

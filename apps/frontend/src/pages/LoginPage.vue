@@ -100,10 +100,8 @@
       background-color: $pw-background;
 
       &__title {
-        @include fontMixin($font-size-xl);
-
         color: $pw-black;
-        font-weight: bold;
+        font-size: 2.5rem;
         font-family: $font-family-primary;
         text-align: center;
         text-transform: uppercase;

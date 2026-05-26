@@ -33,7 +33,7 @@
           </li>
         </ul>
       </div>
-      <LineDivider v-for="i in 5" :key="i" variant="tertiary" />
+      <LineDivider v-for="i in 6" :key="i" variant="tertiary" />
     </section>
   </q-page>
   <LineDivider class="line-divider__footer" variant="primary" />
@@ -99,7 +99,8 @@
     gap: 2em;
 
     &__list {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
       gap: 2em;
     }
   }
