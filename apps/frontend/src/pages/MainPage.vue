@@ -3,9 +3,9 @@
     <header class="page__header">
       <div class="page__topbar">
         <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
-        <RouterLink class="page__logout button button--secondary" :to="{ name: 'login' }" @click="handleLogout">
-          Logout
-        </RouterLink>
+        <Avatar @click="(e: MouseEvent) => dropdown?.open(e.currentTarget as HTMLElement)">
+          <DropdownUI ref="dropdown" :options="[{ name: 'Logout', route: { name: 'login' }, action: handleLogout }]" />
+        </Avatar>
       </div>
       <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
     </header>
@@ -29,21 +29,22 @@
           </li>
         </ul>
       </div>
-      <LineDivider v-for="i in 6" :key="i" variant="tertiary" />
+      <LineDivider v-for="i in 5" :key="i" variant="tertiary" />
     </section>
   </q-page>
   <LineDivider class="line-divider__footer" variant="primary" />
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted } from 'vue'
-  import { RouterLink } from 'vue-router'
+  import { computed, useTemplateRef, onMounted } from 'vue'
   import { useAuth } from '@composables/useNavigation'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/projectStore'
 
+  import Avatar from '@components/ui/Avatar.vue'
+  import type DropdownUIType from '@components/ui/DropdownUI.vue'
   import PageItem from '@components/PageItem.vue'
 
   const activeUser = computed(() => useAuthStore().activeUser)
@@ -51,6 +52,8 @@
   const projectStore = useProjectStore()
 
   const { handleLogout } = useAuth()
+
+  const dropdown = useTemplateRef<InstanceType<typeof DropdownUIType>>('dropdown')
 
   const handleNewProject = () => {
     triggerInputFocus(async () => {

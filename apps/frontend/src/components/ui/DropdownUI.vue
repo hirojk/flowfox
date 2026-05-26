@@ -1,62 +1,46 @@
 <template>
-  <div class="dropdown">
-    <button
-      ref="buttonRef"
-      class="dropdown__button"
-      aria-haspopup="menu"
-      :aria-label="props.ariaLabel"
-      @click="toggleMenu"
+  <dialog ref="dialogRef" class="dropdown" @mousedown="handleBackdropClick">
+    <ul
+      ref="listRef"
+      class="dropdown__list"
+      role="menu"
+      :style="{
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+      }"
+      @click.stop
     >
-      <IconSvg v-if="props.icon" :id="props.icon" />
-      <span v-if="props.label">
-        {{ props.label }}
-      </span>
-    </button>
-
-    <dialog ref="dialogRef" class="dropdown__menu" @click="handleBackdropClick">
-      <ul
-        ref="listRef"
-        class="dropdown__list"
-        role="menu"
-        :style="{
-          top: `${position.top}px`,
-          left: `${position.left}px`,
-        }"
-        @click.stop
-      >
-        <li
-          v-for="(item, index) in props.options"
-          :key="item.name"
-          class="dropdown__item"
-          tabindex="0"
+      <li v-for="(item, index) in props.options" :key="item.name" class="dropdown__item" role="menuitem">
+        <component
+          :is="item.route ? RouterLink : 'button'"
+          v-bind="item.route ? { to: item.route } : {}"
+          class="dropdown__action"
           @click="handleSelect(item)"
           @keydown="handleKeydown($event, index, item)"
         >
           <IconSvg v-if="item.icon" :id="item.icon" />
           <span>{{ item.name }}</span>
-        </li>
-      </ul>
-    </dialog>
-  </div>
+        </component>
+      </li>
+    </ul>
+  </dialog>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { RouterLink, type RouteLocationRaw } from 'vue-router'
 
   interface SelectItem {
     name: string
     icon?: string
+    route?: RouteLocationRaw
     action?: () => void
   }
 
   const props = defineProps<{
-    icon?: string
-    label?: string
     options: SelectItem[]
-    ariaLabel?: string
   }>()
 
-  const buttonRef = ref<HTMLElement>()
   const dialogRef = ref<HTMLDialogElement>()
   const listRef = ref<HTMLElement>()
   const position = ref({
@@ -64,15 +48,10 @@
     left: 0,
   })
 
-  const toggleMenu = () => {
-    if (!dialogRef.value || !buttonRef.value) return
+  const open = (anchorElement: HTMLElement) => {
+    if (!dialogRef.value) return
 
-    if (dialogRef.value.open) {
-      dialogRef.value.close()
-      return
-    }
-
-    const { bottom, left, width } = buttonRef.value.getBoundingClientRect()
+    const { bottom, left, width } = anchorElement.getBoundingClientRect()
 
     position.value = {
       top: bottom + 12,
@@ -86,8 +65,10 @@
     })
   }
 
-  const handleBackdropClick = () => {
-    dialogRef.value?.close()
+  const handleBackdropClick = (event: MouseEvent) => {
+    if (event.target === dialogRef.value) {
+      dialogRef.value?.close()
+    }
   }
 
   const handleSelect = (item: SelectItem) => {
@@ -96,7 +77,7 @@
   }
 
   const focusItem = (index: number) => {
-    const items = listRef.value?.querySelectorAll<HTMLElement>('.dropdown__item')
+    const items = listRef.value?.querySelectorAll<HTMLElement>('.dropdown__action')
 
     items?.[index]?.focus()
   }
@@ -121,27 +102,20 @@
 
       case 'Escape':
         dialogRef.value?.close()
-        buttonRef.value?.focus()
         break
     }
   }
+
+  defineExpose({ open })
 </script>
 
 <style scoped lang="scss">
   .dropdown {
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
+    border: none;
+    padding: 0;
 
-    &__menu {
-      border: none;
-      padding: 0;
-
-      &::backdrop {
-        background: transparent;
-      }
+    &::backdrop {
+      background: transparent;
     }
 
     &__list {
@@ -154,7 +128,7 @@
       z-index: 3002;
     }
 
-    &__item {
+    &__action {
       @include focusVisible;
 
       display: flex;
