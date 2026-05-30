@@ -43,6 +43,7 @@ export default tseslint.config(
       'vue/attribute-hyphenation': 'off',
       'vue/html-self-closing': 'off',
       'vue/max-attributes-per-line': 'off',
+      'vue/require-default-prop': 'off',
 
       // TypeScript
       '@typescript-eslint/no-explicit-any': 'warn',

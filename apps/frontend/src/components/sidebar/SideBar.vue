@@ -3,7 +3,6 @@
     v-model="drawer"
     show-if-above
     :mini="!appStore.isSidebarOpen"
-    mini-to-overlay
     :width="sidebarWidth"
     :mini-width="sidebarMiniWidth"
     :breakpoint="750"
@@ -16,7 +15,6 @@
         :label="projectStore.activeProject?.name || ''"
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
-      <hr class="sideBar__divider" />
       <SidebarItem
         v-for="item in projectStore.activeProject?.components"
         :key="item.name"
@@ -62,14 +60,14 @@
     {
       buttonStyle: 'nav' as const,
       icon: 'icon-home',
-      label: 'Back to all projects',
+      label: 'Back to Overview',
       route: { name: 'home' },
       action: (): boolean => (appStore.isSidebarOpen = false),
     },
     {
       buttonStyle: 'nav' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
-      label: appStore.isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar',
+      label: appStore.isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar',
       action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])
@@ -89,11 +87,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: $page-padding-y 0;
-    background-color: $pw-white;
+    background-color: $pw-lightgrey;
+    box-shadow: inset -2em 0 5em rgba($pw-black, 0.25);
 
-    &__divider {
-      margin: 2em calc(var(--sidebar-padding) - 1em);
+    &__list--project {
+      overflow: hidden;
     }
   }
 </style>

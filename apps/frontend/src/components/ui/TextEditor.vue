@@ -5,10 +5,10 @@
     v-bind="{ ...$attrs, ...ariaAttrs }"
     :class="[
       'textEditor',
-      props.multiline ? 'textEditor--textarea' : 'textEditor--input',
-      props.textStyle ? props.textStyle : currentTag.style,
-      isLocked ? 'textEditor--pointer' : '',
       props.mode === 'editOnce' ? 'textEditor--locked' : '',
+      props.textStyle ? props.textStyle : currentTag.style,
+      props.multiline ? 'textEditor--textarea' : 'textEditor--input',
+      isLocked ? 'textEditor--pointer' : '',
     ]"
     :readonly="!isEditing"
     :tabindex="isLocked ? -1 : 0"
@@ -29,15 +29,20 @@
 
   defineOptions({ inheritAttrs: false })
 
-  const props = defineProps<{
-    mode?: 'default' | 'editOnce' | 'autoEdit'
-    htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
-    textStyle?: string
-    multiline?: boolean
-    text: string
-    saveEvent: (newName: string) => void
-    cancelEvent?: () => void
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      mode?: 'default' | 'editOnce' | 'autoEdit'
+      htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
+      textStyle?: string
+      multiline?: boolean
+      text: string
+      saveEvent: (newName: string) => void
+      cancelEvent?: () => void
+    }>(),
+    {
+      mode: 'default',
+    },
+  )
   const appStore = useAppStore()
 
   const htmlTagMap: Record<string, { style: string; level?: number }> = {

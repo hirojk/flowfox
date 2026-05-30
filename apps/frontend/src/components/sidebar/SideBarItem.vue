@@ -35,37 +35,48 @@
 <style lang="scss" scoped>
   .sideBar-item {
     &--project {
-      --box-bg: #{$pw-primary};
-      --box-color: #{$pw-white};
-      --hover-bg: #{$ff-secondary};
-      --hover-color: #{$pw-white};
+      --item-background: #{$pw-primary};
+      --item-color: #{$pw-white};
+      --item-shadow: #{$pw-secondary};
     }
 
     &--component {
-      --box-bg: #{$ff-tertiary};
-      --box-color: #{$pw-black};
-      --hover-bg: #{rgba($pw-primary, 0.5)};
-      --hover-color: #{$pw-black};
+      --item-background: #{$ff-tertiary};
+      --item-color: #{$pw-black};
+      --item-shadow: #{$pw-black};
     }
 
     &--new {
-      --box-bg: #{$ff-quaternary};
-      --box-color: #{$ff-grey};
-      --hover-bg: #{$ff-grey};
-      --hover-color: #{$pw-white};
+      --item-background: #{$ff-quaternary};
+      --item-color: #{$ff-grey};
+      --item-shadow: #{$pw-black};
     }
 
     &--nav {
-      --box-bg: transparent;
-      --box-color: #{$pw-black};
-      --hover-bg: #{$ff-quaternary};
-      --hover-color: #{$pw-black};
+      --item-background: #{$pw-background};
+      --item-color: #{$pw-black};
+      --item-shadow: #{$pw-black};
     }
 
     display: flex;
     align-items: center;
     padding: 0 !important;
-    color: $pw-black;
+    background-color: var(--item-background);
+    box-shadow:
+      0 0.5em 1em color-mix(in srgb, var(--item-shadow) 15%, transparent),
+      inset -0.5em 0 2em color-mix(in srgb, var(--item-shadow) 15%, transparent);
+    color: var(--item-color);
+
+    &:first-child {
+      margin-top: 0;
+      z-index: 100;
+    }
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) {
+        z-index: #{100 - $i};
+      }
+    }
 
     @include focusVisible;
 
@@ -75,8 +86,7 @@
       justify-content: center;
       align-items: center;
       width: var(--sidebar-mini-width);
-      height: auto;
-      aspect-ratio: 1 / 0.7;
+      aspect-ratio: 1;
     }
 
     &__box {
@@ -89,29 +99,40 @@
       height: auto;
       aspect-ratio: 1;
       border-radius: 0.5em;
-      background-color: var(--box-bg);
-      color: var(--box-color);
     }
 
     &__label {
+      @include fontButton;
+
+      position: relative;
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -0.2em;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: $pw-primary;
+      }
     }
 
     :deep(.q-focus-helper) {
       display: none;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        .sideBar-item {
-          &__box {
-            background-color: var(--hover-bg);
-            color: var(--hover-color);
-          }
-        }
-      }
-    }
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:hover {
+    //     .sideBar-item {
+    //       &__box {
+    //         background-color: var(--hover-bg);
+    //         color: var(--hover-color);
+    //       }
+    //     }
+    //   }
+    // }
   }
 </style>

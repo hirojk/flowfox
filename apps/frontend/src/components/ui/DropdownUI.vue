@@ -154,7 +154,7 @@
       align-items: center;
       gap: 0.5em;
       width: max-content;
-      min-width: 10em;
+      min-width: 7.5em;
       max-width: 20em;
       padding: 0.25em 0.5em;
       color: $pw-tertiary;
