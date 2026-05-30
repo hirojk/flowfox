@@ -148,7 +148,7 @@
 
     &__action {
       @include focusVisible;
-      @include fontButtonSmall;
+      @include fontButton;
 
       display: flex;
       align-items: center;

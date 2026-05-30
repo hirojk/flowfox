@@ -21,9 +21,3 @@
     }
   })
 </script>
-
-<style lang="scss">
-  .page--component {
-    background-color: $ff-tertiary;
-  }
-</style>

@@ -1,10 +1,6 @@
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
-import { fileURLToPath } from 'url'
-import path from 'path'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default tseslint.config(
   js.configs.recommended,
@@ -12,9 +8,7 @@ export default tseslint.config(
   ...pluginVue.configs['flat/recommended'],
   {
     languageOptions: {
-      parserOptions: {
-        tsconfigRootDir: __dirname,
-      },
+      parserOptions: {},
     },
   },
   {
@@ -22,7 +16,6 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         parser: tseslint.parser,
-        tsconfigRootDir: __dirname,
       },
     },
   },

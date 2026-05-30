@@ -33,7 +33,7 @@
           </li>
         </ul>
       </div>
-      <LineDivider v-for="i in 6" :key="i" variant="tertiary" />
+      <LineDivider v-for="i in 10" :key="i" variant="tertiary" />
     </section>
   </q-page>
   <LineDivider class="line-divider__footer" variant="primary" />
@@ -91,6 +91,10 @@
       justify-content: space-between;
       width: 100%;
     }
+
+    &__content {
+      gap: 0;
+    }
   }
 
   .projects {
@@ -100,7 +104,7 @@
 
     &__list {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 2em;
     }
   }

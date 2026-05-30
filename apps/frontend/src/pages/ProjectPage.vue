@@ -32,15 +32,6 @@
               @cancel="boardStore.deleteBoard(component.id)"
             />
           </li>
-          <li class="components__item">
-            <PageItem
-              buttonStyle="new"
-              icon="icon-plus"
-              label="New Component"
-              aria-label="Create New Component"
-              @click="handleNewComponent"
-            />
-          </li>
         </ul>
       </div>
     </section>
@@ -52,7 +43,6 @@
   import TextEditor from '@components/ui/TextEditor.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
-  import Backdrop from '@components/Backdrop.vue'
   import { openSettingsModal } from '@composables/useModal'
   import { triggerInputFocus } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
@@ -66,7 +56,7 @@
   const handleNewComponent = () => {
     triggerInputFocus(async () => {
       appStore.currentEditingId = (await boardStore.createNewBoard()).id
-    }, '.components__item:nth-last-child(2) input')
+    }, '.components__item:nth-last-child(1) input')
   }
 
   defineOptions({ inheritAttrs: false })
@@ -74,8 +64,6 @@
 
 <style lang="scss" scoped>
   .page--project {
-    background-color: $ff-tertiary;
-
     .page {
       &__headline {
         color: $pw-primary;
