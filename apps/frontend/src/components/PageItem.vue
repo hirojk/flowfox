@@ -3,18 +3,16 @@
     :is="props.route ? RouterLink : 'button'"
     :class="`page-item page-item--${props.buttonStyle}`"
     :to="props.route ? props.route : undefined"
-    :style="{ '--sign-size': signSize + 'em' }"
     @click="props.action"
   >
     <div class="page-item__sign">
-      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
+      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" size="5em" />
       <strong v-else class="page-item__initials" aria-hidden="true">{{ useInitials(props.label) }}</strong>
     </div>
     <div class="page-item__content">
       <TextEditor
         class="page-item__label page-item__label--editing"
-        editMode
-        singleEdit
+        mode="editOnce"
         htmlTag="span"
         :text="props.label"
         :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
@@ -33,10 +31,9 @@
 
   const appStore = useAppStore()
 
-  const signSize = 3
-
   const props = defineProps<{
     buttonStyle: 'project' | 'component'
+    themeColor: string
     icon?: string
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
@@ -63,27 +60,9 @@
 
 <style lang="scss" scoped>
   .page-item {
-    &--project {
-      --sign-bg: #{$pw-primary};
-      --sign-color: #{$pw-white};
-      --label-color: #{$pw-white};
-      --hover-bg: #{$ff-secondary};
-      --hover-color: #{$pw-white};
-    }
-
-    &--component {
-      --sign-bg: #{rgba($pw-primary, 0.4)};
-      --sign-color: #{$pw-black};
-      --label-color: #{$pw-black};
-      --hover-bg: #{rgba($pw-primary, 0.75)};
-      --hover-color: #{$pw-black};
-    }
-
     display: flex;
     align-items: center;
-    gap: 1em;
-    padding: 1em;
-    background-color: var(--sign-bg);
+    background-color: $pw-primary;
 
     > * {
       @include simpleAnimation;
@@ -98,25 +77,31 @@
     &__sign {
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
       justify-content: center;
       align-items: center;
-      width: var(--sign-size);
-      height: auto;
+      width: 5em;
       aspect-ratio: 1;
-      border-radius: 1em;
-      color: var(--sign-color);
+      padding: 1em;
+      background-color: $pw-secondary;
+      color: $pw-white;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      margin: 0 1em;
     }
 
     &__label {
       @include fontButton;
 
+      color: $pw-white;
+
       &--editing {
         background-color: transparent;
-        color: var(--label-color);
-      }
-
-      &--normal {
-        color: var(--label-color);
       }
     }
 

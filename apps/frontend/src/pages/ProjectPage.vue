@@ -25,6 +25,7 @@
             <PageItem
               :id="`board-${component.id}`"
               buttonStyle="component"
+              themeColor="orange"
               :icon="`icon-${component.type}`"
               :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"
@@ -36,7 +37,6 @@
       </div>
     </section>
   </q-page>
-  <backdrop />
 </template>
 
 <script setup lang="ts">
@@ -56,7 +56,7 @@
   const handleNewComponent = () => {
     triggerInputFocus(async () => {
       appStore.currentEditingId = (await boardStore.createNewBoard()).id
-    }, '.components__item:nth-last-child(1) input')
+    }, '.components__item:nth-last-child input')
   }
 
   defineOptions({ inheritAttrs: false })

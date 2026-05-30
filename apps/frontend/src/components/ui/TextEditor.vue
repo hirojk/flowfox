@@ -7,10 +7,11 @@
       'textEditor',
       props.multiline ? 'textEditor--textarea' : 'textEditor--input',
       props.textStyle ? props.textStyle : currentTag.style,
-      props.singleEdit && hasEdited ? 'textEditor--pointer' : '',
+      isLocked ? 'textEditor--pointer' : '',
+      props.mode === 'editOnce' ? 'textEditor--locked' : '',
     ]"
     :readonly="!isEditing"
-    :tabindex="props.singleEdit && hasEdited ? -1 : 0"
+    :tabindex="isLocked ? -1 : 0"
     :name="localText"
     :value="localText"
     @click="handleClick"
@@ -23,14 +24,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch } from 'vue'
+  import { ref, computed, watch, onMounted } from 'vue'
   import { useAppStore } from '@stores/appStore'
 
   defineOptions({ inheritAttrs: false })
 
   const props = defineProps<{
-    editMode?: boolean
-    singleEdit?: boolean
+    mode?: 'default' | 'editOnce' | 'autoEdit'
     htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
     textStyle?: string
     multiline?: boolean
@@ -58,6 +58,8 @@
   const isEditing = ref(false)
   const localText = ref(props.text)
 
+  const isLocked = computed(() => props.mode === 'editOnce' && hasEdited.value)
+
   const ariaAttrs: Record<string, unknown> = {}
   if (currentTag.level) {
     ariaAttrs.role = 'heading'
@@ -67,7 +69,8 @@
 
   const startEdit = () => {
     if (isEditing.value || appStore.justDropped) return
-    if (props.singleEdit && hasEdited.value) return
+    if (isLocked.value) return
+
     isEditing.value = true
     appStore.isEditing = true
     inputRef.value?.removeAttribute('readonly')
@@ -86,15 +89,19 @@
     if (value) {
       localText.value = value
       props.saveEvent(value)
-    } else props.cancelEvent?.()
+    } else {
+      props.cancelEvent?.()
+    }
   }
 
   const getNewTextValue = () => inputRef.value?.value.trim()
+
   const handleClick = (e: MouseEvent) => {
-    if (props.singleEdit && hasEdited.value) return
-    if (props.editMode) e.stopPropagation()
+    if (isLocked.value) return
+    e.stopPropagation()
     startEdit()
   }
+
   const handleEnter = (e: KeyboardEvent) => {
     if (props.multiline && !e.ctrlKey && !e.metaKey) return
 
@@ -102,34 +109,31 @@
     inputRef.value?.blur()
     submit(getNewTextValue())
   }
+
   const handleBlur = () => {
     if (getNewTextValue()) submit(getNewTextValue())
     else cancelEdit()
   }
+
   const handleFocus = () => {
     if (isEditing.value) return
     startEdit()
   }
+
   const handleTouch = (e: TouchEvent) => {
-    if (props.singleEdit && hasEdited.value) return
+    if (isLocked.value) return
     e.preventDefault()
     startEdit()
   }
+
+  onMounted(() => {
+    if (props.mode === 'autoEdit') startEdit()
+  })
 
   watch(
     () => props.text,
     (newText) => {
       if (!isEditing.value) localText.value = newText
-    },
-  )
-
-  watch(
-    () => props.editMode,
-    (editModeState) => {
-      if (editModeState) {
-        isEditing.value = true
-        appStore.isEditing = true
-      }
     },
   )
 </script>
@@ -142,6 +146,12 @@
     padding: 0.1em;
     cursor: text;
     pointer-events: auto;
+
+    &--locked {
+      &:read-only {
+        pointer-events: none;
+      }
+    }
 
     &:read-write {
       border: 2px solid currentcolor;
