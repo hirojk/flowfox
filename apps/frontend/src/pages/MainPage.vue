@@ -3,13 +3,13 @@
     <header class="page__header">
       <div class="page__topbar">
         <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
-        <Avatar @click="(e: MouseEvent) => avatarDropdown?.open(e.currentTarget as HTMLElement)">
+        <AvatarUI @click="(e: MouseEvent) => avatarDropdown?.open(e.currentTarget as HTMLElement)">
           <DropdownUI
             ref="avatarDropdown"
             :description="`${activeUser?.name}`"
             :options="[{ name: 'Logout', route: { name: 'login' }, action: handleLogout }]"
           />
-        </Avatar>
+        </AvatarUI>
       </div>
       <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
     </header>
@@ -48,7 +48,7 @@
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/projectStore'
 
-  import Avatar from '@components/ui/Avatar.vue'
+  import AvatarUI from '@components/ui/AvatarUI.vue'
   import PageItem from '@components/PageItem.vue'
 
   const activeUser = computed(() => useAuthStore().activeUser)

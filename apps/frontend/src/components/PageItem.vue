@@ -5,10 +5,7 @@
     :to="props.route ? props.route : undefined"
     @click="props.action"
   >
-    <div class="page-item__sign">
-      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" size="5em" />
-      <strong v-else class="page-item__initials" aria-hidden="true">{{ useInitials(props.label) }}</strong>
-    </div>
+    <InitialUI :size="+5" :label="props.label" color="$pw-secondary" />
     <div class="page-item__content">
       <TextEditor
         class="page-item__label page-item__label--editing"
@@ -24,9 +21,9 @@
 
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
-  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
 
+  import InitialUI from '@components/ui/InitialUI.vue'
   import TextEditor from '@components/ui/TextEditor.vue'
 
   const appStore = useAppStore()
@@ -66,25 +63,6 @@
 
     > * {
       @include simpleAnimation;
-    }
-
-    &__initials {
-      @include fontMixin($font-size-xl);
-
-      font-weight: normal;
-    }
-
-    &__sign {
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      justify-content: center;
-      align-items: center;
-      width: 5em;
-      aspect-ratio: 1;
-      padding: 1em;
-      background-color: $pw-secondary;
-      color: $pw-white;
     }
 
     &__content {

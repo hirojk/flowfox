@@ -6,6 +6,11 @@
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
       <div class="page__headerContent">
+        <div class="page__box">
+          <span class="page__box--project" aria-hidden="true">
+            {{ useInitials(projectStore.activeProject?.name || '') }}
+          </span>
+        </div>
         <TextEditor
           class="page__headline"
           htmlTag="h1"
@@ -19,7 +24,7 @@
     </header>
     <section class="page__content">
       <div class="components">
-        <h2 class="components__title">Components</h2>
+        <h2 class="components__title">Pages</h2>
         <ul class="components__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
@@ -43,6 +48,7 @@
   import TextEditor from '@components/ui/TextEditor.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
+  import { useInitials } from '@composables/useDisplay'
   import { openSettingsModal } from '@composables/useModal'
   import { triggerInputFocus } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
@@ -64,12 +70,6 @@
 
 <style lang="scss" scoped>
   .page--project {
-    .page {
-      &__headline {
-        color: $pw-primary;
-      }
-    }
-
     .components {
       display: flex;
       flex-direction: column;

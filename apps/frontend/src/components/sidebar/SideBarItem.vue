@@ -108,6 +108,7 @@
       flex: 1;
       white-space: nowrap;
       overflow: hidden;
+      user-select: none;
 
       &::after {
         content: '';
