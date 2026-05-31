@@ -18,7 +18,7 @@
     defineProps<{
       size: number
       icon?: string
-      label: string
+      label?: string
       color?: string
       backgroundColor?: string
     }>(),

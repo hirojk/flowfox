@@ -20,7 +20,7 @@
           <h2 class="projects__title">Your Projects</h2>
           <LinkUI label="Create New Project" @click="handleNewProject" />
         </div>
-        <ul class="projects__list">
+        <ul class="projects__list page__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
               :id="`project-${project.id}`"
@@ -102,11 +102,5 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
-
-    &__list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-      gap: 2em;
-    }
   }
 </style>

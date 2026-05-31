@@ -10,6 +10,7 @@
         <TextEditor
           class="page__headline"
           htmlTag="h1"
+          textStyle="h2"
           :text="projectStore.activeProject?.name || ''"
           :saveEvent="
             (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
@@ -20,8 +21,11 @@
     </header>
     <section class="page__content">
       <div class="components">
-        <h2 class="components__title">Pages</h2>
-        <ul class="components__list">
+        <div class="page__title-wrapper">
+          <h2 class="components__title">Pages</h2>
+          <LinkUI label="Create New Page" @click="handleNewComponent" />
+        </div>
+        <ul class="components__list page__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
               :id="`board-${component.id}`"
@@ -63,7 +67,7 @@
   const handleNewComponent = () => {
     triggerInputFocus(async () => {
       appStore.currentEditingId = (await boardStore.createNewBoard()).id
-    }, '.components__item:nth-last-child input')
+    }, '.components__item:nth-last-child(1) input')
   }
 
   defineOptions({ inheritAttrs: false })
@@ -85,11 +89,6 @@
       &__title {
         padding: 0.2em;
         color: $pw-black;
-      }
-
-      &__list {
-        display: flex;
-        gap: 2em;
       }
     }
   }

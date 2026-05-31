@@ -14,11 +14,13 @@
     border-radius: 0.2em 0.2em 0 0;
     padding: 0.5em;
     background-color: $pw-input-background;
+    cursor: text;
 
     &:read-write {
       @include focusVisible;
 
       &:focus {
+        border: none;
         border-bottom-color: transparent;
       }
     }

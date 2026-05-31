@@ -11,6 +11,7 @@
         class="page-item__label page-item__label--editing"
         mode="editOnce"
         htmlTag="span"
+        removeDefaultStyle
         :text="props.label"
         :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
         :cancelEvent="handleCancel"

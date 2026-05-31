@@ -1,26 +1,28 @@
 <template>
-  <component
-    :is="props.multiline ? 'textarea' : 'input'"
-    ref="inputRef"
-    v-bind="{ ...$attrs, ...ariaAttrs }"
-    :class="[
-      'textEditor',
-      props.mode === 'editOnce' ? 'textEditor--locked' : '',
-      props.textStyle ? props.textStyle : currentTag.style,
-      props.multiline ? 'textEditor--textarea' : 'textEditor--input',
-      isLocked ? 'textEditor--pointer' : '',
-    ]"
-    :readonly="!isEditing"
-    :tabindex="isLocked ? -1 : 0"
-    :name="localText"
-    :value="localText"
-    @click="handleClick"
-    @focus="handleFocus"
-    @touchend="handleTouch"
-    @blur="handleBlur"
-    @keydown.enter="handleEnter"
-    @keydown.esc="cancelEdit"
-  />
+  <div :class="['textEditor', props.removeDefaultStyle ? '' : 'inputField']">
+    <component
+      :is="props.multiline ? 'textarea' : 'input'"
+      ref="inputRef"
+      v-bind="{ ...$attrs, ...ariaAttrs }"
+      :class="[
+        'textEditor__field',
+        props.mode === 'editOnce' ? 'textEditor__field--locked' : '',
+        props.textStyle ? props.textStyle : currentTag.style,
+        props.removeDefaultStyle ? '' : 'inputField__field',
+        props.multiline ? 'textEditor__field--textarea' : 'textEditor__field--input',
+      ]"
+      :readonly="!isEditing"
+      :tabindex="isLocked ? -1 : 0"
+      :name="localText"
+      :value="localText"
+      @click="handleClick"
+      @focus="handleFocus"
+      @touchend="handleTouch"
+      @blur="handleBlur"
+      @keydown.enter="handleEnter"
+      @keydown.esc="cancelEdit"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -34,6 +36,7 @@
       mode?: 'default' | 'editOnce' | 'autoEdit'
       htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
       textStyle?: string
+      removeDefaultStyle?: boolean
       multiline?: boolean
       text: string
       saveEvent: (newName: string) => void
@@ -41,6 +44,7 @@
     }>(),
     {
       mode: 'default',
+      removeDefaultStyle: false,
     },
   )
   const appStore = useAppStore()
@@ -145,31 +149,27 @@
 
 <style lang="scss" scoped>
   .textEditor {
-    width: 100%;
-    border: 2px solid transparent;
-    border-radius: 0.25em;
-    padding: 0.1em;
-    cursor: text;
-    pointer-events: auto;
+    &__field {
+      width: 100%;
+      font-family: $font-family-primary;
 
-    &--locked {
-      &:read-only {
-        pointer-events: none;
+      &:read-write {
+        border: 2px solid currentcolor;
+        background: transparent;
       }
-    }
 
-    &:read-write {
-      border: 2px solid currentcolor;
-      background: transparent;
-    }
+      &--locked {
+        cursor: pointer;
 
-    &--textarea {
-      resize: none;
-      field-sizing: content;
-    }
+        &:read-only {
+          pointer-events: none;
+        }
+      }
 
-    &--pointer {
-      cursor: pointer;
+      &--textarea {
+        resize: none;
+        field-sizing: content;
+      }
     }
   }
 </style>
