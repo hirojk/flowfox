@@ -5,7 +5,7 @@
     :to="props.route ? props.route : undefined"
     @click="props.action"
   >
-    <InitialUI :size="+5" :label="props.label" :color="colors['pw-secondary']" />
+    <InitialUI class="page-item__initial" :size="+5" :label="props.label" :backgroundColor="colors['pw-secondary']" />
     <div class="page-item__content">
       <TextEditor
         class="page-item__label page-item__label--editing"
@@ -22,9 +22,9 @@
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
   import { useAppStore } from '@stores/appStore'
+  import colors from '@styles/colors.json'
 
   import InitialUI from '@components/ui/InitialUI.vue'
-  import colors from '@styles/colors.json'
   import TextEditor from '@components/ui/TextEditor.vue'
 
   const appStore = useAppStore()
@@ -62,8 +62,8 @@
     align-items: center;
     background-color: $pw-primary;
 
-    > * {
-      @include simpleAnimation;
+    &__initial {
+      border-radius: 0;
     }
 
     &__content {

@@ -6,11 +6,7 @@
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
       <div class="page__headerContent">
-        <div class="page__box">
-          <span class="page__box--project" aria-hidden="true">
-            {{ useInitials(projectStore.activeProject?.name || '') }}
-          </span>
-        </div>
+        <InitialUI :size="+5" :label="projectStore.activeProject?.name!" :backgroundColor="colors['pw-primary']" />
         <TextEditor
           class="page__headline"
           htmlTag="h1"
@@ -40,15 +36,20 @@
           </li>
         </ul>
       </div>
+      <LineDivider v-for="i in 10" :key="i" variant="tertiary" />
     </section>
   </q-page>
+  <LineDivider class="line-divider__footer" variant="primary" />
 </template>
 
 <script setup lang="ts">
+  import colors from '@styles/colors.json'
+
   import TextEditor from '@components/ui/TextEditor.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
-  import { useInitials } from '@composables/useDisplay'
+  import InitialUI from '@components/ui/InitialUI.vue'
+
   import { openSettingsModal } from '@composables/useModal'
   import { triggerInputFocus } from '@/composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
@@ -70,6 +71,12 @@
 
 <style lang="scss" scoped>
   .page--project {
+    padding: $page-padding-y $page-padding-x calc($page-padding-y * 2);
+
+    .page__content {
+      gap: 0;
+    }
+
     .components {
       display: flex;
       flex-direction: column;

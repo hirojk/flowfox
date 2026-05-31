@@ -7,7 +7,7 @@
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
   >
-    <path d="M0,10 C300,20 600,0 900,10 C1050,15 1150,5 1200,10" stroke="currentColor" stroke-width="1" fill="none" />
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="currentColor" stroke-width="1" />
   </svg>
 </template>
 
@@ -41,7 +41,7 @@
     }
 
     &__footer {
-      position: absolute;
+      position: fixed;
       bottom: calc($page-padding-y * 2);
     }
   }

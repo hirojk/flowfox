@@ -1,20 +1,22 @@
 <template>
   <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
-      <div class="sideBar-item__box" :class="`sideBar-item__box--${props.buttonStyle}`">
-        <span v-if="props.buttonStyle === 'project'" class="sideBar-item__box--project" aria-hidden="true">
-          {{ useInitials(props.label) }}
-        </span>
-        <iconSvg v-if="props.icon" :id="props.icon" size="36" />
-      </div>
+      <InitialUI
+        :size="+3"
+        :icon="props.icon"
+        :label="props.label"
+        :color="props.buttonStyle === 'nav' ? colors['pw-black'] : 'white'"
+      />
     </div>
     <span class="sideBar-item__label">{{ props.label }}</span>
   </q-item>
 </template>
 
 <script setup lang="ts">
-  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
+  import colors from '@styles/colors.json'
+
+  import InitialUI from '@components/ui/InitialUI.vue'
 
   const appStore = useAppStore()
 
