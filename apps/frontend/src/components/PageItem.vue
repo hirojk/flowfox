@@ -5,7 +5,7 @@
     :to="props.route ? props.route : undefined"
     @click="props.action"
   >
-    <InitialUI :size="+5" :label="props.label" color="$pw-secondary" />
+    <InitialUI :size="+5" :label="props.label" :color="colors['pw-secondary']" />
     <div class="page-item__content">
       <TextEditor
         class="page-item__label page-item__label--editing"
@@ -24,6 +24,7 @@
   import { useAppStore } from '@stores/appStore'
 
   import InitialUI from '@components/ui/InitialUI.vue'
+  import colors from '@styles/colors.json'
   import TextEditor from '@components/ui/TextEditor.vue'
 
   const appStore = useAppStore()

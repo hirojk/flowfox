@@ -3,8 +3,13 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import colors from './src/styles/colors.json'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+
+const scssColorVariables = Object.entries(colors)
+  .map(([key, value]) => `$${key}: ${value};`)
+  .join('\n')
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -31,9 +36,10 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           additionalData: `
-            @use "@/styles/animations.scss" as *;
-            @use "@/styles/mixin.scss" as *;
-            @use "@/styles/variables.scss" as *;
+            ${scssColorVariables}
+            @import "@/styles/variables.scss";
+            @import "@/styles/animations.scss";
+            @import "@/styles/mixin.scss";
           `,
         },
       },
@@ -48,6 +54,7 @@ export default defineConfig(({ mode }) => {
         '@pages': path.resolve(__dirname, 'src/pages'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@stores': path.resolve(__dirname, 'src/stores'),
+        '@styles': path.resolve(__dirname, 'src/styles'),
         '@typeDefs': path.resolve(__dirname, 'src/types'),
         '@utils': path.resolve(__dirname, 'src/utils'),
       },

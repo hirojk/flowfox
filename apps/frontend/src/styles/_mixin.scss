@@ -1,7 +1,3 @@
-@use 'sass:list';
-@use 'sass:meta';
-@use './variables' as *;
-
 // box shadow mixin
 @mixin boxShadowMixin {
   box-shadow: 0 0 1em rgba($pw-black, 0.25);
@@ -9,9 +5,12 @@
 
 // font mixin
 @mixin fontMixin($size, $line-height: 1rem) {
-  @if meta.type-of($size) == 'list' {
-    $line-height: list.nth($size, 2);
-    $size: list.nth($size, 1);
+  // stylelint-disable-next-line scss/no-global-function-names
+  @if type-of($size) == 'list' {
+    // stylelint-disable-next-line scss/no-global-function-names
+    $line-height: nth($size, 2);
+    // stylelint-disable-next-line scss/no-global-function-names
+    $size: nth($size, 1);
   }
 
   font-size: $size;

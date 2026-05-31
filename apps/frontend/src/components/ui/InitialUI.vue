@@ -25,7 +25,6 @@
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
-    width: v-bind('props.size + "em"');
     height: auto;
     aspect-ratio: 1;
     padding: 1em;
