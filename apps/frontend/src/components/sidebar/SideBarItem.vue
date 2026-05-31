@@ -1,12 +1,7 @@
 <template>
   <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
-      <InitialUI
-        :size="+3"
-        :icon="props.icon"
-        :label="props.label"
-        :color="props.buttonStyle === 'nav' ? colors['pw-black'] : 'white'"
-      />
+      <InitialUI :size="+3" :icon="props.icon" :label="props.label" color="var(--item-color)" />
     </div>
     <span class="sideBar-item__label">{{ props.label }}</span>
   </q-item>
@@ -14,7 +9,6 @@
 
 <script setup lang="ts">
   import { useAppStore } from '@stores/appStore'
-  import colors from '@styles/colors.json'
 
   import InitialUI from '@components/ui/InitialUI.vue'
 
@@ -39,19 +33,15 @@
     &--project {
       --item-background: #{$pw-primary};
       --item-color: #{$pw-white};
-      --item-shadow: #{$pw-secondary};
+      --item-shadow: #421206;
     }
 
     &--component {
-      --item-background: #{$ff-tertiary};
+      --item-background: #{$pw-quatenary};
       --item-color: #{$pw-black};
-      --item-shadow: #{$pw-black};
-    }
+      --item-shadow: #672a07;
 
-    &--new {
-      --item-background: #{$ff-quaternary};
-      --item-color: #{$ff-grey};
-      --item-shadow: #{$pw-black};
+      border-radius: 0 0 0 1.5em;
     }
 
     &--nav {
@@ -64,9 +54,7 @@
     align-items: center;
     padding: 0 !important;
     background-color: var(--item-background);
-    box-shadow:
-      0 0.5em 1em color-mix(in srgb, var(--item-shadow) 15%, transparent),
-      inset -0.5em 0 2em color-mix(in srgb, var(--item-shadow) 15%, transparent);
+    box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--item-shadow) 20%, transparent);
     color: var(--item-color);
 
     &:first-child {
