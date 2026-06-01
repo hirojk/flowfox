@@ -1,9 +1,18 @@
 <template>
+  <Teleport defer to="#modal-headline">
+    <h1 class="project-setting__headline h3">Project Setting</h1>
+  </Teleport>
   <Teleport defer to="#modal-footer">
-    <button class="project-setting__delete button button--primary" @click="onDeleteBoard">
-      <IconSvg id="icon-cancel" />
-      Delete project
-    </button>
+    <section class="project-setting__dangerzone modal__category modal__category--dangerzone">
+      <h2 class="modal__category-headline h4">Danger Zone</h2>
+      <div class="modal__category-content">
+        <div class="modal__category-text">
+          <h3 class="modal__category-strong">Delete project</h3>
+          <p>Once you delete a project, there is no going back. Please be certain.</p>
+        </div>
+        <ButtonUI class="project-setting__delete" variant="error" label="Delete project" @click="onDeleteBoard" />
+      </div>
+    </section>
   </Teleport>
 </template>
 
@@ -18,17 +27,9 @@
     if (!projectStore.activeProject) return
 
     open(
-      `Are you sure you want to delete the project "${projectStore.activeProject?.name}"?`,
+      `Are you sure you want to delete the project "${projectStore.activeProject?.name}" ?`,
       () => projectStore.deleteProject(projectStore.activeProject!.id),
       { name: 'home' },
     )
   }
 </script>
-
-<style lang="scss" scoped>
-  .project-setting {
-    &__delete {
-      width: 100%;
-    }
-  }
-</style>

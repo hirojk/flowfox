@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
   const props = defineProps<{
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'error'
     size?: 'large' | 'small'
     label: string
   }>()
@@ -36,7 +36,7 @@
 
     &--secondary {
       border: 2px solid $pw-black;
-      background-color: $pw-background;
+      background-color: $pw-white;
       color: $pw-black;
 
       @media (hover: hover) and (pointer: fine) {
@@ -56,6 +56,20 @@
         &:hover,
         &:active {
           background-color: $ff-grey;
+          color: $pw-white;
+        }
+      }
+    }
+
+    &--error {
+      border: 2px solid $pw-error;
+      background-color: $pw-white;
+      color: $pw-error;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover,
+        &:active {
+          background-color: $pw-error;
           color: $pw-white;
         }
       }

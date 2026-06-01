@@ -26,7 +26,12 @@ h2,
 
 h3,
 .h3 {
-  @include fontMixin($font-size-lg);
+  @include fontHeadline3;
+}
+
+h4,
+.h4 {
+  @include fontHeadline4;
 }
 
 p,

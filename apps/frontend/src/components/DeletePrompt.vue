@@ -2,10 +2,20 @@
   <dialog ref="dialogRef" class="delete-prompt">
     <span class="delete-prompt__message">{{ message }}</span>
     <div class="delete-prompt__button-group">
-      <button class="delete-prompt__button delete-prompt__button--delete" autofocus @click="confirm">
-        <IconSvg id="icon-cancel" /> Delete
-      </button>
-      <button class="delete-prompt__button delete-prompt__button--cancel" @click="close">Cancel</button>
+      <ButtonUI
+        class="delete-prompt__button delete-prompt__button--confirm"
+        variant="error"
+        label="Delete"
+        autofocus
+        @click="confirm"
+      />
+      <ButtonUI
+        class="delete-prompt__button delete-prompt__button--cancel"
+        variant="secondary"
+        label="Cancel"
+        autofocus
+        @click="close"
+      />
     </div>
   </dialog>
 </template>
@@ -35,6 +45,7 @@
     border: none;
     border-radius: 1em;
     padding: 2em;
+    box-shadow: 0 0 2.5em 1em color-mix(in srgb, $pw-black 5%, transparent);
 
     &[open] {
       display: flex;
@@ -49,29 +60,13 @@
 
     &__button-group {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 1em;
       width: 100%;
     }
 
     &__button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5em;
-      width: 10em;
-      border-radius: 1em;
-      padding: 0.8em 2em;
-      text-align: center;
-
-      &--delete {
-        border: 2px solid $pw-error;
-        color: $pw-error;
-      }
-
-      &--cancel {
-        background-color: rgba($ff-grey, 0.75);
-        color: $pw-white;
-      }
+      min-width: 8em;
     }
   }
 </style>

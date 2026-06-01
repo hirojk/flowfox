@@ -22,6 +22,7 @@
     display: block;
     width: 100%;
     height: 0.5em;
+    z-index: 1000;
     overflow: visible;
 
     &--primary {

@@ -17,7 +17,7 @@
           "
         />
       </div>
-      <button class="button button--primary" @click="openSettingsModal('project-setting')">Project setting</button>
+      <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('project-setting')" />
     </header>
     <section class="page__content">
       <div class="components">
@@ -53,6 +53,7 @@
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
   import InitialUI from '@components/ui/InitialUI.vue'
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
 
   import { openSettingsModal } from '@composables/useModal'
   import { triggerInputFocus } from '@/composables/useIosInteractions'
