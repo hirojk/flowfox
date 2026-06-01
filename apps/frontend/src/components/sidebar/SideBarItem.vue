@@ -4,6 +4,7 @@
       <InitialUI :size="+3" :icon="props.icon" :label="props.label" color="var(--item-color)" />
     </div>
     <span class="sideBar-item__label">{{ props.label }}</span>
+    <div class="sideBar-item__background" :style="`height: ${props.index ? (props.index + 1) * 100 : 100}%`"></div>
   </q-item>
 </template>
 
@@ -16,6 +17,7 @@
 
   const props = defineProps<{
     buttonStyle: 'project' | 'component' | 'new' | 'nav'
+    index?: number
     icon?: string
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
@@ -33,15 +35,21 @@
     &--project {
       --item-background: #{$pw-primary};
       --item-color: #{$pw-white};
-      --item-shadow: #421206;
+      --item-shadow: #{$pw-secondary};
     }
 
     &--component {
       --item-background: #{$pw-quatenary};
       --item-color: #{$pw-black};
-      --item-shadow: #672a07;
+      --item-shadow: #{$pw-secondary};
 
-      border-radius: 0 0 0 1.5em;
+      .sideBar-item__background {
+        border-radius: 0 0 0 1.5em;
+      }
+
+      &:last-child .sideBar-item__background {
+        box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, $pw-black 20%, transparent);
+      }
     }
 
     &--nav {
@@ -50,11 +58,11 @@
       --item-shadow: #{$pw-black};
     }
 
+    @include focusVisible;
+
     display: flex;
     align-items: center;
     padding: 0 !important;
-    background-color: var(--item-background);
-    box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--item-shadow) 20%, transparent);
     color: var(--item-color);
 
     &:first-child {
@@ -67,8 +75,6 @@
         z-index: #{100 - $i};
       }
     }
-
-    @include focusVisible;
 
     &__icon {
       display: flex;
@@ -109,6 +115,16 @@
         height: 2px;
         background-color: $pw-primary;
       }
+    }
+
+    &__background {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--item-background);
+      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--item-shadow) 20%, transparent);
+      z-index: -1;
     }
 
     :deep(.q-focus-helper) {

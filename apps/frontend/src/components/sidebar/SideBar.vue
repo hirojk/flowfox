@@ -16,8 +16,9 @@
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
       <SidebarItem
-        v-for="item in projectStore.activeProject?.components"
+        v-for="(item, index) in projectStore.activeProject?.components"
         :key="item.name"
+        :index="index"
         buttonStyle="component"
         :icon="`icon-${item.type}`"
         :label="item.name"
@@ -89,9 +90,5 @@
     justify-content: space-between;
     background-color: $pw-lightgrey;
     box-shadow: inset -2em 0 5em rgba($pw-black, 0.25);
-
-    &__list--project {
-      overflow: hidden;
-    }
   }
 </style>
