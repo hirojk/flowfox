@@ -84,8 +84,6 @@
     background-color: transparent;
 
     .login-form {
-      @include boxShadowMixin;
-
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -98,6 +96,7 @@
       border-radius: 2em;
       padding: 3em 5em;
       background-color: $pw-background;
+      box-shadow: $box-shadow;
 
       &__title {
         color: $pw-black;

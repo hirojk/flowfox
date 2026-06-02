@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2em;
+    gap: 8em;
     height: 5em;
   }
 
@@ -20,7 +20,6 @@
     align-items: center;
     gap: 2em;
     width: 100%;
-    max-width: 100em;
   }
 
   &__headerIcon {
@@ -47,7 +46,7 @@
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2em;
   }
 }

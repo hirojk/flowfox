@@ -38,8 +38,9 @@ export default defineConfig(({ mode }) => {
           additionalData: `
             ${scssColorVariables}
             @import "@/styles/variables.scss";
-            @import "@/styles/animations.scss";
             @import "@/styles/mixin.scss";
+            @import "@/styles/themes.scss";
+            @import "@/styles/animations.scss";
           `,
         },
       },

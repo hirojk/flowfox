@@ -12,7 +12,7 @@
     <q-list class="sideBar__list sideBar__list--project">
       <SidebarItem
         buttonStyle="project"
-        :label="projectStore.activeProject?.name || ''"
+        :headline="projectStore.activeProject?.name || ''"
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
       <SidebarItem
@@ -21,7 +21,8 @@
         :index="index"
         buttonStyle="component"
         :icon="`icon-${item.type}`"
-        :label="item.name"
+        :headline="item.name"
+        :subline="item.type"
         :route="{
           name: 'component',
           params: {
@@ -34,7 +35,7 @@
     </q-list>
 
     <q-list class="sideBar__list sideBar__list--nav">
-      <SidebarItem v-for="item in navItems" :key="item.label" v-bind="item" />
+      <SidebarItem v-for="item in navItems" :key="item.headline" v-bind="item" />
     </q-list>
   </q-drawer>
 </template>
@@ -59,16 +60,16 @@
 
   const navItems = computed(() => [
     {
-      buttonStyle: 'nav' as const,
+      buttonStyle: 'neutral' as const,
       icon: 'icon-home',
-      label: 'Back to Overview',
+      headline: 'Back to Overview',
       route: { name: 'home' },
       action: (): boolean => (appStore.isSidebarOpen = false),
     },
     {
-      buttonStyle: 'nav' as const,
+      buttonStyle: 'neutral' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
-      label: appStore.isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar',
+      headline: appStore.isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar',
       action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])

@@ -57,7 +57,7 @@
     const { bottom, left, width } = anchorElement.getBoundingClientRect()
 
     position.value = {
-      top: bottom + 12,
+      top: bottom + 15,
       left: left + width / 2,
     }
 
@@ -123,8 +123,6 @@
     }
 
     &__panel {
-      @include boxShadowMixin;
-
       position: fixed;
       display: flex;
       flex-direction: column;
@@ -134,6 +132,7 @@
       border-radius: 0.5em;
       padding: 0.5em;
       background: $pw-white;
+      box-shadow: $box-shadow;
       z-index: 3002;
       cursor: default;
     }

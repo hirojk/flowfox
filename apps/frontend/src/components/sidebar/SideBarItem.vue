@@ -1,9 +1,12 @@
 <template>
   <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
-      <InitialUI :size="+3" :icon="props.icon" :label="props.label" color="var(--item-color)" />
+      <InitialUI :size="+3" :icon="props.icon" :label="props.headline" color="var(--theme-headline-color)" />
     </div>
-    <span class="sideBar-item__label">{{ props.label }}</span>
+    <div class="sideBar-item__content">
+      <span class="sideBar-item__headline">{{ props.headline }}</span>
+      <span v-if="props.subline" class="sideBar-item__subline">{{ props.subline }}</span>
+    </div>
     <div class="sideBar-item__background" :style="`height: ${props.index ? (props.index + 1) * 100 : 100}%`"></div>
   </q-item>
 </template>
@@ -16,10 +19,11 @@
   const appStore = useAppStore()
 
   const props = defineProps<{
-    buttonStyle: 'project' | 'component' | 'new' | 'nav'
+    buttonStyle: 'project' | 'component' | 'new' | 'neutral'
     index?: number
     icon?: string
-    label: string
+    headline: string
+    subline?: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
     action?: () => void
   }>()
@@ -32,17 +36,10 @@
 
 <style lang="scss" scoped>
   .sideBar-item {
-    &--project {
-      --item-background: #{$pw-primary};
-      --item-color: #{$pw-white};
-      --item-shadow: #{$pw-secondary};
-    }
+    @include themeMixin;
+    @include focusVisible;
 
     &--component {
-      --item-background: #{$pw-quatenary};
-      --item-color: #{$pw-black};
-      --item-shadow: #{$pw-secondary};
-
       .sideBar-item__background {
         border-radius: 0 0 0 1.5em;
       }
@@ -52,18 +49,16 @@
       }
     }
 
-    &--nav {
-      --item-background: #{$pw-background};
-      --item-color: #{$pw-black};
-      --item-shadow: #{$pw-black};
+    &--neutral {
+      .sideBar-item__headline {
+        @include underlineMixin;
+      }
     }
-
-    @include focusVisible;
 
     display: flex;
     align-items: center;
     padding: 0 !important;
-    color: var(--item-color);
+    color: var(--theme-headline-color);
 
     &:first-child {
       margin-top: 0;
@@ -97,24 +92,31 @@
       border-radius: 0.5em;
     }
 
-    &__label {
+    &__content {
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5em;
+      min-height: 3em;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    &__headline {
       @include fontButton;
 
       position: relative;
-      flex: 1;
+      width: fit-content;
       white-space: nowrap;
-      overflow: hidden;
-      user-select: none;
+    }
 
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -0.2em;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: $pw-primary;
-      }
+    &__subline {
+      @include fontButtonSmall;
+
+      color: var(--theme-subline-color);
+      white-space: nowrap;
     }
 
     &__background {
@@ -122,8 +124,8 @@
       bottom: 0;
       width: 100%;
       height: 100%;
-      background-color: var(--item-background);
-      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--item-shadow) 20%, transparent);
+      background-color: var(--theme-background-primary);
+      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--theme-shadow) 20%, transparent);
       z-index: -1;
     }
 

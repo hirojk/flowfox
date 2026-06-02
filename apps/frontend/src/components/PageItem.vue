@@ -10,7 +10,7 @@
       :size="+3.2"
       :icon="props.icon"
       :label="props.label"
-      color="var(--item-color)"
+      color="var(--theme-headline-color)"
     />
     <div class="page-item__content">
       <TextEditor
@@ -66,26 +66,15 @@
 
 <style lang="scss" scoped>
   .page-item {
-    &--project {
-      --item-background: #{$pw-primary};
-      --item-color: #{$pw-white};
-      --item-initial: #{$pw-secondary};
-    }
-
-    &--component {
-      --item-background: #{$pw-quatenary};
-      --item-color: #{$pw-black};
-      --item-subline-color: #{$pw-primary};
-      --item-initial: transparent;
-    }
+    @include themeMixin;
 
     display: flex;
     align-items: center;
-    background-color: var(--item-background);
+    background-color: var(--theme-background-primary);
 
     &__initial {
       border-radius: 0;
-      background-color: var(--item-initial);
+      background-color: var(--theme-background-secondary);
     }
 
     &__content {
@@ -95,14 +84,14 @@
       gap: 0.25em;
       width: 100%;
       margin: 0 2em 0 1em;
-      color: var(--item-color);
+      color: var(--theme-headline-color);
       font-family: $font-family-secondary;
     }
 
     &__subline {
       @include fontButtonSmall;
 
-      color: var(--item-subline-color);
+      color: var(--theme-subline-color);
       opacity: 0.8;
     }
 
