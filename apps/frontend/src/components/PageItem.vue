@@ -5,17 +5,24 @@
     :to="props.route ? props.route : undefined"
     @click="props.action"
   >
-    <InitialUI class="page-item__initial" :size="+5" :label="props.label" :backgroundColor="colors['pw-secondary']" />
+    <InitialUI
+      class="page-item__initial"
+      :size="+3.2"
+      :icon="props.icon"
+      :label="props.label"
+      color="var(--item-color)"
+    />
     <div class="page-item__content">
       <TextEditor
-        class="page-item__label page-item__label--editing"
         mode="editOnce"
         htmlTag="span"
+        textStyle="button"
         removeDefaultStyle
         :text="props.label"
         :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
         :cancelEvent="handleCancel"
       />
+      <span v-if="props.componentStyle" class="page-item__subline">{{ props.componentStyle }}</span>
     </div>
   </component>
 </template>
@@ -23,7 +30,6 @@
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
   import { useAppStore } from '@stores/appStore'
-  import colors from '@styles/colors.json'
 
   import InitialUI from '@components/ui/InitialUI.vue'
   import TextEditor from '@components/ui/TextEditor.vue'
@@ -32,6 +38,7 @@
 
   const props = defineProps<{
     buttonStyle: 'project' | 'component'
+    componentStyle?: 'board' | 'flow' | 'doc'
     themeColor: string
     icon?: string
     label: string
@@ -59,30 +66,44 @@
 
 <style lang="scss" scoped>
   .page-item {
+    &--project {
+      --item-background: #{$pw-primary};
+      --item-color: #{$pw-white};
+      --item-initial: #{$pw-secondary};
+    }
+
+    &--component {
+      --item-background: #{$pw-quatenary};
+      --item-color: #{$pw-black};
+      --item-subline-color: #{$pw-primary};
+      --item-initial: transparent;
+    }
+
     display: flex;
     align-items: center;
-    background-color: $pw-primary;
+    background-color: var(--item-background);
 
     &__initial {
       border-radius: 0;
+      background-color: var(--item-initial);
     }
 
     &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      gap: 0.25em;
       width: 100%;
-      margin: 0 1em;
+      margin: 0 2em 0 1em;
+      color: var(--item-color);
+      font-family: $font-family-secondary;
     }
 
-    &__label {
-      @include fontButton;
+    &__subline {
+      @include fontButtonSmall;
 
-      color: $pw-white;
-
-      &--editing {
-        background-color: transparent;
-      }
+      color: var(--item-subline-color);
+      opacity: 0.8;
     }
 
     // @media (hover: hover) and (pointer: fine) {

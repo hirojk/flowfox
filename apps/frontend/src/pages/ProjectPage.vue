@@ -6,7 +6,12 @@
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
       <div class="page__headerContent">
-        <InitialUI :size="+5" :label="projectStore.activeProject?.name!" :backgroundColor="colors['pw-primary']" />
+        <InitialUI
+          :size="+5"
+          :label="projectStore.activeProject?.name!"
+          :color="colors['pw-white']"
+          :backgroundColor="colors['pw-primary']"
+        />
         <TextEditor
           class="page__headline"
           htmlTag="h1"
@@ -23,13 +28,22 @@
       <div class="components">
         <div class="page__title-wrapper">
           <h2 class="components__title">Pages</h2>
-          <LinkUI label="Create New Page" @click="handleNewComponent" />
+          <LinkUI
+            label="Create New Page"
+            :dropdown="[
+              {
+                name: 'Board',
+                action: () => handleNewComponent(),
+              },
+            ]"
+          />
         </div>
         <ul class="components__list page__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
               :id="`board-${component.id}`"
               buttonStyle="component"
+              :componentStyle="component.type"
               themeColor="orange"
               :icon="`icon-${component.type}`"
               :label="component.name"

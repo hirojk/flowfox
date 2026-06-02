@@ -1,14 +1,26 @@
 <template>
-  <button class="link-ui">
+  <button class="link-ui" @click="linkDropdown?.open($event.currentTarget as HTMLElement)">
     {{ props.label }}
+    <DropdownUI v-if="props.dropdown" ref="linkDropdown" :options="props.dropdown ?? []" />
   </button>
 </template>
 
 <script setup lang="ts">
+  import { useTemplateRef } from 'vue'
+  import DropdownUI from './DropdownUI.vue'
+
+  interface DropdownItem {
+    name: string
+    action: () => void
+  }
+
   const props = defineProps<{
     href?: string
     label: string
+    dropdown?: DropdownItem[]
   }>()
+
+  const linkDropdown = useTemplateRef<InstanceType<typeof DropdownUI>>('linkDropdown')
 </script>
 
 <style lang="scss" scoped>

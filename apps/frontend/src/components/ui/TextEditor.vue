@@ -149,9 +149,11 @@
 
 <style lang="scss" scoped>
   .textEditor {
+    color: inherit;
+
     &__field {
       width: 100%;
-      font-family: $font-family-primary;
+      font-family: inherit;
 
       &:read-write {
         border: 2px solid currentcolor;
