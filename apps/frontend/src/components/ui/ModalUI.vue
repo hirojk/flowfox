@@ -55,7 +55,6 @@
     &__content {
       display: grid;
       grid-template-rows: auto 1fr;
-      gap: 1em;
       height: 100%;
       padding: 3em;
     }
@@ -84,7 +83,8 @@
       flex-direction: column;
       gap: 2em;
       padding-right: 1em;
-      overflow-y: auto;
+
+      // overflow-y: auto;
     }
 
     &__category {
@@ -95,6 +95,12 @@
 
       &--dangerzone {
         color: $pw-error !important;
+      }
+
+      &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       &-headline {

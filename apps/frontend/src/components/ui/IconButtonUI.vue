@@ -1,7 +1,7 @@
 <template>
   <button
     class="icon-button"
-    :style="{ borderColor: props.color === 'orange' ? colors['pw-primary'] : colors['pw-quinary'] }"
+    :style="{ borderColor }"
     @click="buttonDropdown?.open($event.currentTarget as HTMLElement)"
   >
     <IconSvg v-if="props.icon" :id="props.icon" class="icon-button__icon" :size="`${String(props.size)}em`" />
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useTemplateRef } from 'vue'
+  import { computed, useTemplateRef } from 'vue'
   import DropdownUI from '@components/ui/DropdownUI.vue'
   import type { DropdownItem } from '@typeDefs/globalTypes'
 
@@ -29,6 +29,13 @@
     },
   )
 
+  const colorMap: Record<string, string> = {
+    orange: colors['pw-primary'],
+    grey: colors['pw-tertiary'],
+    transparent: 'transparent',
+  }
+
+  const borderColor = computed(() => colorMap[props.color])
   const buttonDropdown = useTemplateRef<InstanceType<typeof DropdownUI>>('buttonDropdown')
 </script>
 

@@ -11,15 +11,15 @@
           :cancelEvent="() => deleteCheckbox(item)"
         />
       </label>
-      <button class="checkboxEditor__delete" :aria-label="`Delete ${item.label}`" @click="deleteCheckbox(item)">
-        <IconSvg id="icon-cancel" />
-      </button>
+      <IconButtonUI
+        class="checkboxEditor__delete"
+        icon="icon-delete"
+        color="grey"
+        :size="2.5"
+        @click="deleteCheckbox(item)"
+      />
     </li>
   </ul>
-  <button class="checkboxEditor__button button button--secondary" aria-label="Add new subtask" @click="addCheckbox()">
-    <IconSvg id="icon-plus" />
-    Add subtask
-  </button>
 </template>
 
 <script setup lang="ts">
@@ -63,6 +63,10 @@
   const deleteCheckbox = (item: CheckboxItemType) => {
     props.saveEvent(props.checkboxes.filter((checkbox) => checkbox !== item))
   }
+
+  defineExpose({
+    addCheckbox,
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -80,15 +84,19 @@
     &__item {
       display: flex;
       align-items: center;
-      gap: 3em;
+      gap: 1em;
     }
 
     &__checkbox {
       display: flex;
       align-items: center;
-      gap: 1em;
+      gap: 1.5em;
       width: 100%;
       padding: 0.5em;
+    }
+
+    &__box {
+      width: 3em;
     }
 
     &__label {

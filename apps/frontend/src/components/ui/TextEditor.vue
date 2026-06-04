@@ -171,6 +171,7 @@
       &--textarea {
         resize: none;
         field-sizing: content;
+        min-height: 5lh;
       }
     }
   }

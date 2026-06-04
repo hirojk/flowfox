@@ -4,25 +4,29 @@
   </div>
   <template v-else>
     <Teleport defer to="#modal-interactives">
-      <DropdownUI
-        mode="context"
+      <IconButtonUI
+        class="page__project-setting"
         icon="icon-menu"
-        :options="[
+        color="grey"
+        :size="3"
+        :dropdown="[
           {
             name: 'Remove Card',
             action: () => handleRemoveCard(),
           },
         ]"
-        :ariaLabel="`${activeCard.name} card actions`"
       />
     </Teleport>
-    <section class="board-modal__header">
+    <Teleport defer to="#modal-headline">
       <TextEditor
         class="board-modal__header-headline"
         htmlTag="h1"
+        textStyle="h2"
         :text="activeCard.name"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
+    </Teleport>
+    <!-- <section class="board-modal__header">
       <DropdownUI
         v-if="modalSettings.priority"
         mode="select"
@@ -37,10 +41,9 @@
         "
         :ariaLabel="`priority: ${activeCard.priority ?? 'medium'}`"
       />
-    </section>
+    </section> -->
     <section class="board-modal__details">
       <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
-        <h2 class="board-modal__label">Description</h2>
         <TextEditor
           class="board-modal__description"
           htmlTag="p"
@@ -49,9 +52,13 @@
           :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
         />
       </div>
-      <div v-if="modalSettings.checklist" class="board-modal__content board-modal__content--checklist">
-        <h2 class="board-modal__label">Checklist</h2>
+      <div v-if="modalSettings.checklist" class="modal__category">
+        <div class="modal__category-header">
+          <h2 class="modal__category-text">Checklist</h2>
+          <LinkUI label="Create new To-Do" @click="checkboxEditor?.addCheckbox()" />
+        </div>
         <CheckboxUI
+          ref="checkboxEditor"
           class="board-modal__checklist"
           :checkboxes="activeCard.checklist"
           :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
@@ -95,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { ref, computed } from 'vue'
   import { useBoardCard } from '@composables/useBoard'
   import { closeSettingsModal } from '@composables/useModal'
   import { PRIORITY_LIST } from '@constants/priority'
@@ -103,12 +110,15 @@
   import { getIcon } from '@utils/helpers'
   import type { BoardCardType, BoardColumnType, PriorityType } from '@pagewise/shared'
 
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
   import TextEditor from '@components/ui/TextEditor.vue'
   import CheckboxUI from '@components/ui/CheckboxUI.vue'
   // import DatePicker from '@components/ui/DatePicker.vue'
 
   const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()
+
+  const checkboxEditor = ref<InstanceType<typeof CheckboxUI>>()
 
   const modalSettings = computed(() => {
     const settings = boardStore.activeBoard?.settings.modal
@@ -154,7 +164,7 @@
     &__details {
       display: flex;
       flex-direction: column;
-      gap: 2em;
+      gap: 3em;
     }
 
     &__content {

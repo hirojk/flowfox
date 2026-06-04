@@ -20,6 +20,8 @@
     &:read-write {
       @include focusVisible;
 
+      border-radius: 0.1em;
+
       &:focus {
         border: none;
         border-bottom-color: transparent;
