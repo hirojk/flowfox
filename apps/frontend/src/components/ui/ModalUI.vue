@@ -66,6 +66,12 @@
       margin-bottom: 2em;
     }
 
+    &__headline {
+      display: flex;
+      align-items: center;
+      gap: 3em;
+    }
+
     &__navigation {
       display: flex;
       justify-content: space-between;

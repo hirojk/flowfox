@@ -96,8 +96,10 @@
   .board-card {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 1em;
     width: 100%;
+    min-height: 3.375em;
     border-radius: 0.5em;
     padding: 1em;
     background-color: $pw-white;

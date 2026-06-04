@@ -25,13 +25,9 @@
         :text="activeCard.name"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
-    </Teleport>
-    <!-- <section class="board-modal__header">
-      <DropdownUI
-        v-if="modalSettings.priority"
-        mode="select"
-        :label="activeCard.priority"
+      <SelectMenuUI
         :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
+        :label="activeCard.priority"
         :options="
           PRIORITY_LIST.map((p) => ({
             name: p.name,
@@ -39,9 +35,8 @@
             action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
-        :ariaLabel="`priority: ${activeCard.priority ?? 'medium'}`"
       />
-    </section> -->
+    </Teleport>
     <section class="board-modal__details">
       <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
         <TextEditor
@@ -54,7 +49,7 @@
       </div>
       <div v-if="modalSettings.checklist" class="modal__category">
         <div class="modal__category-header">
-          <h2 class="modal__category-text">Checklist</h2>
+          <h2 class="modal__category-text h4">Checklist</h2>
           <LinkUI label="Create new To-Do" @click="checkboxEditor?.addCheckbox()" />
         </div>
         <CheckboxUI
@@ -113,6 +108,7 @@
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
   import TextEditor from '@components/ui/TextEditor.vue'
   import CheckboxUI from '@components/ui/CheckboxUI.vue'
+  import SelectMenuUI from '../ui/SelectMenuUI.vue'
   // import DatePicker from '@components/ui/DatePicker.vue'
 
   const { updateCard, removeCard } = useBoardCard()
@@ -164,7 +160,7 @@
     &__details {
       display: flex;
       flex-direction: column;
-      gap: 3em;
+      gap: 4em;
     }
 
     &__content {
