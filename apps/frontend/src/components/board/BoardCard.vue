@@ -8,9 +8,10 @@
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
         <TextEditor
-          editMode
-          singleEdit
+          mode="editOnce"
           htmlTag="h3"
+          textStyle="body"
+          removeDefaultStyle
           :text="card.heading"
           :saveEvent="
             (newCardName: string) => updateCard([props.columnId, props.cardContent.id], { name: newCardName })
@@ -97,9 +98,10 @@
     flex-direction: column;
     gap: 1em;
     width: 100%;
-    border-radius: 1em;
+    border-radius: 0.5em;
     padding: 1em;
     background-color: $pw-white;
+    font-family: $font-family-primary;
     cursor: pointer;
 
     &__content {

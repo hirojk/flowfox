@@ -31,6 +31,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { RouterLink, type RouteLocationRaw } from 'vue-router'
+  import { useAppStore } from '@stores/appStore'
+
+  const appStore = useAppStore()
 
   interface SelectItem {
     name: string
@@ -68,15 +71,27 @@
     })
   }
 
+  const close = () => {
+    appStore.justDropped = true
+    setTimeout(() => {
+      appStore.justDropped = false
+    }, 500)
+    dialogRef.value?.close()
+  }
+
   const handleBackdropClick = (event: MouseEvent) => {
     if (event.target === dialogRef.value) {
+      appStore.justDropped = true
+      setTimeout(() => {
+        appStore.justDropped = false
+      }, 500)
       dialogRef.value?.close()
     }
   }
 
   const handleSelect = (item: SelectItem) => {
     item.action?.()
-    dialogRef.value?.close()
+    close()
   }
 
   const focusItem = (index: number) => {
@@ -104,7 +119,7 @@
         break
 
       case 'Escape':
-        dialogRef.value?.close()
+        close()
         break
     }
   }

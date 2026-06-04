@@ -36,10 +36,13 @@
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
-          <button class="board__button board__button--add-column" aria-label="Add new column" @click="handleAddColumn">
-            <IconSvg id="icon-plus" />
-            Add Column
-          </button>
+          <ButtonUI
+            class="board__button"
+            variant="board"
+            icon="icon-plus"
+            label="Add column"
+            @click="handleAddColumn"
+          />
         </li>
       </ul>
     </section>
@@ -134,15 +137,7 @@
       }
 
       &__button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5em;
         width: 100%;
-        border-radius: 1em;
-        padding: 1em;
-        background-color: $ff-quinary;
-        color: $pw-black;
       }
     }
   }

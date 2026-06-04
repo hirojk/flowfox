@@ -7,12 +7,8 @@
 
 <script setup lang="ts">
   import { useTemplateRef } from 'vue'
-  import DropdownUI from './DropdownUI.vue'
-
-  interface DropdownItem {
-    name: string
-    action: () => void
-  }
+  import DropdownUI from '@components/ui/DropdownUI.vue'
+  import type { DropdownItem } from '@typeDefs/globalTypes'
 
   const props = defineProps<{
     href?: string

@@ -2,25 +2,34 @@
   <button
     class="icon-button"
     :style="{ borderColor: props.color === 'orange' ? colors['pw-primary'] : colors['pw-quinary'] }"
+    @click="buttonDropdown?.open($event.currentTarget as HTMLElement)"
   >
     <IconSvg v-if="props.icon" :id="props.icon" class="icon-button__icon" :size="`${String(props.size)}em`" />
+    <DropdownUI v-if="props.dropdown" ref="buttonDropdown" :options="props.dropdown ?? []" />
   </button>
 </template>
 
 <script setup lang="ts">
+  import { useTemplateRef } from 'vue'
+  import DropdownUI from '@components/ui/DropdownUI.vue'
+  import type { DropdownItem } from '@typeDefs/globalTypes'
+
   import colors from '@styles/colors.json'
 
   const props = withDefaults(
     defineProps<{
       icon: string
+      dropdown?: DropdownItem[]
       size?: number
-      color?: 'orange' | 'grey'
+      color?: 'orange' | 'grey' | 'transparent'
     }>(),
     {
       size: 3,
       color: 'orange',
     },
   )
+
+  const buttonDropdown = useTemplateRef<InstanceType<typeof DropdownUI>>('buttonDropdown')
 </script>
 
 <style lang="scss" scoped>

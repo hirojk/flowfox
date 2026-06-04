@@ -11,3 +11,8 @@ export interface PriorityIconType extends IconType {
 }
 
 export type ModalUIType = (typeof MODAL_WINDOWS)[number]
+
+export interface DropdownItem {
+  name: string
+  action: () => void
+}

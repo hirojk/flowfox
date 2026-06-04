@@ -1,12 +1,14 @@
 <template>
   <button :class="['button', `button--${props.variant || 'primary'}`, `button--${props.size || 'large'}`]">
+    <IconSvg v-if="props.icon" :id="props.icon" class="button__icon" />
     {{ props.label }}
   </button>
 </template>
 
 <script setup lang="ts">
   const props = defineProps<{
-    variant?: 'primary' | 'secondary' | 'error'
+    variant?: 'primary' | 'secondary' | 'board' | 'error'
+    icon?: string
     size?: 'large' | 'small'
     label: string
   }>()
@@ -16,11 +18,16 @@
   .button {
     @include simpleAnimation;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     justify-content: center;
     align-items: center;
     gap: 0.5em;
     text-align: center;
+
+    &:not(:has(&__icon)) {
+      grid-template-columns: 1fr;
+    }
 
     &--primary {
       background-color: $pw-black;
@@ -59,6 +66,12 @@
           color: $pw-white;
         }
       }
+    }
+
+    &--board {
+      justify-content: space-between;
+      background-color: rgba($pw-quaternary, 0.5);
+      color: $pw-black;
     }
 
     &--error {
