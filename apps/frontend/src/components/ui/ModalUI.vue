@@ -110,7 +110,7 @@
       &-text {
         display: flex;
         flex-direction: column;
-        gap: 0.25em;
+        gap: 0.5em;
       }
 
       &-strong {

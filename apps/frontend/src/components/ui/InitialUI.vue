@@ -4,7 +4,7 @@
     aria-hidden="true"
     :style="{ backgroundColor: props.backgroundColor || undefined, color: props.color }"
   >
-    <IconSvg v-if="props.icon" :id="props.icon" class="initial__icon" :size="`${String(props.size)}em`" />
+    <IconSvg v-if="props.icon" :id="props.icon" class="initial__icon" :size="`${String(props.size / 1.5625)}em`" />
     <span v-else class="initial__text">
       {{ useInitials(props.label || '') }}
     </span>

@@ -1,7 +1,7 @@
 <template>
   <q-item :class="`sideBar-item sideBar-item--${props.buttonStyle}`" clickable :to="props.route" @click="handleClick">
     <div class="sideBar-item__icon">
-      <InitialUI :size="+3" :icon="props.icon" :label="props.headline" color="var(--theme-headline-color)" />
+      <InitialUI :size="+5" :icon="props.icon" :label="props.headline" color="var(--theme-headline-color)" />
     </div>
     <div class="sideBar-item__content">
       <span class="sideBar-item__headline">{{ props.headline }}</span>

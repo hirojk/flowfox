@@ -8,15 +8,21 @@
     <div class="page__headerWrapper">
       <header class="page__header">
         <div class="page__headerContent">
-          <iconSvg id="icon-board" class="page__headerIcon" buttonStyle="project" size="56" />
+          <InitialUI
+            :size="+5"
+            :icon="'icon-board'"
+            :color="colors['pw-black']"
+            :backgroundColor="colors['pw-quaternary']"
+          />
           <TextEditor
             class="page__headline"
             htmlTag="h1"
+            textStyle="h2"
             :text="boardStore.activeBoard?.name || ''"
             :saveEvent="(newBoardName) => boardStore.updateBoardName(boardStore.activeBoard?.id!, newBoardName)"
           />
         </div>
-        <button class="button button--primary" @click="openSettingsModal('board-setting')">Board setting</button>
+        <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('board-setting')" />
       </header>
     </div>
     <section class="page__content">
@@ -41,11 +47,16 @@
 </template>
 
 <script setup lang="ts">
+  import colors from '@styles/colors.json'
+
   import { ref, watch } from 'vue'
   import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
+  import InitialUI from '@components/ui/InitialUI.vue'
   import TextEditor from '@components/ui/TextEditor.vue'
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
+
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'
@@ -103,7 +114,6 @@
       &__headerWrapper {
         position: sticky;
         left: 0;
-        margin-bottom: 2em;
       }
 
       &__header {

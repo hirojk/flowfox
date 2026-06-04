@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 import MainLayout from '@layouts/MainLayout.vue'
-import ComponentLayout from '@layouts/ComponentLayout.vue'
+import SidebarLayout from '@layouts/SidebarLayout.vue'
 import Login from '@pages/LoginPage.vue'
 import Home from '@pages/MainPage.vue'
 import Project from '@pages/ProjectPage.vue'
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:projectId',
-    component: ComponentLayout,
+    component: SidebarLayout,
     meta: { requiresAuth: true },
     children: [
       {

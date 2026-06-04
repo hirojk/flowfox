@@ -7,7 +7,7 @@
   >
     <InitialUI
       class="page-item__initial"
-      :size="+3.2"
+      :size="+5"
       :icon="props.icon"
       :label="props.label"
       color="var(--theme-headline-color)"
