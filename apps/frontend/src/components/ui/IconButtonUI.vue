@@ -14,7 +14,7 @@
   import DropdownUI from '@components/ui/DropdownUI.vue'
   import type { DropdownItem } from '@typeDefs/globalTypes'
 
-  import colors from '@styles/colors.json'
+  import { colorMap } from '@utils/Mapping.ts'
 
   const props = withDefaults(
     defineProps<{
@@ -28,12 +28,6 @@
       color: 'orange',
     },
   )
-
-  const colorMap: Record<string, string> = {
-    orange: colors['pw-primary'],
-    grey: colors['pw-tertiary'],
-    transparent: 'transparent',
-  }
 
   const borderColor = computed(() => colorMap[props.color])
   const buttonDropdown = useTemplateRef<InstanceType<typeof DropdownUI>>('buttonDropdown')

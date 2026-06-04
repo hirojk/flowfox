@@ -1,7 +1,7 @@
 <template>
   <section :id="`board-column-${props.columnContent.id}`" class="board-column">
     <div class="board-column__header">
-      <TextEditor
+      <InputFieldUI
         editMode
         htmlTag="h2"
         textStyle="body"
@@ -36,7 +36,7 @@
 
   import BoardCard from '@components/board/BoardCard.vue'
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import { triggerInputFocus } from '@composables/useIosInteractions'

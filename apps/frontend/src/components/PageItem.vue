@@ -7,17 +7,16 @@
   >
     <InitialUI
       class="page-item__initial"
-      :size="+5"
+      :size="3"
       :icon="props.icon"
       :label="props.label"
       color="var(--theme-headline-color)"
     />
     <div class="page-item__content">
-      <TextEditor
+      <InputFieldUI
+        inputStyle="minimal"
         mode="editOnce"
         htmlTag="span"
-        textStyle="button"
-        removeDefaultStyle
         :text="props.label"
         :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
         :cancelEvent="handleCancel"
@@ -31,8 +30,7 @@
   import { RouterLink } from 'vue-router'
   import { useAppStore } from '@stores/appStore'
 
-  import InitialUI from '@components/ui/InitialUI.vue'
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const appStore = useAppStore()
 
@@ -83,7 +81,7 @@
       justify-content: center;
       gap: 0.25em;
       width: 100%;
-      margin: 0 2em 0 1em;
+      margin: 0 1em;
       color: var(--theme-headline-color);
       font-family: $font-family-secondary;
     }

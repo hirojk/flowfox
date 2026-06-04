@@ -12,7 +12,7 @@
           :color="colors['pw-white']"
           :backgroundColor="colors['pw-primary']"
         />
-        <TextEditor
+        <InputFieldUI
           class="page__headline"
           htmlTag="h1"
           textStyle="h2"
@@ -63,7 +63,7 @@
 <script setup lang="ts">
   import colors from '@styles/colors.json'
 
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
   import InitialUI from '@components/ui/InitialUI.vue'

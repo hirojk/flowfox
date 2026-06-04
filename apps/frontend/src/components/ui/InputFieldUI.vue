@@ -1,23 +1,27 @@
 <template>
-  <div :class="['textEditor', props.removeDefaultStyle ? '' : 'inputField']">
+  <div :class="[`inputField inputField--${props.inputStyle}`]">
+    <label v-if="props.label" class="inputField__label" :for="props.id">{{ props.label }}</label>
     <component
-      :is="props.multiline ? 'textarea' : 'input'"
-      ref="inputRef"
+      :is="props.isTextarea ? 'textarea' : 'input'"
       v-bind="{ ...$attrs, ...ariaAttrs }"
+      :id="props.id"
+      ref="inputFieldRef"
       :class="[
-        'textEditor__field',
-        props.mode === 'editOnce' ? 'textEditor__field--locked' : '',
+        `inputField__field`,
+        props.mode === 'editOnce' ? 'inputField__field--locked' : '',
         props.textStyle ? props.textStyle : currentTag.style,
-        props.removeDefaultStyle ? '' : 'inputField__field',
-        props.multiline ? 'textEditor__field--textarea' : 'textEditor__field--input',
+        props.isTextarea ? 'inputField__field--textarea' : 'inputField__field--input',
       ]"
-      :readonly="!isEditing"
+      :type="props.inputType"
+      :required="props.isRequired"
+      :readonly="!isEditing && props.mode !== 'formular'"
       :tabindex="isLocked ? -1 : 0"
       :name="localText"
       :value="localText"
+      :style="props.inputStyle === 'default' ? { '--border-bottom-color': borderBottomColor } : {}"
       @click="handleClick"
       @focus="handleFocus"
-      @touchend="handleTouch"
+      @touend="handleTouch"
       @blur="handleBlur"
       @keydown.enter="handleEnter"
       @keydown.esc="cancelEdit"
@@ -29,22 +33,35 @@
   import { ref, computed, watch, onMounted } from 'vue'
   import { useAppStore } from '@stores/appStore'
 
+  import { colorMap } from '@utils/Mapping.ts'
+
   defineOptions({ inheritAttrs: false })
 
   const props = withDefaults(
     defineProps<{
-      mode?: 'default' | 'editOnce' | 'autoEdit'
-      htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span'
+      id?: string
+      mode?: 'default' | 'formular' | 'editOnce' | 'autoEdit'
+      label?: string
+      inputStyle?: 'default' | 'minimal'
+      inputType?: 'text' | 'password' | 'email'
+      isRequired?: boolean
+      htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'input' | 'textarea'
       textStyle?: string
-      removeDefaultStyle?: boolean
-      multiline?: boolean
+      isTextarea?: boolean
       text: string
-      saveEvent: (newName: string) => void
+      borderColor?: 'orange' | 'black'
+      saveEvent?: (newName: string) => void
       cancelEvent?: () => void
     }>(),
     {
       mode: 'default',
-      removeDefaultStyle: false,
+      inputStyle: 'default',
+      inputType: 'text',
+      isRequired: false,
+      isTextarea: false,
+      htmlTag: 'input',
+      borderColor: 'orange',
+      saveEvent: () => {},
     },
   )
   const appStore = useAppStore()
@@ -61,7 +78,7 @@
     span: { style: 'span' },
   }
 
-  const inputRef = ref<HTMLInputElement | HTMLTextAreaElement | null>(null)
+  const inputFieldRef = ref<HTMLInputElement | HTMLTextAreaElement | null>(null)
   const hasEdited = computed(() => props.text !== '')
   const currentTag = htmlTagMap[props.htmlTag || 'span'] ?? { style: 'span' }
   const isEditing = ref(false)
@@ -76,25 +93,29 @@
     ariaAttrs['aria-label'] = props.text
   }
 
+  const borderBottomColor = computed(() => colorMap[props.borderColor])
+
   const startEdit = () => {
+    if (props.mode === 'formular') return
     if (isEditing.value || appStore.justDropped) return
     if (isLocked.value) return
 
     isEditing.value = true
     appStore.isEditing = true
-    inputRef.value?.removeAttribute('readonly')
-    inputRef.value?.focus()
+    inputFieldRef.value?.removeAttribute('readonly')
+    inputFieldRef.value?.focus()
   }
 
   const cancelEdit = () => {
-    if (inputRef.value) inputRef.value.value = props.text
+    if (props.mode === 'formular') return
+    if (inputFieldRef.value) inputFieldRef.value.value = props.text
     submit()
   }
 
   const submit = (value?: string) => {
     isEditing.value = false
     appStore.isEditing = false
-    if (inputRef.value) inputRef.value.readOnly = true
+    if (inputFieldRef.value && props.mode !== 'formular') inputFieldRef.value.readOnly = true
     if (value) {
       localText.value = value
       props.saveEvent(value)
@@ -103,7 +124,7 @@
     }
   }
 
-  const getNewTextValue = () => inputRef.value?.value.trim()
+  const getNewTextValue = () => inputFieldRef.value?.value.trim()
 
   const handleClick = (e: MouseEvent) => {
     if (isLocked.value) return
@@ -112,10 +133,10 @@
   }
 
   const handleEnter = (e: KeyboardEvent) => {
-    if (props.multiline && !e.ctrlKey && !e.metaKey) return
+    if (props.isTextarea && !e.ctrlKey && !e.metaKey) return
 
     e.preventDefault()
-    inputRef.value?.blur()
+    inputFieldRef.value?.blur()
     submit(getNewTextValue())
   }
 
@@ -148,16 +169,29 @@
 </script>
 
 <style lang="scss" scoped>
-  .textEditor {
+  .inputField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
     color: inherit;
+    font-family: inherit;
+
+    &__label {
+      @include fontSmall;
+    }
 
     &__field {
       width: 100%;
       font-family: inherit;
+      cursor: text;
 
       &:read-write {
-        border: 2px solid currentcolor;
-        background: transparent;
+        @include focusVisible;
+
+        &:focus-visible {
+          border-radius: 0.1em;
+        }
       }
 
       &--locked {
@@ -171,7 +205,36 @@
       &--textarea {
         resize: none;
         field-sizing: content;
-        min-height: 5lh;
+        min-height: 6lh;
+      }
+    }
+
+    &--default {
+      .inputField {
+        &__field {
+          border-bottom: 1px solid var(--border-bottom-color);
+          border-radius: 0.2em 0.2em 0 0;
+          padding: 0.5em;
+          background-color: $pw-input-background;
+
+          &:read-write {
+            &:focus-visible {
+              border-bottom-color: transparent;
+            }
+          }
+        }
+      }
+    }
+
+    &--minimal {
+      .inputField {
+        &__field {
+          padding: 0.25em;
+
+          &:read-write {
+            outline-color: inherit;
+          }
+        }
       }
     }
   }

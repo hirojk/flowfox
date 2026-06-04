@@ -50,7 +50,7 @@
 
   const drawer = ref(true)
 
-  const sidebarWidth = 300
+  const sidebarWidth = 275
   const sidebarMiniWidth = 100
   const sidebarPadding = 3
 

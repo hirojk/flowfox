@@ -4,7 +4,7 @@
     <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
       <label class="checkboxEditor__checkbox">
         <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
-        <TextEditor
+        <InputFieldUI
           :class="['checkboxEditor__label', { 'checkboxEditor__label--checked': item.isChecked }]"
           :text="item.label"
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import type { CheckboxItemType } from '@pagewise/shared'
 

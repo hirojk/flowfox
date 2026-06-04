@@ -14,7 +14,7 @@
             :color="colors['pw-black']"
             :backgroundColor="colors['pw-quaternary']"
           />
-          <TextEditor
+          <InputFieldUI
             class="page__headline"
             htmlTag="h1"
             textStyle="h2"
@@ -57,7 +57,7 @@
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
   import InitialUI from '@components/ui/InitialUI.vue'
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
 
   import { triggerInputFocus } from '@composables/useIosInteractions'

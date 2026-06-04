@@ -4,8 +4,13 @@
     aria-hidden="true"
     :style="{ backgroundColor: props.backgroundColor || undefined, color: props.color }"
   >
-    <IconSvg v-if="props.icon" :id="props.icon" class="initial__icon" :size="`${String(props.size / 1.5625)}em`" />
-    <span v-else class="initial__text">
+    <IconSvg
+      v-if="props.icon"
+      :id="props.icon"
+      class="initial__content initial__content--icon"
+      :size="`${String(props.size)}em`"
+    />
+    <span v-else class="initial__content initial__content--text" :style="{ fontSize: `calc(${props.size} * 0.667em)` }">
       {{ useInitials(props.label || '') }}
     </span>
   </div>
@@ -15,11 +20,11 @@
   import { useInitials } from '@composables/useDisplay'
 
   const props = defineProps<{
-    size: number
     icon?: string
     label?: string
-    color?: string
+    color: string
     backgroundColor?: string
+    size: number
   }>()
 </script>
 
@@ -30,16 +35,15 @@
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
-    height: auto;
     aspect-ratio: 1;
     border-radius: 1em;
     padding: 1em;
-    color: inherit;
     user-select: none;
 
-    &__text {
-      @include fontMixin($font-size-xl);
-
+    &__content--text {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-width: 1.5em;
       font-weight: normal;
       font-family: $font-family-primary;

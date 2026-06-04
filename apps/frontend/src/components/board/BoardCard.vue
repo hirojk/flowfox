@@ -2,12 +2,12 @@
   <button
     :id="`board-card-${props.cardContent.id}`"
     class="board-card"
-    :aria-label="`Open ${props.cardContent.name} card details`"
+    :aria-label="`${props.cardContent.name} card details`"
     @click="openCardModal"
   >
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
-        <TextEditor
+        <InputFieldUI
           mode="editOnce"
           htmlTag="h3"
           textStyle="body"
@@ -58,7 +58,7 @@
   import { getIcon } from '@utils/helpers'
   import type { BoardCardType } from '@pagewise/shared'
 
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const props = defineProps<{
     columnId: number

@@ -18,7 +18,7 @@
       />
     </Teleport>
     <Teleport defer to="#modal-headline">
-      <TextEditor
+      <InputFieldUI
         class="board-modal__header-headline"
         htmlTag="h1"
         textStyle="h2"
@@ -39,10 +39,10 @@
     </Teleport>
     <section class="board-modal__details">
       <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
-        <TextEditor
+        <InputFieldUI
           class="board-modal__description"
           htmlTag="p"
-          multiline
+          isTextarea
           :text="activeCard.description"
           :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
         />
@@ -106,7 +106,7 @@
   import type { BoardCardType, BoardColumnType, PriorityType } from '@pagewise/shared'
 
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
-  import TextEditor from '@components/ui/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import CheckboxUI from '@components/ui/CheckboxUI.vue'
   import SelectMenuUI from '../ui/SelectMenuUI.vue'
   // import DatePicker from '@components/ui/DatePicker.vue'

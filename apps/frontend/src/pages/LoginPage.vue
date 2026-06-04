@@ -6,8 +6,24 @@
         {{ errorMessage }}
       </p>
       <form class="login-form__form" @submit.prevent="handleLogin">
-        <InputUI id="login-username" label="Username" type="text" required />
-        <InputUI id="login-password" label="Password" type="password" required />
+        <InputFieldUI
+          id="login-username"
+          mode="formular"
+          label="Username"
+          inputType="text"
+          text=""
+          isRequired
+          borderColor="black"
+        />
+        <InputFieldUI
+          id="login-password"
+          mode="formular"
+          label="Password"
+          inputType="password"
+          text=""
+          isRequired
+          borderColor="black"
+        />
         <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
       </form>
     </section>
@@ -26,7 +42,7 @@
   import { ref, nextTick, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuthStore } from '@stores/authStore'
-  import InputUI from '@components/ui/InputUI.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const authStore = useAuthStore()
   const router = useRouter()
