@@ -5,7 +5,7 @@
     @click="buttonDropdown?.open($event.currentTarget as HTMLElement)"
   >
     <IconSvg v-if="props.icon" :id="props.icon" class="icon-button__icon" :size="`${String(props.size)}em`" />
-    <DropdownUI v-if="props.dropdown" ref="buttonDropdown" :options="props.dropdown ?? []" />
+    <DropdownUI v-if="props.dropdown" ref="buttonDropdown" borderColor="secondary" :options="props.dropdown ?? []" />
   </button>
 </template>
 

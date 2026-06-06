@@ -11,8 +11,6 @@ $ff-senary: #8e5842;
 $ff-grey: #696969;
 $pw-lightgrey: #bfbfbf;
 
-// Corrected color variables
-
 // font sizes
 $font-size-2xl: (4rem, 5rem);
 $font-size-xl: (1.8rem, 2rem);
@@ -29,4 +27,4 @@ $font-family-primary: 'Inter', sans-serif;
 $font-family-secondary: 'PT Serif', serif;
 
 // boxshadow
-$box-shadow: 0 0 1em rgba($pw-black, 0.25);
+$box-shadow: 0 0 1em $color-semantic-box-shadow;

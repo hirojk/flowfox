@@ -1,5 +1,5 @@
 // underline mixin
-@mixin underlineMixin($color: $pw-primary) {
+@mixin underlineMixin($color: $color-semantic-brand-primary) {
   position: relative;
 
   &::after {

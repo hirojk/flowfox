@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!activeCard" class="board-modal__error">
+  <div v-if="!activeCard">
     <span>Card not found</span>
   </div>
   <template v-else>
@@ -34,6 +34,7 @@
             action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
+        color="tertiary"
       />
     </Teleport>
     <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
@@ -41,6 +42,7 @@
         class="board-modal__description"
         htmlTag="p"
         isTextarea
+        placeholder="No description"
         :text="activeCard.description"
         :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
       />

@@ -18,6 +18,7 @@
       :tabindex="isLocked ? -1 : 0"
       :name="localText"
       :value="localText"
+      :placeholder="props.placeholder"
       :style="props.inputStyle === 'default' ? { '--border-bottom-color': borderBottomColor } : {}"
       @click="handleClick"
       @focus="handleFocus"
@@ -32,8 +33,8 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted } from 'vue'
 
-  import { tokens } from '@utils/tokenBuilder'
   import { useAppStore } from '@stores/appStore'
+  import { tokens } from '@utils/tokenBuilder'
 
   defineOptions({ inheritAttrs: false })
 
@@ -48,6 +49,7 @@
       htmlTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'strong' | 'span' | 'input' | 'textarea'
       textStyle?: string
       isTextarea?: boolean
+      placeholder?: string
       text: string
       borderColor?: 'primary' | 'secondary'
       saveEvent?: (newName: string) => void
@@ -194,6 +196,10 @@
         }
       }
 
+      &::placeholder {
+        color: $color-semantic-text-placeholder;
+      }
+
       &--locked {
         cursor: pointer;
 
@@ -215,7 +221,7 @@
           border-bottom: 1px solid var(--border-bottom-color);
           border-radius: 0.2em 0.2em 0 0;
           padding: 0.5em;
-          background-color: $color-component-input-background;
+          background-color: $color-semantic-surface-subtle;
 
           &:read-write {
             &:focus-visible {

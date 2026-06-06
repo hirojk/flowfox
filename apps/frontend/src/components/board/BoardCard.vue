@@ -26,7 +26,7 @@
         />
       </div>
       <div
-        v-if="cardSettings.description || cardSettings.checklist"
+        v-if="(cardSettings.description && card.description !== '') || cardSettings.checklist"
         class="board-card__wrapper board-card__wrapper--group"
       >
         <span v-if="cardSettings.description" class="board-card__description">{{ card.description }}</span>

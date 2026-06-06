@@ -6,6 +6,8 @@
       :style="{
         top: `${position.top}px`,
         left: `${position.left}px`,
+        borderColor,
+        minWidth: props.minWidth ? `${props.minWidth}em` : undefined,
       }"
       @click.stop
     >
@@ -29,9 +31,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { RouterLink, type RouteLocationRaw } from 'vue-router'
+
   import { useAppStore } from '@stores/appStore'
+  import { tokens } from '@utils/tokenBuilder'
 
   const appStore = useAppStore()
 
@@ -42,11 +46,23 @@
     action?: () => void
   }
 
-  const props = defineProps<{
-    description?: string
-    options: SelectItem[]
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      description?: string
+      options: SelectItem[]
+      borderColor?: 'primary' | 'secondary' | 'tertiary'
+      minWidth?: number
+    }>(),
+    {
+      borderColor: 'primary',
+    },
+  )
 
+  const emit = defineEmits<{ close: [] }>()
+
+  const borderColor = computed(() => tokens[`color-component-dropdown-border-${props.borderColor}`])
+
+  const isOpen = ref(false)
   const dialogRef = ref<HTMLDialogElement>()
   const listRef = ref<HTMLElement>()
   const position = ref({
@@ -64,6 +80,7 @@
       left: left + width / 2,
     }
 
+    isOpen.value = true
     dialogRef.value.showModal()
 
     requestAnimationFrame(() => {
@@ -72,20 +89,18 @@
   }
 
   const close = () => {
+    isOpen.value = false
     appStore.justDropped = true
     setTimeout(() => {
       appStore.justDropped = false
     }, 0)
     dialogRef.value?.close()
+    emit('close')
   }
 
   const handleBackdropClick = (event: MouseEvent) => {
     if (event.target === dialogRef.value) {
-      appStore.justDropped = true
-      setTimeout(() => {
-        appStore.justDropped = false
-      }, 0)
-      dialogRef.value?.close()
+      close()
     }
   }
 
@@ -124,7 +139,7 @@
     }
   }
 
-  defineExpose({ open })
+  defineExpose({ open, isOpen })
 </script>
 
 <style scoped lang="scss">
@@ -143,10 +158,11 @@
       flex-direction: column;
       gap: 0.5em;
       transform: translateX(-50%);
-      border: 1px solid $pw-primary;
+      border-width: 1px;
+      border-style: solid;
       border-radius: 0.5em;
       padding: 0.5em;
-      background: $pw-white;
+      background: $color-semantic-surface-white;
       box-shadow: $box-shadow;
       z-index: 3002;
       cursor: default;
@@ -171,14 +187,14 @@
       min-width: 7.5em;
       max-width: 20em;
       padding: 0.25em 0.5em;
-      color: $pw-tertiary;
+      color: $color-semantic-text-default;
       cursor: pointer;
 
-      @media (hover: hover) and (pointer: fine) {
-        &:hover {
-          background: rgba($pw-tertiary, 0.1);
-        }
-      }
+      // @media (hover: hover) and (pointer: fine) {
+      //   &:hover {
+      //     background: rgba($pw-tertiary, 0.1);
+      //   }
+      // }
     }
   }
 </style>

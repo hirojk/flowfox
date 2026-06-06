@@ -38,7 +38,7 @@
     border: none;
     border-radius: 1em;
     padding: 0;
-    background-color: $color-component-modal-background;
+    background-color: $color-semantic-surface-white;
     box-shadow: 0 0 2.5em 1em $color-semantic-box-shadow;
     cursor: default;
 
