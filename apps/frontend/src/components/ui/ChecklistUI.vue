@@ -1,76 +1,76 @@
 <template>
-  <ul class="checkboxEditor">
-    <span v-if="props.checkboxes.length === 0" class="checkboxEditor__message">No Subtask submitted</span>
-    <li v-for="item in props.checkboxes" :key="item.label" class="checkboxEditor__item">
-      <label class="checkboxEditor__checkbox">
-        <input type="checkbox" class="checkboxEditor__box" :checked="item.isChecked" @change="saveEdit(item)" />
+  <ul class="checklist">
+    <span v-if="props.checklist.length === 0" class="checklist__message">No Subtask submitted</span>
+    <li v-for="item in props.checklist" :key="item.label" class="checklist__item">
+      <label class="checklist__checkbox">
+        <input type="checkbox" class="checklist__box checkbox" :checked="item.isChecked" @change="saveEdit(item)" />
         <InputFieldUI
-          :class="['checkboxEditor__label', { 'checkboxEditor__label--checked': item.isChecked }]"
+          :class="['checklist__label', { 'checklist__label--checked': item.isChecked }]"
           :text="item.label"
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
-          :cancelEvent="() => deleteCheckbox(item)"
+          :cancelEvent="() => deleteBullet(item)"
         />
       </label>
       <IconButtonUI
-        class="checkboxEditor__delete"
+        class="checklist__delete"
         icon="icon-delete"
-        color="grey"
+        borderColor="secondary"
         :size="2.5"
-        @click="deleteCheckbox(item)"
+        @click="deleteBullet(item)"
       />
     </li>
   </ul>
 </template>
 
 <script setup lang="ts">
-  import InputFieldUI from '@components/ui/InputFieldUI.vue'
-  import { triggerInputFocus } from '@composables/useIosInteractions'
   import type { CheckboxItemType } from '@pagewise/shared'
 
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
+
   const props = defineProps<{
-    class?: string
-    checkboxes: CheckboxItemType[]
+    checklist: CheckboxItemType[]
     saveEvent: (newChecklist: CheckboxItemType[]) => CheckboxItemType | void
   }>()
 
   const saveEdit = (item: CheckboxItemType, newLabel?: string) => {
     props.saveEvent(
-      props.checkboxes.map((checkbox) => {
-        if (checkbox === item) {
+      props.checklist.map((bullet) => {
+        if (bullet === item) {
           return {
-            ...checkbox,
-            isChecked: newLabel ? checkbox.isChecked : !checkbox.isChecked,
-            label: newLabel ?? checkbox.label,
+            ...bullet,
+            isChecked: newLabel ? bullet.isChecked : !bullet.isChecked,
+            label: newLabel ?? bullet.label,
           }
         }
-        return checkbox
+        return bullet
       }),
     )
   }
 
-  const addCheckbox = () => {
+  const addBullet = () => {
     triggerInputFocus(async () => {
       props.saveEvent([
-        ...props.checkboxes,
+        ...props.checklist,
         {
           label: '',
           isChecked: false,
         },
       ])
-    }, '.checkboxEditor li:last-child .checkboxEditor__label')
+    }, '.checklist li:last-child .checklist__label')
   }
 
-  const deleteCheckbox = (item: CheckboxItemType) => {
-    props.saveEvent(props.checkboxes.filter((checkbox) => checkbox !== item))
+  const deleteBullet = (item: CheckboxItemType) => {
+    props.saveEvent(props.checklist.filter((bullet) => bullet !== item))
   }
 
   defineExpose({
-    addCheckbox,
+    addBullet,
   })
 </script>
 
 <style lang="scss" scoped>
-  .checkboxEditor {
+  .checklist {
     display: flex;
     flex-direction: column;
     gap: 0.5em;

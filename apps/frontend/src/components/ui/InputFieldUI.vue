@@ -1,16 +1,16 @@
 <template>
-  <div :class="[`inputField inputField--${props.inputStyle}`]">
-    <label v-if="props.label" class="inputField__label" :for="props.id">{{ props.label }}</label>
+  <div :class="[`input-field input-field--${props.inputStyle}`]">
+    <label v-if="props.label" class="input-field__label" :for="props.id">{{ props.label }}</label>
     <component
       :is="props.isTextarea ? 'textarea' : 'input'"
       v-bind="{ ...$attrs, ...ariaAttrs }"
       :id="props.id"
       ref="inputFieldRef"
       :class="[
-        `inputField__field`,
-        props.mode === 'editOnce' ? 'inputField__field--locked' : '',
+        `input-field__field`,
+        props.mode === 'editOnce' ? 'input-field__field--locked' : '',
         props.textStyle ? props.textStyle : currentTag.style,
-        props.isTextarea ? 'inputField__field--textarea' : 'inputField__field--input',
+        props.isTextarea ? 'input-field__field--textarea' : 'input-field__field--input',
       ]"
       :type="props.inputType"
       :required="props.isRequired"
@@ -31,9 +31,9 @@
 
 <script setup lang="ts">
   import { ref, computed, watch, onMounted } from 'vue'
-  import { useAppStore } from '@stores/appStore'
 
-  import { colorMap } from '@utils/Mapping.ts'
+  import { tokens } from '@utils/tokenBuilder'
+  import { useAppStore } from '@stores/appStore'
 
   defineOptions({ inheritAttrs: false })
 
@@ -49,7 +49,7 @@
       textStyle?: string
       isTextarea?: boolean
       text: string
-      borderColor?: 'orange' | 'black'
+      borderColor?: 'primary' | 'secondary'
       saveEvent?: (newName: string) => void
       cancelEvent?: () => void
     }>(),
@@ -60,7 +60,7 @@
       isRequired: false,
       isTextarea: false,
       htmlTag: 'input',
-      borderColor: 'orange',
+      borderColor: 'primary',
       saveEvent: () => {},
     },
   )
@@ -93,7 +93,7 @@
     ariaAttrs['aria-label'] = props.text
   }
 
-  const borderBottomColor = computed(() => colorMap[props.borderColor])
+  const borderBottomColor = computed(() => tokens[`color-component-input-underline-${props.borderColor}`])
 
   const startEdit = () => {
     if (props.mode === 'formular') return
@@ -169,7 +169,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .inputField {
+  .input-field {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
@@ -210,12 +210,12 @@
     }
 
     &--default {
-      .inputField {
+      .input-field {
         &__field {
           border-bottom: 1px solid var(--border-bottom-color);
           border-radius: 0.2em 0.2em 0 0;
           padding: 0.5em;
-          background-color: $pw-input-background;
+          background-color: $color-component-input-background;
 
           &:read-write {
             &:focus-visible {
@@ -227,7 +227,7 @@
     }
 
     &--minimal {
-      .inputField {
+      .input-field {
         &__field {
           padding: 0.25em;
 

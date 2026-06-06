@@ -7,7 +7,7 @@
       <IconButtonUI
         class="page__project-setting"
         icon="icon-menu"
-        color="grey"
+        borderColor="secondary"
         :size="3"
         :dropdown="[
           {
@@ -50,12 +50,12 @@
       <div v-if="modalSettings.checklist" class="modal__category">
         <div class="modal__category-header">
           <h2 class="modal__category-text h4">Checklist</h2>
-          <LinkUI label="Create new To-Do" @click="checkboxEditor?.addCheckbox()" />
+          <LinkUI label="Create new To-Do" @click="checklistEditor?.addBullet()" />
         </div>
-        <CheckboxUI
-          ref="checkboxEditor"
+        <ChecklistUI
+          ref="checklistEditor"
           class="board-modal__checklist"
-          :checkboxes="activeCard.checklist"
+          :checklist="activeCard.checklist"
           :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
         />
       </div>
@@ -107,14 +107,14 @@
 
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
-  import CheckboxUI from '@components/ui/CheckboxUI.vue'
+  import ChecklistUI from '@components/ui/ChecklistUI.vue'
   import SelectMenuUI from '../ui/SelectMenuUI.vue'
   // import DatePicker from '@components/ui/DatePicker.vue'
 
   const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()
 
-  const checkboxEditor = ref<InstanceType<typeof CheckboxUI>>()
+  const checklistEditor = ref<InstanceType<typeof ChecklistUI>>()
 
   const modalSettings = computed(() => {
     const settings = boardStore.activeBoard?.settings.modal

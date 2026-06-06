@@ -31,7 +31,7 @@
 @mixin fontHeadline1 {
   @include fontMixin($font-size-2xl);
 
-  color: $pw-primary;
+  color: $color-semantic-text-secondary;
   font-weight: $font-weight-bold;
   font-family: $font-family-primary;
   text-transform: uppercase;
@@ -40,14 +40,14 @@
 @mixin fontHeadline2 {
   @include fontMixin($font-size-xl);
 
-  color: $pw-black;
+  color: $color-semantic-text-default;
   font-family: $font-family-secondary;
 }
 
 @mixin fontHeadline3 {
   @include fontMixin($font-size-xl);
 
-  color: $pw-primary;
+  color: $color-semantic-text-secondary;
   font-weight: $font-weight-bold;
   font-family: $font-family-primary;
   text-transform: uppercase;
@@ -56,14 +56,14 @@
 @mixin fontHeadline4 {
   @include fontMixin($font-size-lg);
 
-  color: $pw-black;
+  color: $color-semantic-text-default;
   font-family: $font-family-secondary;
 }
 
 @mixin fontCopy {
   @include fontMixin($font-size-md);
 
-  color: $pw-black;
+  color: $color-semantic-text-default;
   font-family: $font-family-primary;
 }
 

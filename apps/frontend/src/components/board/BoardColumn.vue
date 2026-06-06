@@ -12,7 +12,7 @@
       <IconButtonUI
         class="page__project-setting"
         icon="icon-menu"
-        color="transparent"
+        borderColor="tertiary"
         :size="2"
         :dropdown="[
           {

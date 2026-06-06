@@ -11,25 +11,25 @@
 
 <script setup lang="ts">
   import { computed, useTemplateRef } from 'vue'
+
   import DropdownUI from '@components/ui/DropdownUI.vue'
   import type { DropdownItem } from '@typeDefs/globalTypes'
-
-  import { colorMap } from '@utils/Mapping.ts'
+  import { tokens } from '@utils/tokenBuilder'
 
   const props = withDefaults(
     defineProps<{
       icon: string
       dropdown?: DropdownItem[]
       size?: number
-      color?: 'orange' | 'grey' | 'transparent'
+      borderColor?: 'primary' | 'secondary' | 'tertiary'
     }>(),
     {
       size: 3,
-      color: 'orange',
+      borderColor: 'primary',
     },
   )
 
-  const borderColor = computed(() => colorMap[props.color])
+  const borderColor = computed(() => tokens[`color-component-button-icon-border-${props.borderColor}`])
   const buttonDropdown = useTemplateRef<InstanceType<typeof DropdownUI>>('buttonDropdown')
 </script>
 

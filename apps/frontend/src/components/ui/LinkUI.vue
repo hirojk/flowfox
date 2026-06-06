@@ -1,5 +1,5 @@
 <template>
-  <button class="link-ui" @click="linkDropdown?.open($event.currentTarget as HTMLElement)">
+  <button class="link" @click="linkDropdown?.open($event.currentTarget as HTMLElement)">
     {{ props.label }}
     <DropdownUI v-if="props.dropdown" ref="linkDropdown" :options="props.dropdown ?? []" />
   </button>
@@ -20,7 +20,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .link-ui {
+  .link {
     @include fontButton;
     @include underlineMixin;
   }

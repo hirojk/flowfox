@@ -3,10 +3,15 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import colors from './src/styles/colors.json'
+import { buildScssTokens } from './src/utils/tokenBuilder'
+import designTokens from './src/styles/tokens.json'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
+const scssTokens = buildScssTokens(designTokens)
+
+// should be removed in the future
+import colors from './src/styles/colors.json'
 const scssColorVariables = Object.entries(colors)
   .map(([key, value]) => `$${key}: ${value};`)
   .join('\n')
@@ -37,6 +42,7 @@ export default defineConfig(({ mode }) => {
         scss: {
           additionalData: `
             ${scssColorVariables}
+            ${scssTokens}
             @import "@/styles/variables.scss";
             @import "@/styles/mixin.scss";
             @import "@/styles/themes.scss";

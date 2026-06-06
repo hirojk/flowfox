@@ -1,10 +1,10 @@
 // Checkbox-Styling
-input[type='checkbox'] {
+.checkbox {
   display: grid;
   place-items: center;
   width: 2em;
   aspect-ratio: 1 / 1;
-  border: 2px solid $ff-grey;
+  border: 2px solid $color-component-checkbox-inactive-border;
   border-radius: 0.4em;
   cursor: pointer;
   transition:
@@ -24,8 +24,8 @@ input[type='checkbox'] {
   }
 
   &:checked {
-    border-color: $pw-primary;
-    background-color: $pw-primary;
+    border-color: $color-component-checkbox-active-border;
+    background-color: $color-component-checkbox-active-border;
 
     &::after {
       opacity: 1;

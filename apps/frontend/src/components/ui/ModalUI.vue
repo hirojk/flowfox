@@ -3,7 +3,12 @@
     <div class="modal__content" @click.stop>
       <div class="modal__header">
         <div class="modal__navigation">
-          <IconButtonUI class="page__project-setting" icon="icon-cancel" color="grey" @click="closeSettingsModal" />
+          <IconButtonUI
+            class="page__project-setting"
+            icon="icon-cancel"
+            borderColor="secondary"
+            @click="closeSettingsModal"
+          />
           <div id="modal-interactives"></div>
         </div>
         <div id="modal-headline" class="modal__headline"></div>

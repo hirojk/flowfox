@@ -79,7 +79,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 0.25em;
+      gap: 0.1em;
       width: 100%;
       margin: 0 1em;
       color: var(--theme-headline-color);
@@ -89,6 +89,7 @@
     &__subline {
       @include fontButtonSmall;
 
+      padding: 0.25em;
       color: var(--theme-subline-color);
       opacity: 0.8;
     }

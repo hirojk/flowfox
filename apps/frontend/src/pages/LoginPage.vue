@@ -13,7 +13,7 @@
           inputType="text"
           text=""
           isRequired
-          borderColor="black"
+          borderColor="secondary"
         />
         <InputFieldUI
           id="login-password"
@@ -22,7 +22,7 @@
           inputType="password"
           text=""
           isRequired
-          borderColor="black"
+          borderColor="secondary"
         />
         <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
       </form>
