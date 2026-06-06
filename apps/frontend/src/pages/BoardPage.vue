@@ -9,7 +9,7 @@
       <header class="page__header">
         <div class="page__headerContent">
           <InitialUI
-            :size="+5"
+            :size="3"
             :icon="'icon-board'"
             :color="colors['pw-black']"
             :backgroundColor="colors['pw-quaternary']"

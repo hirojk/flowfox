@@ -75,7 +75,7 @@
     height: fit-content;
     border: none;
     border-radius: 0.75em;
-    padding: 0.25em 3em 0.25em 0.5em;
+    padding: 0.5em 3em 0.5em 0.5em;
 
     &--open {
       --shadow-width: 1px;

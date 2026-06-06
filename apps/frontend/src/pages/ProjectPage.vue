@@ -7,7 +7,7 @@
     <header class="page__header">
       <div class="page__headerContent">
         <InitialUI
-          :size="+5"
+          :size="3"
           :label="projectStore.activeProject?.name!"
           :color="colors['pw-white']"
           :backgroundColor="colors['pw-primary']"

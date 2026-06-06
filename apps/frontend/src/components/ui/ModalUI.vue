@@ -119,7 +119,6 @@
       &-textWrapper {
         display: flex;
         flex-direction: column;
-        gap: 0.5em;
       }
 
       &-text {
@@ -129,6 +128,7 @@
 
         &--strong {
           font-weight: $font-weight-bold;
+          text-transform: none;
         }
       }
     }

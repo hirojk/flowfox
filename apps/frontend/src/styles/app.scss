@@ -1,15 +1,15 @@
-// Basis-Tools (immer zuerst!)
+// basic-tools
 @import './variables';
 @import './mixin';
 @import './themes';
 @import './animations';
 
-// Globale Grundlagen
+// global elements
 @import './reset';
 @import './base';
 
-// Layout
+// layout
 @import './layout';
 
-// Wiederverwendbare UI-Teile
+// ui
 @import './components';
