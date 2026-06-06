@@ -1,14 +1,14 @@
 <template>
-  <Teleport defer to="#modal-headline">
+  <Teleport defer to="#modal-header">
     <h1 class="project-setting__headline h3">Project Setting</h1>
   </Teleport>
   <Teleport defer to="#modal-footer">
     <section class="project-setting__dangerzone modal__category modal__category--dangerzone">
       <h2 class="modal__category-headline h4">Danger Zone</h2>
       <div class="modal__category-content">
-        <div class="modal__category-text">
-          <h3 class="modal__category-strong">Delete project</h3>
-          <p>Once you delete a project, there is no going back. Please be certain.</p>
+        <div class="modal__category-textWrapper">
+          <h3 class="modal__category-text modal__category-text--strong">Delete project</h3>
+          <p class="modal__category-text">Once you delete a project, there is no going back. Please be certain.</p>
         </div>
         <ButtonUI class="project-setting__delete" variant="error" label="Delete project" @click="onDeleteBoard" />
       </div>

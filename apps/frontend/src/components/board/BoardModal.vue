@@ -17,9 +17,8 @@
         ]"
       />
     </Teleport>
-    <Teleport defer to="#modal-headline">
+    <Teleport defer to="#modal-header">
       <InputFieldUI
-        class="board-modal__header-headline"
         htmlTag="h1"
         textStyle="h2"
         :text="activeCard.name"
@@ -37,29 +36,28 @@
         "
       />
     </Teleport>
-    <section class="board-modal__details">
-      <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
-        <InputFieldUI
-          class="board-modal__description"
-          htmlTag="p"
-          isTextarea
-          :text="activeCard.description"
-          :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
-        />
+    <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
+      <InputFieldUI
+        class="board-modal__description"
+        htmlTag="p"
+        isTextarea
+        :text="activeCard.description"
+        :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
+      />
+    </div>
+    <div v-if="modalSettings.checklist" class="modal__category">
+      <div class="modal__category-header">
+        <h2 class="h4">Checklist</h2>
+        <LinkUI label="Create new To-Do" @click="checklistEditor?.addBullet()" />
       </div>
-      <div v-if="modalSettings.checklist" class="modal__category">
-        <div class="modal__category-header">
-          <h2 class="modal__category-text h4">Checklist</h2>
-          <LinkUI label="Create new To-Do" @click="checklistEditor?.addBullet()" />
-        </div>
-        <ChecklistUI
-          ref="checklistEditor"
-          class="board-modal__checklist"
-          :checklist="activeCard.checklist"
-          :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
-        />
-      </div>
-      <!-- <div class="board-modal__content board-modal__content--date">
+      <ChecklistUI
+        ref="checklistEditor"
+        class="board-modal__checklist"
+        :checklist="activeCard.checklist"
+        :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
+      />
+    </div>
+    <!-- <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
             <strong>Start Date</strong>
             <DatePicker
@@ -86,7 +84,6 @@
             </li>
           </ul>
         </div> -->
-    </section>
     <!-- <div class="board-modal__settings">
     <button class="board-modal__button board-modal__button--copy">
       <q-icon name="content_copy" />
@@ -138,87 +135,3 @@
     closeSettingsModal()
   }
 </script>
-
-<style lang="scss" scoped>
-  .board-modal {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2em;
-      margin-bottom: 2em;
-
-      &-headline {
-        @include fontMixin($font-size-xl);
-
-        width: 100%;
-        font-weight: normal;
-        cursor: text;
-      }
-    }
-
-    &__details {
-      display: flex;
-      flex-direction: column;
-      gap: 4em;
-    }
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-
-      &--date {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 1em;
-      }
-    }
-
-    &__label {
-      @include fontMixin($font-size-md);
-
-      margin-bottom: 0.5em;
-      padding: 0.2em;
-      font-weight: bold;
-    }
-
-    &__description {
-      min-height: 4lh;
-    }
-
-    &__date {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-      width: 100%;
-    }
-
-    &__tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5em;
-    }
-
-    &__settings {
-      display: flex;
-      justify-content: space-between;
-      gap: 1em;
-    }
-
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-
-      &--copy,
-      &--delete {
-        justify-content: center;
-        width: 100%;
-        border-radius: 1em;
-        padding: 1em 2em;
-        background-color: $ff-quaternary;
-      }
-    }
-  }
-</style>

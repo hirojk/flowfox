@@ -78,7 +78,7 @@
 
     &__message {
       padding: 0.2em;
-      color: $ff-grey;
+      color: $color-semantic-text-placeholder;
     }
 
     &__item {

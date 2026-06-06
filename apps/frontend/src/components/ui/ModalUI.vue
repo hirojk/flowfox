@@ -1,18 +1,11 @@
 <template>
   <dialog ref="dialogRef" class="modal" @click="handleBackdropClick">
     <div class="modal__content" @click.stop>
-      <div class="modal__header">
-        <div class="modal__navigation">
-          <IconButtonUI
-            class="page__project-setting"
-            icon="icon-cancel"
-            borderColor="secondary"
-            @click="closeSettingsModal"
-          />
-          <div id="modal-interactives"></div>
-        </div>
-        <div id="modal-headline" class="modal__headline"></div>
+      <div class="modal__navigation">
+        <IconButtonUI icon="icon-cancel" borderColor="secondary" @click="closeSettingsModal" />
+        <div id="modal-interactives"></div>
       </div>
+      <div id="modal-header" class="modal__header"></div>
       <div class="modal__scrollContent">
         <slot></slot>
       </div>
@@ -45,8 +38,8 @@
     border: none;
     border-radius: 1em;
     padding: 0;
-    background-color: $pw-white;
-    box-shadow: 0 0 2.5em 1em color-mix(in srgb, $pw-black 20%, transparent);
+    background-color: $color-component-modal-background;
+    box-shadow: 0 0 2.5em 1em $color-semantic-box-shadow;
     cursor: default;
 
     &[open] {
@@ -54,45 +47,34 @@
     }
 
     &::backdrop {
-      background-color: rgba($pw-black, 0.5);
+      background-color: $color-semantic-overlay-backdrop;
     }
 
     &__content {
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto auto 1fr auto;
       height: 100%;
       padding: 3em;
-    }
-
-    &__header {
-      display: flex;
-      flex-direction: column;
-      gap: 3em;
-      margin-bottom: 2em;
-    }
-
-    &__headline {
-      display: flex;
-      align-items: center;
-      gap: 3em;
     }
 
     &__navigation {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 3em;
     }
 
-    &__close {
+    &__header {
       display: flex;
       align-items: center;
-      gap: 0.25em;
+      gap: 3em;
+      margin-bottom: 2em;
     }
 
     &__scrollContent {
       display: flex;
       flex-direction: column;
-      gap: 2em;
+      gap: 3em;
       padding-right: 1em;
 
       // overflow-y: auto;
@@ -102,10 +84,10 @@
       display: flex;
       flex-direction: column;
       gap: 1.5em;
-      color: $pw-black;
+      color: $color-semantic-text-default;
 
       &--dangerzone {
-        color: $pw-error !important;
+        color: $color-semantic-feedback-error !important;
       }
 
       &-header {
@@ -122,19 +104,32 @@
         display: flex;
         justify-content: space-between;
         gap: 2em;
+
+        &--vertical {
+          flex-direction: column;
+        }
+
+        &--grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 2em;
+        }
       }
 
-      &-text {
+      &-textWrapper {
         display: flex;
         flex-direction: column;
         gap: 0.5em;
       }
 
-      &-strong {
+      &-text {
         @include fontCopy;
 
         color: inherit;
-        text-transform: none;
+
+        &--strong {
+          font-weight: $font-weight-bold;
+        }
       }
     }
   }

@@ -5,6 +5,7 @@
         editMode
         htmlTag="h2"
         textStyle="body"
+        borderColor="secondary"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
         :cancelEvent="() => removeColumn(props.columnContent.id)"

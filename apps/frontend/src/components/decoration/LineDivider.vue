@@ -34,7 +34,7 @@
     }
 
     &--tertiary {
-      color: $pw-input-background;
+      color: $color-primitive-gray-90;
 
       &:last-child {
         color: transparent;

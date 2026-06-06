@@ -220,6 +220,7 @@
           &:read-write {
             &:focus-visible {
               border-bottom-color: transparent;
+              background-color: $color-semantic-surface-white;
             }
           }
         }

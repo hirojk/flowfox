@@ -40,13 +40,15 @@
     padding: 1em;
     user-select: none;
 
-    &__content--text {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 1.5em;
-      font-weight: normal;
-      font-family: $font-family-primary;
+    &__content {
+      &--text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 1.5em;
+        font-weight: normal;
+        font-family: $font-family-primary;
+      }
     }
   }
 </style>

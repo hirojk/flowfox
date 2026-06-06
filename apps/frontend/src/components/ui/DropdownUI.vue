@@ -75,7 +75,7 @@
     appStore.justDropped = true
     setTimeout(() => {
       appStore.justDropped = false
-    }, 500)
+    }, 0)
     dialogRef.value?.close()
   }
 
@@ -84,7 +84,7 @@
       appStore.justDropped = true
       setTimeout(() => {
         appStore.justDropped = false
-      }, 500)
+      }, 0)
       dialogRef.value?.close()
     }
   }

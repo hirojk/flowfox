@@ -11,7 +11,7 @@
           mode="editOnce"
           htmlTag="h3"
           textStyle="body"
-          removeDefaultStyle
+          inputStyle="minimal"
           :text="card.heading"
           :saveEvent="
             (newCardName: string) => updateCard([props.columnId, props.cardContent.id], { name: newCardName })
