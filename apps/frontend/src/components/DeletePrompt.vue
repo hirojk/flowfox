@@ -45,7 +45,7 @@
     border: none;
     border-radius: 1em;
     padding: 2em;
-    box-shadow: 0 0 2.5em 1em color-mix(in srgb, $pw-black 5%, transparent);
+    box-shadow: $box-shadow;
 
     &[open] {
       display: flex;

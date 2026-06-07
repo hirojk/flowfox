@@ -89,7 +89,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: $pw-lightgrey;
+    background-color: $color-semantic-surface-cold;
     box-shadow: inset -2em 0 5em rgba($pw-black, 0.25);
   }
 </style>

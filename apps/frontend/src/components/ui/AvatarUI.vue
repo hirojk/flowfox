@@ -34,8 +34,8 @@
     height: 3.125em;
     border-radius: 50%;
     box-shadow:
-      0 0 0 2px $pw-white,
-      0 0 0 4px $pw-primary;
+      0 0 0 2px $color-semantic-background,
+      0 0 0 4px $color-semantic-brand-primary;
     overflow: hidden;
 
     &__image {

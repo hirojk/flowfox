@@ -6,6 +6,7 @@
         htmlTag="h2"
         textStyle="body"
         borderColor="secondary"
+        backgroundColor="secondary"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
         :cancelEvent="() => removeColumn(props.columnContent.id)"
@@ -70,7 +71,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1.5em;
-    background-color: $pw-quaternary;
+    background-color: $color-semantic-theme-page-orange-background-primary;
     cursor: grab;
 
     &__header {

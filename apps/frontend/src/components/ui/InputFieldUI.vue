@@ -19,7 +19,11 @@
       :name="localText"
       :value="localText"
       :placeholder="props.placeholder"
-      :style="props.inputStyle === 'default' ? { '--border-bottom-color': borderBottomColor } : {}"
+      :style="
+        props.inputStyle === 'default'
+          ? { '--border-bottom-color': borderBottomColor, '--background-color': backgroundColor }
+          : {}
+      "
       @click="handleClick"
       @focus="handleFocus"
       @touend="handleTouch"
@@ -52,6 +56,7 @@
       placeholder?: string
       text: string
       borderColor?: 'primary' | 'secondary'
+      backgroundColor?: 'primary' | 'secondary'
       saveEvent?: (newName: string) => void
       cancelEvent?: () => void
     }>(),
@@ -63,6 +68,7 @@
       isTextarea: false,
       htmlTag: 'input',
       borderColor: 'primary',
+      backgroundColor: 'primary',
       saveEvent: () => {},
     },
   )
@@ -96,6 +102,7 @@
   }
 
   const borderBottomColor = computed(() => tokens[`color-component-input-underline-${props.borderColor}`])
+  const backgroundColor = computed(() => tokens[`color-component-input-background-${props.backgroundColor}`])
 
   const startEdit = () => {
     if (props.mode === 'formular') return
@@ -221,7 +228,7 @@
           border-bottom: 1px solid var(--border-bottom-color);
           border-radius: 0.2em 0.2em 0 0;
           padding: 0.5em;
-          background-color: $color-semantic-surface-subtle;
+          background-color: var(--background-color);
 
           &:read-write {
             &:focus-visible {

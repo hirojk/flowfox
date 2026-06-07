@@ -25,9 +25,9 @@
       <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('project-setting')" />
     </header>
     <section class="page__content">
-      <div class="components">
+      <div class="components page__category">
         <div class="page__title-wrapper">
-          <h2 class="components__title">Pages</h2>
+          <h2>Pages</h2>
           <LinkUI
             label="Create New Page"
             :dropdown="[
@@ -91,20 +91,5 @@
 <style lang="scss" scoped>
   .page--project {
     padding: $page-padding-y $page-padding-x calc($page-padding-y * 2);
-
-    .page__content {
-      gap: 0;
-    }
-
-    .components {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5em;
-
-      &__title {
-        padding: 0.2em;
-        color: $pw-black;
-      }
-    }
   }
 </style>

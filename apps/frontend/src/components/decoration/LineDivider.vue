@@ -26,15 +26,15 @@
     overflow: visible;
 
     &--primary {
-      color: $pw-primary;
+      color: $color-semantic-brand-primary;
     }
 
     &--secondary {
-      color: $pw-black;
+      color: $color-semantic-brand-secondary;
     }
 
     &--tertiary {
-      color: $color-primitive-gray-90;
+      color: $color-semantic-surface-cold;
 
       &:last-child {
         color: transparent;

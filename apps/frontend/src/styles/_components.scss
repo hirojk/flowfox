@@ -54,9 +54,9 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 2px dashed $pw-primary;
+  border: 2px dashed $color-semantic-brand-primary;
   border-radius: 1em;
-  color: $pw-primary;
+  color: $color-semantic-brand-primary;
   font-size: 0.875rem;
 
   &::before {

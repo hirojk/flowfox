@@ -102,7 +102,7 @@
     min-height: 3.375em;
     border-radius: 0.5em;
     padding: 1em;
-    background-color: $pw-white;
+    background-color: $color-semantic-surface-white;
     font-family: $font-family-primary;
     cursor: pointer;
 
@@ -149,10 +149,10 @@
     &__subtask {
       display: flex;
       gap: 0.5em;
-      color: $ff-grey;
+      color: $color-semantic-text-default;
 
       circle {
-        stroke: $ff-grey;
+        stroke: $color-component-checkbox-active-background;
       }
 
       &--checked {
@@ -163,7 +163,7 @@
 
       &--todo {
         .board-card__subtask-icon {
-          color: $pw-white;
+          color: $color-component-checkbox-inactive-background;
         }
       }
     }

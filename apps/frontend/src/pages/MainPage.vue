@@ -15,7 +15,7 @@
     </header>
     <LineDivider variant="secondary" />
     <section class="page__content">
-      <div class="projects">
+      <div class="page__category projects">
         <div class="page__title-wrapper">
           <h2 class="projects__title">Your Projects</h2>
           <LinkUI label="Create New Project" @click="handleNewProject" />
@@ -96,11 +96,5 @@
     &__content {
       gap: 0;
     }
-  }
-
-  .projects {
-    display: flex;
-    flex-direction: column;
-    gap: 2em;
   }
 </style>

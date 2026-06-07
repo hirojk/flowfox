@@ -106,16 +106,16 @@
       gap: 1em;
       width: 100%;
       max-width: 35em;
-      outline: 5px solid $pw-black;
+      outline: 5px solid $color-semantic-brand-secondary;
       outline-offset: -1em;
-      border: 5px solid $pw-black;
+      border: 5px solid $color-semantic-brand-secondary;
       border-radius: 2em;
       padding: 3em 5em;
-      background-color: $pw-background;
+      background-color: $color-semantic-background;
       box-shadow: $box-shadow;
 
       &__title {
-        color: $pw-black;
+        color: $color-semantic-brand-secondary;
         font-size: 2.5rem;
         font-family: $font-family-primary;
         text-align: center;
@@ -123,7 +123,7 @@
       }
 
       &__error {
-        color: $pw-error;
+        color: $color-semantic-feedback-error;
       }
 
       &__form {
