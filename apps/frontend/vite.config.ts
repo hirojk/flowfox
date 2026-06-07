@@ -10,12 +10,6 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 const scssTokens = buildScssTokens(designTokens)
 
-// should be removed in the future
-import colors from './src/styles/colors.json'
-const scssColorVariables = Object.entries(colors)
-  .map(([key, value]) => `$${key}: ${value};`)
-  .join('\n')
-
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, path.resolve(__dirname, '../..'), '')
@@ -41,11 +35,9 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           additionalData: `
-            ${scssColorVariables}
             ${scssTokens}
             @import "@/styles/variables.scss";
             @import "@/styles/mixin.scss";
-            @import "@/styles/themes.scss";
             @import "@/styles/animations.scss";
           `,
         },

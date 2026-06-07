@@ -12,6 +12,7 @@
     <q-list class="sideBar__list sideBar__list--project">
       <SidebarItem
         buttonStyle="project"
+        theme="orange"
         :headline="projectStore.activeProject?.name || ''"
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
@@ -19,7 +20,8 @@
         v-for="(item, index) in projectStore.activeProject?.components"
         :key="item.name"
         :index="index"
-        buttonStyle="component"
+        buttonStyle="page"
+        theme="orange"
         :icon="`icon-${item.type}`"
         :headline="item.name"
         :subline="item.type"
@@ -31,11 +33,10 @@
           },
         }"
       />
-      <!-- <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" /> -->
     </q-list>
 
     <q-list class="sideBar__list sideBar__list--nav">
-      <SidebarItem v-for="item in navItems" :key="item.headline" v-bind="item" />
+      <SidebarItem v-for="item in navItems" :key="item.headline" v-bind="item" buttonStyle="neutral" theme="orange" />
     </q-list>
   </q-drawer>
 </template>
@@ -60,14 +61,12 @@
 
   const navItems = computed(() => [
     {
-      buttonStyle: 'neutral' as const,
       icon: 'icon-home',
       headline: 'Back to Overview',
       route: { name: 'home' },
       action: (): boolean => (appStore.isSidebarOpen = false),
     },
     {
-      buttonStyle: 'neutral' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
       headline: appStore.isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar',
       action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
@@ -90,6 +89,6 @@
     flex-direction: column;
     justify-content: space-between;
     background-color: $color-semantic-surface-cold;
-    box-shadow: inset -2em 0 5em rgba($pw-black, 0.25);
+    box-shadow: inset -2em 0 5em rgba($color-semantic-box-shadow, 0.25);
   }
 </style>

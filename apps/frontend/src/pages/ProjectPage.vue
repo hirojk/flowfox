@@ -6,12 +6,7 @@
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
       <div class="page__headerContent">
-        <InitialUI
-          :size="3"
-          :label="projectStore.activeProject?.name!"
-          :color="colors['pw-white']"
-          :backgroundColor="colors['pw-primary']"
-        />
+        <InitialUI :size="3" :label="projectStore.activeProject?.name!" />
         <InputFieldUI
           class="page__headline"
           htmlTag="h1"
@@ -42,9 +37,9 @@
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
               :id="`board-${component.id}`"
-              buttonStyle="component"
+              buttonStyle="page"
               :componentStyle="component.type"
-              themeColor="orange"
+              theme="orange"
               :icon="`icon-${component.type}`"
               :label="component.name"
               :route="{ name: 'component', params: { componentId: String(component.id) } }"
@@ -61,8 +56,6 @@
 </template>
 
 <script setup lang="ts">
-  import colors from '@styles/colors.json'
-
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'

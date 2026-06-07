@@ -25,7 +25,7 @@
             <PageItem
               :id="`project-${project.id}`"
               buttonStyle="project"
-              themeColor="orange"
+              theme="orange"
               :label="project.name"
               :route="{ name: 'project', params: { projectId: String(project.id) } }"
               @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"

@@ -2,7 +2,10 @@
   <div
     class="initial"
     aria-hidden="true"
-    :style="{ backgroundColor: props.backgroundColor || undefined, color: props.color }"
+    :style="{
+      '--label-color': labelColor,
+      '--background-color': backgroundColor,
+    }"
   >
     <IconSvg
       v-if="props.icon"
@@ -17,15 +20,35 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
   import { useInitials } from '@composables/useDisplay'
+  import { tokens } from '@utils/tokenBuilder'
 
-  const props = defineProps<{
-    icon?: string
-    label?: string
-    color: string
-    backgroundColor?: string
-    size: number
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      icon?: string
+      label?: string
+      variant?: 'primary' | 'secondary' | 'transparent'
+      usage?: 'project' | 'page' | 'neutral'
+      theme?: 'orange'
+      size?: number
+    }>(),
+    {
+      variant: 'primary',
+      usage: 'project',
+      theme: 'orange',
+      size: 3,
+    },
+  )
+
+  const labelColor = computed(() => {
+    if (props.variant === 'transparent') return 'inherit'
+    return tokens[`color-semantic-theme-${props.usage}-${props.theme}-color-${props.variant}`]
+  })
+  const backgroundColor = computed(() => {
+    if (props.variant === 'transparent') return 'transparent'
+    return tokens[`color-semantic-theme-${props.usage}-${props.theme}-background-${props.variant}`]
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -39,6 +62,7 @@
     border-radius: 1em;
     padding: 1em;
     user-select: none;
+    background-color: var(--background-color);
 
     &__content {
       &--text {
@@ -46,6 +70,7 @@
         justify-content: center;
         align-items: center;
         min-width: 1.5em;
+        color: var(--label-color);
         font-weight: normal;
         font-family: $font-family-primary;
       }

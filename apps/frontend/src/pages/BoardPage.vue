@@ -8,12 +8,7 @@
     <div class="page__headerWrapper">
       <header class="page__header">
         <div class="page__headerContent">
-          <InitialUI
-            :size="3"
-            :icon="'icon-board'"
-            :color="colors['pw-black']"
-            :backgroundColor="colors['pw-quaternary']"
-          />
+          <InitialUI :icon="'icon-board'" usage="page" theme="orange" :size="3" />
           <InputFieldUI
             class="page__headline"
             htmlTag="h1"
@@ -50,8 +45,6 @@
 </template>
 
 <script setup lang="ts">
-  import colors from '@styles/colors.json'
-
   import { ref, watch } from 'vue'
   import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
