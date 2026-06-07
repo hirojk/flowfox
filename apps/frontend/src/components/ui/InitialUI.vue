@@ -43,11 +43,11 @@
 
   const labelColor = computed(() => {
     if (props.variant === 'transparent') return 'inherit'
-    return tokens[`color-semantic-theme-${props.usage}-${props.theme}-color-${props.variant}`]
+    return tokens[`color-theme-${props.usage}-${props.theme}-color-${props.variant}`]
   })
   const backgroundColor = computed(() => {
     if (props.variant === 'transparent') return 'transparent'
-    return tokens[`color-semantic-theme-${props.usage}-${props.theme}-background-${props.variant}`]
+    return tokens[`color-theme-${props.usage}-${props.theme}-background-${props.variant}`]
   })
 </script>
 

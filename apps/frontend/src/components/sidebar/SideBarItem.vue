@@ -49,17 +49,15 @@
     action?: () => void
   }>()
 
-  const headlineColor = computed(() => tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-color-primary`])
-  const sublineColor = computed(
-    () => tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-color-secondary`],
-  )
+  const headlineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-primary`])
+  const sublineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-secondary`])
   const backgroundColor = computed(() => {
     if (props.buttonStyle === 'neutral') return tokens[`color-semantic-background`]
-    return tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-background-primary`]
+    return tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`]
   })
   const shadowColor = computed(() => {
     if (props.buttonStyle === 'neutral') return tokens[`color-primitive-gray-13`]
-    return tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-shadow`]
+    return tokens[`color-theme-${props.buttonStyle}-${props.theme}-shadow`]
   })
 
   const handleClick = () => {

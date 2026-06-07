@@ -61,15 +61,9 @@
     cancel: []
   }>()
 
-  const labelHeadlineColor = computed(
-    () => tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-color-primary`],
-  )
-  const labelSublineColor = computed(
-    () => tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-color-secondary`],
-  )
-  const backgroundColor = computed(
-    () => tokens[`color-semantic-theme-${props.buttonStyle}-${props.theme}-background-primary`],
-  )
+  const labelHeadlineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-primary`])
+  const labelSublineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-secondary`])
+  const backgroundColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`])
 
   const handleConfirm = (value: string) => {
     if (!value) emit('cancel')

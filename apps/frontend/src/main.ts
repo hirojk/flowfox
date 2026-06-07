@@ -6,7 +6,7 @@ import 'quasar/dist/quasar.css'
 
 import App from './App.vue'
 import router from './router'
-import '@/styles/app.scss'
+import '@styles/app.scss'
 
 import { registerGlobalComponents } from './global.components.ts'
 

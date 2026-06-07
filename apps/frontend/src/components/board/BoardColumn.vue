@@ -71,7 +71,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1.5em;
-    background-color: $color-semantic-theme-page-orange-background-primary;
+    background-color: $color-theme-page-orange-background-primary;
     cursor: grab;
 
     &__header {

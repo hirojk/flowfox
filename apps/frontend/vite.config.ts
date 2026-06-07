@@ -4,11 +4,10 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import { buildScssTokens } from './src/utils/tokenBuilder'
-import designTokens from './src/styles/tokens.json'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
-const scssTokens = buildScssTokens(designTokens)
+const scssTokens = buildScssTokens()
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
