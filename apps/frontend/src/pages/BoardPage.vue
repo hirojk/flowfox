@@ -6,6 +6,7 @@
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
+      <BreadcrumbsUI />
       <header class="page__header">
         <div class="page__headerContent">
           <InitialUI :icon="'icon-board'" variant="primary" usage="page" theme="orange" :size="3" />
@@ -60,6 +61,7 @@
   import { useComponentResolver } from '@composables/useNavigation'
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
+  import BreadcrumbsUI from '@/components/ui/BreadcrumbsUI.vue'
 
   const appStore = useAppStore()
   const { addColumn } = useBoardColumn()
