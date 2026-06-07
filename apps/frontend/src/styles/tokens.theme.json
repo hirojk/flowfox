@@ -16,7 +16,7 @@
           "color-secondary": { "value": "{color.semantic.text-secondary}" },
           "background-primary": { "value": "{color.primitive.yellow-80}" },
           "background-secondary": { "value": "{color.primitive.yellow-80}" },
-          "shadow": { "value": "{color.primitive.red-33}" }
+          "shadow": { "value": "{color.primitive.yellow-30}" }
         }
       }
     }

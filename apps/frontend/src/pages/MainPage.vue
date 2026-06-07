@@ -14,7 +14,7 @@
       <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
     </header>
     <LineDivider variant="secondary" />
-    <section class="page__content">
+    <section ref="pageContent" class="page__content">
       <div class="page__category projects">
         <div class="page__title-wrapper">
           <h2 class="projects__title">Your Projects</h2>
@@ -34,7 +34,7 @@
           </li>
         </ul>
       </div>
-      <LineDivider v-for="i in 10" :key="i" variant="tertiary" />
+      <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
     </section>
   </q-page>
   <LineDivider class="line-divider__footer" variant="primary" />
@@ -44,6 +44,7 @@
   import { computed, useTemplateRef, onMounted } from 'vue'
   import { useAuth } from '@composables/useNavigation'
   import { triggerInputFocus } from '@composables/useIosInteractions'
+  import { useDecorationLines } from '@composables/useDecoration'
   import { useAppStore } from '@stores/appStore'
   import { useAuthStore } from '@stores/authStore'
   import { useProjectStore } from '@stores/projectStore'
@@ -58,6 +59,9 @@
   const { handleLogout } = useAuth()
 
   const avatarDropdown = useTemplateRef<{ open: (element: HTMLElement) => void }>('avatarDropdown')
+
+  const contentRef = useTemplateRef<HTMLElement>('pageContent')
+  const { dividerCount } = useDecorationLines(contentRef)
 
   const handleNewProject = () => {
     triggerInputFocus(async () => {
@@ -91,10 +95,6 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-    }
-
-    &__content {
-      gap: 0;
     }
   }
 </style>

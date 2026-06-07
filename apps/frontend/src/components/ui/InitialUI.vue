@@ -28,15 +28,13 @@
     defineProps<{
       icon?: string
       label?: string
-      variant?: 'primary' | 'secondary' | 'transparent'
+      variant: 'primary' | 'secondary' | 'transparent'
       usage?: 'project' | 'page' | 'neutral'
-      theme?: 'orange'
+      theme: 'orange'
       size?: number
     }>(),
     {
-      variant: 'primary',
-      usage: 'project',
-      theme: 'orange',
+      usage: 'neutral',
       size: 3,
     },
   )

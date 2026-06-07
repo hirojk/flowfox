@@ -84,7 +84,7 @@
     &__cards {
       display: flex;
       flex-direction: column;
-      gap: 0.5em;
+      gap: 0.75em;
     }
 
     &__button {

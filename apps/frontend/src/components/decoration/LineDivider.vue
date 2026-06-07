@@ -34,7 +34,7 @@
     }
 
     &--tertiary {
-      color: $color-semantic-surface-cold;
+      color: $color-primitive-gray-85;
 
       &:last-child {
         color: transparent;

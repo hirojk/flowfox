@@ -8,7 +8,7 @@
     <div class="page__headerWrapper">
       <header class="page__header">
         <div class="page__headerContent">
-          <InitialUI :icon="'icon-board'" usage="page" theme="orange" :size="3" />
+          <InitialUI :icon="'icon-board'" variant="primary" usage="page" theme="orange" :size="3" />
           <InputFieldUI
             class="page__headline"
             htmlTag="h1"
@@ -131,6 +131,7 @@
 
       &__button {
         width: 100%;
+        min-height: 3em;
       }
     }
   }

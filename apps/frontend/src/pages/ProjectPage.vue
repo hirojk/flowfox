@@ -6,7 +6,13 @@
   <q-page class="page--project" v-bind="$attrs">
     <header class="page__header">
       <div class="page__headerContent">
-        <InitialUI :size="3" :label="projectStore.activeProject?.name!" />
+        <InitialUI
+          :size="3"
+          variant="primary"
+          usage="project"
+          theme="orange"
+          :label="projectStore.activeProject?.name!"
+        />
         <InputFieldUI
           class="page__headline"
           htmlTag="h1"
@@ -19,7 +25,7 @@
       </div>
       <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('project-setting')" />
     </header>
-    <section class="page__content">
+    <section ref="pageContent" class="page__content">
       <div class="components page__category">
         <div class="page__title-wrapper">
           <h2>Pages</h2>
@@ -49,13 +55,14 @@
           </li>
         </ul>
       </div>
-      <LineDivider v-for="i in 10" :key="i" variant="tertiary" />
+      <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
     </section>
   </q-page>
   <LineDivider class="line-divider__footer" variant="primary" />
 </template>
 
 <script setup lang="ts">
+  import { useTemplateRef } from 'vue'
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
   import PageItem from '@components/PageItem.vue'
@@ -63,7 +70,8 @@
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
 
   import { openSettingsModal } from '@composables/useModal'
-  import { triggerInputFocus } from '@/composables/useIosInteractions'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
+  import { useDecorationLines } from '@composables/useDecoration'
   import { useAppStore } from '@stores/appStore'
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
@@ -71,6 +79,9 @@
   const appStore = useAppStore()
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
+
+  const contentRef = useTemplateRef<HTMLElement>('pageContent')
+  const { dividerCount } = useDecorationLines(contentRef)
 
   const handleNewComponent = () => {
     triggerInputFocus(async () => {

@@ -150,7 +150,7 @@
       width: 100%;
       height: 100%;
       background-color: var(--background-color);
-      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--shadow-color) 20%, transparent);
+      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--shadow-color) 30%, transparent);
       z-index: -1;
     }
 

@@ -101,7 +101,7 @@
     width: 100%;
     min-height: 3.375em;
     border-radius: 0.5em;
-    padding: 1em;
+    padding: 0.5em;
     background-color: $color-semantic-surface-white;
     font-family: $font-family-primary;
     cursor: pointer;
