@@ -37,6 +37,7 @@
     justify-content: center;
     align-items: center;
     gap: 0.5em;
+    height: fit-content;
     border: 2px solid var(--border-color);
     background-color: var(--background-color);
     color: var(--label-color);

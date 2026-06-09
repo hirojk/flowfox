@@ -1,17 +1,23 @@
 <template>
-  <button class="link" @click="linkDropdown?.open($event.currentTarget as HTMLElement)">
+  <component
+    :is="props.to ? RouterLink : 'button'"
+    :to="props.to"
+    class="link"
+    @click="!props.to && linkDropdown?.open($event.currentTarget as HTMLElement)"
+  >
     {{ props.label }}
-    <DropdownUI v-if="props.dropdown" ref="linkDropdown" :options="props.dropdown ?? []" />
-  </button>
+    <DropdownUI v-if="props.dropdown && !props.to" ref="linkDropdown" :options="props.dropdown ?? []" />
+  </component>
 </template>
 
 <script setup lang="ts">
   import { useTemplateRef } from 'vue'
+  import { RouterLink, type RouteLocationRaw } from 'vue-router'
   import DropdownUI from '@components/ui/DropdownUI.vue'
   import type { DropdownItem } from '@typeDefs/globalTypes'
 
   const props = defineProps<{
-    href?: string
+    to?: string | RouteLocationRaw
     label: string
     dropdown?: DropdownItem[]
   }>()

@@ -8,7 +8,7 @@
         class="page__project-setting"
         icon="icon-menu"
         borderColor="secondary"
-        :size="3"
+        :size="2.5"
         :dropdown="[
           {
             name: 'Remove Card',
@@ -22,6 +22,7 @@
         htmlTag="h1"
         textStyle="h2"
         :text="activeCard.name"
+        borderColor="secondary"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
       <SelectMenuUI
@@ -44,6 +45,7 @@
         isTextarea
         placeholder="No description"
         :text="activeCard.description"
+        borderColor="secondary"
         :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
       />
     </div>

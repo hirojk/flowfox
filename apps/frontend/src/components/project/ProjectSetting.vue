@@ -8,7 +8,10 @@
       <div class="modal__category-content">
         <div class="modal__category-textWrapper">
           <h3 class="modal__category-text modal__category-text--strong">Delete project</h3>
-          <p class="modal__category-text">Once you delete a project, there is no going back. Please be certain.</p>
+          <p class="modal__category-text">
+            Once you delete a project, there is no going back. <br />
+            Please be certain.
+          </p>
         </div>
         <ButtonUI class="project-setting__delete" variant="error" label="Delete project" @click="onDeleteBoard" />
       </div>

@@ -2,7 +2,7 @@
   <dialog ref="dialogRef" class="modal" @click="handleBackdropClick">
     <div class="modal__content" @click.stop>
       <div class="modal__navigation">
-        <IconButtonUI icon="icon-cancel" borderColor="secondary" @click="closeSettingsModal" />
+        <IconButtonUI icon="icon-cancel" borderColor="secondary" :size="2.5" @click="closeSettingsModal" />
         <div id="modal-interactives"></div>
       </div>
       <div id="modal-header" class="modal__header"></div>
@@ -103,6 +103,7 @@
       &-content {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 2em;
 
         &--vertical {

@@ -37,8 +37,8 @@
             :class="`board-card__subtask board-card__subtask${subtask.isChecked ? '--checked' : '--todo'}`"
           >
             <i class="board-card__subtask-icon">
-              <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="6" cy="6" r="5.5" fill="currentColor" stroke="currentColor" stroke-width="1" />
+              <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="5" cy="5" r="4" stroke-width="1" />
               </svg>
             </i>
             <span class="board-card__subtask-label">{{ subtask.label }}</span>
@@ -109,7 +109,7 @@
     &__content {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 0.5em;
     }
 
     &__wrapper {
@@ -125,6 +125,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1em;
+        padding: 0.25em;
       }
     }
 
@@ -151,19 +152,21 @@
       gap: 0.5em;
       color: $color-semantic-text-default;
 
-      circle {
-        stroke: $color-component-checkbox-active-background;
+      &-icon {
+        fill: $color-component-checkbox-inactive-background;
+        stroke: $color-component-checkbox-inactive-border;
       }
 
       &--checked {
-        .board-card__subtask-label {
-          text-decoration: line-through;
-        }
-      }
+        .board-card__subtask {
+          &-icon {
+            fill: $color-component-checkbox-active-background;
+            stroke: $color-component-checkbox-active-border;
+          }
 
-      &--todo {
-        .board-card__subtask-icon {
-          color: $color-component-checkbox-inactive-background;
+          &-label {
+            text-decoration: line-through;
+          }
         }
       }
     }

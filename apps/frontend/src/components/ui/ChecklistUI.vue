@@ -7,6 +7,7 @@
         <InputFieldUI
           :class="['checklist__label', { 'checklist__label--checked': item.isChecked }]"
           :text="item.label"
+          borderColor="secondary"
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
           :cancelEvent="() => deleteBullet(item)"
         />

@@ -2,9 +2,7 @@
   <nav v-if="breadcrumbs.length > 0" class="page__breadcrumbs breadcrumbs" aria-label="Breadcrumb">
     <ol class="breadcrumbs__list">
       <li v-for="(crumb, index) in breadcrumbs" :key="crumb.name" class="breadcrumbs__item">
-        <router-link v-if="!crumb.isActive" :to="crumb.route" class="breadcrumbs__link">
-          {{ crumb.label }}
-        </router-link>
+        <LinkUI v-if="!crumb.isActive" :to="crumb.route" class="breadcrumbs__link" :label="crumb.label" />
         <span v-else class="breadcrumbs__link breadcrumbs__link--current">
           {{ crumb.label }}
         </span>
@@ -17,6 +15,8 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useRoute, type RouteLocationRaw } from 'vue-router'
+  import LinkUI from '@components/ui/LinkUI.vue'
+
   import { useProjectStore } from '@stores/projectStore'
   import { useBoardStore } from '@stores/boardStore'
 
@@ -71,25 +71,22 @@
 <style lang="scss" scoped>
   .breadcrumbs {
     margin-bottom: 2em;
-    padding: 0 $page-padding-x;
 
     &__list {
       @include fontButton;
 
       display: flex;
       align-items: center;
-      gap: 0.5em;
+      gap: 1em;
     }
 
     &__item {
       display: flex;
       align-items: center;
-      gap: 0.5em;
+      gap: 1em;
     }
 
     &__link {
-      color: $color-semantic-text-secondary;
-
       &--current {
         color: $color-semantic-text-default;
       }

@@ -4,27 +4,30 @@
   </ModalUI>
 
   <q-page class="page--project" v-bind="$attrs">
-    <header class="page__header">
-      <div class="page__headerContent">
-        <InitialUI
-          :size="3"
-          variant="primary"
-          usage="project"
-          theme="orange"
-          :label="projectStore.activeProject?.name!"
-        />
-        <InputFieldUI
-          class="page__headline"
-          htmlTag="h1"
-          textStyle="h2"
-          :text="projectStore.activeProject?.name || ''"
-          :saveEvent="
-            (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
-          "
-        />
-      </div>
-      <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('project-setting')" />
-    </header>
+    <div class="page__headerWrapper">
+      <BreadcrumbsUI />
+      <header class="page__header">
+        <div class="page__headerContent">
+          <InitialUI
+            :size="3"
+            variant="primary"
+            usage="project"
+            theme="orange"
+            :label="projectStore.activeProject?.name!"
+          />
+          <InputFieldUI
+            class="page__headline"
+            htmlTag="h1"
+            textStyle="h2"
+            :text="projectStore.activeProject?.name || ''"
+            :saveEvent="
+              (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
+            "
+          />
+        </div>
+        <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('project-setting')" />
+      </header>
+    </div>
     <section ref="pageContent" class="page__content">
       <div class="components page__category">
         <div class="page__title-wrapper">
@@ -65,6 +68,7 @@
   import { useTemplateRef } from 'vue'
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import ProjectSetting from '@components/project/ProjectSetting.vue'
+  import BreadcrumbsUI from '@/components/ui/BreadcrumbsUI.vue'
   import PageItem from '@components/PageItem.vue'
   import InitialUI from '@components/ui/InitialUI.vue'
   import IconButtonUI from '@components/ui/IconButtonUI.vue'

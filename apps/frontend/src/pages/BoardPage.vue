@@ -6,7 +6,7 @@
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
-      <BreadcrumbsUI />
+      <BreadcrumbsUI class="page__breadcrumbs" />
       <header class="page__header">
         <div class="page__headerContent">
           <InitialUI :icon="'icon-board'" variant="primary" usage="page" theme="orange" :size="3" />
@@ -50,6 +50,7 @@
   import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
+  import BreadcrumbsUI from '@/components/ui/BreadcrumbsUI.vue'
   import InitialUI from '@components/ui/InitialUI.vue'
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
   import IconButtonUI from '@components/ui/IconButtonUI.vue'
@@ -61,7 +62,6 @@
   import { useComponentResolver } from '@composables/useNavigation'
   import { useAppStore } from '@stores/appStore'
   import { useBoardStore } from '@stores/boardStore'
-  import BreadcrumbsUI from '@/components/ui/BreadcrumbsUI.vue'
 
   const appStore = useAppStore()
   const { addColumn } = useBoardColumn()
@@ -112,6 +112,10 @@
       &__headerWrapper {
         position: sticky;
         left: 0;
+      }
+
+      &__breadcrumbs {
+        padding: 0 $page-padding-x;
       }
 
       &__header {
