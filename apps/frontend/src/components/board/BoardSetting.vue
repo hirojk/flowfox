@@ -16,12 +16,12 @@
           <label
             v-for="(value, key) in boardStore.activeBoard?.settings.modal"
             :key="key"
-            class="board-setting__checkbox"
+            class="board-setting__checkbox checkbox"
           >
             <input
               type="checkbox"
               :checked="value"
-              class="board-setting__box checkbox"
+              class="board-setting__box checkbox__box"
               @change="updateSetting('modal', key, ($event.target as HTMLInputElement).checked)"
             />
             Show {{ key }}
@@ -37,13 +37,13 @@
           <label
             v-for="(value, key) in boardStore.activeBoard?.settings.cards"
             :key="key"
-            class="board-setting__checkbox"
+            class="board-setting__checkbox checkbox"
           >
             <input
               type="checkbox"
               :checked="value"
               :disabled="!boardStore.activeBoard?.settings.modal[key]"
-              class="board-setting__box checkbox"
+              class="board-setting__box checkbox__box"
               @change="updateSetting('cards', key, ($event.target as HTMLInputElement).checked)"
             />
             Enable {{ key }}

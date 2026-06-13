@@ -2,8 +2,13 @@
   <ul class="checklist">
     <span v-if="props.checklist.length === 0" class="checklist__message">No Subtask submitted</span>
     <li v-for="item in props.checklist" :key="item.label" class="checklist__item">
-      <label class="checklist__checkbox">
-        <input type="checkbox" class="checklist__box checkbox" :checked="item.isChecked" @change="saveEdit(item)" />
+      <label class="checklist__checkbox checkbox">
+        <input
+          type="checkbox"
+          class="checklist__box checkbox__box"
+          :checked="item.isChecked"
+          @change="saveEdit(item)"
+        />
         <InputFieldUI
           :class="['checklist__label', { 'checklist__label--checked': item.isChecked }]"
           :text="item.label"
