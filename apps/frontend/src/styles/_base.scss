@@ -41,5 +41,5 @@ button,
 
 p,
 .p {
-  @include fontMixin($font-size-md);
+  @include fontMixin('md');
 }

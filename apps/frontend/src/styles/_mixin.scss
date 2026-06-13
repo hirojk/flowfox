@@ -14,22 +14,15 @@
 }
 
 // font mixin
-@mixin fontMixin($size, $line-height: 1rem) {
-  // stylelint-disable-next-line scss/no-global-function-names
-  @if type-of($size) == 'list' {
-    // stylelint-disable-next-line scss/no-global-function-names
-    $line-height: nth($size, 2);
-    // stylelint-disable-next-line scss/no-global-function-names
-    $size: nth($size, 1);
-  }
+@mixin fontMixin($size) {
+  $values: map-get($font-sizes, $size);
 
-  font-size: $size;
-  line-height: $line-height;
+  font-size: nth($values, 1);
+  line-height: nth($values, 2);
 }
 
-// font sizes mixins
 @mixin fontHeadline1 {
-  @include fontMixin($font-size-2xl);
+  @include fontMixin('2xl');
 
   color: $color-semantic-text-secondary;
   font-weight: $font-weight-bold;
@@ -38,14 +31,14 @@
 }
 
 @mixin fontHeadline2 {
-  @include fontMixin($font-size-xl);
+  @include fontMixin('xl');
 
   color: $color-semantic-text-default;
   font-family: $font-family-secondary;
 }
 
 @mixin fontHeadline3 {
-  @include fontMixin($font-size-xl);
+  @include fontMixin('xl');
 
   color: $color-semantic-text-secondary;
   font-weight: $font-weight-bold;
@@ -54,33 +47,33 @@
 }
 
 @mixin fontHeadline4 {
-  @include fontMixin($font-size-lg);
+  @include fontMixin('lg');
 
   color: $color-semantic-text-default;
   font-family: $font-family-secondary;
 }
 
 @mixin fontCopy {
-  @include fontMixin($font-size-md);
+  @include fontMixin('md');
 
   color: $color-semantic-text-default;
   font-family: $font-family-primary;
 }
 
 @mixin fontSmall {
-  @include fontMixin($font-size-sm);
+  @include fontMixin('sm');
 
   font-family: $font-family-primary;
 }
 
 @mixin fontButton {
-  @include fontMixin($font-size-md);
+  @include fontMixin('md');
 
   font-family: $font-family-secondary;
 }
 
 @mixin fontButtonSmall {
-  @include fontMixin($font-size-sm);
+  @include fontMixin('sm');
 
   font-family: $font-family-secondary;
 }

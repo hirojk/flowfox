@@ -52,7 +52,7 @@
     }
 
     &__message {
-      @include fontMixin($font-size-md);
+      @include fontMixin('md');
 
       max-width: 15em;
       text-align: center;

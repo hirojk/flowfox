@@ -98,6 +98,6 @@
 
 <style lang="scss" scoped>
   .page--project {
-    padding: $page-padding-y $page-padding-x calc($page-padding-y * 2);
+    padding: $spacing-page-y $spacing-page-x calc($spacing-page-y * 2);
   }
 </style>

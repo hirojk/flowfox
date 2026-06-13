@@ -105,7 +105,7 @@
 
 <style lang="scss" scoped>
   .page--board {
-    padding: $page-padding-y 0;
+    padding: $spacing-page-y 0;
     overflow-x: auto;
 
     .page {
@@ -115,11 +115,11 @@
       }
 
       &__breadcrumbs {
-        padding: 0 $page-padding-x;
+        padding: 0 $spacing-page-x;
       }
 
       &__header {
-        padding: 0 $page-padding-x;
+        padding: 0 $spacing-page-x;
       }
     }
 
@@ -127,7 +127,7 @@
       display: flex;
       gap: 2em;
       min-width: min-content;
-      padding: 0 $page-padding-x;
+      padding: 0 $spacing-page-x;
 
       &__columnWrapper {
         flex-shrink: 0;

@@ -149,8 +149,8 @@
 
         &-button {
           position: absolute;
-          right: $page-padding-x;
-          bottom: $page-padding-y;
+          right: $spacing-page-x;
+          bottom: $spacing-page-y;
         }
       }
     }

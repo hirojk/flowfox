@@ -35,7 +35,7 @@
 
 // Tag-Komponente
 .tag {
-  @include fontMixin($font-size-sm);
+  @include fontMixin('sm');
 
   display: inline-block;
   border-radius: 0.4em;

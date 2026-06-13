@@ -1,8 +1,8 @@
 import { ref, onMounted, type Ref } from 'vue'
 
-const LINE_HEIGHT = 80
-
 export function useDecorationLines(contentRef: Ref<HTMLElement | null>) {
+  const LINE_HEIGHT = 80
+
   const dividerCount = ref(10)
 
   const calculateDividerCount = () => {

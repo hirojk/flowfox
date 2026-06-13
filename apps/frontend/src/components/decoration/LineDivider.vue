@@ -43,7 +43,7 @@
 
     &__footer {
       position: fixed;
-      bottom: calc($page-padding-y * 2);
+      bottom: calc($spacing-page-y * 2);
     }
   }
 </style>

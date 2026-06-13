@@ -3,13 +3,14 @@
   "plugins": ["stylelint-order"],
   "rules": {
     "selector-class-pattern": null,
-    "scss/at-mixin-pattern": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {
         "ignorePseudoClasses": ["deep", "global", "slotted"]
       }
     ],
+    "scss/at-mixin-pattern": null,
+    "scss/no-global-function-names": null,
     "order/properties-order": [
       "content",
       "position",
