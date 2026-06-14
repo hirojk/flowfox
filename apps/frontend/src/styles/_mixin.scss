@@ -80,6 +80,8 @@
 
 // accessibility mixin
 @mixin focusVisible {
+  -webkit-tap-highlight-color: transparent;
+
   &:focus {
     outline: none;
   }
@@ -87,5 +89,12 @@
   &:focus-visible {
     outline: 2px solid -webkit-focus-ring-color;
     outline-offset: 2px;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    &:focus-visible {
+      outline: 2px solid $color-semantic-text-default;
+      outline-offset: 2px;
+    }
   }
 }

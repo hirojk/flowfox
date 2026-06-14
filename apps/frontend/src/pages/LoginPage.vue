@@ -14,6 +14,7 @@
           text=""
           isRequired
           borderColor="secondary"
+          backgroundColor="secondary"
         />
         <InputFieldUI
           id="login-password"
@@ -23,6 +24,7 @@
           text=""
           isRequired
           borderColor="secondary"
+          backgroundColor="secondary"
         />
         <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
       </form>
