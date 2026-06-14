@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import mongoose from 'mongoose'
 import { serviceUnavailableResponse } from '../utils/responses.js'
-import { APP_ENV_VALUES } from '@flowfox/shared'
+import { APP_ENV_VALUES } from '@pagewise/shared'
 
 let database: mongoose.Connection | null = null
 export const dbState = { isDbConnected: false }
@@ -28,7 +28,7 @@ export const connectToDatabase = async (): Promise<mongoose.Connection> => {
     database = mongoose.connection.useDb(dbName)
     dbState.isDbConnected = true
 
-    console.log('\nConnected to flowfox database.')
+    console.log('\nConnected to pagewise database.')
 
     return database
   } catch (error) {

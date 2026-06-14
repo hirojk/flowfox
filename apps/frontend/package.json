@@ -1,6 +1,6 @@
 {
-  "name": "@flowfox/frontend",
-  "version": "0.1.1",
+  "name": "@pagewise/frontend",
+  "version": "0.2",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -12,7 +12,7 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "@flowfox/shared": "workspace:*",
+    "@pagewise/shared": "workspace:*",
     "axios": "1.13.6",
     "jwt-decode": "^4.0.0",
     "pinia": "^3.0.4",

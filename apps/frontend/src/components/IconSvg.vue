@@ -1,16 +1,21 @@
 <template>
   <i class="icon" aria-hidden="true">
-    <svg :width="size" :height="size">
-      <use class="iconSvg" :href="`/assets/iconSet.svg#${id}`"></use>
+    <svg :width="props.size" :height="props.size">
+      <use class="iconSvg" :href="`/assets/iconSet.svg#${props.id}`"></use>
     </svg>
   </i>
 </template>
 
 <script setup lang="ts">
-  const { id, size = 24 } = defineProps<{
-    id: string
-    size?: string | number
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      id: string
+      size?: string | number
+    }>(),
+    {
+      size: 24,
+    },
+  )
 </script>
 
 <style lang="scss" scoped>
@@ -23,6 +28,6 @@
     stroke: currentcolor;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 1.25px;
+    stroke-width: 1px;
   }
 </style>

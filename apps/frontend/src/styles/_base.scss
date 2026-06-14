@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box !important;
+}
+
+@media (pointer: coarse) {
+  * {
+    user-select: none;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    user-select: text;
+  }
+}
+
+h1,
+.h1 {
+  @include fontHeadline1;
+}
+
+h2,
+.h2 {
+  @include fontHeadline2;
+}
+
+h3,
+.h3 {
+  @include fontHeadline3;
+}
+
+h4,
+.h4 {
+  @include fontHeadline4;
+}
+
+button,
+.button {
+  @include fontButton;
+}
+
+p,
+.p {
+  @include fontMixin('md');
+}

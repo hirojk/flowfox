@@ -3,7 +3,6 @@
     v-model="drawer"
     show-if-above
     :mini="!appStore.isSidebarOpen"
-    mini-to-overlay
     :width="sidebarWidth"
     :mini-width="sidebarMiniWidth"
     :breakpoint="750"
@@ -13,16 +12,19 @@
     <q-list class="sideBar__list sideBar__list--project">
       <SidebarItem
         buttonStyle="project"
-        :label="projectStore.activeProject?.name || ''"
+        theme="orange"
+        :headline="projectStore.activeProject?.name || ''"
         :route="{ name: 'project', params: { projectId: String(activeProject?.id) } }"
       />
-      <hr class="sideBar__divider" />
       <SidebarItem
-        v-for="item in projectStore.activeProject?.components"
+        v-for="(item, index) in projectStore.activeProject?.components"
         :key="item.name"
-        buttonStyle="component"
+        :index="index"
+        buttonStyle="page"
+        theme="orange"
         :icon="`icon-${item.type}`"
-        :label="item.name"
+        :headline="item.name"
+        :subline="item.type"
         :route="{
           name: 'component',
           params: {
@@ -31,11 +33,10 @@
           },
         }"
       />
-      <!-- <SidebarItem buttonStyle="new" icon="icon-plus" label="New Component" /> -->
     </q-list>
 
     <q-list class="sideBar__list sideBar__list--nav">
-      <SidebarItem v-for="item in navItems" :key="item.label" v-bind="item" />
+      <SidebarItem v-for="item in navItems" :key="item.headline" v-bind="item" buttonStyle="neutral" theme="orange" />
     </q-list>
   </q-drawer>
 </template>
@@ -50,7 +51,7 @@
 
   const drawer = ref(true)
 
-  const sidebarWidth = 300
+  const sidebarWidth = 275
   const sidebarMiniWidth = 100
   const sidebarPadding = 3
 
@@ -60,16 +61,14 @@
 
   const navItems = computed(() => [
     {
-      buttonStyle: 'nav' as const,
       icon: 'icon-home',
-      label: 'Back to all projects',
+      headline: 'Back to Overview',
       route: { name: 'home' },
       action: (): boolean => (appStore.isSidebarOpen = false),
     },
     {
-      buttonStyle: 'nav' as const,
       icon: appStore.isSidebarOpen ? 'icon-collapse' : 'icon-expand',
-      label: appStore.isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar',
+      headline: appStore.isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar',
       action: (): boolean => (appStore.isSidebarOpen = !appStore.isSidebarOpen),
     },
   ])
@@ -89,11 +88,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: $page-padding-y 0;
-    background-color: $ff-white;
-
-    &__divider {
-      margin: 2em calc(var(--sidebar-padding) - 1em);
-    }
+    background-color: $color-semantic-surface-cold;
+    box-shadow: inset -2em 0 5em rgba($color-semantic-box-shadow, 0.25);
   }
 </style>

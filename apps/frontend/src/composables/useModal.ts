@@ -1,9 +1,9 @@
 import { useAppStore } from '@stores/appStore'
-import type { ModalWindowType } from '@typeDefs/globalTypes'
+import type { ModalUIType } from '@typeDefs/globalTypes'
 
 const getModal = (): HTMLDialogElement | null => document.querySelector('.modal')
 
-export const openSettingsModal = (content: ModalWindowType): void => {
+export const openSettingsModal = (content: ModalUIType): void => {
   const store = useAppStore()
 
   store.isModalOpen = true

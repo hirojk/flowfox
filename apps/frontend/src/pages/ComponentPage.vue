@@ -1,6 +1,5 @@
 <template>
   <component :is="currentComponent" v-bind="$attrs" />
-  <backdrop />
 </template>
 
 <script setup lang="ts">
@@ -8,8 +7,6 @@
   import { useComponentResolver } from '@composables/useNavigation'
   import Board from '@pages/BoardPage.vue'
   import { useProjectStore } from '@stores/projectStore'
-
-  import Backdrop from '@components/Backdrop.vue'
 
   const projectStore = useProjectStore()
   const { activeComponent } = useComponentResolver()

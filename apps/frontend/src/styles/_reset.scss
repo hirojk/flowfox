@@ -1,0 +1,27 @@
+h1,
+h2,
+h3,
+p,
+hr,
+ul,
+ol,
+li,
+a,
+button,
+input,
+textarea {
+  all: unset;
+}
+
+a,
+button,
+input[type='checkbox'] {
+  @include focusVisible;
+
+  pointer-events: all;
+  cursor: pointer;
+}
+
+dialog {
+  outline: none;
+}

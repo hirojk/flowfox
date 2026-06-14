@@ -5,10 +5,3 @@
     </q-page-container>
   </q-layout>
 </template>
-
-<style lang="scss">
-  .page--main {
-    padding: $page-padding-y $page-padding-x;
-    background-color: $ff-white;
-  }
-</style>

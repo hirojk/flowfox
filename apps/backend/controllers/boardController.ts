@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project.js'
-import { BoardSchema, generateId, type BoardType } from '@flowfox/shared'
+import { BoardSchema, generateId, type BoardType } from '@pagewise/shared'
 
 import {
   successResponse,

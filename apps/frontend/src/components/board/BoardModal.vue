@@ -1,33 +1,33 @@
 <template>
-  <div v-if="!activeCard" class="board-modal__error">
+  <div v-if="!activeCard">
     <span>Card not found</span>
   </div>
   <template v-else>
     <Teleport defer to="#modal-interactives">
-      <DropdownMenu
-        mode="context"
+      <IconButtonUI
+        class="page__project-setting"
         icon="icon-menu"
-        :options="[
+        borderColor="secondary"
+        :size="2.5"
+        :dropdown="[
           {
             name: 'Remove Card',
             action: () => handleRemoveCard(),
           },
         ]"
-        :ariaLabel="`${activeCard.name} card actions`"
       />
     </Teleport>
-    <section class="board-modal__header">
-      <TextEditor
-        class="board-modal__header-headline"
+    <Teleport defer to="#modal-header">
+      <InputFieldUI
         htmlTag="h1"
+        textStyle="h2"
         :text="activeCard.name"
+        borderColor="secondary"
         :saveEvent="(newCardName) => updateCard(boardStore.activeCardId, { name: newCardName })"
       />
-      <DropdownMenu
-        v-if="modalSettings.priority"
-        mode="select"
-        :label="activeCard.priority"
+      <SelectMenuUI
         :icon="getIcon(PRIORITY_LIST, activeCard.priority ?? 'Medium')"
+        :label="activeCard.priority"
         :options="
           PRIORITY_LIST.map((p) => ({
             name: p.name,
@@ -35,29 +35,34 @@
             action: () => updateCard(boardStore.activeCardId, { priority: p.name as PriorityType }),
           }))
         "
-        :ariaLabel="`priority: ${activeCard.priority ?? 'medium'}`"
+        color="tertiary"
       />
-    </section>
-    <section class="board-modal__details">
-      <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
-        <h2 class="board-modal__label">Description</h2>
-        <TextEditor
-          class="board-modal__description"
-          htmlTag="p"
-          multiline
-          :text="activeCard.description"
-          :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
-        />
+    </Teleport>
+    <div v-if="modalSettings.description" class="board-modal__content board-modal__content--description">
+      <InputFieldUI
+        class="board-modal__description"
+        htmlTag="p"
+        isTextarea
+        placeholder="No description"
+        :text="activeCard.description"
+        borderColor="secondary"
+        :saveEvent="(newDescription) => updateCard(boardStore.activeCardId, { description: newDescription })"
+      />
+    </div>
+    <div v-if="modalSettings.checklist" class="modal__category">
+      <div class="modal__category-header">
+        <h2 class="h4">Checklist</h2>
+        <LinkUI label="Create new task" @click="checklistEditor?.addBullet()" />
       </div>
-      <div v-if="modalSettings.checklist" class="board-modal__content board-modal__content--checklist">
-        <h2 class="board-modal__label">Checklist</h2>
-        <CheckboxEditor
-          class="board-modal__checklist"
-          :checkboxes="activeCard.checklist"
-          :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
-        />
-      </div>
-      <!-- <div class="board-modal__content board-modal__content--date">
+      <ChecklistUI
+        ref="checklistEditor"
+        class="board-modal__checklist"
+        label="task"
+        :checklist="activeCard.checklist"
+        :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
+      />
+    </div>
+    <!-- <div class="board-modal__content board-modal__content--date">
           <div class="board-modal__date board-modal__date--start">
             <strong>Start Date</strong>
             <DatePicker
@@ -84,7 +89,6 @@
             </li>
           </ul>
         </div> -->
-    </section>
     <!-- <div class="board-modal__settings">
     <button class="board-modal__button board-modal__button--copy">
       <q-icon name="content_copy" />
@@ -95,20 +99,24 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { ref, computed } from 'vue'
   import { useBoardCard } from '@composables/useBoard'
   import { closeSettingsModal } from '@composables/useModal'
   import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardStore } from '@stores/boardStore'
   import { getIcon } from '@utils/helpers'
-  import type { BoardCardType, BoardColumnType, PriorityType } from '@flowfox/shared'
+  import type { BoardCardType, BoardColumnType, PriorityType } from '@pagewise/shared'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
-  import CheckboxEditor from '@components/fields/CheckboxEditor.vue'
-  // import DatePicker from '@components/fields/DatePicker.vue'
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
+  import ChecklistUI from '@components/ui/ChecklistUI.vue'
+  import SelectMenuUI from '../ui/SelectMenuUI.vue'
+  // import DatePicker from '@components/ui/DatePicker.vue'
 
   const { updateCard, removeCard } = useBoardCard()
   const boardStore = useBoardStore()
+
+  const checklistEditor = ref<InstanceType<typeof ChecklistUI>>()
 
   const modalSettings = computed(() => {
     const settings = boardStore.activeBoard?.settings.modal
@@ -132,87 +140,3 @@
     closeSettingsModal()
   }
 </script>
-
-<style lang="scss" scoped>
-  .board-modal {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2em;
-      margin-bottom: 2em;
-
-      &-headline {
-        @include fontMixin(map.get($font-size, xl));
-
-        width: 100%;
-        font-weight: normal;
-        cursor: text;
-      }
-    }
-
-    &__details {
-      display: flex;
-      flex-direction: column;
-      gap: 2em;
-    }
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-
-      &--date {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 1em;
-      }
-    }
-
-    &__label {
-      @include fontMixin(map.get($font-size, md));
-
-      margin-bottom: 0.5em;
-      padding: 0.2em;
-      font-weight: bold;
-    }
-
-    &__description {
-      min-height: 4lh;
-    }
-
-    &__date {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-      width: 100%;
-    }
-
-    &__tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5em;
-    }
-
-    &__settings {
-      display: flex;
-      justify-content: space-between;
-      gap: 1em;
-    }
-
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 0.25em;
-
-      &--copy,
-      &--delete {
-        justify-content: center;
-        width: 100%;
-        border-radius: 1em;
-        padding: 1em 2em;
-        background-color: $ff-quaternary;
-      }
-    }
-  }
-</style>

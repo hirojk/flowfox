@@ -1,40 +1,55 @@
 <template>
   <component
     :is="props.route ? RouterLink : 'button'"
-    :class="`page-item page-item--${props.buttonStyle}`"
+    :class="`page-item`"
     :to="props.route ? props.route : undefined"
-    :style="{ '--sign-size': signSize + 'em' }"
+    :style="{
+      '--label-headline-color': labelHeadlineColor,
+      '--label-subline-color': labelSublineColor,
+      '--background-color': backgroundColor,
+    }"
     @click="props.action"
   >
-    <div class="page-item__sign">
-      <IconSvg v-if="props.icon" :id="props.icon" class="page-item__icon" :size="`${signSize / 2}em`" />
-      <strong v-else class="page-item__initials" aria-hidden="true">{{ useInitials(props.label) }}</strong>
-    </div>
-    <TextEditor
-      class="page-item__label page-item__label--editing"
-      editMode
-      singleEdit
-      htmlTag="span"
-      :text="props.label"
-      :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
-      :cancelEvent="handleCancel"
+    <InitialUI
+      class="page-item__initial"
+      :icon="props.icon"
+      :label="props.label"
+      variant="secondary"
+      :usage="props.buttonStyle"
+      :theme="props.theme"
+      :size="3"
     />
+    <div class="page-item__content">
+      <InputFieldUI
+        class="page-item__text page-item__text--headline"
+        mode="editOnce"
+        inputStyle="minimal"
+        htmlTag="span"
+        :text="props.label"
+        :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
+        :cancelEvent="handleCancel"
+      />
+      <span v-if="props.componentStyle && props.label" class="page-item__text page-item__text--subline">{{
+        props.componentStyle
+      }}</span>
+    </div>
   </component>
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue'
+  import { tokens } from '@utils/tokenBuilder'
   import { RouterLink } from 'vue-router'
-  import { useInitials } from '@composables/useDisplay'
   import { useAppStore } from '@stores/appStore'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const appStore = useAppStore()
 
-  const signSize = 6
-
   const props = defineProps<{
-    buttonStyle: 'project' | 'component' | 'new'
+    buttonStyle: 'project' | 'page'
+    componentStyle?: 'board' | 'flow' | 'doc'
+    theme: 'orange'
     icon?: string
     label: string
     route?: { name: string; params?: { projectId?: string; componentId?: string } }
@@ -45,6 +60,10 @@
     confirm: [name: string]
     cancel: []
   }>()
+
+  const labelHeadlineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-primary`])
+  const labelSublineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-secondary`])
+  const backgroundColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`])
 
   const handleConfirm = (value: string) => {
     if (!value) emit('cancel')
@@ -61,84 +80,49 @@
 
 <style lang="scss" scoped>
   .page-item {
-    &--project {
-      --sign-bg: #{$ff-primary};
-      --sign-color: #{$ff-white};
-      --label-color: #{$ff-black};
-      --hover-bg: #{$ff-secondary};
-      --hover-color: #{$ff-white};
-    }
-
-    &--component {
-      --sign-bg: #{rgba($ff-primary, 0.4)};
-      --sign-color: #{$ff-black};
-      --label-color: #{$ff-black};
-      --hover-bg: #{rgba($ff-primary, 0.75)};
-      --hover-color: #{$ff-black};
-    }
-
-    &--new {
-      --sign-bg: #{rgba($ff-grey, 0.2)};
-      --sign-color: #{$ff-grey};
-      --label-color: #{$ff-grey};
-      --hover-bg: #{rgba($ff-grey, 0.4)};
-      --hover-color: #{$ff-black};
-    }
-
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1em;
+    background-color: var(--background-color);
 
-    > * {
-      @include simpleAnimation;
+    &__initial {
+      border-radius: 0;
     }
 
-    &__initials {
-      @include fontMixin(map.get($font-size, xl));
-
-      font-weight: normal;
-    }
-
-    &__sign {
+    &__content {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      width: var(--sign-size);
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 1em;
-      background-color: var(--sign-bg);
-      color: var(--sign-color);
+      gap: 0.1em;
+      width: 100%;
+      margin: 0 1em;
+      color: var(--label-headline-color);
+      font-family: $font-family-secondary;
     }
 
-    &__label {
-      width: var(--sign-size);
-      text-align: center;
-
-      &--editing {
-        background-color: transparent;
-        color: var(--label-color);
+    &__text {
+      &--headline {
+        color: var(--label-headline-color);
       }
 
-      &--normal {
-        @include fontMixin(map.get($font-size, md));
+      &--subline {
+        @include fontButtonSmall;
 
-        color: var(--label-color);
+        padding: 0.25em;
+        color: var(--label-subline-color);
+        opacity: 0.8;
       }
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover,
-      &:active {
-        .page-item {
-          &__sign {
-            background-color: var(--hover-bg);
-            color: var(--hover-color);
-          }
-        }
-      }
-    }
+    // @media (hover: hover) and (pointer: fine) {
+    //   &:hover,
+    //   &:active {
+    //     .page-item {
+    //       &__sign {
+    //         background-color: var(--hover-bg);
+    //         color: var(--hover-color);
+    //       }
+    //     }
+    //   }
+    // }
   }
 </style>

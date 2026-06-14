@@ -3,12 +3,15 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { buildScssTokens } from './src/utils/tokenBuilder'
 
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
+const scssTokens = buildScssTokens()
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, '..'), '')
+  const env = loadEnv(mode, path.resolve(__dirname, '../..'), '')
 
   return {
     plugins: [
@@ -31,12 +34,11 @@ export default defineConfig(({ mode }) => {
       preprocessorOptions: {
         scss: {
           additionalData: `
-          @use 'sass:map';
-          @use 'sass:list';
-          @use "@/styles/animations.scss" as *;
-          @use "@/styles/mixin.scss" as *;
-          @use "@/styles/variables.scss" as *;
-        `,
+            ${scssTokens}
+            @import "@/styles/variables.scss";
+            @import "@/styles/mixin.scss";
+            @import "@/styles/animations.scss";
+          `,
         },
       },
     },
@@ -50,6 +52,7 @@ export default defineConfig(({ mode }) => {
         '@pages': path.resolve(__dirname, 'src/pages'),
         '@services': path.resolve(__dirname, 'src/services'),
         '@stores': path.resolve(__dirname, 'src/stores'),
+        '@styles': path.resolve(__dirname, 'src/styles'),
         '@typeDefs': path.resolve(__dirname, 'src/types'),
         '@utils': path.resolve(__dirname, 'src/utils'),
       },

@@ -1,4 +1,4 @@
-import { type PriorityType } from '@flowfox/shared'
+import { type PriorityType } from '@pagewise/shared'
 import { MODAL_WINDOWS } from '@constants/windows'
 
 export interface IconType {
@@ -10,4 +10,9 @@ export interface PriorityIconType extends IconType {
   name: PriorityType
 }
 
-export type ModalWindowType = (typeof MODAL_WINDOWS)[number]
+export type ModalUIType = (typeof MODAL_WINDOWS)[number]
+
+export interface DropdownItem {
+  name: string
+  action: () => void
+}

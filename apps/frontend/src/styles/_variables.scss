@@ -1,0 +1,27 @@
+// font sizes
+$font-sizes: (
+  '2xl': (
+    $font-size-2xl,
+    $font-line-height-2xl,
+  ),
+  'xl': (
+    $font-size-xl,
+    $font-line-height-xl,
+  ),
+  'lg': (
+    $font-size-lg,
+    $font-line-height-lg,
+  ),
+  'md': (
+    $font-size-md,
+    $font-line-height-md,
+  ),
+
+  'sm': (
+    $font-size-sm,
+    $font-line-height-sm,
+  ),
+);
+
+// boxshadow
+$box-shadow: 0 0 1em $color-semantic-box-shadow;

@@ -1,0 +1,99 @@
+// underline mixin
+@mixin underlineMixin($color: $color-semantic-brand-primary) {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.25em;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: $color;
+  }
+}
+
+// font mixin
+@mixin fontMixin($size) {
+  $values: map-get($font-sizes, $size);
+
+  font-size: nth($values, 1);
+  line-height: nth($values, 2);
+}
+
+@mixin fontHeadline1 {
+  @include fontMixin('2xl');
+
+  color: $color-semantic-text-secondary;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-primary;
+  text-transform: uppercase;
+}
+
+@mixin fontHeadline2 {
+  @include fontMixin('xl');
+
+  color: $color-semantic-text-default;
+  font-family: $font-family-secondary;
+}
+
+@mixin fontHeadline3 {
+  @include fontMixin('xl');
+
+  color: $color-semantic-text-secondary;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-primary;
+  text-transform: uppercase;
+}
+
+@mixin fontHeadline4 {
+  @include fontMixin('lg');
+
+  color: $color-semantic-text-default;
+  font-family: $font-family-secondary;
+}
+
+@mixin fontCopy {
+  @include fontMixin('md');
+
+  color: $color-semantic-text-default;
+  font-family: $font-family-primary;
+}
+
+@mixin fontSmall {
+  @include fontMixin('sm');
+
+  font-family: $font-family-primary;
+}
+
+@mixin fontButton {
+  @include fontMixin('md');
+
+  font-family: $font-family-secondary;
+}
+
+@mixin fontButtonSmall {
+  @include fontMixin('sm');
+
+  font-family: $font-family-secondary;
+}
+
+// accessibility mixin
+@mixin focusVisible {
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid -webkit-focus-ring-color;
+    outline-offset: 2px;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}

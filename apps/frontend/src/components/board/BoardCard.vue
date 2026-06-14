@@ -2,15 +2,16 @@
   <button
     :id="`board-card-${props.cardContent.id}`"
     class="board-card"
-    :aria-label="`Open ${props.cardContent.name} card details`"
+    :aria-label="`${props.cardContent.name} card details`"
     @click="openCardModal"
   >
     <div class="board-card__content">
       <div class="board-card__wrapper board-card__wrapper--header">
-        <TextEditor
-          editMode
-          singleEdit
+        <InputFieldUI
+          mode="editOnce"
           htmlTag="h3"
+          textStyle="body"
+          inputStyle="minimal"
           :text="card.heading"
           :saveEvent="
             (newCardName: string) => updateCard([props.columnId, props.cardContent.id], { name: newCardName })
@@ -25,7 +26,7 @@
         />
       </div>
       <div
-        v-if="cardSettings.description || cardSettings.checklist"
+        v-if="(cardSettings.description && card.description !== '') || cardSettings.checklist"
         class="board-card__wrapper board-card__wrapper--group"
       >
         <span v-if="cardSettings.description" class="board-card__description">{{ card.description }}</span>
@@ -36,8 +37,8 @@
             :class="`board-card__subtask board-card__subtask${subtask.isChecked ? '--checked' : '--todo'}`"
           >
             <i class="board-card__subtask-icon">
-              <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="6" cy="6" r="5.5" fill="currentColor" stroke="currentColor" stroke-width="1" />
+              <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="5" cy="5" r="4" stroke-width="1" />
               </svg>
             </i>
             <span class="board-card__subtask-label">{{ subtask.label }}</span>
@@ -55,9 +56,9 @@
   import { PRIORITY_LIST } from '@constants/priority'
   import { useBoardStore } from '@stores/boardStore'
   import { getIcon } from '@utils/helpers'
-  import type { BoardCardType } from '@flowfox/shared'
+  import type { BoardCardType } from '@pagewise/shared'
 
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const props = defineProps<{
     columnId: number
@@ -95,17 +96,19 @@
   .board-card {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 1em;
     width: 100%;
-    border-radius: 1em;
-    padding: 1em;
-    background-color: $ff-white;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    background-color: $color-semantic-surface-white;
+    font-family: $font-family-primary;
     cursor: pointer;
 
     &__content {
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 0.5em;
     }
 
     &__wrapper {
@@ -121,6 +124,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 1em;
+        padding: 0.25em;
       }
     }
 
@@ -145,21 +149,23 @@
     &__subtask {
       display: flex;
       gap: 0.5em;
-      color: $ff-grey;
+      color: $color-semantic-text-default;
 
-      circle {
-        stroke: $ff-grey;
+      &-icon {
+        fill: $color-component-checkbox-inactive-background;
+        stroke: $color-component-checkbox-inactive-border;
       }
 
       &--checked {
-        .board-card__subtask-label {
-          text-decoration: line-through;
-        }
-      }
+        .board-card__subtask {
+          &-icon {
+            fill: $color-component-checkbox-active-background;
+            stroke: $color-component-checkbox-active-border;
+          }
 
-      &--todo {
-        .board-card__subtask-icon {
-          color: $ff-white;
+          &-label {
+            text-decoration: line-through;
+          }
         }
       }
     }

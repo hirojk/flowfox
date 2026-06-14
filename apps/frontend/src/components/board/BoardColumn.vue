@@ -1,24 +1,27 @@
 <template>
   <section :id="`board-column-${props.columnContent.id}`" class="board-column">
     <div class="board-column__header">
-      <TextEditor
+      <InputFieldUI
         editMode
         htmlTag="h2"
-        textStyle="h3"
+        textStyle="body"
+        borderColor="secondary"
+        backgroundColor="tertiary"
         :text="props.columnContent.name"
         :saveEvent="(newColumnName) => renameColumn(props.columnContent.id, newColumnName)"
         :cancelEvent="() => removeColumn(props.columnContent.id)"
       />
-      <DropdownMenu
-        mode="context"
+      <IconButtonUI
+        class="page__project-setting"
         icon="icon-menu"
-        :options="[
+        borderColor="tertiary"
+        :size="2"
+        :dropdown="[
           {
-            name: 'Remove Column',
+            name: 'Remove column',
             action: () => removeColumn(props.columnContent.id),
           },
         ]"
-        :ariaLabel="`${props.columnContent.name} column actions`"
       />
     </div>
     <ul class="board-column__cards">
@@ -26,22 +29,21 @@
         <BoardCard :columnId="props.columnContent.id" :cardContent="card" />
       </li>
     </ul>
-    <button class="board-column__button" aria-label="Add new card" @click="handleAddCard">
-      <IconSvg id="icon-plus" />
-      Add Card
-    </button>
+    <ButtonUI class="board-column__button" variant="board" icon="icon-plus" label="Add card" @click="handleAddCard" />
   </section>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue'
+
   import BoardCard from '@components/board/BoardCard.vue'
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
+
   import { useBoardColumn, useBoardCard } from '@composables/useBoard'
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useAppStore } from '@stores/appStore'
-  import type { BoardColumnType } from '@flowfox/shared'
-
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import type { BoardColumnType } from '@pagewise/shared'
 
   const props = defineProps<{
     columnContent: BoardColumnType
@@ -69,7 +71,7 @@
     width: 100%;
     border-radius: 1em;
     padding: 1.5em;
-    background-color: $ff-quinary;
+    background-color: $color-theme-page-orange-background-primary;
     cursor: grab;
 
     &__header {
@@ -82,7 +84,7 @@
     &__cards {
       display: flex;
       flex-direction: column;
-      gap: 0.5em;
+      gap: 0.75em;
     }
 
     &__button {

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import { Request, Response } from 'express'
 import { UserModel } from '../models/User.js'
-import { UserSchema, generateId } from '@flowfox/shared'
+import { UserSchema, generateId } from '@pagewise/shared'
 import {
   successResponse,
   createdResponse,

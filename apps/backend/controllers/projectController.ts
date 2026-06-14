@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ProjectModel } from '../models/Project.js'
-import { ProjectSchema, generateId } from '@flowfox/shared'
+import { ProjectSchema, generateId } from '@pagewise/shared'
 import { UserModel } from '../models/User.js'
 
 import {

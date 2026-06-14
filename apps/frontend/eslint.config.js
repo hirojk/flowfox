@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
+
 import { fileURLToPath } from 'url'
 import path from 'path'
 
@@ -42,6 +43,7 @@ export default tseslint.config(
       'vue/attribute-hyphenation': 'off',
       'vue/html-self-closing': 'off',
       'vue/max-attributes-per-line': 'off',
+      'vue/require-default-prop': 'off',
 
       // TypeScript
       '@typescript-eslint/no-explicit-any': 'warn',

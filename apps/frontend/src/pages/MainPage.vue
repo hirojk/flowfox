@@ -1,0 +1,113 @@
+<template>
+  <q-page v-bind="$attrs">
+    <header class="page__header">
+      <div class="page__topbar">
+        <h1 class="page__headline">Hello {{ activeUser?.name }},</h1>
+        <AvatarUI @click="(e: MouseEvent) => avatarDropdown?.open(e.currentTarget as HTMLElement)">
+          <DropdownUI
+            ref="avatarDropdown"
+            :description="`${activeUser?.name}`"
+            :options="[{ name: 'Logout', route: { name: 'login' }, action: handleLogout }]"
+          />
+        </AvatarUI>
+      </div>
+      <p class="page__subline">{{ randomOpener }}</p>
+    </header>
+    <LineDivider variant="secondary" />
+    <section ref="pageContent" class="page__content">
+      <div class="page__category projects">
+        <div class="page__title-wrapper">
+          <h2 class="projects__title">Your Projects</h2>
+          <LinkUI label="Create New Project" @click="handleNewProject" />
+        </div>
+        <ul v-if="projectStore.allProjects?.length" class="projects__list page__list">
+          <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
+            <PageItem
+              :id="`project-${project.id}`"
+              buttonStyle="project"
+              theme="orange"
+              :label="project.name"
+              :route="{ name: 'project', params: { projectId: String(project.id) } }"
+              @confirm="(newName) => projectStore.updateProjectName(project.id, newName)"
+              @cancel="projectStore.deleteProject(project.id)"
+            />
+          </li>
+        </ul>
+        <span v-else class="page__list-no-item"> No projects found. Click "Create New Project" to get started 🙂 </span>
+      </div>
+      <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
+    </section>
+  </q-page>
+  <LineDivider class="line-divider__footer" variant="primary" />
+</template>
+
+<script setup lang="ts">
+  import { computed, useTemplateRef, onMounted } from 'vue'
+  import { useAuth } from '@composables/useNavigation'
+  import { triggerInputFocus } from '@composables/useIosInteractions'
+  import { useDecorationLines } from '@composables/useDecoration'
+  import { useAppStore } from '@stores/appStore'
+  import { useAuthStore } from '@stores/authStore'
+  import { useProjectStore } from '@stores/projectStore'
+
+  import AvatarUI from '@components/ui/AvatarUI.vue'
+  import PageItem from '@components/PageItem.vue'
+
+  const activeUser = computed(() => useAuthStore().activeUser)
+  const appStore = useAppStore()
+  const projectStore = useProjectStore()
+
+  const { handleLogout } = useAuth()
+
+  const avatarDropdown = useTemplateRef<{ open: (element: HTMLElement) => void }>('avatarDropdown')
+
+  const openerTexts = [
+    'Good to have you here. Ready to pick up where you left off?',
+    "Welcome back! Let's keep the momentum going.",
+    "Nice to see you again. What's next on your list?",
+    'Ready to make some progress today?',
+    'Welcome! Time to bring your ideas to life.',
+  ]
+
+  const randomOpener = computed(() => {
+    return openerTexts[Math.floor(Math.random() * openerTexts.length)]
+  })
+
+  const contentRef = useTemplateRef<HTMLElement>('pageContent')
+  const { dividerCount } = useDecorationLines(contentRef)
+
+  const handleNewProject = () => {
+    triggerInputFocus(async () => {
+      appStore.currentEditingId = (await projectStore.createNewProject()).id
+    }, '.projects__item:nth-last-child(1) input')
+  }
+
+  onMounted(async () => {
+    if (!activeUser.value) return
+    try {
+      await projectStore.loadProjects()
+    } catch (error) {
+      console.error('Error loading projects:', error)
+    }
+  })
+</script>
+
+<style lang="scss" scoped>
+  .page {
+    padding: $spacing-page-y $spacing-page-x calc($spacing-page-y * 2);
+
+    &__header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2em;
+      height: auto;
+    }
+
+    &__topbar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,22 +1,25 @@
 <template>
-  <ModalWindow>
+  <ModalUI>
     <BoardModal v-if="appStore.modalContent === 'board-card'" />
     <BoardSetting v-if="appStore.modalContent === 'board-setting'" />
-  </ModalWindow>
+  </ModalUI>
 
   <q-page class="page--board" v-bind="$attrs">
     <div class="page__headerWrapper">
+      <BreadcrumbsUI class="page__breadcrumbs" />
       <header class="page__header">
         <div class="page__headerContent">
-          <iconSvg id="icon-board" class="page__headerIcon" buttonStyle="project" size="56" />
-          <TextEditor
+          <InitialUI :icon="'icon-board'" variant="primary" usage="page" theme="orange" :size="3" />
+          <InputFieldUI
             class="page__headline"
             htmlTag="h1"
+            textStyle="h2"
+            backgroundColor="secondary"
             :text="boardStore.activeBoard?.name || ''"
             :saveEvent="(newBoardName) => boardStore.updateBoardName(boardStore.activeBoard?.id!, newBoardName)"
           />
         </div>
-        <button class="button button--primary" @click="openSettingsModal('board-setting')">Board setting</button>
+        <IconButtonUI class="page__project-setting" icon="icon-custom" @click="openSettingsModal('board-setting')" />
       </header>
     </div>
     <section class="page__content">
@@ -30,10 +33,13 @@
           <BoardColumn :columnContent="column" />
         </li>
         <li class="board__columnWrapper">
-          <button class="board__button board__button--add-column" aria-label="Add new column" @click="handleAddColumn">
-            <IconSvg id="icon-plus" />
-            Add Column
-          </button>
+          <ButtonUI
+            class="board__button"
+            variant="board"
+            icon="icon-plus"
+            label="Add column"
+            @click="handleAddColumn"
+          />
         </li>
       </ul>
     </section>
@@ -45,7 +51,11 @@
   import BoardColumn from '@components/board/BoardColumn.vue'
   import BoardModal from '@components/board/BoardModal.vue'
   import BoardSetting from '@components/board/BoardSetting.vue'
-  import TextEditor from '@components/fields/TextEditor.vue'
+  import BreadcrumbsUI from '@/components/ui/BreadcrumbsUI.vue'
+  import InitialUI from '@components/ui/InitialUI.vue'
+  import InputFieldUI from '@components/ui/InputFieldUI.vue'
+  import IconButtonUI from '@components/ui/IconButtonUI.vue'
+
   import { triggerInputFocus } from '@composables/useIosInteractions'
   import { useBoardColumn } from '@composables/useBoard'
   import { openSettingsModal } from '@composables/useModal'
@@ -96,18 +106,21 @@
 
 <style lang="scss" scoped>
   .page--board {
-    padding: $page-padding-y 0;
+    padding: $spacing-page-y 0;
     overflow-x: auto;
 
     .page {
       &__headerWrapper {
         position: sticky;
         left: 0;
-        margin-bottom: 2em;
+      }
+
+      &__breadcrumbs {
+        padding: 0 $spacing-page-x;
       }
 
       &__header {
-        padding: 0 $page-padding-x;
+        padding: 0 $spacing-page-x;
       }
     }
 
@@ -115,7 +128,7 @@
       display: flex;
       gap: 2em;
       min-width: min-content;
-      padding: 0 $page-padding-x;
+      padding: 0 $spacing-page-x;
 
       &__columnWrapper {
         flex-shrink: 0;
@@ -124,16 +137,8 @@
       }
 
       &__button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5em;
         width: 100%;
-        border-radius: 1em;
-        padding: 1em;
-        background-color: $ff-quinary;
-        color: $ff-black;
-        font-size: list.nth(map.get($font-size, sm), 1);
+        min-height: 3em;
       }
     }
   }

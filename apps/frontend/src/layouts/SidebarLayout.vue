@@ -24,6 +24,7 @@
 
 <style lang="scss">
   .page--component {
-    background-color: $ff-tertiary;
+    box-shadow: -1em 0 2em rgba($color-semantic-box-shadow, 0.1);
+    z-index: 1000;
   }
 </style>

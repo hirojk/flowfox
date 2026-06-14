@@ -1,39 +1,71 @@
 <template>
-  <section class="board-setting__header">
-    <h1 class="board-setting__headline">Board Custom Setting</h1>
-  </section>
-  <section class="board-setting__details">
-    <div class="board-setting__content board-setting__content--card">
-      <h2 class="board-setting__label">Cards Display</h2>
-      <label v-for="(value, key) in boardStore.activeBoard?.settings.cards" :key="key" class="board-setting__checkbox">
-        <input
-          type="checkbox"
-          :checked="value"
-          :disabled="!boardStore.activeBoard?.settings.modal[key]"
-          class="board-setting__box"
-          @change="updateSetting('cards', key, ($event.target as HTMLInputElement).checked)"
-        />
-        {{ key }}
-      </label>
-    </div>
-    <div class="board-setting__content board-setting__content--modal">
-      <h2 class="board-setting__label">Modal Display</h2>
-      <label v-for="(value, key) in boardStore.activeBoard?.settings.modal" :key="key" class="board-setting__checkbox">
-        <input
-          type="checkbox"
-          :checked="value"
-          class="board-setting__box"
-          @change="updateSetting('modal', key, ($event.target as HTMLInputElement).checked)"
-        />
-        {{ key }}
-      </label>
+  <Teleport defer to="#modal-header">
+    <h1 class="h3">Board Custom Setting</h1>
+  </Teleport>
+  <section class="modal__category">
+    <h2 class="modal__category-headline h4">Customization</h2>
+    <div class="modal__category-content modal__category-content--grid">
+      <div class="board-setting__content board-setting__content--card">
+        <div class="modal__category-textWrapper">
+          <h3 class="modal__category-text modal__category-text--strong">Board Display Settings</h3>
+          <p class="modal__category-text">
+            Choose which elements should be visible and marked as important in your board.
+          </p>
+        </div>
+        <div class="board-setting__chechboxWrapper">
+          <label
+            v-for="(value, key) in boardStore.activeBoard?.settings.modal"
+            :key="key"
+            class="board-setting__checkbox checkbox"
+          >
+            <input
+              type="checkbox"
+              :checked="value"
+              class="board-setting__box checkbox__box"
+              @change="updateSetting('modal', key, ($event.target as HTMLInputElement).checked)"
+            />
+            Enable {{ key }}
+          </label>
+        </div>
+      </div>
+      <div class="board-setting__content board-setting__content--modal">
+        <div class="modal__category-textWrapper">
+          <h3 class="modal__category-text modal__category-text--strong">Card Display Options</h3>
+          <p class="modal__category-text">Choose which details appear on each card and highlight what matters most.</p>
+        </div>
+        <div class="board-setting__chechboxWrapper">
+          <label
+            v-for="(value, key) in boardStore.activeBoard?.settings.cards"
+            :key="key"
+            class="board-setting__checkbox checkbox"
+          >
+            <input
+              type="checkbox"
+              :checked="value"
+              :disabled="!boardStore.activeBoard?.settings.modal[key]"
+              class="board-setting__box checkbox__box"
+              @change="updateSetting('cards', key, ($event.target as HTMLInputElement).checked)"
+            />
+            Show {{ key }}
+          </label>
+        </div>
+      </div>
     </div>
   </section>
   <Teleport defer to="#modal-footer">
-    <button class="board-setting__delete button button--primary" @click="onDeleteBoard">
-      <IconSvg id="icon-cancel" />
-      Delete Board
-    </button>
+    <section class="project-setting__dangerzone modal__category modal__category--dangerzone">
+      <h2 class="modal__category-headline h4">Danger Zone</h2>
+      <div class="modal__category-content">
+        <div class="modal__category-textWrapper">
+          <h3 class="modal__category-text modal__category-text--strong">Delete board</h3>
+          <p class="modal__category-text">
+            Once you delete a board, there is no going back. <br />
+            Please be certain.
+          </p>
+        </div>
+        <ButtonUI class="project-setting__delete" variant="error" label="Delete board" @click="onDeleteBoard" />
+      </div>
+    </section>
   </Teleport>
 </template>
 
@@ -41,7 +73,7 @@
   import { useDeletePrompt } from '@composables/usePromptWindow'
   import { useBoardStore } from '@stores/boardStore'
   import { useProjectStore } from '@stores/projectStore'
-  import type { BoardSettingType } from '@flowfox/shared'
+  import type { BoardSettingType } from '@pagewise/shared'
 
   const projectStore = useProjectStore()
   const boardStore = useBoardStore()
@@ -82,35 +114,17 @@
 
 <style lang="scss" scoped>
   .board-setting {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5em;
-      margin-bottom: 2em;
-    }
-
-    &__headline {
-      @include fontMixin(map.get($font-size, xl));
-    }
-
-    &__details {
-      display: flex;
-      flex-direction: column;
-      gap: 2em;
-    }
-
     &__content {
       display: flex;
       flex-direction: column;
-      gap: 0.5em;
+      gap: 1em;
+      width: 100%;
     }
 
-    &__label {
-      @include fontMixin(map.get($font-size, md));
-
-      margin-bottom: 0.5em;
-      font-weight: bold;
+    &__chechboxWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25em;
     }
 
     &__checkbox {
@@ -119,10 +133,6 @@
       gap: 1em;
       width: 100%;
       padding: 0.5em 0;
-    }
-
-    &__delete {
-      width: 100%;
     }
   }
 </style>

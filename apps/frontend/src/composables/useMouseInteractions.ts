@@ -58,9 +58,13 @@ export const useGrabElement = (listRef: Ref<HTMLElement | null>, saveUpdatedStor
   }
 
   const onPointerDown = (e: PointerEvent) => {
+    if ((e.target as HTMLElement).closest('.dropdown')) return
+    
     const columnElement = (e.target as HTMLElement).closest('.draggable') as HTMLElement | null
     if (!columnElement || !listRef.value) return
     if (interactionState.value === 'dragging') return
+
+    if (useAppStore().justDropped) return
 
     interactionState.value = 'grabbing'
 
