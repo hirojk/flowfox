@@ -1,6 +1,6 @@
 <template>
   <ul class="checklist">
-    <span v-if="props.checklist.length === 0" class="checklist__message">No Subtask submitted</span>
+    <span v-if="props.checklist.length === 0" class="checklist__message"> No {{ props.label }} submitted yet. </span>
     <li v-for="item in props.checklist" :key="item.label" class="checklist__item">
       <label class="checklist__checkbox checkbox">
         <input
@@ -9,8 +9,12 @@
           :checked="item.isChecked"
           @change="saveEdit(item)"
         />
+        <span v-if="item.isChecked" class="checklist__label checklist__label--checked">
+          {{ item.label }}
+        </span>
         <InputFieldUI
-          :class="['checklist__label', { 'checklist__label--checked': item.isChecked }]"
+          v-else
+          :class="['checklist__label']"
           :text="item.label"
           borderColor="secondary"
           :saveEvent="(newLabel) => saveEdit(item, newLabel)"
@@ -35,6 +39,7 @@
   import { triggerInputFocus } from '@composables/useIosInteractions'
 
   const props = defineProps<{
+    label: string
     checklist: CheckboxItemType[]
     saveEvent: (newChecklist: CheckboxItemType[]) => CheckboxItemType | void
   }>()
@@ -102,10 +107,14 @@
     }
 
     &__box {
-      width: 3em;
+      flex-shrink: 0;
+      width: 2.5em;
+      aspect-ratio: 1;
     }
 
     &__label {
+      padding: 0 0.5em;
+
       &--checked {
         text-decoration: line-through;
       }

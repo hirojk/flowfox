@@ -52,11 +52,12 @@
     <div v-if="modalSettings.checklist" class="modal__category">
       <div class="modal__category-header">
         <h2 class="h4">Checklist</h2>
-        <LinkUI label="Create new To-Do" @click="checklistEditor?.addBullet()" />
+        <LinkUI label="Create new task" @click="checklistEditor?.addBullet()" />
       </div>
       <ChecklistUI
         ref="checklistEditor"
         class="board-modal__checklist"
+        label="task"
         :checklist="activeCard.checklist"
         :saveEvent="(newChecklist) => updateCard(boardStore.activeCardId, { checklist: newChecklist })"
       />

@@ -59,7 +59,7 @@
           </li>
         </ul>
         <span v-else class="page__list-no-item">
-          No page modules found. Click "Create New Page" and select a page type to get started :)
+          No page modules found. Click "Create New Page" and select a page type to get started 🙂
         </span>
       </div>
       <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />

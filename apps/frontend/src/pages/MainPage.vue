@@ -11,7 +11,7 @@
           />
         </AvatarUI>
       </div>
-      <p class="page__subline">Good to have you here. Ready to pick up where you left off?</p>
+      <p class="page__subline">{{ randomOpener }}</p>
     </header>
     <LineDivider variant="secondary" />
     <section ref="pageContent" class="page__content">
@@ -33,7 +33,7 @@
             />
           </li>
         </ul>
-        <span v-else class="page__list-no-item"> No projects found. Click "Create New Project" to get started :) </span>
+        <span v-else class="page__list-no-item"> No projects found. Click "Create New Project" to get started 🙂 </span>
       </div>
       <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
     </section>
@@ -60,6 +60,18 @@
   const { handleLogout } = useAuth()
 
   const avatarDropdown = useTemplateRef<{ open: (element: HTMLElement) => void }>('avatarDropdown')
+
+  const openerTexts = [
+    'Good to have you here. Ready to pick up where you left off?',
+    "Welcome back! Let's keep the momentum going.",
+    "Nice to see you again. What's next on your list?",
+    'Ready to make some progress today?',
+    'Welcome! Time to bring your ideas to life.',
+  ]
+
+  const randomOpener = computed(() => {
+    return openerTexts[Math.floor(Math.random() * openerTexts.length)]
+  })
 
   const contentRef = useTemplateRef<HTMLElement>('pageContent')
   const { dividerCount } = useDecorationLines(contentRef)

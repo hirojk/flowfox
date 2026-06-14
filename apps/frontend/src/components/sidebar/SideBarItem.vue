@@ -6,7 +6,7 @@
     :style="{
       '--headline-color': headlineColor,
       '--subline-color': sublineColor,
-      '--background-color': backgroundColor,
+      '--background-color': backgroundGradient,
       '--shadow-color': shadowColor,
     }"
     @click="handleClick"
@@ -34,9 +34,11 @@
 
   import InitialUI from '@components/ui/InitialUI.vue'
   import { useAppStore } from '@stores/appStore'
+  import { useProjectStore } from '@stores/projectStore'
   import { tokens } from '@utils/tokenBuilder'
 
   const appStore = useAppStore()
+  const projectStore = useProjectStore()
 
   const props = defineProps<{
     buttonStyle: 'project' | 'page' | 'neutral'
@@ -51,13 +53,20 @@
 
   const headlineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-primary`])
   const sublineColor = computed(() => tokens[`color-theme-${props.buttonStyle}-${props.theme}-color-secondary`])
-  const backgroundColor = computed(() => {
+  const backgroundGradient = computed(() => {
     if (props.buttonStyle === 'neutral') return tokens[`color-semantic-background`]
-    return tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`]
+    const primary = tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`]
+    const secondary = tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-secondary`]
+    return `linear-gradient(90deg, ${primary}, ${secondary})`
   })
   const shadowColor = computed(() => {
-    if (props.buttonStyle === 'project' || props.buttonStyle === 'neutral') return tokens[`color-primitive-gray-13`]
-    return tokens[`color-theme-${props.buttonStyle}-${props.theme}-shadow`]
+    const isLastPage =
+      props.buttonStyle === 'page' && props.index === (projectStore.activeProject?.components?.length ?? 0) - 1
+    const isGray =
+      props.buttonStyle === 'neutral' ||
+      (props.buttonStyle === 'project' && (projectStore.activeProject?.components?.length ?? 0) === 0) ||
+      isLastPage
+    return isGray ? tokens[`color-primitive-gray-13`] : tokens[`color-theme-${props.buttonStyle}-${props.theme}-shadow`]
   })
 
   const handleClick = () => {
@@ -149,8 +158,8 @@
       bottom: 0;
       width: 100%;
       height: 100%;
-      background-color: var(--background-color);
-      box-shadow: 0 0.5em 2em 0.5em color-mix(in srgb, var(--shadow-color) 30%, transparent);
+      background: var(--background-color);
+      box-shadow: 0 0.5em 2em 0.25em color-mix(in srgb, var(--shadow-color) 30%, transparent);
       z-index: -1;
     }
 

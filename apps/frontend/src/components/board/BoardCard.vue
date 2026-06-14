@@ -99,7 +99,6 @@
     justify-content: center;
     gap: 1em;
     width: 100%;
-    min-height: 3.375em;
     border-radius: 0.5em;
     padding: 0.5em;
     background-color: $color-semantic-surface-white;
