@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 import { Request, Response } from 'express'
 import { UserModel } from '../models/User.js'
 import { UserSchema, generateId } from '@pagewise/shared'
+import { normalizedUsername, createToken } from '../utils/helpers.js'
 import {
   successResponse,
   createdResponse,
@@ -18,7 +18,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     const userModel = UserModel()
     const { username, name, password } = req.body
 
-    const existingUser = await userModel.findOne({ $or: [{ username }] })
+    const lowCaseUserName = normalizedUsername(username)
+
+    const existingUser = await userModel.findOne({ username: lowCaseUserName })
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
@@ -28,7 +30,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
     const userData = UserSchema.parse({
       id: generateId(),
-      username,
+      username: lowCaseUserName,
       name,
       password: hashedPassword,
     })
@@ -42,25 +44,23 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 }
 
 // POST: login user
-const createToken = (payload: object): string => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7d' })
-}
-
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userModel = UserModel()
     const { username, password } = req.body as { username: string; password: string }
 
+    const lowCaseUserName = normalizedUsername(username)
+
     const admin = {
-      username: process.env.ADMIN_USER,
+      username: normalizedUsername(process.env.ADMIN_USER || ''),
       password: process.env.ADMIN_PASS,
     }
-    if (username === admin.username && password === admin.password) {
+    if (lowCaseUserName === admin.username && password === admin.password) {
       successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
       return
     }
 
-    const user = await userModel.findOne({ username }).select('+password')
+    const user = await userModel.findOne({ username: lowCaseUserName }).select('+password')
     if (!user) {
       badRequestResponse(res, 'Invalid credentials')
       return
@@ -130,8 +130,10 @@ export const deleteUserById = async (req: Request, res: Response): Promise<void>
 export const updateUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username } = req.body
+    const lowCaseUserName = normalizedUsername(username)
+
     const user = await UserModel()
-      .findOneAndUpdate({ id: req.params.id }, { username }, { returnDocument: 'after' })
+      .findOneAndUpdate({ id: req.params.id }, { username: lowCaseUserName }, { returnDocument: 'after' })
       .select('-password')
 
     if (!user) {
