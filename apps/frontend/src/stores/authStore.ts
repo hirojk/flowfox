@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
         const response = await api.get('/api/v1/users/me')
         this.user = response.data
       } catch (error) {
-        console.error('fetchUser error:', error)
+        console.error('fetch user session error:', error)
         this.user = null
       }
     },

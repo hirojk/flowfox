@@ -1,9 +1,8 @@
 import { ROLE_VALUES } from '@pagewise/shared'
 
-import { sessionStore } from '../utils/sessionStore.js'
-
 import { Request, Response, NextFunction } from 'express'
 import { notAuthenticatedResponse } from '../utils/responses.js'
+import { sessionStore } from '../utils/sessionStore.js'
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const token = req.cookies.sessionToken

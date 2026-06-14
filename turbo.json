@@ -5,12 +5,12 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["STAGE_PASS", "API_URL", "ADMIN_USER", "ADMIN_PASS", "ACCESS_TOKEN_SECRET", "MONGODB_URI", "APP_ENV"]
+      "env": ["API_URL", "STAGE_PASS", "FRONTEND_URL", "ADMIN_USER", "ADMIN_PASS", "MONGODB_URI", "APP_ENV"]
     },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
-      "env": ["STAGE_PASS", "API_URL", "ADMIN_USER", "ADMIN_PASS", "ACCESS_TOKEN_SECRET", "MONGODB_URI", "APP_ENV"]
+      "env": ["API_URL", "STAGE_PASS", "FRONTEND_URL", "ADMIN_USER", "ADMIN_PASS", "MONGODB_URI", "APP_ENV"]
     },
     "lint": {
       "dependsOn": ["^lint"]

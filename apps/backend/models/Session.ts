@@ -1,4 +1,3 @@
-// models/Session.ts
 import { Schema } from 'mongoose'
 import { getDatabase } from '../config/database.js'
 

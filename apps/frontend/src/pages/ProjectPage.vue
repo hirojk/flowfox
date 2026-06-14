@@ -33,7 +33,7 @@
       <div class="components page__category">
         <div class="page__title-wrapper">
           <h2>Pages</h2>
-          <LinkUI label="Create New Board Page" @click="handleNewBoardPage()" />
+          <LinkUI label="Create New Board" @click="handleNewBoardPage()" />
         </div>
         <ul v-if="projectStore.activeProject?.components?.length" class="components__list page__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
@@ -51,7 +51,7 @@
           </li>
         </ul>
         <span v-else class="page__list-no-item">
-          No page modules found. Click "Create New Page" and select a page type to get started 🙂
+          No page modules found. Click "Create New Board" to get started 🙂
         </span>
       </div>
       <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />

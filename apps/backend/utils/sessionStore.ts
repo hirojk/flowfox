@@ -1,8 +1,9 @@
 import { SessionModel } from '../models/Session.js'
 import type { SessionPayload } from '../types/sessionTypes.js'
+import { maxSessionDuration } from './helpers.js'
 
 export const sessionStore = {
-  set: async (token: string, data: SessionPayload, expiresIn: number = 7 * 24 * 60 * 60 * 1000): Promise<void> => {
+  set: async (token: string, data: SessionPayload, expiresIn: number = maxSessionDuration): Promise<void> => {
     await SessionModel().findOneAndUpdate(
       { token },
       { token, user: data, expiresAt: new Date(Date.now() + expiresIn) },

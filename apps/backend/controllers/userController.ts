@@ -3,8 +3,7 @@ import bcrypt from 'bcrypt'
 import { Request, Response } from 'express'
 import { UserModel } from '../models/User.js'
 import { ROLE_VALUES, UserSchema, UserType, generateId } from '@pagewise/shared'
-import { normalizedUsername, issueSession } from '../utils/helpers.js'
-import { sessionStore } from '../utils/sessionStore.js'
+import { renameUserToLowercase, issueSession } from '../utils/helpers.js'
 import {
   successResponse,
   createdResponse,
@@ -12,6 +11,7 @@ import {
   badRequestResponse,
   serverFailureResponse,
 } from '../utils/responses.js'
+import { sessionStore } from '../utils/sessionStore.js'
 
 // POST: create new user
 export const createUser = async (req: Request, res: Response): Promise<void> => {
@@ -19,7 +19,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     const userModel = UserModel()
     const { username, name, password } = req.body
 
-    const lowCaseUserName = normalizedUsername(username)
+    const lowCaseUserName = renameUserToLowercase(username)
 
     const existingUser = await userModel.findOne({ username: lowCaseUserName })
     if (existingUser) {
@@ -50,10 +50,10 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     const userModel = UserModel()
     const { username, password } = req.body as { username: string; password: string }
 
-    const lowCaseUserName = normalizedUsername(username)
+    const lowCaseUserName = renameUserToLowercase(username)
 
     const admin = {
-      username: normalizedUsername(process.env.ADMIN_USER || ''),
+      username: renameUserToLowercase(process.env.ADMIN_USER || ''),
       password: process.env.ADMIN_PASS,
     }
     if (lowCaseUserName === admin.username && password === admin.password) {
@@ -61,7 +61,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         id: 0,
         username: lowCaseUserName,
         name: 'Admin',
-        email: '',
         role: ROLE_VALUES.ADMIN,
       })
       successResponse(res, 'Login successful', { sessionToken: token })
@@ -98,7 +97,7 @@ export const logoutUser = (req: Request, res: Response): void => {
   successResponse(res, 'Logged out successfully')
 }
 
-// GET: get my credentials
+// GET: get my session
 export const getMe = (req: Request, res: Response): void => {
   successResponse(res, undefined, req.user)
 }
@@ -153,7 +152,7 @@ export const deleteUserById = async (req: Request, res: Response): Promise<void>
 export const updateUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username } = req.body
-    const lowCaseUserName = normalizedUsername(username)
+    const lowCaseUserName = renameUserToLowercase(username)
 
     const user = await UserModel()
       .findOneAndUpdate({ id: req.params.id }, { username: lowCaseUserName }, { returnDocument: 'after' })
