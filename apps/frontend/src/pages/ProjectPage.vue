@@ -33,15 +33,7 @@
       <div class="components page__category">
         <div class="page__title-wrapper">
           <h2>Pages</h2>
-          <LinkUI
-            label="Create New Page"
-            :dropdown="[
-              {
-                name: 'Board',
-                action: () => handleNewComponent(),
-              },
-            ]"
-          />
+          <LinkUI label="Create New Board Page" @click="handleNewBoardPage()" />
         </div>
         <ul v-if="projectStore.activeProject?.components?.length" class="components__list page__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
@@ -91,7 +83,7 @@
   const contentRef = useTemplateRef<HTMLElement>('pageContent')
   const { dividerCount } = useDecorationLines(contentRef)
 
-  const handleNewComponent = () => {
+  const handleNewBoardPage = () => {
     triggerInputFocus(async () => {
       appStore.currentEditingId = (await boardStore.createNewBoard()).id
     }, '.components__item:nth-last-child(1) input')

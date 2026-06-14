@@ -201,6 +201,13 @@
         &:focus-visible {
           border-radius: 0.1em;
         }
+
+        @supports (-webkit-touch-callout: none) {
+          &:focus-visible {
+            outline: 2px solid $color-semantic-text-default;
+            outline-offset: 2px;
+          }
+        }
       }
 
       &::placeholder {

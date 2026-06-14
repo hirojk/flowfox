@@ -24,7 +24,7 @@
               class="board-setting__box checkbox__box"
               @change="updateSetting('modal', key, ($event.target as HTMLInputElement).checked)"
             />
-            Show {{ key }}
+            Enable {{ key }}
           </label>
         </div>
       </div>
@@ -46,7 +46,7 @@
               class="board-setting__box checkbox__box"
               @change="updateSetting('cards', key, ($event.target as HTMLInputElement).checked)"
             />
-            Enable {{ key }}
+            Show {{ key }}
           </label>
         </div>
       </div>

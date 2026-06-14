@@ -190,12 +190,6 @@
       color: $color-semantic-text-default;
       cursor: pointer;
 
-      @supports (-webkit-touch-callout: none) {
-        &:focus-visible {
-          outline: none;
-        }
-      }
-
       // @media (hover: hover) and (pointer: fine) {
       //   &:hover {
       //     background: rgba($pw-tertiary, 0.1);

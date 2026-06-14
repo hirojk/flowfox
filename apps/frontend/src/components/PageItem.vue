@@ -22,14 +22,14 @@
     <div class="page-item__content">
       <InputFieldUI
         class="page-item__text page-item__text--headline"
-        inputStyle="minimal"
         mode="editOnce"
+        inputStyle="minimal"
         htmlTag="span"
         :text="props.label"
         :saveEvent="(newTaskName) => handleConfirm(newTaskName)"
         :cancelEvent="handleCancel"
       />
-      <span v-if="props.componentStyle" class="page-item__text page-item__text--subline">{{
+      <span v-if="props.componentStyle && props.label" class="page-item__text page-item__text--subline">{{
         props.componentStyle
       }}</span>
     </div>
