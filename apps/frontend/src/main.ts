@@ -9,11 +9,18 @@ import router from './router'
 import '@styles/app.scss'
 
 import { registerGlobalComponents } from './global.components.ts'
+import { useAuthStore } from '@stores/authStore'
 
-checkTestAuth().then((authenticated) => {
+checkTestAuth().then(async (authenticated) => {
   if (!authenticated) return
 
   const app = createApp(App)
+  const pinia = createPinia()
+
   registerGlobalComponents(app)
-  app.use(createPinia()).use(Quasar).use(router).mount('#app')
+  app.use(pinia).use(Quasar).use(router)
+
+  await useAuthStore().fetchUser()
+
+  app.mount('#app')
 })

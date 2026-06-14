@@ -1,27 +1,28 @@
-import jwt from 'jsonwebtoken'
+import { ROLE_VALUES } from '@pagewise/shared'
+
+import { sessionStore } from '../utils/sessionStore.js'
 
 import { Request, Response, NextFunction } from 'express'
 import { notAuthenticatedResponse } from '../utils/responses.js'
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  const authHeader = req.headers['authorization']
-  const userToken = authHeader && authHeader.replace('Bearer ', '')
+  const token = req.cookies.sessionToken
 
-  if (userToken == null) {
-    return notAuthenticatedResponse(res, 'No User Token provided')
+  if (!token) {
+    return notAuthenticatedResponse(res, 'No session token provided')
   }
 
-  jwt.verify(userToken, process.env.ACCESS_TOKEN_SECRET!, (error, decoded) => {
-    if (error) {
-      return notAuthenticatedResponse(res, 'Invalid User Token')
-    }
-    req.user = decoded as typeof req.user
-    next()
-  })
+  const user = sessionStore.get(token)
+  if (!user) {
+    return notAuthenticatedResponse(res, 'Invalid or expired session token')
+  }
+
+  req.user = user
+  next()
 }
 
 export const adminMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  if (req.user?.role !== 'admin') {
+  if (req.user?.role !== ROLE_VALUES.ADMIN) {
     return notAuthenticatedResponse(res, 'Admin access required')
   }
   next()

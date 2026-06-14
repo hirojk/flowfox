@@ -2,8 +2,9 @@ import bcrypt from 'bcrypt'
 
 import { Request, Response } from 'express'
 import { UserModel } from '../models/User.js'
-import { UserSchema, generateId } from '@pagewise/shared'
-import { normalizedUsername, createToken } from '../utils/helpers.js'
+import { ROLE_VALUES, UserSchema, UserType, generateId } from '@pagewise/shared'
+import { normalizedUsername, issueSession } from '../utils/helpers.js'
+import { sessionStore } from '../utils/sessionStore.js'
 import {
   successResponse,
   createdResponse,
@@ -56,7 +57,14 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       password: process.env.ADMIN_PASS,
     }
     if (lowCaseUserName === admin.username && password === admin.password) {
-      successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
+      const token = issueSession(res, {
+        id: 0,
+        username: lowCaseUserName,
+        name: 'Admin',
+        email: '',
+        role: ROLE_VALUES.ADMIN,
+      })
+      successResponse(res, 'Login successful', { sessionToken: token })
       return
     }
 
@@ -72,12 +80,27 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
-    const { password: _password, ...userPayload } = user.toObject()
-
-    successResponse(res, 'Login successful', { userToken: createToken(userPayload) })
+    const { password: _password, ...userPayload } = user.toObject() as unknown as UserType
+    const token = issueSession(res, userPayload)
+    successResponse(res, 'Login successful', { sessionToken: token })
   } catch (error) {
     serverFailureResponse(res, (error as Error).message)
   }
+}
+
+// POST: logout user
+export const logoutUser = (req: Request, res: Response): void => {
+  const token = req.cookies.sessionToken
+  if (token) {
+    sessionStore.delete(token)
+  }
+  res.clearCookie('sessionToken')
+  successResponse(res, 'Logged out successfully')
+}
+
+// GET: get my credentials
+export const getMe = (req: Request, res: Response): void => {
+  successResponse(res, undefined, req.user)
 }
 
 // GET: get all users
