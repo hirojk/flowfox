@@ -20,7 +20,7 @@
           <h2 class="projects__title">Your Projects</h2>
           <LinkUI label="Create New Project" @click="handleNewProject" />
         </div>
-        <ul class="projects__list page__list">
+        <ul v-if="projectStore.allProjects?.length" class="projects__list page__list">
           <li v-for="project in projectStore.allProjects" :key="project.id" class="projects__item">
             <PageItem
               :id="`project-${project.id}`"
@@ -33,6 +33,7 @@
             />
           </li>
         </ul>
+        <span v-else class="page__list-no-item"> No projects found. Click "Create New Project" to get started :) </span>
       </div>
       <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
     </section>

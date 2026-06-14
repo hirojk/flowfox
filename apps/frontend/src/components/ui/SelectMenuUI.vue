@@ -12,7 +12,7 @@
     <IconSvg v-if="props.icon" :id="props.icon" />
     <span class="select-menu__label">{{ props.label }}</span>
     <div class="select-menu__dropdown">
-      <IconSvg id="icon-low" />
+      <IconSvg id="icon-dropdown-open" />
     </div>
     <DropdownUI
       v-if="props.options"
@@ -104,7 +104,7 @@
       align-items: center;
       width: 2em;
       height: 100%;
-      border-radius: 0 0.5em 0.5em 0;
+      border-radius: 0 0.75em 0.75em 0;
       background-color: var(--surface-color);
     }
   }

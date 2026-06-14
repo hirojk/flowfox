@@ -50,5 +50,12 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2em;
+
+    &-no-item {
+      @include fontCopy;
+
+      margin-top: 1em;
+      color: $color-semantic-text-disabled;
+    }
   }
 }

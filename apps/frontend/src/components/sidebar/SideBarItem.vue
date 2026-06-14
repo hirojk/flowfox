@@ -56,7 +56,7 @@
     return tokens[`color-theme-${props.buttonStyle}-${props.theme}-background-primary`]
   })
   const shadowColor = computed(() => {
-    if (props.buttonStyle === 'neutral') return tokens[`color-primitive-gray-13`]
+    if (props.buttonStyle === 'project' || props.buttonStyle === 'neutral') return tokens[`color-primitive-gray-13`]
     return tokens[`color-theme-${props.buttonStyle}-${props.theme}-shadow`]
   })
 
@@ -77,7 +77,7 @@
     }
 
     &--neutral {
-      .sideBar-item__headline {
+      .sideBar-item__text--headline {
         @include underlineMixin;
       }
     }

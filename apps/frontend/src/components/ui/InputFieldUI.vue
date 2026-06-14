@@ -56,7 +56,7 @@
       placeholder?: string
       text: string
       borderColor?: 'primary' | 'secondary'
-      backgroundColor?: 'primary' | 'secondary'
+      backgroundColor?: 'primary' | 'secondary' | 'tertiary'
       saveEvent?: (newName: string) => void
       cancelEvent?: () => void
     }>(),

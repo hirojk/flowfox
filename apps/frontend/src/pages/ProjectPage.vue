@@ -19,6 +19,7 @@
             class="page__headline"
             htmlTag="h1"
             textStyle="h2"
+            backgroundColor="secondary"
             :text="projectStore.activeProject?.name || ''"
             :saveEvent="
               (newProjectName) => projectStore.updateProjectName(projectStore.activeProject?.id!, newProjectName)
@@ -42,7 +43,7 @@
             ]"
           />
         </div>
-        <ul class="components__list page__list">
+        <ul v-if="projectStore.activeProject?.components?.length" class="components__list page__list">
           <li v-for="component in projectStore.activeProject?.components" :key="component.id" class="components__item">
             <PageItem
               :id="`board-${component.id}`"
@@ -57,6 +58,9 @@
             />
           </li>
         </ul>
+        <span v-else class="page__list-no-item">
+          No page modules found. Click "Create New Page" and select a page type to get started :)
+        </span>
       </div>
       <LineDivider v-for="i in dividerCount" :key="i" variant="tertiary" />
     </section>

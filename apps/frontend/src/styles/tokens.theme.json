@@ -5,7 +5,7 @@
         "orange": {
           "color-primary": { "value": "{color.semantic.text-negative}" },
           "color-secondary": { "value": "{color.semantic.text-negative}" },
-          "background-primary": { "value": "{color.primitive.red-41}" },
+          "background-primary": { "value": "{color.primitive.red-40}" },
           "background-secondary": { "value": "{color.primitive.red-33}" },
           "shadow": { "value": "{color.primitive.red-33}" }
         }
@@ -16,7 +16,7 @@
           "color-secondary": { "value": "{color.semantic.text-secondary}" },
           "background-primary": { "value": "{color.primitive.yellow-80}" },
           "background-secondary": { "value": "{color.primitive.yellow-80}" },
-          "shadow": { "value": "{color.primitive.yellow-30}" }
+          "shadow": { "value": "{color.primitive.yellow-22}" }
         }
       }
     }

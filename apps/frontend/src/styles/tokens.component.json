@@ -15,6 +15,7 @@
       "input": {
         "background-primary": { "value": "{color.semantic.surface-subtle}" },
         "background-secondary": { "value": "{color.semantic.surface-warm}" },
+        "background-tertiary": { "value": "{color.semantic.surface-special}" },
         "underline-primary": { "value": "{color.semantic.brand-primary}" },
         "underline-secondary": { "value": "{color.semantic.brand-secondary}" }
       },
@@ -36,8 +37,8 @@
         },
         "board": {
           "color": { "value": "{color.semantic.text-default}" },
-          "border": { "value": "{color.semantic.surface-warm}" },
-          "background": { "value": "{color.semantic.surface-warm}" }
+          "border": { "value": "{color.semantic.surface-special}" },
+          "background": { "value": "{color.semantic.surface-special}" }
         },
         "error": {
           "color": { "value": "{color.semantic.feedback-error}" },

@@ -14,6 +14,7 @@
             class="page__headline"
             htmlTag="h1"
             textStyle="h2"
+            backgroundColor="secondary"
             :text="boardStore.activeBoard?.name || ''"
             :saveEvent="(newBoardName) => boardStore.updateBoardName(boardStore.activeBoard?.id!, newBoardName)"
           />
