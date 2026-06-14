@@ -1,32 +1,36 @@
 import { defineStore } from 'pinia'
 import api from '@services/api'
-import { jwtDecode } from 'jwt-decode'
 import type { UserType } from '@pagewise/shared'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    userToken: sessionStorage.getItem('userToken') as string | null,
+    user: null as UserType | null,
   }),
 
   getters: {
-    activeUser: (state) => {
-      if (!state.userToken) return null
-      return jwtDecode<Omit<UserType, 'password'>>(state.userToken)
-    },
-    isLoggedIn: (state) => !!state.userToken,
+    activeUser: (state) => state.user,
+    isLoggedIn: (state) => !!state.user,
   },
 
   actions: {
     async login(username: string, password: string): Promise<void> {
-      const response = await api.post('/api/auth/login', { username, password })
-
-      this.userToken = response.data.userToken
-      sessionStorage.setItem('userToken', response.data.userToken)
+      await api.post('/api/auth/login', { username, password })
+      await this.fetchUser()
     },
 
-    logout(): void {
-      this.userToken = null
-      sessionStorage.removeItem('userToken')
+    async fetchUser(): Promise<void> {
+      try {
+        const response = await api.get('/api/v1/users/me')
+        this.user = response.data
+      } catch (error) {
+        console.error('fetch user session error:', error)
+        this.user = null
+      }
+    },
+
+    async logout(): Promise<void> {
+      await api.post('/api/auth/logout')
+      this.user = null
     },
   },
 })

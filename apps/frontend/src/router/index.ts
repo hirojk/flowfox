@@ -8,9 +8,16 @@ const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-router.beforeEach((to) => {
-  const authStore = useAuthStore()
+let isReady = false
 
+export const setRouterReady = () => {
+  isReady = true
+}
+
+router.beforeEach((to) => {
+  if (!isReady) return
+
+  const authStore = useAuthStore()
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return { name: 'login' }
   }
