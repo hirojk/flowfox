@@ -57,7 +57,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       password: process.env.ADMIN_PASS,
     }
     if (lowCaseUserName === admin.username && password === admin.password) {
-      const token = issueSession(res, {
+      const token = await issueSession(res, {
         id: 0,
         username: lowCaseUserName,
         name: 'Admin',
@@ -81,7 +81,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
 
     const { password: _password, ...userPayload } = user.toObject() as unknown as UserType
-    const token = issueSession(res, userPayload)
+    const token = await issueSession(res, userPayload)
     successResponse(res, 'Login successful', { sessionToken: token })
   } catch (error) {
     serverFailureResponse(res, (error as Error).message)

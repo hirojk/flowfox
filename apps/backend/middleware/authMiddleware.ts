@@ -5,16 +5,17 @@ import { sessionStore } from '../utils/sessionStore.js'
 import { Request, Response, NextFunction } from 'express'
 import { notAuthenticatedResponse } from '../utils/responses.js'
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const token = req.cookies.sessionToken
-
   if (!token) {
-    return notAuthenticatedResponse(res, 'No session token provided')
+    notAuthenticatedResponse(res, 'No session token provided')
+    return
   }
 
-  const user = sessionStore.get(token)
+  const user = await sessionStore.get(token)
   if (!user) {
-    return notAuthenticatedResponse(res, 'Invalid or expired session token')
+    notAuthenticatedResponse(res, 'Invalid or expired session token')
+    return
   }
 
   req.user = user

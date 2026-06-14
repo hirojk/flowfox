@@ -7,9 +7,15 @@ export const normalizedUsername = (username: string): string => {
   return username.toLowerCase()
 }
 
-export const createOpaqueToken = (payload: SessionPayload): string => {
+export const createOpaqueToken = async (payload: SessionPayload): Promise<string> => {
   const token = crypto.randomBytes(32).toString('hex')
-  sessionStore.set(token, payload, 7 * 24 * 60 * 60 * 1000)
+  await sessionStore.set(token, payload)
+  return token
+}
+
+export const issueSession = async (res: Response, payload: SessionPayload): Promise<string> => {
+  const token = await createOpaqueToken(payload)
+  setSessionCookie(res, token)
   return token
 }
 
@@ -20,10 +26,4 @@ export const setSessionCookie = (res: Response, token: string): void => {
     sameSite: 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   })
-}
-
-export const issueSession = (res: Response, payload: SessionPayload): string => {
-  const token = createOpaqueToken(payload)
-  setSessionCookie(res, token)
-  return token
 }

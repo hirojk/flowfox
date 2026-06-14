@@ -1,38 +1,21 @@
-import { SessionPayload, SessionData } from '../types/sessionTypes.js'
-
-const sessions: SessionData = {}
+import { SessionModel } from '../models/Session.js'
+import type { SessionPayload } from '../types/sessionTypes.js'
 
 export const sessionStore = {
-  set: (token: string, data: SessionPayload, expiresIn: number = 7 * 24 * 60 * 60 * 1000) => {
-    sessions[token] = {
-      user: data,
-      expiresAt: Date.now() + expiresIn,
-    }
+  set: async (token: string, data: SessionPayload, expiresIn: number = 7 * 24 * 60 * 60 * 1000): Promise<void> => {
+    await SessionModel().findOneAndUpdate(
+      { token },
+      { token, user: data, expiresAt: new Date(Date.now() + expiresIn) },
+      { upsert: true },
+    )
   },
 
-  get: (token: string) => {
-    const session = sessions[token]
-
-    if (!session) return null
-    if (Date.now() > session.expiresAt) {
-      delete sessions[token]
-      return null
-    }
-
-    return session.user
+  get: async (token: string): Promise<SessionPayload | null> => {
+    const session = await SessionModel().findOne({ token, expiresAt: { $gt: new Date() } })
+    return session?.user ?? null
   },
 
-  delete: (token: string) => {
-    delete sessions[token]
-  },
-
-  cleanup: () => {
-    Object.entries(sessions).forEach(([token, session]) => {
-      if (Date.now() > session.expiresAt) {
-        delete sessions[token]
-      }
-    })
+  delete: async (token: string): Promise<void> => {
+    await SessionModel().deleteOne({ token })
   },
 }
-
-setInterval(() => sessionStore.cleanup(), 60 * 60 * 1000)

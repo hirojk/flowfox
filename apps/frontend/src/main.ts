@@ -5,7 +5,7 @@ import { Quasar } from 'quasar'
 import 'quasar/dist/quasar.css'
 
 import App from './App.vue'
-import router from './router'
+import router, { setRouterReady } from './router'
 import '@styles/app.scss'
 
 import { registerGlobalComponents } from './global.components.ts'
@@ -21,6 +21,7 @@ checkTestAuth().then(async (authenticated) => {
   app.use(pinia).use(Quasar).use(router)
 
   await useAuthStore().fetchUser()
+  setRouterReady()
 
   app.mount('#app')
 })
