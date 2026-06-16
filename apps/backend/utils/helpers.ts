@@ -24,8 +24,8 @@ export const issueSession = async (res: Response, payload: SessionPayload): Prom
 export const setSessionCookie = (res: Response, token: string): void => {
   res.cookie('sessionToken', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: true,
+    sameSite: 'none',
     maxAge: maxSessionDuration,
   })
 }
