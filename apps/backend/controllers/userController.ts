@@ -58,7 +58,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     }
     if (lowCaseUserName === admin.username && password === admin.password) {
       const token = await issueSession(res, {
-        id: 0,
+        id: 1,
         username: lowCaseUserName,
         name: 'Admin',
         role: ROLE_VALUES.ADMIN,
