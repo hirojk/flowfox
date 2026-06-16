@@ -32,13 +32,9 @@
         "APP_ENV"
       ]
     },
-    "test": {
-      "dependsOn": [
-        "^test:unit"
-      ]
-    },
     "test:unit": {
-      "cache": true
+      "cache": false,
+      "persistent": true
     },
     "lint": {
       "dependsOn": [

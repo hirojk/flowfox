@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
-    "test:unit": "vitest --run",
+    "test:unit": "vitest",
     "build": "tsc"
   },
   "exports": {
