@@ -6,6 +6,7 @@ allowBuilds:
   '@parcel/watcher': false
   bcrypt: false
   esbuild: false
+  mongodb-memory-server: false
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
