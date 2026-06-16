@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { defineStore } from 'pinia'
 import api from '@services/api'
 import type { UserType } from '@pagewise/shared'
@@ -22,8 +23,10 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await api.get('/api/v1/users/me')
         this.user = response.data
-      } catch (error) {
-        console.error('fetch user session error:', error)
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response?.status !== 401) {
+          console.error('fetch user session error:', error)
+        }
         this.user = null
       }
     },

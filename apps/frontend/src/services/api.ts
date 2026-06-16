@@ -13,7 +13,7 @@ export const api = axios.create({
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && error.response?.status !== 401) {
       console.error('API Error:', error.response?.data || error.message)
     }
     return Promise.reject(error)

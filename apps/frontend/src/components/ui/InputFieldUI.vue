@@ -143,6 +143,7 @@
 
   const handleEnter = (e: KeyboardEvent) => {
     if (props.isTextarea && !e.ctrlKey && !e.metaKey) return
+    if (props.mode === 'formular') return
 
     e.preventDefault()
     inputFieldRef.value?.blur()
