@@ -64,6 +64,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 3em;
+      padding: 0.25em;
     }
 
     &__header {
@@ -71,6 +72,7 @@
       align-items: center;
       gap: 3em;
       margin-bottom: 2em;
+      padding: 0.25em;
     }
 
     &__scrollContent {
@@ -78,7 +80,7 @@
       flex-direction: column;
       gap: 3em;
       min-height: 0;
-      padding-right: 1em;
+      padding: 0.25em 1em 0.25em 0.25em;
       overflow-y: auto;
     }
 
