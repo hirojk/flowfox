@@ -87,13 +87,6 @@
       gap: 0.75em;
     }
 
-    &__button {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      padding: 0 1em;
-    }
-
     &:active {
       cursor: grabbing;
     }
