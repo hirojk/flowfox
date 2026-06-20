@@ -5,18 +5,46 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["API_URL", "STAGE_PASS", "FRONTEND_URL", "ADMIN_USER", "ADMIN_PASS", "MONGODB_URI", "APP_ENV"]
+      "env": [
+        "API_URL",
+        "STAGE_PASS",
+        "FRONTEND_URL",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "MONGODB_URI",
+        "APP_ENV"
+      ]
     },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
-      "env": ["API_URL", "STAGE_PASS", "FRONTEND_URL", "ADMIN_USER", "ADMIN_PASS", "MONGODB_URI", "APP_ENV"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "env": [
+        "API_URL",
+        "STAGE_PASS",
+        "FRONTEND_URL",
+        "ADMIN_USER",
+        "ADMIN_PASS",
+        "MONGODB_URI",
+        "APP_ENV"
+      ]
+    },
+    "test:unit": {
+      "cache": false,
+      "persistent": true
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "lint:fix": {
-      "dependsOn": ["^lint:fix"]
+      "dependsOn": [
+        "^lint:fix"
+      ]
     }
   }
 }
