@@ -9,18 +9,18 @@
           :checked="item.isChecked"
           @change="saveEdit(item)"
         />
-        <span v-if="item.isChecked" class="checklist__label checklist__label--checked">
-          {{ item.label }}
-        </span>
-        <InputFieldUI
-          v-else
-          :class="['checklist__label']"
-          :text="item.label"
-          borderColor="secondary"
-          :saveEvent="(newLabel) => saveEdit(item, newLabel)"
-          :cancelEvent="() => deleteBullet(item)"
-        />
       </label>
+      <span v-if="item.isChecked" class="checklist__label checklist__label--checked">
+        {{ item.label }}
+      </span>
+      <InputFieldUI
+        v-else
+        :class="['checklist__label']"
+        :text="item.label"
+        borderColor="secondary"
+        :saveEvent="(newLabel) => saveEdit(item, newLabel)"
+        :cancelEvent="() => deleteBullet(item)"
+      />
       <IconButtonUI
         class="checklist__delete"
         icon="icon-delete"
@@ -84,7 +84,7 @@
   .checklist {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 1em;
     margin-bottom: 1em;
 
     &__message {
@@ -95,28 +95,23 @@
     &__item {
       display: flex;
       align-items: center;
-      gap: 1em;
-    }
-
-    &__checkbox {
-      display: flex;
-      align-items: center;
       gap: 1.5em;
-      width: 100%;
-      padding: 0.5em;
     }
 
     &__box {
       flex-shrink: 0;
-      width: 2.5em;
+      width: 3em;
       aspect-ratio: 1;
+      border-radius: 0.75em;
     }
 
     &__label {
+      width: 100%;
       padding: 0 0.5em;
 
       &--checked {
         text-decoration: line-through;
+        pointer-events: none;
       }
     }
   }

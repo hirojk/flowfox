@@ -41,6 +41,7 @@
     background-color: $color-semantic-surface-white;
     box-shadow: 0 0 2.5em 1em $color-semantic-box-shadow;
     cursor: default;
+    overflow: hidden;
 
     &[open] {
       display: flex;
@@ -54,6 +55,7 @@
       display: grid;
       grid-template-rows: auto auto 1fr auto;
       height: 100%;
+      min-height: 0;
       padding: 3em;
     }
 
@@ -75,9 +77,9 @@
       display: flex;
       flex-direction: column;
       gap: 3em;
+      min-height: 0;
       padding-right: 1em;
-
-      // overflow-y: auto;
+      overflow-y: auto;
     }
 
     &__category {

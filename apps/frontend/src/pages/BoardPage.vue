@@ -138,7 +138,6 @@
 
       &__button {
         width: 100%;
-        min-height: 3em;
       }
     }
   }

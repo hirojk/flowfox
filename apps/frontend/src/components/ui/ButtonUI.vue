@@ -9,6 +9,7 @@
   >
     <IconSvg v-if="props.icon" :id="props.icon" class="button__icon" />
     {{ props.label }}
+    <IconSvg v-if="props.icon" :id="props.icon" class="button__icon button__icon--ghost" />
   </button>
 </template>
 
@@ -37,20 +38,14 @@
   .button {
     @include simpleAnimation;
 
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    justify-content: center;
-    align-items: center;
+    display: flex;
+    justify-content: space-between;
     gap: 0.5em;
     height: auto;
     border: 2px solid var(--border-color);
     background-color: var(--background-color);
     color: var(--label-color);
     text-align: center;
-
-    &:not(:has(&__icon)) {
-      grid-template-columns: 1fr;
-    }
 
     &--large {
       @include fontButton;
@@ -64,6 +59,10 @@
 
       border-radius: 0.75em;
       padding: 0.5em 1em;
+    }
+
+    &__icon--ghost {
+      visibility: hidden;
     }
   }
 </style>
