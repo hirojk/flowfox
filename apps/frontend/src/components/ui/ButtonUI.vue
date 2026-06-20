@@ -47,6 +47,10 @@
     color: var(--label-color);
     text-align: center;
 
+    &:not(:has(&__icon)) {
+      justify-content: center;
+    }
+
     &--large {
       @include fontButton;
 
