@@ -57,13 +57,12 @@ export const getAllProjectsByUser = async (req: Request, res: Response): Promise
     const userId = req.user!.id
 
     const user = await UserModel().findOne({ id: userId })
-    const projects = await ProjectModel().find({ creatorId: userId })
-
     if (!user) {
       notFoundResponse(res, 'User not found')
       return
     }
 
+    const projects = await ProjectModel().find({ creatorId: userId })
     successResponse(res, undefined, {
       projectCount: projects.length,
       projects,

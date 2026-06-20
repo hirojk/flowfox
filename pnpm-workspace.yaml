@@ -2,6 +2,11 @@ packages:
   - 'apps/*'
   - 'packages/*'
 
+allowBuilds:
+  '@parcel/watcher': false
+  bcrypt: false
+  esbuild: false
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - 'bcrypt'

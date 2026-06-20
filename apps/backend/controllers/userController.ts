@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 import { Request, Response } from 'express'
 import { UserModel } from '../models/User.js'
-import { UserSchema, generateId } from '@pagewise/shared'
+import { ROLE_VALUES, UserSchema, UserType, generateId } from '@pagewise/shared'
+import { renameUserToLowercase, issueSession } from '../utils/helpers.js'
 import {
   successResponse,
   createdResponse,
@@ -11,6 +11,7 @@ import {
   badRequestResponse,
   serverFailureResponse,
 } from '../utils/responses.js'
+import { sessionStore } from '../utils/sessionStore.js'
 
 // POST: create new user
 export const createUser = async (req: Request, res: Response): Promise<void> => {
@@ -18,7 +19,9 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     const userModel = UserModel()
     const { username, name, password } = req.body
 
-    const existingUser = await userModel.findOne({ $or: [{ username }] })
+    const lowCaseUserName = renameUserToLowercase(username)
+
+    const existingUser = await userModel.findOne({ username: lowCaseUserName })
     if (existingUser) {
       badRequestResponse(res, 'User already exists')
       return
@@ -28,7 +31,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 
     const userData = UserSchema.parse({
       id: generateId(),
-      username,
+      username: lowCaseUserName,
       name,
       password: hashedPassword,
     })
@@ -42,25 +45,29 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 }
 
 // POST: login user
-const createToken = (payload: object): string => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7d' })
-}
-
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const userModel = UserModel()
     const { username, password } = req.body as { username: string; password: string }
 
+    const lowCaseUserName = renameUserToLowercase(username)
+
     const admin = {
-      username: process.env.ADMIN_USER,
+      username: renameUserToLowercase(process.env.ADMIN_USER || ''),
       password: process.env.ADMIN_PASS,
     }
-    if (username === admin.username && password === admin.password) {
-      successResponse(res, 'Login successful', { userToken: createToken({ username, role: 'admin' }) })
+    if (lowCaseUserName === admin.username && password === admin.password) {
+      const token = await issueSession(res, {
+        id: 0,
+        username: lowCaseUserName,
+        name: 'Admin',
+        role: ROLE_VALUES.ADMIN,
+      })
+      successResponse(res, 'Login successful', { sessionToken: token })
       return
     }
 
-    const user = await userModel.findOne({ username }).select('+password')
+    const user = await userModel.findOne({ username: lowCaseUserName }).select('+password')
     if (!user) {
       badRequestResponse(res, 'Invalid credentials')
       return
@@ -72,12 +79,27 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       return
     }
 
-    const { password: _password, ...userPayload } = user.toObject()
-
-    successResponse(res, 'Login successful', { userToken: createToken(userPayload) })
+    const { password: _password, ...userPayload } = user.toObject() as unknown as UserType
+    const token = await issueSession(res, userPayload)
+    successResponse(res, 'Login successful', { sessionToken: token })
   } catch (error) {
     serverFailureResponse(res, (error as Error).message)
   }
+}
+
+// POST: logout user
+export const logoutUser = (req: Request, res: Response): void => {
+  const token = req.cookies.sessionToken
+  if (token) {
+    sessionStore.delete(token)
+  }
+  res.clearCookie('sessionToken')
+  successResponse(res, 'Logged out successfully')
+}
+
+// GET: get my session
+export const getMe = (req: Request, res: Response): void => {
+  successResponse(res, undefined, req.user)
 }
 
 // GET: get all users
@@ -130,8 +152,10 @@ export const deleteUserById = async (req: Request, res: Response): Promise<void>
 export const updateUserById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username } = req.body
+    const lowCaseUserName = renameUserToLowercase(username)
+
     const user = await UserModel()
-      .findOneAndUpdate({ id: req.params.id }, { username }, { returnDocument: 'after' })
+      .findOneAndUpdate({ id: req.params.id }, { username: lowCaseUserName }, { returnDocument: 'after' })
       .select('-password')
 
     if (!user) {

@@ -16,12 +16,17 @@
   import { computed } from 'vue'
   import { tokens } from '@utils/tokenBuilder'
 
-  const props = defineProps<{
-    variant: 'primary' | 'secondary' | 'board' | 'error'
-    icon?: string
-    size: 'large' | 'small'
-    label: string
-  }>()
+  const props = withDefaults(
+    defineProps<{
+      variant: 'primary' | 'secondary' | 'board' | 'error'
+      icon?: string
+      size?: 'large' | 'small'
+      label: string
+    }>(),
+    {
+      size: 'large',
+    },
+  )
 
   const labelColor = computed(() => tokens[`color-component-button-${props.variant}-color`])
   const borderBottomColor = computed(() => tokens[`color-component-button-${props.variant}-border`])
