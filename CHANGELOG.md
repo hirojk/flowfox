@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project follows [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-06-20
+
+### Added
+
+- Refreshed frontend design and user interface for an improved user experience
+- Introduced Vitest-based test coverage across all workspace packages
+- Migrated authentication from JWTs to opaque tokens for enhanced security
+
 ## [0.1.1] - 2026-05-22
 
 ### Added
@@ -46,7 +54,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Planned
 
-- UX/UI redesign and visual improvements
-- Introduction of automated testing (frontend and backend)
-- Additional reusable components beyond the Board
-- General stability and performance improvements
+- Additional reusable components beyond the current Board module
+- Continued stability, performance, and accessibility improvements
+- Docker-based deployment support
+- Migration from MongoDB to PostgreSQL
+- Expanded board functionality and project management features

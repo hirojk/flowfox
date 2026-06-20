@@ -10,6 +10,7 @@ This document outlines the development workflow, naming conventions, and coding 
 - [Branch and Commit Naming](#branch-and-commit-naming)
 - [Recommended Practices](#recommended-practices)
 - [Code Quality](#code-quality)
+- [Testing](#testing)
 
 ## Branching Strategy
 
@@ -102,3 +103,19 @@ pnpm lint:fix
 ```
 
 This ensures consistent formatting and adherence to project standards.
+
+## Testing
+
+The project uses Vitest for unit and integration testing across all packages.
+
+- **Backend** – Unit tests cover API responses, helper functions, and the authentication middleware to ensure correct request handling and security behavior.
+- **Frontend** – Tests focus on the AuthService, validating authentication flows and session handling.
+- **Shared package** – Tests verify schemas and utility/helper functions to ensure consistent validation and reusable logic across the application.
+
+Run all tests from the repository root:
+
+```sh
+pnpm test
+```
+
+This command executes the full Vitest test suite across backend, frontend, and shared workspace packages in watch mode, automatically re-running tests whenever changes are detected.
