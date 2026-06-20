@@ -1,4 +1,4 @@
-// Checkbox-Styling
+// General checkbox styling
 .checkbox {
   cursor: pointer;
 
@@ -37,7 +37,7 @@
   }
 }
 
-// Tag-Komponente
+// Tag component styling
 .tag {
   @include fontMixin('sm');
 
@@ -46,12 +46,12 @@
   padding: 0.2em 0.6em;
 }
 
-// Verhindert ungewolltes Scrollen beim Dragging auf Touch
+// Prevents unwanted scrolling during touch-based dragging
 .draggable {
   touch-action: none;
 }
 
-// Platzhalter-Bereich beim Drag-and-Drop
+// Placeholder shown during drag-and-drop operations
 .grab-placeholder {
   display: flex;
   justify-content: center;
@@ -68,7 +68,7 @@
   }
 }
 
-// Das "Geist-Element" das beim Ziehen dem Cursor folgt
+// Element being dragged (ghost preview)
 .grab-ghost {
   position: absolute;
   pointer-events: none;
