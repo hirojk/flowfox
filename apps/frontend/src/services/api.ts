@@ -11,6 +11,15 @@ export const api = axios.create({
   },
 })
 
+export const checkServerHealth = async (): Promise<boolean> => {
+  try {
+    await api.get('/api/health')
+    return true
+  } catch {
+    return false
+  }
+}
+
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('sessionToken')
 

@@ -5,7 +5,7 @@
       <p ref="errorRef" class="login-form__error" role="alert" aria-live="polite" aria-atomic="true" tabindex="-1">
         {{ errorMessage }}
       </p>
-      <form class="login-form__form" @submit.prevent="handleLogin">
+      <form v-if="!isLoading" class="login-form__form" @submit.prevent="handleLogin">
         <InputFieldUI
           id="login-username"
           mode="formular"
@@ -26,11 +26,14 @@
           borderColor="secondary"
           backgroundColor="secondary"
         />
-        <ButtonUI class="login-form__form-button" type="submit" variant="primary" label="Login" />
+        <ButtonUI class="login-form__button login-form__button--login" type="submit" variant="primary" label="Login" />
       </form>
+      <div v-else class="login-form__loading">
+        <p>Logging in, you will be redirected shortly...</p>
+      </div>
     </section>
     <ButtonUI
-      class="login-form__background-button"
+      class="login-form__button login-form__button--background"
       variant="secondary"
       size="small"
       label="Change Background"
@@ -41,14 +44,17 @@
 </template>
 
 <script setup lang="ts">
+  import axios from 'axios'
   import { ref, nextTick, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
+  import { checkServerHealth } from '@services/api'
   import { useAuthStore } from '@stores/authStore'
   import InputFieldUI from '@components/ui/InputFieldUI.vue'
 
   const authStore = useAuthStore()
   const router = useRouter()
   const errorRef = ref<HTMLParagraphElement | null>(null)
+  const isLoading = ref(false)
   const errorMessage = ref('')
   const backgroundImage = ref<HTMLImageElement | null>(null)
 
@@ -69,11 +75,32 @@
     const usernameInput = document.getElementById('login-username') as HTMLInputElement
     const passwordInput = document.getElementById('login-password') as HTMLInputElement
 
+    isLoading.value = true
+    errorMessage.value = ''
+
+    const isServerReachable = await checkServerHealth()
+    if (!isServerReachable) {
+      errorMessage.value = 'No connection to server. Please try again later.'
+      isLoading.value = false
+      await nextTick()
+      errorRef.value?.focus()
+      return
+    }
+
     try {
       await authStore.login(usernameInput.value, passwordInput.value)
       router.push('/')
-    } catch {
-      errorMessage.value = 'Invalid username or password'
+    } catch (error) {
+      isLoading.value = false
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          errorMessage.value = 'Invalid username or password.'
+        } else {
+          errorMessage.value = 'An unexpected error occurred. Please try again.'
+        }
+      } else {
+        errorMessage.value = 'An unexpected error occurred. Please try again.'
+      }
       await nextTick()
       errorRef.value?.focus()
     }
@@ -134,11 +161,6 @@
         align-items: center;
         gap: 1em;
         width: 100%;
-
-        &-button {
-          width: 10em;
-          margin-top: 2.5em;
-        }
       }
 
       &__background {
@@ -148,8 +170,24 @@
         height: 100%;
         object-fit: cover;
         z-index: -1;
+      }
 
-        &-button {
+      &__loading {
+        @include fontCopy;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2em 0;
+      }
+
+      &__button {
+        &--login {
+          width: 10em;
+          margin-top: 2.5em;
+        }
+
+        &--background {
           position: absolute;
           right: $spacing-page-x;
           bottom: $spacing-page-y;
