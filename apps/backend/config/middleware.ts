@@ -13,7 +13,8 @@ export const registerMiddleware = (app: express.Application): void => {
         }
 
         const allowed = (process.env.FRONTEND_URL || 'http://localhost:5173').split(',')
-        const isAllowed = origin?.includes('localhost') || origin?.includes('.vercel.app') || allowed.includes(origin)
+        const isAllowed =
+          !origin || origin.includes('localhost') || /\.vercel\.app$/.test(origin) || allowed.includes(origin)
 
         if (isAllowed) {
           callback(null, origin)
