@@ -17,7 +17,7 @@ export const registerMiddleware = (app: express.Application): void => {
           !origin || origin.includes('localhost') || /\.vercel\.app$/.test(origin) || allowed.includes(origin)
 
         if (isAllowed) {
-          callback(null, origin)
+          callback(null, true)
         } else {
           callback(new Error(`CORS blocked: ${origin}`))
         }
