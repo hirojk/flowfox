@@ -15,7 +15,12 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(username: string, password: string): Promise<void> {
-      await api.post('/api/auth/login', { username, password })
+      const response = await api.post('/api/auth/login', { username, password })
+
+      if (response.data?.sessionToken) {
+        localStorage.setItem('sessionToken', response.data.sessionToken)
+      }
+
       await this.fetchUser()
     },
 
@@ -33,6 +38,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout(): Promise<void> {
       await api.post('/api/auth/logout')
+      localStorage.removeItem('sessionToken')
       this.user = null
     },
   },
