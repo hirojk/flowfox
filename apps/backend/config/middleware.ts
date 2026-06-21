@@ -13,13 +13,7 @@ export const registerMiddleware = (app: express.Application): void => {
         }
 
         const allowed = (process.env.FRONTEND_URL || 'http://localhost:5173').split(',')
-        const isAllowed = allowed.some((pattern) => {
-          if (pattern.includes('*')) {
-            const regex = new RegExp('^' + pattern.trim().replace(/\*/g, '[a-z0-9-]+') + '$')
-            return regex.test(origin)
-          }
-          return pattern.trim() === origin
-        })
+        const isAllowed = origin?.includes('localhost') || origin?.includes('.vercel.app') || allowed.includes(origin)
 
         if (isAllowed) {
           callback(null, origin)
