@@ -1,6 +1,11 @@
 <template>
+  <div v-if="props.buttonStyle === 'loading'" class="page-item page-item--loading">
+    <div class="page-item__initial" />
+    <div class="page-item__content" />
+  </div>
   <component
     :is="props.route ? RouterLink : 'button'"
+    v-else
     :class="`page-item`"
     :to="props.route ? props.route : undefined"
     :style="{
@@ -47,7 +52,7 @@
   const appStore = useAppStore()
 
   const props = defineProps<{
-    buttonStyle: 'project' | 'page'
+    buttonStyle: 'project' | 'page' | 'loading'
     componentStyle?: 'board' | 'flow' | 'doc'
     theme: 'orange'
     icon?: string
@@ -83,6 +88,10 @@
     display: flex;
     align-items: center;
     background-color: var(--background-color);
+
+    &--loading {
+      background-color: var(--background-color);
+    }
 
     &__initial {
       border-radius: 0;
